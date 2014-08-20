@@ -1,0 +1,710 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="rfDbModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="rfDbModelStoreContainer">
+          <EntitySet Name="tblATEOutput" EntityType="rfDbModel.Store.tblATEOutput" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="tblKLYTestParameters" EntityType="rfDbModel.Store.tblKLYTestParameters" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="tblKLYTestResults" EntityType="rfDbModel.Store.tblKLYTestResults" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="tblModelNames" EntityType="rfDbModel.Store.tblModelNames" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="tblMonitorData" EntityType="rfDbModel.Store.tblMonitorData" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="tblProductTypes" EntityType="rfDbModel.Store.tblProductTypes" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="tblSerialNumbers" EntityType="rfDbModel.Store.tblSerialNumbers" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="tblSSPATestParameters" EntityType="rfDbModel.Store.tblSSPATestParameters" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="tblSSPATestResults" EntityType="rfDbModel.Store.tblSSPATestResults" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="tblTWTTestParameters" EntityType="rfDbModel.Store.tblTWTTestParameters" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="tblTWTTestResults" EntityType="rfDbModel.Store.tblTWTTestResults" store:Type="Tables" Schema="dbo" />
+        </EntityContainer>
+        <EntityType Name="tblATEOutput">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="ModelSN" />
+            <PropertyRef Name="StartTime" />
+          </Key>
+          <Property Name="id" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ModelSN" Type="nvarchar" Nullable="false" MaxLength="25" />
+          <Property Name="StartTime" Type="smalldatetime" Nullable="false" />
+          <Property Name="SalesOrder" Type="nvarchar" Nullable="false" MaxLength="40" />
+          <Property Name="TestPlan" Type="nvarchar" Nullable="false" MaxLength="20" />
+          <Property Name="TestType" Type="nvarchar" Nullable="false" MaxLength="20" />
+          <Property Name="TPRev" Type="nvarchar" MaxLength="2" />
+          <Property Name="Audit" Type="bit" Nullable="false" />
+          <Property Name="Itar" Type="bit" Nullable="false" />
+          <Property Name="RackNum" Type="nvarchar" Nullable="false" MaxLength="15" />
+          <Property Name="UserName" Type="nvarchar" Nullable="false" MaxLength="20" />
+          <Property Name="LongModelName" Type="nvarchar" Nullable="false" MaxLength="30" />
+          <Property Name="TubeSN" Type="nvarchar" Nullable="false" MaxLength="20" />
+          <Property Name="TubeName" Type="nvarchar" MaxLength="20" />
+          <Property Name="MainRevision" Type="nvarchar" MaxLength="10" />
+          <Property Name="SsaSN" Type="nvarchar" MaxLength="20" />
+          <Property Name="LinSN" Type="nvarchar" MaxLength="20" />
+          <Property Name="LipaSN" Type="nvarchar" MaxLength="20" />
+          <Property Name="LinGain" Type="smallint" />
+          <Property Name="LinGainOffset" Type="smallint" />
+          <Property Name="LinPhase" Type="smallint" />
+          <Property Name="LinPhaseOffset" Type="smallint" />
+          <Property Name="LinMag" Type="smallint" />
+          <Property Name="LinMagOffset" Type="smallint" />
+          <Property Name="LineVoltage" Type="smallint" />
+          <Property Name="LineFrequency" Type="smallint" />
+          <Property Name="IP" Type="nvarchar" MaxLength="50" />
+          <Property Name="MAC" Type="nvarchar" MaxLength="50" />
+          <Property Name="BucSN" Type="nvarchar" MaxLength="20" />
+          <Property Name="BipaSN" Type="nvarchar" MaxLength="20" />
+          <Property Name="BlipaSN" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="tblKLYTestParameters">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="TestName" Type="nvarchar" Nullable="false" MaxLength="30" />
+          <Property Name="P1" Type="nvarchar" MaxLength="20" />
+          <Property Name="P2" Type="nvarchar" MaxLength="20" />
+          <Property Name="P3" Type="nvarchar" MaxLength="20" />
+          <Property Name="P4" Type="nvarchar" MaxLength="20" />
+          <Property Name="P5" Type="nvarchar" MaxLength="20" />
+          <Property Name="P6" Type="nvarchar" MaxLength="20" />
+          <Property Name="P7" Type="nvarchar" MaxLength="20" />
+          <Property Name="P8" Type="nvarchar" MaxLength="20" />
+          <Property Name="P9" Type="nvarchar" MaxLength="20" />
+          <Property Name="P10" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="tblKLYTestResults">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="ModelSN" />
+            <PropertyRef Name="StartTime" />
+          </Key>
+          <Property Name="id" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ModelSN" Type="nvarchar" Nullable="false" MaxLength="25" />
+          <Property Name="StartTime" Type="smalldatetime" Nullable="false" />
+          <Property Name="TestName" Type="nvarchar" Nullable="false" MaxLength="30" />
+          <Property Name="Result" Type="nvarchar" MaxLength="15" />
+          <Property Name="Units" Type="nvarchar" MaxLength="15" />
+          <Property Name="LowLimit" Type="nvarchar" MaxLength="30" />
+          <Property Name="UpLimit" Type="nvarchar" MaxLength="30" />
+          <Property Name="PassFail" Type="bit" Nullable="false" />
+          <Property Name="Channel" Type="nvarchar" MaxLength="3" />
+          <Property Name="P1" Type="nvarchar" MaxLength="20" />
+          <Property Name="P2" Type="nvarchar" MaxLength="20" />
+          <Property Name="P3" Type="nvarchar" MaxLength="20" />
+          <Property Name="P4" Type="nvarchar" MaxLength="20" />
+          <Property Name="P5" Type="nvarchar" MaxLength="20" />
+          <Property Name="P6" Type="nvarchar" MaxLength="20" />
+          <Property Name="P7" Type="nvarchar" MaxLength="20" />
+          <Property Name="P8" Type="nvarchar" MaxLength="20" />
+          <Property Name="P9" Type="nvarchar" MaxLength="20" />
+          <Property Name="P10" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6035: The relationship 'FK_tblSerialNumbers_tblModelNames' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+      -->
+        <EntityType Name="tblModelNames">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ModelName" Type="nvarchar" Nullable="false" MaxLength="20" />
+          <Property Name="ProductType" Type="nvarchar" Nullable="false" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="tblMonitorData">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ModelSN" Type="nvarchar" Nullable="false" MaxLength="25" />
+          <Property Name="StartTime" Type="smalldatetime" Nullable="false" />
+          <Property Name="Frequency" Type="decimal" Nullable="false" Precision="11" Scale="4" />
+          <Property Name="InputResult" Type="decimal" Precision="11" Scale="4" />
+          <Property Name="OutputResult" Type="decimal" Precision="11" Scale="4" />
+          <Property Name="Channel" Type="nvarchar" Nullable="false" MaxLength="3" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6035: The relationship 'FK_tblModelNames_tblProductTypes' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+      -->
+        <EntityType Name="tblProductTypes">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ProductType" Type="nvarchar" Nullable="false" MaxLength="10" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6035: The relationship 'FK_tblATEOutput_tblSerialNumbers' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+      warning 6035: The relationship 'FK_tblKLYTestResults_tblSerialNumbers' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+      warning 6035: The relationship 'FK_tblMonitorData_tblSerialNumbers' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+      warning 6035: The relationship 'FK_tblSSPATestResults_tblSerialNumbers' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+      warning 6035: The relationship 'FK_tblTWTTestResults_tblSerialNumbers' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+      -->
+        <EntityType Name="tblSerialNumbers">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ModelSN" Type="nvarchar" Nullable="false" MaxLength="25" />
+          <Property Name="ModelName" Type="nvarchar" Nullable="false" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="tblSSPATestParameters">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="TestName" Type="nvarchar" Nullable="false" MaxLength="30" />
+          <Property Name="P1" Type="nvarchar" MaxLength="20" />
+          <Property Name="P2" Type="nvarchar" MaxLength="20" />
+          <Property Name="P3" Type="nvarchar" MaxLength="20" />
+          <Property Name="P4" Type="nvarchar" MaxLength="20" />
+          <Property Name="P5" Type="nvarchar" MaxLength="20" />
+          <Property Name="P6" Type="nvarchar" MaxLength="20" />
+          <Property Name="P7" Type="nvarchar" MaxLength="20" />
+          <Property Name="P8" Type="nvarchar" MaxLength="20" />
+          <Property Name="P9" Type="nvarchar" MaxLength="20" />
+          <Property Name="P10" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="tblSSPATestResults">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="ModelSN" />
+            <PropertyRef Name="StartTime" />
+          </Key>
+          <Property Name="id" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ModelSN" Type="nvarchar" Nullable="false" MaxLength="25" />
+          <Property Name="StartTime" Type="smalldatetime" Nullable="false" />
+          <Property Name="TestName" Type="nvarchar" Nullable="false" MaxLength="30" />
+          <Property Name="Result" Type="nvarchar" MaxLength="15" />
+          <Property Name="Units" Type="nvarchar" MaxLength="15" />
+          <Property Name="LowLimit" Type="nvarchar" MaxLength="30" />
+          <Property Name="UpLimit" Type="nvarchar" MaxLength="30" />
+          <Property Name="PassFail" Type="bit" Nullable="false" />
+          <Property Name="Channel" Type="nvarchar" MaxLength="3" />
+          <Property Name="P1" Type="nvarchar" MaxLength="20" />
+          <Property Name="P2" Type="nvarchar" MaxLength="20" />
+          <Property Name="P3" Type="nvarchar" MaxLength="20" />
+          <Property Name="P4" Type="nvarchar" MaxLength="20" />
+          <Property Name="P5" Type="nvarchar" MaxLength="20" />
+          <Property Name="P6" Type="nvarchar" MaxLength="20" />
+          <Property Name="P7" Type="nvarchar" MaxLength="20" />
+          <Property Name="P8" Type="nvarchar" MaxLength="20" />
+          <Property Name="P9" Type="nvarchar" MaxLength="20" />
+          <Property Name="P10" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="tblTWTTestParameters">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="TestName" Type="nvarchar" Nullable="false" MaxLength="30" />
+          <Property Name="P1" Type="nvarchar" MaxLength="20" />
+          <Property Name="P2" Type="nvarchar" MaxLength="20" />
+          <Property Name="P3" Type="nvarchar" MaxLength="20" />
+          <Property Name="P4" Type="nvarchar" MaxLength="20" />
+          <Property Name="P5" Type="nvarchar" MaxLength="20" />
+          <Property Name="P6" Type="nvarchar" MaxLength="20" />
+          <Property Name="P7" Type="nvarchar" MaxLength="20" />
+          <Property Name="P8" Type="nvarchar" MaxLength="20" />
+          <Property Name="P9" Type="nvarchar" MaxLength="20" />
+          <Property Name="P10" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="tblTWTTestResults">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="ModelSN" />
+            <PropertyRef Name="StartTime" />
+          </Key>
+          <Property Name="id" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ModelSN" Type="nvarchar" Nullable="false" MaxLength="25" />
+          <Property Name="StartTime" Type="smalldatetime" Nullable="false" />
+          <Property Name="TestName" Type="nvarchar" Nullable="false" MaxLength="30" />
+          <Property Name="Result" Type="nvarchar" MaxLength="15" />
+          <Property Name="Units" Type="nvarchar" MaxLength="15" />
+          <Property Name="LowLimit" Type="nvarchar" MaxLength="30" />
+          <Property Name="UpLimit" Type="nvarchar" MaxLength="30" />
+          <Property Name="PassFail" Type="bit" Nullable="false" />
+          <Property Name="Channel" Type="nvarchar" MaxLength="3" />
+          <Property Name="P1" Type="nvarchar" MaxLength="20" />
+          <Property Name="P2" Type="nvarchar" MaxLength="20" />
+          <Property Name="P3" Type="nvarchar" MaxLength="20" />
+          <Property Name="P4" Type="nvarchar" MaxLength="20" />
+          <Property Name="P5" Type="nvarchar" MaxLength="20" />
+          <Property Name="P6" Type="nvarchar" MaxLength="20" />
+          <Property Name="P7" Type="nvarchar" MaxLength="20" />
+          <Property Name="P8" Type="nvarchar" MaxLength="20" />
+          <Property Name="P9" Type="nvarchar" MaxLength="20" />
+          <Property Name="P10" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="rfDbModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="rfDbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tblATEOutputs" EntityType="rfDbModel.tblATEOutput" />
+          <EntitySet Name="tblKLYTestParameters" EntityType="rfDbModel.tblKLYTestParameter" />
+          <EntitySet Name="tblKLYTestResults" EntityType="rfDbModel.tblKLYTestResult" />
+          <EntitySet Name="tblModelNames" EntityType="rfDbModel.tblModelName" />
+          <EntitySet Name="tblMonitorDatas" EntityType="rfDbModel.tblMonitorData" />
+          <EntitySet Name="tblProductTypes" EntityType="rfDbModel.tblProductType" />
+          <EntitySet Name="tblSerialNumbers" EntityType="rfDbModel.tblSerialNumber" />
+          <EntitySet Name="tblSSPATestParameters" EntityType="rfDbModel.tblSSPATestParameter" />
+          <EntitySet Name="tblSSPATestResults" EntityType="rfDbModel.tblSSPATestResult" />
+          <EntitySet Name="tblTWTTestParameters" EntityType="rfDbModel.tblTWTTestParameter" />
+          <EntitySet Name="tblTWTTestResults" EntityType="rfDbModel.tblTWTTestResult" />
+        </EntityContainer>
+        <EntityType Name="tblATEOutput">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="ModelSN" />
+            <PropertyRef Name="StartTime" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ModelSN" Type="String" Nullable="false" MaxLength="25" Unicode="true" FixedLength="false" />
+          <Property Name="StartTime" Type="DateTime" Nullable="false" />
+          <Property Name="SalesOrder" Type="String" Nullable="false" MaxLength="40" Unicode="true" FixedLength="false" />
+          <Property Name="TestPlan" Type="String" Nullable="false" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="TestType" Type="String" Nullable="false" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="TPRev" Type="String" MaxLength="2" Unicode="true" FixedLength="false" />
+          <Property Name="Audit" Type="Boolean" Nullable="false" />
+          <Property Name="Itar" Type="Boolean" Nullable="false" />
+          <Property Name="RackNum" Type="String" Nullable="false" MaxLength="15" Unicode="true" FixedLength="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="LongModelName" Type="String" Nullable="false" MaxLength="30" Unicode="true" FixedLength="false" />
+          <Property Name="TubeSN" Type="String" Nullable="false" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="TubeName" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="MainRevision" Type="String" MaxLength="10" Unicode="true" FixedLength="false" />
+          <Property Name="SsaSN" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="LinSN" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="LipaSN" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="LinGain" Type="Int16" />
+          <Property Name="LinGainOffset" Type="Int16" />
+          <Property Name="LinPhase" Type="Int16" />
+          <Property Name="LinPhaseOffset" Type="Int16" />
+          <Property Name="LinMag" Type="Int16" />
+          <Property Name="LinMagOffset" Type="Int16" />
+          <Property Name="LineVoltage" Type="Int16" />
+          <Property Name="LineFrequency" Type="Int16" />
+          <Property Name="IP" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="MAC" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Type="String" Name="BucSN" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="BipaSN" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="BlipaSN" MaxLength="20" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="tblKLYTestParameter">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TestName" Type="String" Nullable="false" MaxLength="30" Unicode="true" FixedLength="false" />
+          <Property Name="P1" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="P2" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="P3" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="P4" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="P5" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="P6" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="P7" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="P8" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="P9" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="P10" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="tblKLYTestResult">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="ModelSN" />
+            <PropertyRef Name="StartTime" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ModelSN" Type="String" Nullable="false" MaxLength="25" Unicode="true" FixedLength="false" />
+          <Property Name="StartTime" Type="DateTime" Nullable="false" />
+          <Property Name="TestName" Type="String" Nullable="false" MaxLength="30" Unicode="true" FixedLength="false" />
+          <Property Name="Result" Type="String" MaxLength="15" Unicode="true" FixedLength="false" />
+          <Property Name="Units" Type="String" MaxLength="15" Unicode="true" FixedLength="false" />
+          <Property Name="LowLimit" Type="String" MaxLength="30" Unicode="true" FixedLength="false" />
+          <Property Name="UpLimit" Type="String" MaxLength="30" Unicode="true" FixedLength="false" />
+          <Property Name="PassFail" Type="Boolean" Nullable="false" />
+          <Property Name="Channel" Type="String" MaxLength="3" Unicode="true" FixedLength="false" />
+          <Property Name="P1" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="P2" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="P3" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="P4" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="P5" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="P6" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="P7" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="P8" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="P9" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="P10" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="tblModelName">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ModelName" Type="String" Nullable="false" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="ProductType" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="tblMonitorData">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ModelSN" Type="String" Nullable="false" MaxLength="25" Unicode="true" FixedLength="false" />
+          <Property Name="StartTime" Type="DateTime" Nullable="false" />
+          <Property Name="Frequency" Type="Decimal" Nullable="false" Precision="11" Scale="4" />
+          <Property Name="InputResult" Type="Decimal" Precision="11" Scale="4" />
+          <Property Name="OutputResult" Type="Decimal" Precision="11" Scale="4" />
+          <Property Name="Channel" Type="String" Nullable="false" MaxLength="3" Unicode="true" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="tblProductType">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductType" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="tblSerialNumber">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ModelSN" Type="String" Nullable="false" MaxLength="25" Unicode="true" FixedLength="false" />
+          <Property Name="ModelName" Type="String" Nullable="false" MaxLength="20" Unicode="true" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="tblSSPATestParameter">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TestName" Type="String" Nullable="false" MaxLength="30" Unicode="true" FixedLength="false" />
+          <Property Name="P1" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="P2" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="P3" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="P4" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="P5" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="P6" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="P7" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="P8" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="P9" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="P10" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="tblSSPATestResult">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="ModelSN" />
+            <PropertyRef Name="StartTime" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ModelSN" Type="String" Nullable="false" MaxLength="25" Unicode="true" FixedLength="false" />
+          <Property Name="StartTime" Type="DateTime" Nullable="false" />
+          <Property Name="TestName" Type="String" Nullable="false" MaxLength="30" Unicode="true" FixedLength="false" />
+          <Property Name="Result" Type="String" MaxLength="15" Unicode="true" FixedLength="false" />
+          <Property Name="Units" Type="String" MaxLength="15" Unicode="true" FixedLength="false" />
+          <Property Name="LowLimit" Type="String" MaxLength="30" Unicode="true" FixedLength="false" />
+          <Property Name="UpLimit" Type="String" MaxLength="30" Unicode="true" FixedLength="false" />
+          <Property Name="PassFail" Type="Boolean" Nullable="false" />
+          <Property Name="Channel" Type="String" MaxLength="3" Unicode="true" FixedLength="false" />
+          <Property Name="P1" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="P2" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="P3" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="P4" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="P5" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="P6" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="P7" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="P8" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="P9" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="P10" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="tblTWTTestParameter">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TestName" Type="String" Nullable="false" MaxLength="30" Unicode="true" FixedLength="false" />
+          <Property Name="P1" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="P2" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="P3" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="P4" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="P5" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="P6" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="P7" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="P8" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="P9" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="P10" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="tblTWTTestResult">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="ModelSN" />
+            <PropertyRef Name="StartTime" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ModelSN" Type="String" Nullable="false" MaxLength="25" Unicode="true" FixedLength="false" />
+          <Property Name="StartTime" Type="DateTime" Nullable="false" />
+          <Property Name="TestName" Type="String" Nullable="false" MaxLength="30" Unicode="true" FixedLength="false" />
+          <Property Name="Result" Type="String" MaxLength="15" Unicode="true" FixedLength="false" />
+          <Property Name="Units" Type="String" MaxLength="15" Unicode="true" FixedLength="false" />
+          <Property Name="LowLimit" Type="String" MaxLength="30" Unicode="true" FixedLength="false" />
+          <Property Name="UpLimit" Type="String" MaxLength="30" Unicode="true" FixedLength="false" />
+          <Property Name="PassFail" Type="Boolean" Nullable="false" />
+          <Property Name="Channel" Type="String" MaxLength="3" Unicode="true" FixedLength="false" />
+          <Property Name="P1" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="P2" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="P3" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="P4" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="P5" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="P6" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="P7" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="P8" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="P9" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="P10" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="rfDbModelStoreContainer" CdmEntityContainer="rfDbEntities">
+          <EntitySetMapping Name="tblATEOutputs">
+            <EntityTypeMapping TypeName="rfDbModel.tblATEOutput">
+              <MappingFragment StoreEntitySet="tblATEOutput">
+                <ScalarProperty Name="BlipaSN" ColumnName="BlipaSN" />
+                <ScalarProperty Name="BipaSN" ColumnName="BipaSN" />
+                <ScalarProperty Name="BucSN" ColumnName="BucSN" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="ModelSN" ColumnName="ModelSN" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="SalesOrder" ColumnName="SalesOrder" />
+                <ScalarProperty Name="TestPlan" ColumnName="TestPlan" />
+                <ScalarProperty Name="TestType" ColumnName="TestType" />
+                <ScalarProperty Name="TPRev" ColumnName="TPRev" />
+                <ScalarProperty Name="Audit" ColumnName="Audit" />
+                <ScalarProperty Name="Itar" ColumnName="Itar" />
+                <ScalarProperty Name="RackNum" ColumnName="RackNum" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="LongModelName" ColumnName="LongModelName" />
+                <ScalarProperty Name="TubeSN" ColumnName="TubeSN" />
+                <ScalarProperty Name="TubeName" ColumnName="TubeName" />
+                <ScalarProperty Name="MainRevision" ColumnName="MainRevision" />
+                <ScalarProperty Name="SsaSN" ColumnName="SsaSN" />
+                <ScalarProperty Name="LinSN" ColumnName="LinSN" />
+                <ScalarProperty Name="LipaSN" ColumnName="LipaSN" />
+                <ScalarProperty Name="LinGain" ColumnName="LinGain" />
+                <ScalarProperty Name="LinGainOffset" ColumnName="LinGainOffset" />
+                <ScalarProperty Name="LinPhase" ColumnName="LinPhase" />
+                <ScalarProperty Name="LinPhaseOffset" ColumnName="LinPhaseOffset" />
+                <ScalarProperty Name="LinMag" ColumnName="LinMag" />
+                <ScalarProperty Name="LinMagOffset" ColumnName="LinMagOffset" />
+                <ScalarProperty Name="LineVoltage" ColumnName="LineVoltage" />
+                <ScalarProperty Name="LineFrequency" ColumnName="LineFrequency" />
+                <ScalarProperty Name="IP" ColumnName="IP" />
+                <ScalarProperty Name="MAC" ColumnName="MAC" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblKLYTestParameters">
+            <EntityTypeMapping TypeName="rfDbModel.tblKLYTestParameter">
+              <MappingFragment StoreEntitySet="tblKLYTestParameters">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="TestName" ColumnName="TestName" />
+                <ScalarProperty Name="P1" ColumnName="P1" />
+                <ScalarProperty Name="P2" ColumnName="P2" />
+                <ScalarProperty Name="P3" ColumnName="P3" />
+                <ScalarProperty Name="P4" ColumnName="P4" />
+                <ScalarProperty Name="P5" ColumnName="P5" />
+                <ScalarProperty Name="P6" ColumnName="P6" />
+                <ScalarProperty Name="P7" ColumnName="P7" />
+                <ScalarProperty Name="P8" ColumnName="P8" />
+                <ScalarProperty Name="P9" ColumnName="P9" />
+                <ScalarProperty Name="P10" ColumnName="P10" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblKLYTestResults">
+            <EntityTypeMapping TypeName="rfDbModel.tblKLYTestResult">
+              <MappingFragment StoreEntitySet="tblKLYTestResults">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="ModelSN" ColumnName="ModelSN" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="TestName" ColumnName="TestName" />
+                <ScalarProperty Name="Result" ColumnName="Result" />
+                <ScalarProperty Name="Units" ColumnName="Units" />
+                <ScalarProperty Name="LowLimit" ColumnName="LowLimit" />
+                <ScalarProperty Name="UpLimit" ColumnName="UpLimit" />
+                <ScalarProperty Name="PassFail" ColumnName="PassFail" />
+                <ScalarProperty Name="Channel" ColumnName="Channel" />
+                <ScalarProperty Name="P1" ColumnName="P1" />
+                <ScalarProperty Name="P2" ColumnName="P2" />
+                <ScalarProperty Name="P3" ColumnName="P3" />
+                <ScalarProperty Name="P4" ColumnName="P4" />
+                <ScalarProperty Name="P5" ColumnName="P5" />
+                <ScalarProperty Name="P6" ColumnName="P6" />
+                <ScalarProperty Name="P7" ColumnName="P7" />
+                <ScalarProperty Name="P8" ColumnName="P8" />
+                <ScalarProperty Name="P9" ColumnName="P9" />
+                <ScalarProperty Name="P10" ColumnName="P10" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblModelNames">
+            <EntityTypeMapping TypeName="rfDbModel.tblModelName">
+              <MappingFragment StoreEntitySet="tblModelNames">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="ModelName" ColumnName="ModelName" />
+                <ScalarProperty Name="ProductType" ColumnName="ProductType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblMonitorDatas">
+            <EntityTypeMapping TypeName="rfDbModel.tblMonitorData">
+              <MappingFragment StoreEntitySet="tblMonitorData">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="ModelSN" ColumnName="ModelSN" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="Frequency" ColumnName="Frequency" />
+                <ScalarProperty Name="InputResult" ColumnName="InputResult" />
+                <ScalarProperty Name="OutputResult" ColumnName="OutputResult" />
+                <ScalarProperty Name="Channel" ColumnName="Channel" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblProductTypes">
+            <EntityTypeMapping TypeName="rfDbModel.tblProductType">
+              <MappingFragment StoreEntitySet="tblProductTypes">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="ProductType" ColumnName="ProductType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblSerialNumbers">
+            <EntityTypeMapping TypeName="rfDbModel.tblSerialNumber">
+              <MappingFragment StoreEntitySet="tblSerialNumbers">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="ModelSN" ColumnName="ModelSN" />
+                <ScalarProperty Name="ModelName" ColumnName="ModelName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblSSPATestParameters">
+            <EntityTypeMapping TypeName="rfDbModel.tblSSPATestParameter">
+              <MappingFragment StoreEntitySet="tblSSPATestParameters">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="TestName" ColumnName="TestName" />
+                <ScalarProperty Name="P1" ColumnName="P1" />
+                <ScalarProperty Name="P2" ColumnName="P2" />
+                <ScalarProperty Name="P3" ColumnName="P3" />
+                <ScalarProperty Name="P4" ColumnName="P4" />
+                <ScalarProperty Name="P5" ColumnName="P5" />
+                <ScalarProperty Name="P6" ColumnName="P6" />
+                <ScalarProperty Name="P7" ColumnName="P7" />
+                <ScalarProperty Name="P8" ColumnName="P8" />
+                <ScalarProperty Name="P9" ColumnName="P9" />
+                <ScalarProperty Name="P10" ColumnName="P10" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblSSPATestResults">
+            <EntityTypeMapping TypeName="rfDbModel.tblSSPATestResult">
+              <MappingFragment StoreEntitySet="tblSSPATestResults">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="ModelSN" ColumnName="ModelSN" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="TestName" ColumnName="TestName" />
+                <ScalarProperty Name="Result" ColumnName="Result" />
+                <ScalarProperty Name="Units" ColumnName="Units" />
+                <ScalarProperty Name="LowLimit" ColumnName="LowLimit" />
+                <ScalarProperty Name="UpLimit" ColumnName="UpLimit" />
+                <ScalarProperty Name="PassFail" ColumnName="PassFail" />
+                <ScalarProperty Name="Channel" ColumnName="Channel" />
+                <ScalarProperty Name="P1" ColumnName="P1" />
+                <ScalarProperty Name="P2" ColumnName="P2" />
+                <ScalarProperty Name="P3" ColumnName="P3" />
+                <ScalarProperty Name="P4" ColumnName="P4" />
+                <ScalarProperty Name="P5" ColumnName="P5" />
+                <ScalarProperty Name="P6" ColumnName="P6" />
+                <ScalarProperty Name="P7" ColumnName="P7" />
+                <ScalarProperty Name="P8" ColumnName="P8" />
+                <ScalarProperty Name="P9" ColumnName="P9" />
+                <ScalarProperty Name="P10" ColumnName="P10" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblTWTTestParameters">
+            <EntityTypeMapping TypeName="rfDbModel.tblTWTTestParameter">
+              <MappingFragment StoreEntitySet="tblTWTTestParameters">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="TestName" ColumnName="TestName" />
+                <ScalarProperty Name="P1" ColumnName="P1" />
+                <ScalarProperty Name="P2" ColumnName="P2" />
+                <ScalarProperty Name="P3" ColumnName="P3" />
+                <ScalarProperty Name="P4" ColumnName="P4" />
+                <ScalarProperty Name="P5" ColumnName="P5" />
+                <ScalarProperty Name="P6" ColumnName="P6" />
+                <ScalarProperty Name="P7" ColumnName="P7" />
+                <ScalarProperty Name="P8" ColumnName="P8" />
+                <ScalarProperty Name="P9" ColumnName="P9" />
+                <ScalarProperty Name="P10" ColumnName="P10" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblTWTTestResults">
+            <EntityTypeMapping TypeName="rfDbModel.tblTWTTestResult">
+              <MappingFragment StoreEntitySet="tblTWTTestResults">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="ModelSN" ColumnName="ModelSN" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="TestName" ColumnName="TestName" />
+                <ScalarProperty Name="Result" ColumnName="Result" />
+                <ScalarProperty Name="Units" ColumnName="Units" />
+                <ScalarProperty Name="LowLimit" ColumnName="LowLimit" />
+                <ScalarProperty Name="UpLimit" ColumnName="UpLimit" />
+                <ScalarProperty Name="PassFail" ColumnName="PassFail" />
+                <ScalarProperty Name="Channel" ColumnName="Channel" />
+                <ScalarProperty Name="P1" ColumnName="P1" />
+                <ScalarProperty Name="P2" ColumnName="P2" />
+                <ScalarProperty Name="P3" ColumnName="P3" />
+                <ScalarProperty Name="P4" ColumnName="P4" />
+                <ScalarProperty Name="P5" ColumnName="P5" />
+                <ScalarProperty Name="P6" ColumnName="P6" />
+                <ScalarProperty Name="P7" ColumnName="P7" />
+                <ScalarProperty Name="P8" ColumnName="P8" />
+                <ScalarProperty Name="P9" ColumnName="P9" />
+                <ScalarProperty Name="P10" ColumnName="P10" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="rfDb" ZoomLevel="96">
+        <EntityTypeShape EntityType="rfDbModel.tblATEOutput" Width="1.875" PointX="4.375" PointY="0.5" Height="6.4032194010416656" IsExpanded="true" />
+        <EntityTypeShape EntityType="rfDbModel.tblKLYTestParameter" Width="1.75" PointX="6.75" PointY="5.75" Height="3.3263964843749996" IsExpanded="true" />
+        <EntityTypeShape EntityType="rfDbModel.tblKLYTestResult" Width="1.75" PointX="6.75" PointY="0.5" Height="4.8648079427083326" IsExpanded="true" />
+        <EntityTypeShape EntityType="rfDbModel.tblModelName" Width="1.5" PointX="0.5" PointY="2.5" Height="1.5956835937499996" IsExpanded="true" />
+        <EntityTypeShape EntityType="rfDbModel.tblMonitorData" Width="1.5" PointX="2.5" PointY="0.5" Height="2.3648893229166656" IsExpanded="true" />
+        <EntityTypeShape EntityType="rfDbModel.tblProductType" Width="1.5" PointX="0.5" PointY="0.5" Height="1.4033821614583322" IsExpanded="true" />
+        <EntityTypeShape EntityType="rfDbModel.tblSerialNumber" Width="1.5" PointX="0.5" PointY="4.875" Height="1.5956835937499996" IsExpanded="true" />
+        <EntityTypeShape EntityType="rfDbModel.tblSSPATestParameter" Width="1.875" PointX="8.75" PointY="5.75" Height="3.3263964843749996" IsExpanded="true" />
+        <EntityTypeShape EntityType="rfDbModel.tblSSPATestResult" Width="1.875" PointX="8.75" PointY="0.5" Height="4.8648079427083353" IsExpanded="true" />
+        <EntityTypeShape EntityType="rfDbModel.tblTWTTestParameter" Width="2.125" PointX="10.875" PointY="5.75" Height="3.3263964843750031" IsExpanded="true" />
+        <EntityTypeShape EntityType="rfDbModel.tblTWTTestResult" Width="2" PointX="10.875" PointY="0.5" Height="4.8648079427083317" IsExpanded="true" />
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

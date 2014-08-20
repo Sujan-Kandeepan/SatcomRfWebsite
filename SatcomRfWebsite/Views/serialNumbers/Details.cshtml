@@ -1,0 +1,29 @@
+﻿@model SatcomRfWebsite.Models.tblSerialNumber
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>tblSerialNumber</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.ModelSN)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ModelSN)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.ModelName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ModelName)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

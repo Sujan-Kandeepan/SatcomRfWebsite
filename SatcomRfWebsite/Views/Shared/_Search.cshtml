@@ -1,0 +1,308 @@
+﻿@model SatcomRfWebsite.Models.AteDataTopViewModel
+
+@{
+    ViewBag.Title = "Search";
+}
+
+
+    <script type="text/javascript">
+
+        var arrProdType         = [@Html.Raw(Model.searchModel.prodTypeStr)];
+        var arrModelName        = [@Html.Raw(Model.searchModel.modelNamesStr)];
+
+        var noSearchCriteria    = true;
+
+        if ("@ViewBag.getFilter" != "") {
+            var filterToApply       = "@ViewBag.getFilter";
+        } else {
+            var filterToApply       = "testType=ProdTest+tubeName=none+opt=none";
+        }
+
+
+    </script>
+
+
+    <!-----------------------------  Search ------------------------------->
+
+    <div class="row"><h1>Search</h1></div>
+
+    <div class="row">
+        <div class="col-lg-2">
+			<select id="selectProductType" class="demo-default" placeholder="Product types...">
+				<option value="">Product types...</option>
+				@foreach (var item in Model.searchModel.productTypeList)
+                {
+                <option value="@item.ProductType" >@item.ProductType</option>
+                }
+			</select>
+
+		    <script>
+
+		        $(document).ready(function () {
+
+		            var prodTypePassedIn = "@ViewBag.getProdType";
+
+		            //set and disable on load
+		            if (prodTypePassedIn != "") {
+
+		                var $select = $("#selectProductType").selectize();
+		                var selectizeObj = $select[0].selectize;
+		                selectizeObj.setValue(prodTypePassedIn);
+		                selectizeObj.disable();
+		            }
+
+		            $('#selectProductType').selectize({
+		                sortField: {
+		                    field: 'text',
+		                    direction: 'asc'
+		                },
+		                dropdownParent: 'body',
+		                onChange: function (value) {
+
+		                    location.href = document.URL + "/" + value;
+		                }
+		            });
+
+		            //$('#selectProductType').change(function () {
+		            //location.href = document.URL + "/" + "CHPA";
+		            //});
+		            //$("#selectProductType").val("CHPA");
+		        });
+                
+		    </script>
+        </div>
+        <div class="col-lg-2">
+			<select id="selectModelName" class="demo-default" placeholder="Model names..." name="ModelName">
+				<option value="">Model names...</option>
+				@foreach (var item in Model.searchModel.modelNameList)
+                {
+                    <option value="@item.ModelName">@item.ModelName</option>
+                }
+			</select>
+
+		    <script>
+
+		        $(document).ready(function () {
+
+                    var prodTypePassedIn = "@ViewBag.getProdType";
+                    var modelNamePassedIn = "@ViewBag.getModName";
+
+                    //set and disable on load
+		            if (modelNamePassedIn != "") {
+
+		                var $select = $("#selectModelName").selectize();
+		                var selectizeObj = $select[0].selectize;
+		                selectizeObj.setValue(modelNamePassedIn);
+		                selectizeObj.disable()
+
+		                noSearchCriteria = false;
+		            }
+
+		            $('#selectModelName').selectize({
+		                sortField: {
+		                    field: 'text',
+		                    direction: 'asc'
+		                },
+		                dropdownParent: 'body',
+		                onChange: function (value) {
+                            
+                            var prod = "";
+
+                            // trying to figure out what is the product type if we do the search by model name
+                            for ( i=0; i<arrModelName.length; i++ ){
+
+                                if(value == arrModelName[i]){
+
+                                    prod = arrProdType[i];
+                                    break;
+                                }
+                            }
+
+                            if (prodTypePassedIn != "") {
+                                location.href = document.URL + "/" + value;
+                            } else {
+		                        location.href = document.URL + "/" + prod + "/" + value;
+                            }
+		                }
+		            });
+		        });
+                
+		    </script>
+        </div>
+
+        <div class="col-lg-2">
+            <a href="@ViewBag.getResetPath"><button class="btn btn-primary btn-block">
+                Reset Search
+            </button></a>
+        </div>
+    </div>
+
+    <!-----------------------------  FILTER ------------------------------->
+
+    <div class="row"><h2>Filter By</h2></div>
+
+    <div class="row">
+
+        <div class="col-lg-2">
+			<select id="selectTestType" class="demo-default" placeholder="Test Type...">
+				<option value="ProdTest" @(Model.searchModel.testType == "ProdTest" ? "selected" : "")>Production Test</option>
+                <option value="EngTest" @(Model.searchModel.testType == "EngTest" ? "selected" : "")>Engineering Test</option>
+                <option value="Debug" @(Model.searchModel.testType == "Debug" ? "selected" : "")>Debugging</option>
+			</select>
+
+		    <script>
+
+		        $(document).ready(function () {
+
+		            var testTypePassedIn = "@ViewBag.getProdType";
+
+		            //alert("@Model.searchModel.testType" + " " + "@Model.searchModel.tubeName" + " " + "@Model.searchModel.options");
+
+
+		            if (noSearchCriteria) {
+		                var $select = $("#selectTestType").selectize();
+		                var selectizeObj = $select[0].selectize;
+		                selectizeObj.disable();
+		            }
+
+		            //select by typing
+		            $('#selectTestType').selectize({
+		                sortField: {
+		                    field: 'text',
+		                    direction: 'asc'
+		                },
+		                dropdownParent: 'body',
+		                onChange: function (value) {
+
+		                    var strPos = filterToApply.search("testType=")
+		                    if (strPos == -1) {
+		                        filterToApply += "testType=" + value;
+		                    } else {
+		                        filterToApply = filterToApply.replace(/testType=[a-zA-Z]*/, "testType=" + value);
+		                    }
+		                }
+		            });
+		        });
+                
+		    </script>
+        </div>
+
+        <div class="col-lg-2">
+			<select id="selectTubeName" class="demo-default" placeholder="Tube Name...">
+				<option value="">Tube Name...</option>
+				@foreach (var tube in Model.searchModel.tubeList)
+    {
+                <option value="@tube" @(Model.searchModel.tubeName == tube ? "selected" : "")>@tube</option>
+    }
+			</select>
+
+		    <script>
+
+		        $(document).ready(function () {
+
+		            var tubeNamePassedIn = "@ViewBag.getProdType";
+
+		            if (noSearchCriteria) {
+		                var $select = $("#selectTubeName").selectize();
+		                var selectizeObj = $select[0].selectize;
+		                selectizeObj.disable();
+		            }
+
+		            //select by typing
+		            $('#selectTubeName').selectize({
+		                sortField: {
+		                    field: 'text',
+		                    direction: 'asc'
+		                },
+		                dropdownParent: 'body',
+		                onChange: function (value) {
+
+		                    var strPos = filterToApply.search("tubeName=")
+
+		                    if (strPos == -1) {
+		                        filterToApply += "+tubeName=" + value;
+		                    } else {
+		                        filterToApply = filterToApply.replace(/tubeName=[a-zA-Z0-9-]*/, "tubeName=" + value);
+		                    }
+		                }
+		            });
+		        });
+                
+		    </script>
+        </div>
+
+        <div class="col-lg-2">
+			<select id="selectOptions" multiple class="demo-default" placeholder="Select Options...">
+                <option value="">Select Options...</option>
+				<option value="SsaSN" @(Model.searchModel.options.Contains("SsaSN") ? "selected" : "")>SSA</option>
+                <option value="LinSN" @(Model.searchModel.options.Contains("LinSN") ? "selected" : "")>LIN</option>
+                <option value="LipaSN" @(Model.searchModel.options.Contains("LipaSN") ? "selected" : "")>LIPA</option>
+                <option value="BucSN" @(Model.searchModel.options.Contains("BucSN") ? "selected" : "")>BUC</option>
+                <option value="BipaSN" @(Model.searchModel.options.Contains("BipaSN") ? "selected" : "")>BIPA</option>
+                <option value="BlipaSN" @(Model.searchModel.options.Contains("BlipaSN") ? "selected" : "")>BLIPA</option>
+			</select>
+
+		    <script>
+
+		        $(document).ready(function () {
+
+		            if (noSearchCriteria) {
+		                var $select = $("#selectOptions").selectize();
+		                var selectizeObj = $select[0].selectize;
+		                selectizeObj.disable();
+		            }
+
+
+		            //select by typing
+		            $('#selectOptions').selectize({
+		                plugins: ['remove_button'],
+		                delimiter: ',',
+		                persist: false,
+		                onChange: function (value) {
+
+		                    var strPos = filterToApply.search("opt=")
+
+		                    if (strPos == -1) {
+		                        filterToApply += "+opt=" + value;
+		                    } else {
+		                        filterToApply = filterToApply.replace(/opt=[a-zA-Z,]*/, "opt=" + value);
+		                    }
+		                }
+		            });
+		        });
+                
+		    </script>
+        </div>
+
+        <div class="col-lg-2">
+             <button id='filterReset' class="btn btn-primary btn-block" type="button" onclick='resetFilter()'>Reset Filter</button>
+        </div>
+
+        <div class="col-lg-2">
+           <button id='filterApply' class="btn btn-success btn-block" type="button" onclick='applyFilter()'>Apply Filter</button>
+
+            <script>
+                $(document).ready(function () {
+                    if (noSearchCriteria) {
+                        $('#filterReset').prop('disabled', true);
+                        $('#filterApply').prop('disabled', true);
+                    } else {
+                        $('#filterReset').prop('disabled', false);
+                        $('#filterApply').prop('disabled', false);
+                    }
+                });
+
+                function resetFilter() {
+                    location.href = document.URL.replace(/\/testType=[a-zA-Z0-9=+,-]*/, "");   
+                }
+
+                function applyFilter() {
+                    if (document.URL.search("testType=") == -1) {
+                        location.href = document.URL + "/" + filterToApply;
+                    } else {
+                        location.href = document.URL.replace(/\/testType=[a-zA-Z0-9=+,-]*/, "/" + filterToApply);
+                    }
+                }
+    	    </script>
+        </div>
+    </div>

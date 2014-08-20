@@ -1,0 +1,233 @@
+﻿@model SatcomRfWebsite.Models.tblATEOutput
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>tblATEOutput</legend>
+
+        @Html.HiddenFor(model => model.id)
+
+        @Html.HiddenFor(model => model.ModelSN)
+
+        @Html.HiddenFor(model => model.StartTime)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.SalesOrder)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.SalesOrder)
+            @Html.ValidationMessageFor(model => model.SalesOrder)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.TestPlan)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.TestPlan)
+            @Html.ValidationMessageFor(model => model.TestPlan)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.TestType)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.TestType)
+            @Html.ValidationMessageFor(model => model.TestType)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.TPRev)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.TPRev)
+            @Html.ValidationMessageFor(model => model.TPRev)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Audit)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Audit)
+            @Html.ValidationMessageFor(model => model.Audit)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Itar)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Itar)
+            @Html.ValidationMessageFor(model => model.Itar)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.RackNum)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.RackNum)
+            @Html.ValidationMessageFor(model => model.RackNum)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.UserName)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.UserName)
+            @Html.ValidationMessageFor(model => model.UserName)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.LongModelName)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.LongModelName)
+            @Html.ValidationMessageFor(model => model.LongModelName)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.TubeSN)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.TubeSN)
+            @Html.ValidationMessageFor(model => model.TubeSN)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.TubeName)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.TubeName)
+            @Html.ValidationMessageFor(model => model.TubeName)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.MainRevision)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.MainRevision)
+            @Html.ValidationMessageFor(model => model.MainRevision)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.SsaSN)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.SsaSN)
+            @Html.ValidationMessageFor(model => model.SsaSN)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.LinSN)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.LinSN)
+            @Html.ValidationMessageFor(model => model.LinSN)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.LipaSN)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.LipaSN)
+            @Html.ValidationMessageFor(model => model.LipaSN)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.LinGain)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.LinGain)
+            @Html.ValidationMessageFor(model => model.LinGain)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.LinGainOffset)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.LinGainOffset)
+            @Html.ValidationMessageFor(model => model.LinGainOffset)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.LinPhase)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.LinPhase)
+            @Html.ValidationMessageFor(model => model.LinPhase)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.LinPhaseOffset)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.LinPhaseOffset)
+            @Html.ValidationMessageFor(model => model.LinPhaseOffset)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.LinMag)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.LinMag)
+            @Html.ValidationMessageFor(model => model.LinMag)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.LinMagOffset)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.LinMagOffset)
+            @Html.ValidationMessageFor(model => model.LinMagOffset)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.LineVoltage)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.LineVoltage)
+            @Html.ValidationMessageFor(model => model.LineVoltage)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.LineFrequency)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.LineFrequency)
+            @Html.ValidationMessageFor(model => model.LineFrequency)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.IP)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.IP)
+            @Html.ValidationMessageFor(model => model.IP)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.MAC)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.MAC)
+            @Html.ValidationMessageFor(model => model.MAC)
+        </div>
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,14 @@
+Create new porject MVC 4
+Basic Project
+Install:
+	- install-package bootstrap
+	- install-package html5shiv
+
+Follow some instruction under this link: https://www.macaw.nl/weblog/2013/5/setting-up-a-solution-with-mvc4-and-twitter-bootstrap 
+	Didn't install, skipped all .less components
+
+Got template from here: http://getbootstrap.com/getting-started/
+
+To get .less compiled get compiler suggessted here: http://stackoverflow.com/questions/2986204/less-css-on-windows
+
+Create Mode View Controller (Database First unsing MVC 5) by follwing tutorial here: http://www.asp.net/mvc/tutorials/mvc-5/database-first-development/setting-up-database

@@ -1,0 +1,193 @@
+﻿@model SatcomRfWebsite.Models.tblATEOutput
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<fieldset>
+    <legend>tblATEOutput</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.SalesOrder)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.SalesOrder)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.TestPlan)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.TestPlan)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.TestType)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.TestType)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.TPRev)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.TPRev)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Audit)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Audit)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Itar)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Itar)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.RackNum)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.RackNum)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.UserName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.UserName)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.LongModelName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.LongModelName)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.TubeSN)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.TubeSN)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.TubeName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.TubeName)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.MainRevision)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.MainRevision)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.SsaSN)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.SsaSN)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.LinSN)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.LinSN)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.LipaSN)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.LipaSN)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.LinGain)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.LinGain)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.LinGainOffset)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.LinGainOffset)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.LinPhase)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.LinPhase)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.LinPhaseOffset)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.LinPhaseOffset)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.LinMag)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.LinMag)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.LinMagOffset)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.LinMagOffset)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.LineVoltage)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.LineVoltage)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.LineFrequency)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.LineFrequency)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IP)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IP)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.MAC)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.MAC)
+    </div>
+</fieldset>
+@using (Html.BeginForm()) {
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}

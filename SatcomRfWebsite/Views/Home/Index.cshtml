@@ -1,0 +1,54 @@
+﻿@model SatcomRfWebsite.Models.HomeModel
+
+
+@{
+    ViewBag.Title = "Welcome to Satcom RF Database";
+}
+ 
+
+
+@*section featured {*@
+    <div class="row-fluid">
+        <div class="jumbotron">
+            <div class="container">
+                <h1>Welcome to Satcom RF Database.</h1>
+                <p>Site under construction <img src="~/Content/Images/under-construction-tux.png" height="256" width="256" /></p>
+                <!--<a class="btn btn-large btn-success" href="http://localhost:56589" title="not used">Not yet</a>-->
+            </div>
+            <div class="container">
+                <h3>Last Unit Tested </h3>
+                <ul>
+                    <li><b>@Model.getProductType - @Model.getModelName (@Model.getModelType.ToUpper()) - @Model.getSerialNum - - - @Model.getLastTestDate</b></li>
+                </ul>
+                <h3>Units Tested Today</h3>
+                <ul>
+                @if(Model.getTodayTests().Count() == 0){
+                    <li><b> --- None --- </b></li>
+                }
+                @foreach (var product in Model.getTodayTests())
+                {
+                    <li><b>@product.Item1.ToString() - @product.Item2.ToString() (N/A) - @product.Item3.ToString() - - - @product.Item4.ToString()</b></li>
+                }
+                </ul>
+            </div>
+        </div>
+    </div>
+@*}*@
+<!-- Example row of columns -->
+<div class="row">
+  <!--<div class="col-md-4">
+    <h2>Col 1</h2>
+    <p>More content here.</p>
+    <p><a class="btn btn-default" href="http://localhost">Link 1 &raquo;</a></p>
+  </div>
+  <div class="col-md-4">
+    <h2>Col 2</h2>
+    <p>More content here.</p>
+    <p><a class="btn btn-default" href="http://localhost">Link 2 &raquo;</a></p>
+  </div>
+  <div class="col-md-4">
+    <h2>Col 3</h2>
+    <p>More content here.</p>
+    <p><a class="btn btn-default" href="http://localhost">Link 3 &raquo;</a></p>
+  </div>-->
+</div>

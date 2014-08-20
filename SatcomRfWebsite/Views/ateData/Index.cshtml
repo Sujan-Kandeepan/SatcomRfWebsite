@@ -1,0 +1,165 @@
+﻿@model SatcomRfWebsite.Models.SearchModel
+
+@{
+    ViewBag.Title = "ATE Output data";
+}
+
+@section MyScripts{
+<script type="text/javascript">
+
+    //do this on document load
+    $(document).ready(function () {
+        @if(ViewBag.getProdType != ""){
+            @:$(".productType").text("@ViewBag.getProdType");
+        }
+
+         @if(ViewBag.getModName != ""){
+            @:$(".modelName").text("@ViewBag.getModName");
+        }
+    });
+
+    $('.product li > a').click(function (e) {
+        $('.productType').text(this.innerHTML);
+    });
+
+    $('.model li > a').click(function (e) {
+        $('.modelName').text(this.innerHTML);
+    });
+
+
+</script>
+}
+
+<h1>ATE Output data</h1>
+
+    <div class="btn-group">
+        <button type="button" class="btn btn-primary dropdown-toggle productType" data-toggle="dropdown">
+            Select Product Type <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu product" role="menu">
+            @foreach (var item in Model.productType)
+            {
+            <li><a href="~/ateOutput/Index/@item.ProductType">@item.ProductType</a></li>
+            }
+        </ul>
+    </div>
+    <div class="btn-group">
+        <button type="button" class="btn btn-primary dropdown-toggle modelName" data-toggle="dropdown">
+            All Model Names <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu model" role="menu">
+            @foreach (var item in Model.modelName)
+            {
+                if (ViewBag.getProdType != "" && (ViewBag.getProdType == item.ProductType))
+                {
+                    <li><a id="model" href="~/ateOutput/Index/@ViewBag.getProdType/@item.ModelName">@Html.Raw(item.ModelName)</a></li>
+                }
+            }
+        </ul>
+    </div>
+
+    <table class="table table-striped">
+        <thread>
+        @{
+            if (Model.outputStrList.Count() != 0)
+            {
+                Model.ateOutputs.Count();        
+                foreach (var item in Model.ateOutputs)
+                {
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => item.StartTime)</th>
+                        <th>@Html.DisplayNameFor(model => item.ModelSN)</th>
+                        <th>@Html.DisplayNameFor(model => item.TestType)</th>
+                        <th>@Html.DisplayNameFor(model => item.Audit)</th>
+                        <th>@Html.DisplayNameFor(model => item.Itar)</th>
+                        <th>@Html.DisplayNameFor(model => item.LongModelName)</th>
+                        <th>@Html.DisplayNameFor(model => item.TubeSN)</th>
+                        <th>@Html.DisplayNameFor(model => item.TubeName)</th>
+                        <th>@Html.DisplayNameFor(model => item.SsaSN)</th>
+                        <th>@Html.DisplayNameFor(model => item.LinSN)</th>
+                        <th>@Html.DisplayNameFor(model => item.LipaSN)</th>
+                        <th>@Html.DisplayNameFor(model => item.LinGain)</th>
+                        <th>@Html.DisplayNameFor(model => item.LinGainOffset)</th>
+                        <th>@Html.DisplayNameFor(model => item.LinPhase)</th>
+                        <th>@Html.DisplayNameFor(model => item.LinPhaseOffset)</th>
+                        <th>@Html.DisplayNameFor(model => item.LinMag)</th>
+                        <th>@Html.DisplayNameFor(model => item.LinMagOffset)</th>
+                        <th>@Html.DisplayNameFor(model => item.LineVoltage)</th>
+                        <th>@Html.DisplayNameFor(model => item.LineFrequency)</th>
+                        <th></th>
+                    </tr>
+                    break;
+                }
+            }
+        }
+        </thread>
+
+        <tbody>
+            @foreach (var item in Model.outputStrList)
+            {
+            
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StartTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ModelSN)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TestType)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Audit)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Itar)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LongModelName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TubeSN)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TubeName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SsaSN)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LinSN)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LipaSN)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LinGain)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LinGainOffset)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LinPhase)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LinPhaseOffset)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LinMag)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LinMagOffset)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LineVoltage)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LineFrequency)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>

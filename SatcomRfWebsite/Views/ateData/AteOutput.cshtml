@@ -1,0 +1,109 @@
+﻿@model SatcomRfWebsite.Models.AteDataTopViewModel
+
+@{
+    ViewBag.Title = "ATE Output data";
+}
+
+<div class="container">
+    <div>@Html.Partial("../Shared/_Search")</div>
+ 
+    <div class="row"><hr /></div>
+        <table id="table_id_1" class="display">
+
+        @{
+            var numAteTests = 0;
+            
+            if (Model.ateOutModel.ateOutput.Count() > 0)
+            {
+                foreach (var item in Model.ateOutModel.ateOutput)
+                {
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => item.StartTime)</th>
+                        <th>@Html.DisplayNameFor(model => item.ModelSN)</th>
+                        <th>@Html.DisplayNameFor(model => item.Audit)</th>
+                        <th>@Html.DisplayNameFor(model => item.Itar)</th>
+                        <th>@Html.DisplayNameFor(model => item.LongModelName)</th>
+                        <th>@Html.DisplayNameFor(model => item.TubeSN)</th>
+                        <th>@Html.DisplayNameFor(model => item.TubeName)</th>
+                        <th>@Html.DisplayNameFor(model => item.SsaSN)</th>
+                        <th>@Html.DisplayNameFor(model => item.LinSN)</th>
+                        <th>@Html.DisplayNameFor(model => item.LipaSN)</th>
+                        <th>@Html.DisplayNameFor(model => item.BucSN)</th>
+                        <th>@Html.DisplayNameFor(model => item.BipaSN)</th>
+                        <th>@Html.DisplayNameFor(model => item.BlipaSN)</th>
+                        <th>@Html.DisplayNameFor(model => item.LinGain)</th>
+                        <th>@Html.DisplayNameFor(model => item.LinGainOffset)</th>
+                        <th>@Html.DisplayNameFor(model => item.LinPhase)</th>
+                        <th>@Html.DisplayNameFor(model => item.LinPhaseOffset)</th>
+                        <th>@Html.DisplayNameFor(model => item.LinMag)</th>
+                        <th>@Html.DisplayNameFor(model => item.LinMagOffset)</th>
+                        <th>@Html.DisplayNameFor(model => item.LineVoltage)</th>
+                        <th>@Html.DisplayNameFor(model => item.LineFrequency)</th>
+                    </tr>
+                </thead>
+                    break;
+                }
+            }
+            else
+            {
+                <thead>
+                    <tr>
+                        <th></th>
+                    </tr>
+                </thead>   
+            }
+        }
+                
+                <tbody>
+
+
+        @{
+            var yscroll = 50;
+            
+            if (Model.ateOutModel.ateOutput.Count() > 0)
+            {
+                foreach (var item in Model.ateOutModel.ateOutput)
+                {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.StartTime)</td>
+                    <td>@Html.DisplayFor(modelItem => item.ModelSN)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Audit)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Itar)</td>
+                    <td>@Html.DisplayFor(modelItem => item.LongModelName)</td>
+                    <td>@Html.DisplayFor(modelItem => item.TubeSN)</td>
+                    <td>@Html.DisplayFor(modelItem => item.TubeName)</td>
+                    <td>@Html.DisplayFor(modelItem => item.SsaSN)</td>
+                    <td>@Html.DisplayFor(modelItem => item.LinSN)</td>
+                    <td>@Html.DisplayFor(modelItem => item.LipaSN)</td>
+                    <td>@Html.DisplayFor(modelItem => item.BucSN)</td>
+                    <td>@Html.DisplayFor(modelItem => item.BipaSN)</td>
+                    <td>@Html.DisplayFor(modelItem => item.BlipaSN)</td>
+                    <td>@Html.DisplayFor(modelItem => item.LinGain)</td>
+                    <td>@Html.DisplayFor(modelItem => item.LinGainOffset)</td>
+                    <td>@Html.DisplayFor(modelItem => item.LinPhase)</td>
+                    <td>@Html.DisplayFor(modelItem => item.LinPhaseOffset)</td>
+                    <td>@Html.DisplayFor(modelItem => item.LinMag)</td>
+                    <td>@Html.DisplayFor(modelItem => item.LinMagOffset)</td>
+                    <td>@Html.DisplayFor(modelItem => item.LineVoltage)</td>
+                    <td>@Html.DisplayFor(modelItem => item.LineFrequency)</td>
+                </tr>
+                    numAteTests++;
+                }
+
+                if (numAteTests < 5) { yscroll = 250; }
+                else { yscroll = 500; }
+            }
+        }
+                </tbody>
+        </table>
+
+    <script>
+        $(document).ready(function () {
+            $('#table_id_1').DataTable({
+                "scrollX": true,
+                "scrollY": @yscroll
+            });
+        });
+    </script>
+</div>

@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>@ViewBag.Title - My ASP.NET MVC Application</title>
+        @RenderSection("meta", required: false)
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ 
+        @Styles.Render("~/bundles/css")
+        <!--<link href="~/Content/bootstrap.css" rel="stylesheet" />-->
+        @Scripts.Render("~/bundles/myJsBundle")
+
+ 
+        @Html.Partial("_html5shiv")
+ 
+        <!-- Fav and touch icons -->
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="~/Content/ico/apple-touch-icon-144-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="~/Content/ico/apple-touch-icon-114-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="~/Content/ico/apple-touch-icon-72-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" href="~/Content/ico/apple-touch-icon-57-precomposed.png">
+        <link href="~/Content/ico/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    </head>
+    <body>
+        <div class="container-fluid">
+            <div class="span12">
+                @Html.Partial("_NavBar")
+ 
+                @RenderSection("featured", required: false)
+ 
+                <div class="container">
+                    @RenderBody()
+                    <hr />
+                    <div class="footer">
+                        <p>&copy; Satcom 2014</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+ 
+        
+        <!--
+        * It seems that jquery has to be in the head or in the body before it is called.
+        * I moved it to the head to make sure its there before and calls to it.
+        * 
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/myJsBundle")-->
+        @RenderSection("scripts", required: false)
+        @RenderSection("MyScripts", required: false)
+    </body>
+</html>
