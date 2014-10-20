@@ -31,10 +31,21 @@ namespace SatcomRfWebsite.Models
 
             var myQuery = (from ateOut in db.tblATEOutputs
                            join serialNums in db.tblSerialNumbers on ateOut.ModelSN equals serialNums.ModelSN
-                           where (serialNums.ModelName.Equals(modelName))
-                           && (ateOut.TestType.Contains(dbTestType))
+                           where serialNums.ModelName.Equals(modelName)
                            orderby ateOut.StartTime ascending
                            select ateOut);
+
+            if (testType.Equals("") || testType.Equals("none"))
+            {
+                myQuery = myQuery.Where(ateOut => ateOut.TestType.Contains("Production") ||
+                                                    ateOut.TestType.Contains("Engineering") ||
+                                                    ateOut.TestType.Contains("Debugging"));
+            }
+            else
+            {
+                myQuery = myQuery.Where(ateOut => ateOut.TestType.Contains(dbTestType));
+            }
+
 
             if (tubeName.Count() > 3 && !tubeName.Equals("none"))
             {

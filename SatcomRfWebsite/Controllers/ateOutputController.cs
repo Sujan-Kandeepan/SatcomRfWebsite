@@ -20,7 +20,7 @@ namespace SatcomRfWebsite.Controllers
         {
             var model = new AteDataTopViewModel();
 
-            ViewBag.getResetPath = "/ateData/AteOutput";
+            ViewBag.getResetPath = "ateData/AteOutput";
             ViewBag.getProdType = prodT;
             ViewBag.getModName = modelN;
             ViewBag.getFilter = filter;

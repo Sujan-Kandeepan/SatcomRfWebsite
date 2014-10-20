@@ -15,7 +15,7 @@
         if ("@ViewBag.getFilter" != "") {
             var filterToApply       = "@ViewBag.getFilter";
         } else {
-            var filterToApply       = "testType=ProdTest+tubeName=none+opt=none";
+            var filterToApply       = "testType=none+tubeName=none+opt=none";
         }
 
 
@@ -23,9 +23,6 @@
 
 
     <!-----------------------------  Search ------------------------------->
-
-    <div class="row"><h1>Search</h1></div>
-
     <div class="row">
         <div class="col-lg-2">
 			<select id="selectProductType" class="demo-default" placeholder="Product types...">
@@ -131,7 +128,7 @@
         </div>
 
         <div class="col-lg-2">
-            <a href="@ViewBag.getResetPath"><button class="btn btn-primary btn-block">
+            <a href="~/@ViewBag.getResetPath"><button class="btn btn-primary btn-block">
                 Reset Search
             </button></a>
         </div>
@@ -145,6 +142,7 @@
 
         <div class="col-lg-2">
 			<select id="selectTestType" class="demo-default" placeholder="Test Type...">
+                <option value="">Test Type ...</option>
 				<option value="ProdTest" @(Model.searchModel.testType == "ProdTest" ? "selected" : "")>Production Test</option>
                 <option value="EngTest" @(Model.searchModel.testType == "EngTest" ? "selected" : "")>Engineering Test</option>
                 <option value="Debug" @(Model.searchModel.testType == "Debug" ? "selected" : "")>Debugging</option>
