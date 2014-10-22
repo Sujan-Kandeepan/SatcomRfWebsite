@@ -58,6 +58,67 @@ namespace SatcomRfWebsite.Models
             return modelName;
         }
 
+        public bool isModelNameItar(string modelName)
+        {
+            if (modelName.Equals("TL25XJ") || 
+                modelName.Equals("TL25XJ-179") || 
+                modelName.Equals("TL25XI-1A") || 
+                modelName.Equals("TL25XI-2A") ||
+
+                modelName.Equals("VZX-6984A4") || 
+                modelName.Equals("VZM-6993J1") || 
+                modelName.Equals("VZM-6993J2") || 
+                modelName.Equals("VZM-6993-J3") || 
+                modelName.Equals("VZM-6993J4") || 
+                modelName.Equals("VZM-6993J5") || 
+                modelName.Equals("VZS/X2776L1") || 
+                modelName.Equals("VZL-6943J1") || modelName.Equals("VZL-6943J2") || 
+                modelName.Equals("VZX-6986J2M") || 
+                modelName.Equals("VZX-6986J2E") || 
+                modelName.Equals("VZS/C-6963J1") || modelName.Equals("VZS/C-6963J2") || 
+                modelName.Equals("VZK-6901J1") || 
+                modelName.Equals("VZA-6902J1") || 
+                modelName.Equals("VZL-6941K4") || modelName.Equals("VZL-6941K6") || 
+                modelName.Equals("VZS-6951K4") || modelName.Equals("VZS-6951K6") || 
+                modelName.Equals("VZC-6961K4") || modelName.Equals("VZC-6961K6") || 
+                modelName.Equals("VZX-6981K4") || modelName.Equals("VZX-6981K6") || 
+                modelName.Equals("VZM-6991K4") || modelName.Equals("VZM-6991K6") || 
+                modelName.Equals("VZU-6991K4") || modelName.Equals("VZU-6991K6") || 
+                modelName.Equals("VZV-2776K4") || modelName.Equals("VZV-2776K6") || 
+                modelName.Equals("VZX-6986J4") || 
+                modelName.Equals("VZX-6986J5") || 
+                modelName.Equals("VZX-6987V7") ||
+                modelName.Equals("VZX6987V7") || 
+
+                modelName.Equals("TL22XI") || 
+                modelName.Equals("TL25XI") || 
+                modelName.Equals("T01TO") || 
+                modelName.Equals("TM04CO") || modelName.Equals("T04CO-C") || 
+                modelName.Equals("TM04UO") || modelName.Equals("T04UO-E") || modelName.Equals("T04UO-F") || 
+                modelName.Equals("T04XO") || 
+                modelName.Equals("VZSC2780C2") || 
+                modelName.Equals("VZM2780C2") || 
+                modelName.Equals("VZC-6964VM") || 
+                modelName.Equals("TM01KO-B") || modelName.Equals("T01KO-B") || 
+                modelName.Equals("TM02KO-B") || modelName.Equals("T02KO-B") || 
+                modelName.Equals("TL25XJ") || 
+                modelName.Equals("TL06TO") || 
+
+                modelName.Equals("TLO5XO") || 
+                modelName.Equals("T04TUO") || 
+                modelName.Equals("VZK-2790J1") || 
+                modelName.Equals("VZA-2790J1") || 
+                modelName.Equals("VZX-2782C2") || 
+                modelName.Equals("VZX-2783C1") || 
+                modelName.Equals("VZL-2780C2") || 
+                modelName.Equals("TM05C0") || 
+                modelName.Equals("B3K0")) 
+            {
+                return true;
+            }
+
+            return false;
+        }
 
         public class ProductClass
         {

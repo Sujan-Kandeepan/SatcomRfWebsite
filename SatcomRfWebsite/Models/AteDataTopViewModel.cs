@@ -12,12 +12,14 @@ namespace SatcomRfWebsite.Models
         public SearchModel searchModel { get; set; }
         public TestResultsModel testResModel { get; set; }
         public AteOutputModel ateOutModel { get; set; }
+        public ToolBox tools { get; set; }
 
         public AteDataTopViewModel()
         {
             searchModel = new SearchModel();
             testResModel = new TestResultsModel();
             ateOutModel = new AteOutputModel();
+            tools = new ToolBox();
         }
     }
 }

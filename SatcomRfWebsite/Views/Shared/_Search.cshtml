@@ -73,6 +73,7 @@
 				<option value="">Model names...</option>
 				@foreach (var item in Model.searchModel.modelNameList)
                 {
+                    if (Model.tools.isModelNameItar(item.ModelName)) { continue; } 
                     <option value="@item.ModelName">@item.ModelName</option>
                 }
 			</select>
