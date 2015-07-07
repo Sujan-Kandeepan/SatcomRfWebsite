@@ -25,7 +25,7 @@ namespace SatcomRfWebsite.Models
 
         public void generateTestsResults(string prodType, string modelName, string testType, string tubeName, string options)
         {
-            if (tools.isModelNameItar(modelName)) { return; }
+            //if (tools.isModelNameItar(modelName)) { return; }
 
             string dbTestType = "Production";
 

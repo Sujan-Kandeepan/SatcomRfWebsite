@@ -3,30 +3,39 @@
 @{
     ViewBag.Title = "Delete";
 }
-
-<h2>Delete</h2>
-
-<h3>Are you sure you want to delete this?</h3>
-<fieldset>
-    <legend>tblSerialNumber</legend>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.ModelSN)
+    
+@{
+    <div class="row-fluid">
+        <div class="container">
+            <div class="row">
+                <h1>Delete</h1>
+            </div>
+            <div class="row">
+                <h3>Are you sure you want to delete this Serial Number?</h3>
+            </div>
+            <div class="row">
+                <ul class="list-unstyled">
+                    <li class='col-md-4' align='left'><b>Serial #</b></li>
+                    <li class='col-md-4' align='left'><b>Model Name</b></li>
+                    <li class='col-md-4' align='center'></li>
+                </ul>
+            </div>
+            <div class="row">
+                <ul class="list-unstyled">
+                    <li class='col-md-4' align='left'>@Html.DisplayFor(model => model.ModelSN)</li>
+                    <li class='col-md-4' align='left'>@Html.DisplayFor(model => model.ModelName)</li>
+                    <li class='col-md-4' align='center'>
+                        @using (Html.BeginForm())
+                        {
+                            <input type="submit" class="btn btn-danger" value="Delete" /> @:|
+                            @Html.ActionLink("Back to List", "Index")
+                        }
+                    </li>
+                </ul>
+            </div>
+            <div class="row">
+                        
+            </div>
+        </div>
     </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.ModelSN)
-    </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.ModelName)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.ModelName)
-    </div>
-</fieldset>
-@using (Html.BeginForm()) {
-    <p>
-        <input type="submit" value="Delete" /> |
-        @Html.ActionLink("Back to List", "Index")
-    </p>
 }
