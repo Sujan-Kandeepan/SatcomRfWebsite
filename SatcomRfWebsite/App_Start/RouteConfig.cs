@@ -19,18 +19,12 @@ namespace SatcomRfWebsite
                defaults: new { controller = "Home", action = "Index" }
            );
 
-            routes.MapRoute(
+            /*routes.MapRoute(
                 name: "Search",
                 url: "{controller}/{action}/{prodT}/{modelN}",
                 defaults: new { controller = "ateOutput", action = "Index", prodT = UrlParameter.Optional, modelN = UrlParameter.Optional }
             );
-
-            routes.MapRoute(
-              name: "ateOutput",
-              url: "{controller}/{action}/{prodT}/{modelN}/{filter}",
-              defaults: new { controller = "ateData", action = "AteOutput", prodT = UrlParameter.Optional, modelN = UrlParameter.Optional, filter = UrlParameter.Optional }
-            );
-
+            */
             routes.MapRoute(
                name: "testResults",
                url: "{controller}/{action}/{prodT}/{modelN}/{filter}",

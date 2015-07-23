@@ -1,4 +1,4 @@
-﻿@model SatcomRfWebsite.Models.AteDataTopViewModel
+﻿@model SatcomRfWebsite.Models.AteOutputTopViewModel
 
 @{
     ViewBag.Title = "ATE Output data";
@@ -6,79 +6,341 @@
 
 <div class="container">
 
-    <div class="row"><h1>Search ATE Output</h1></div>
-    <div>@Html.Partial("../Shared/_Search")</div>
- 
+    <div class="row"><h1>ATE Tests</h1></div>
+    <div class="row"><h2>Use filter to find your product(s)</h2></div>
+
+    <script type="text/javascript">
+
+        var arrProdType         = [@Html.Raw(Model.ateOutputModel.prodTypeStrList)];
+        var arrModelName        = [@Html.Raw(Model.ateOutputModel.modelNameStrList)];
+        var arrSerialNum        = [@Html.Raw(Model.ateOutputModel.serialNumStrList)];
+
+        //alert(arrProdType.length + " " + arrModelName.length + " " + arrSerialNum.length);
+
+        var noSearchCriteria    = true;
+        var filterToApply       = "?filter=pT=na%mN=na%ser=na%testType=na%tubeName=na%opt=na";
+
+        if ("@Model.ateOutputModel.filter" != "") {
+            filterToApply = "?filter=@Model.ateOutputModel.filter";
+        }
+
+
+    </script>
+
+    <div class="row">
+        <div class="col-lg-2">
+
+			<select id="selectProductType" class="demo-default" placeholder="Product Types...">
+				<option value="">Product Types...</option>
+			@foreach (var itemProd in Model.ateOutputModel.prodList)
+            {
+                <option value="@itemProd" @(Model.ateOutputModel.productType == itemProd ? "selected" : "")>@itemProd</option>
+            }
+			</select>
+            
+		    <script>
+
+		        $(document).ready(function () {
+
+		            $('#selectProductType').selectize({
+		                sortField: {
+		                    field: 'text',
+		                    direction: 'asc'
+		                },
+		                dropdownParent: 'body',
+		                onChange: function (value) {
+
+		                    if (value == "") { value = "na"; }
+
+		                    //indexOf return num > -1 if it finds the string
+		                    if (document.URL.indexOf("pT=") > -1) {
+		                        filterToApply = document.URL;
+		                    }
+		                    filterToApply = filterToApply.replace(/pT=[a-zA-Z]*/, "pT=" + value);
+		                    filterToApply = filterToApply.replace(/mN=[a-zA-Z0-9-]*/, "mN=na");
+		                    filterToApply = filterToApply.replace(/ser=[a-zA-Z0-9_-]*/, "ser=na");
+		                    location.href = filterToApply;
+		                }
+		            });
+		        });
+                
+		    </script>
+        </div>
+
+        <div class="col-lg-2">
+			<select id="selectModelName" class="demo-default" placeholder="Model Names..." name="ModelName">
+				<option value="">Model Names...</option>
+			@foreach (var itemModel in Model.ateOutputModel.modelList)
+            {
+                <option value="@itemModel" @(Model.ateOutputModel.modelName == itemModel ? "selected" : "")>@itemModel</option>
+            }
+			</select>
+
+		    <script>
+
+		        $(document).ready(function () {
+
+		            $('#selectModelName').selectize({
+		                sortField: {
+		                    field: 'text',
+		                    direction: 'asc'
+		                },
+		                dropdownParent: 'body',
+		                onChange: function (value) {
+
+		                    var prod = "@Model.ateOutputModel.productType"; //"na";
+
+		                    // trying to figure out what is the product type if we do the search by modelName
+		                    if (value != "") {
+		                        for (i = 0; i < arrModelName.length; i++) {
+		                            if (value == arrModelName[i]) {
+		                                prod = arrProdType[i];
+		                                break;
+		                            }
+		                        }
+		                    }
+		                    //indexOf return num > -1 if it finds the string
+		                    if (document.URL.indexOf("mN=") > -1) {
+		                        filterToApply = document.URL;
+		                    }
+		                    if (value != "") { filterToApply = filterToApply.replace(/pT=[a-zA-Z]*/, "pT=" + prod); }
+		                    filterToApply = filterToApply.replace(/mN=[a-zA-Z0-9-]*/, "mN=" + value);
+		                    filterToApply = filterToApply.replace(/ser=[a-zA-Z0-9_-]*/, "ser=na");
+		                    location.href = filterToApply;
+		                }
+		            });
+		        });
+                
+		    </script>
+        </div>
+        <div class="col-lg-2">
+			<select id="selectSerialNum" class="demo-default" placeholder="Serial Nums..." name="SerialNum">
+				<option value="">Serial Nums...</option>
+			@foreach (var itemSN in Model.ateOutputModel.serList)
+            {
+                <option value="@itemSN" @(Model.ateOutputModel.serialNum == itemSN ? "selected" : "")>@itemSN</option>
+            }
+			</select>
+
+		    <script>
+
+		        $(document).ready(function () {
+
+		            $('#selectSerialNum').selectize({
+		                sortField: {
+		                    field: 'text',
+		                    direction: 'asc'
+		                },
+		                dropdownParent: 'body',
+		                onChange: function (value) {
+
+		                    var prod = "@Model.ateOutputModel.productType";// "na";
+		                    var model = "@Model.ateOutputModel.modelName";// "na";
+
+		                    // trying to figure out what is the model name and product type if we do the search by serial
+                            if (value != "") {
+		                        for (i = 0; i < arrSerialNum.length; i++) {
+		                            if (value == arrSerialNum[i]) {
+		                                prod = arrProdType[i];
+		                                model = arrModelName[i];
+		                                break;
+		                            }
+		                        }
+                            }
+		                    //indexOf return num > -1 if it finds the string
+		                    if (document.URL.indexOf("ser=") > -1) {
+		                        filterToApply = document.URL;
+		                    }
+		                    filterToApply = filterToApply.replace(/pT=[a-zA-Z]*/, "pT=" + prod);
+		                    filterToApply = filterToApply.replace(/mN=[a-zA-Z0-9-]*/, "mN=" + model);
+		                    filterToApply = filterToApply.replace(/ser=[a-zA-Z0-9_-]*/, "ser=" + value);
+		                    location.href = filterToApply;
+		                }
+		            });
+		        });
+                
+		    </script>
+        </div>
+        <div class="col-lg-6"></div>
+    </div>
+
+    <!-----------------------------  FILTER ------------------------------->
+
+    
+
+    <div class="row">
+
+        <div class="col-lg-2">
+			<select id="selectTestType" class="demo-default" placeholder="Test Type...">
+                <option value="">Test Type ...</option>
+				<option value="ProdTest" @(Model.ateOutputModel.testType == "ProdTest" ? "selected" : "")>Production Test</option>
+                <option value="EngTest" @(Model.ateOutputModel.testType == "EngTest" ? "selected" : "")>Engineering Test</option>
+                <option value="Debug" @(Model.ateOutputModel.testType == "Debug" ? "selected" : "")>Debugging</option>
+			</select>
+
+		    <script>
+
+		        $(document).ready(function () {
+
+		            var testTypePassedIn = "@Model.ateOutputModel.testType";
+
+		            //alert("@Model.ateOutputModel.testType" + " " + "@Model.ateOutputModel.tubeName" + " " + "@Model.ateOutputModel.options");
+
+		            //select by typing
+		            $('#selectTestType').selectize({
+		                sortField: {
+		                    field: 'text',
+		                    direction: 'asc'
+		                },
+		                dropdownParent: 'body',
+		                onChange: function (value) {
+
+		                    if (document.URL.search("testType=") > -1) {
+		                        location.href = document.URL.replace(/testType=[a-zA-Z]*/, "testType=" + value);
+                            } else {
+		                        location.href = filterToApply.replace(/testType=[a-zA-Z]*/, "testType=" + value);
+                            }
+		                }
+		            });
+		        });
+                
+		    </script>
+        </div>
+
+        <div class="col-lg-2">
+			<select id="selectTubeName" class="demo-default" placeholder="Tube Name...">
+				<option value="">Tube Name...</option>
+			@foreach (var tube in Model.ateOutputModel.tubeList)
+   {
+                <option value="@tube" @(Model.ateOutputModel.tubeName == tube ? "selected" : "")>@tube</option>
+   }
+			</select>
+
+		    <script>
+
+		        $(document).ready(function () {
+
+		            //select by typing
+		            $('#selectTubeName').selectize({
+		                sortField: {
+		                    field: 'text',
+		                    direction: 'asc'
+		                },
+		                dropdownParent: 'body',
+		                onChange: function (value) {
+		                    if (document.URL.search("tubeName=") > -1) {
+		                        location.href = document.URL.replace(/tubeName=[a-zA-Z0-9-]*/, "tubeName=" + value);
+                            } else {
+		                        location.href = filterToApply.replace(/tubeName=[a-zA-Z0-9-]*/, "tubeName=" + value);
+                            }
+		                }
+		            });
+		        });
+                
+		    </script>
+        </div>
+
+        <div class="col-lg-2">
+			<select id="selectOptions" multiple class="demo-default" placeholder="Select Options...">
+                <option value="">Select Options...</option>
+                <option value="Audit" @(Model.ateOutputModel.options.Contains("Audit") ? "selected" : "")>Audit</option>
+				<option value="SsaSN" @(Model.ateOutputModel.options.Contains("SsaSN") ? "selected" : "")>SSA</option>
+                <option value="LinSN" @(Model.ateOutputModel.options.Contains("LinSN") ? "selected" : "")>LIN</option>
+                <option value="LipaSN" @(Model.ateOutputModel.options.Contains("LipaSN") ? "selected" : "")>LIPA</option>
+                <option value="BucSN" @(Model.ateOutputModel.options.Contains("BucSN") ? "selected" : "")>BUC</option>
+                <option value="BipaSN" @(Model.ateOutputModel.options.Contains("BipaSN") ? "selected" : "")>BIPA</option>
+                <option value="BlipaSN" @(Model.ateOutputModel.options.Contains("BlipaSN") ? "selected" : "")>BLIPA</option>
+			</select>
+
+		    <script>
+
+		        $(document).ready(function () {
+
+		            //select by typing
+		            $('#selectOptions').selectize({
+		                plugins: ['remove_button'],
+		                delimiter: ',',
+		                persist: false,
+		                onChange: function (value) {
+		                    if (document.URL.search("opt=") > -1) {
+		                        location.href = document.URL.replace(/opt=[a-zA-Z,]*/, "opt=" + value);
+		                    } else {
+		                        location.href = filterToApply.replace(/opt=[a-zA-Z,]*/, "opt=" + value);
+		                    }
+		                }
+		            });
+		        });
+                
+		    </script>
+        </div>
+        <div class="col-lg-6"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-2">
+             <button id='filterReset' class="btn btn-primary btn-block" type="button" onclick='resetFilter()'>Reset Filter</button>
+        </div>
+
+        <script>
+            $(document).ready(function () {
+                if (noSearchCriteria) {
+                    $('#filterReset').prop('disabled', false); //true);
+                    $('#filterApply').prop('disabled', false); //true);
+                } else {
+                    $('#filterReset').prop('disabled', false);
+                    $('#filterApply').prop('disabled', false);
+                }
+            });
+
+            function resetFilter() {
+                //location.href = document.URL.replace(/\/testType=[a-zA-Z0-9=+,-]*/, "");
+                location.href = document.location.origin + "/SatcomRF/ateData/AteOutput";
+            }
+        </script>
+
+        <div class="col-lg-10"></div>
+    </div>
+
     <div class="row"><hr /></div>
         <table id="table_id_1" class="display">
 
-        @{
-            var numAteTests = 0;
-            
-            if (Model.ateOutModel.ateOutput.Count() > 0)
-            {
-                foreach (var item in Model.ateOutModel.ateOutput)
-                {
                 <thead>
                     <tr>
-                        <th>@Html.DisplayNameFor(model => item.StartTime)</th>
-                        <th>@Html.DisplayNameFor(model => item.ModelSN)</th>
-                        <th>@Html.DisplayNameFor(model => item.Audit)</th>
-                        <th>@Html.DisplayNameFor(model => item.Itar)</th>
-                        <th>@Html.DisplayNameFor(model => item.LongModelName)</th>
-                        <th>@Html.DisplayNameFor(model => item.TubeSN)</th>
-                        <th>@Html.DisplayNameFor(model => item.TubeName)</th>
-                        <th>@Html.DisplayNameFor(model => item.SsaSN)</th>
-                        <th>@Html.DisplayNameFor(model => item.LinSN)</th>
-                        <th>@Html.DisplayNameFor(model => item.LipaSN)</th>
-                        <th>@Html.DisplayNameFor(model => item.BucSN)</th>
-                        <th>@Html.DisplayNameFor(model => item.BipaSN)</th>
-                        <th>@Html.DisplayNameFor(model => item.BlipaSN)</th>
-                        <th>@Html.DisplayNameFor(model => item.LinGain)</th>
-                        <th>@Html.DisplayNameFor(model => item.LinGainOffset)</th>
-                        <th>@Html.DisplayNameFor(model => item.LinPhase)</th>
-                        <th>@Html.DisplayNameFor(model => item.LinPhaseOffset)</th>
-                        <th>@Html.DisplayNameFor(model => item.LinMag)</th>
-                        <th>@Html.DisplayNameFor(model => item.LinMagOffset)</th>
-                        <th>@Html.DisplayNameFor(model => item.LineVoltage)</th>
-                        <th>@Html.DisplayNameFor(model => item.LineFrequency)</th>
+                        <th>StartTime</th>
+                        <th>Serial#</th>
+                        <th>Audit</th>
+                        <th>Long Model Name</th>
+                        <th>Tube Name</th>
+                        <th>SsaSN</th>
+                        <th>LinSN</th>
+                        <th>LipaSN</th>
+                        <th>BucSN</th>
+                        <th>BipaSN</th>
+                        <th>BlipaSN</th>
                     </tr>
                 </thead>
-                    break;
-                }
-            }
-        }
                 <tbody>
 
         @{
             var yscroll = 50;
-            
-            if (Model.ateOutModel.ateOutput.Count() > 0)
+            var numAteTests = 0;
+
+            if (Model.ateOutputModel.ateOutputList.Count > 0)
             {
-                foreach (var item in Model.ateOutModel.ateOutput)
+                foreach (var item in Model.ateOutputModel.ateOutputList)
                 {
                 <tr>
-                    <td>@Html.DisplayFor(modelItem => item.StartTime)</td>
-                    <td>@Html.DisplayFor(modelItem => item.ModelSN)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Audit)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Itar)</td>
-                    <td>@Html.DisplayFor(modelItem => item.LongModelName)</td>
-                    <td>@Html.DisplayFor(modelItem => item.TubeSN)</td>
-                    <td>@Html.DisplayFor(modelItem => item.TubeName)</td>
-                    <td>@Html.DisplayFor(modelItem => item.SsaSN)</td>
-                    <td>@Html.DisplayFor(modelItem => item.LinSN)</td>
-                    <td>@Html.DisplayFor(modelItem => item.LipaSN)</td>
-                    <td>@Html.DisplayFor(modelItem => item.BucSN)</td>
-                    <td>@Html.DisplayFor(modelItem => item.BipaSN)</td>
-                    <td>@Html.DisplayFor(modelItem => item.BlipaSN)</td>
-                    <td>@Html.DisplayFor(modelItem => item.LinGain)</td>
-                    <td>@Html.DisplayFor(modelItem => item.LinGainOffset)</td>
-                    <td>@Html.DisplayFor(modelItem => item.LinPhase)</td>
-                    <td>@Html.DisplayFor(modelItem => item.LinPhaseOffset)</td>
-                    <td>@Html.DisplayFor(modelItem => item.LinMag)</td>
-                    <td>@Html.DisplayFor(modelItem => item.LinMagOffset)</td>
-                    <td>@Html.DisplayFor(modelItem => item.LineVoltage)</td>
-                    <td>@Html.DisplayFor(modelItem => item.LineFrequency)</td>
+                    <td>@Html.DisplayFor(modelItem => item.startTime)</td>
+                    <td><a href='~/ateData/AteOutputDetail/?serNum=@item.serialNum'>@Html.DisplayFor(modelItem => item.serialNum)</a></td>
+                    <td>@Html.DisplayFor(modelItem => item.audit)</td>
+                    <td>@Html.DisplayFor(modelItem => item.longModelName)</td>
+                    <td>@Html.DisplayFor(modelItem => item.tubeName)</td>
+                    <td>@Html.DisplayFor(modelItem => item.ssaSN)</td>
+                    <td>@Html.DisplayFor(modelItem => item.linSN)</td>
+                    <td>@Html.DisplayFor(modelItem => item.lipaSN)</td>
+                    <td>@Html.DisplayFor(modelItem => item.bucSN)</td>
+                    <td>@Html.DisplayFor(modelItem => item.bipaSN)</td>
+                    <td>@Html.DisplayFor(modelItem => item.blipaSN)</td>
                 </tr>
                     numAteTests++;
                 }

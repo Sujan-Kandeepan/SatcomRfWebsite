@@ -58,6 +58,41 @@ namespace SatcomRfWebsite.Models
             return modelName;
         }
 
+        public bool isSerialNumberInDB(string modelSN)
+        {
+            int numElements = 0;
+
+            numElements = (from tblSN in db.tblSerialNumbers
+                               where tblSN.ModelSN.Equals(modelSN)
+                               select tblSN).Count();
+
+            if (numElements > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public String isNullOrEmpty(string str)
+        {
+            if (str == "" || str == null)
+            {
+                return "---";
+            }
+            else
+            {
+                return str;
+            }
+        }
+
+        public String myToUpper(string str)
+        {
+            return "asdf";
+        }
+
         public bool isModelNameItar(string modelName)
         {
             if (modelName.Equals("TL25XJ") || 
@@ -150,6 +185,44 @@ namespace SatcomRfWebsite.Models
                         isTWT = true;
                         break;
                 }
+            }
+        }
+
+        public class AteOutputCustom
+        {
+            public string modelName { get; set; }
+            public string productType { get; set; }
+            public string serialNum { get; set; }
+            public DateTime startTime { get; set; }
+            public string testType { get; set; }
+            public bool audit { get; set; }
+            public string longModelName { get; set; }
+            public string tubeName { get; set; }
+            public string ssaSN { get; set; }
+            public string linSN { get; set; }
+            public string lipaSN { get; set; }
+            public string bucSN { get; set; }
+            public string bipaSN { get; set; }
+            public string blipaSN { get; set; }
+
+
+            public AteOutputCustom(string mN, string pT, string sN, DateTime sT, string tTp, bool a, string lmN, string tN, 
+                                    string ssa, string lin, string lipa, string buc, string bipa, string blipa)
+            {
+                modelName = mN;
+                productType = pT;
+                serialNum = sN;
+                startTime = sT;
+                testType = tTp;
+                audit = a;
+                longModelName = lmN;
+                tubeName = tN;
+                ssaSN = ssa;
+                linSN = lin;
+                lipaSN = lipa;
+                bucSN = buc;
+                bipaSN = bipa;
+                blipaSN = blipa;
             }
         }
     }

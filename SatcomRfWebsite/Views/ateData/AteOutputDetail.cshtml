@@ -1,0 +1,222 @@
+﻿@model SatcomRfWebsite.Models.AteOutputTopViewModel
+
+@{
+    ViewBag.Title = "ATE Output Detail";
+}
+
+<div class="container">
+
+    <div class="row"> </div>
+
+    <div class="row"><h1>Details For The Serial # @Model.ateOutputModel.serialNum</h1></div>
+    <div class="row">
+        <div class="col-sm-3"><h4>Product Type</h4></div>
+        <div class="col-sm-3"><h4>Model Name</h4></div>
+        <div class="col-sm-3"><h4>Long Model Name</h4></div>
+        <div class="col-sm-3"><h4>Sales Order</h4></div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3"><i>@Model.tools.getProdTypeFromSN(Model.ateOutputModel.ateOutput[0].ModelSN)</i></div>
+        <div class="col-sm-3"><i>@Model.tools.getModelNameFromSN(Model.ateOutputModel.ateOutput[0].ModelSN)</i></div>
+        <div class="col-sm-3"><i>@Model.ateOutputModel.ateOutput[0].LongModelName</i></div>
+        <div class="col-sm-3"><i>@Model.ateOutputModel.ateOutput[0].SalesOrder</i></div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3"><h4>Test Type</h4></div>
+        <div class="col-sm-3"><h4>Tested On</h4></div>
+        <div class="col-sm-3"><h4></h4></div>
+        <div class="col-sm-3"><h4></h4></div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3"><i>@Model.ateOutputModel.ateOutput[0].TestType</i></div>
+        <div class="col-sm-3"><i>@Model.ateOutputModel.ateOutput[0].StartTime</i></div>
+        <div class="col-sm-3"></div>
+        <div class="col-sm-3"></div>
+    </div>
+    <div class="row"><hr /></div>
+    <div class="row">
+        <div class="col-sm-2"><h4>Audit</h4></div>
+        <div class="col-sm-10"><h6><i>@Model.tools.isNullOrEmpty(Model.ateOutputModel.ateOutput[0].Audit.ToString())</i></h6></div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2"><h4>Tube SN</h4></div>
+        <div class="col-sm-10"><h6><i>@Model.tools.isNullOrEmpty(Model.ateOutputModel.ateOutput[0].TubeSN)</i></h6></div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2"><h4>Ssa SN</h4></div>
+        <div class="col-sm-10"><h6><i>@Model.tools.isNullOrEmpty(Model.ateOutputModel.ateOutput[0].SsaSN)</i></h6></div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2"><h4>Lin SN</h4></div>
+        <div class="col-sm-10"><h6><i>@Model.tools.isNullOrEmpty(Model.ateOutputModel.ateOutput[0].LinSN)</i></h6></div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2"><h4>Lipa SN</h4></div>
+        <div class="col-sm-10"><h6><i>@Model.tools.isNullOrEmpty(Model.ateOutputModel.ateOutput[0].LipaSN)</i></h6></div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2"><h4>Lin Gain</h4></div>
+        <div class="col-sm-2"><h4>Lin Gain Offset</h4></div>
+        <div class="col-sm-2"><h4>Lin Phase</h4></div>
+        <div class="col-sm-2"><h4>Lin Phase Offset</h4></div>
+        <div class="col-sm-2"><h4>Lin Mag</h4></div>
+        <div class="col-sm-2"><h4>Lin Mag Offset</h4></div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2"><h6><i>@Model.tools.isNullOrEmpty(Model.ateOutputModel.ateOutput[0].LinGain.ToString())</i></h6></div>
+        <div class="col-sm-2"><h6><i>@Model.tools.isNullOrEmpty(Model.ateOutputModel.ateOutput[0].LinGainOffset.ToString())</i></h6></div>
+        <div class="col-sm-2"><h6><i>@Model.tools.isNullOrEmpty(Model.ateOutputModel.ateOutput[0].LinPhase.ToString())</i></h6></div>
+        <div class="col-sm-2"><h6><i>@Model.tools.isNullOrEmpty(Model.ateOutputModel.ateOutput[0].LinPhaseOffset.ToString())</i></h6></div>
+        <div class="col-sm-2"><h6><i>@Model.tools.isNullOrEmpty(Model.ateOutputModel.ateOutput[0].LinMag.ToString())</i></h6></div>
+        <div class="col-sm-2"><h6><i>@Model.tools.isNullOrEmpty(Model.ateOutputModel.ateOutput[0].LinMagOffset.ToString())</i></h6></div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2"><h4>Buc SN</h4></div>
+        <div class="col-sm-10"><h6><i>@Model.tools.isNullOrEmpty(Model.ateOutputModel.ateOutput[0].BucSN)</i></h6></div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2"><h4>Bipa SN</h4></div>
+        <div class="col-sm-10"><h6><i>@Model.tools.isNullOrEmpty(Model.ateOutputModel.ateOutput[0].BipaSN)</i></h6></div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2"><h4>Blipa SN</h4></div>
+        <div class="col-sm-10"><h6><i>@Model.tools.isNullOrEmpty(Model.ateOutputModel.ateOutput[0].BlipaSN)</i></h6></div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2"><h4>Line Voltage</h4></div>
+        <div class="col-sm-10"><h4>Line Frequency</h4></div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2"><h6><i>@Model.tools.isNullOrEmpty(Model.ateOutputModel.ateOutput[0].LineVoltage.ToString())</i></h6></div>
+        <div class="col-sm-10"><h6><i>@Model.tools.isNullOrEmpty(Model.ateOutputModel.ateOutput[0].LineFrequency.ToString())</i></h6></div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-sm-12">
+             @{
+               int counter = 0;
+               int numSimilarTests = 0;
+               string testName = "";
+               var yscroll = 500;
+
+               var tBodyOpen = new HtmlString("<tbody>");
+               var tBodyClose = new HtmlString("</tbody>");
+               var tableOpen = new HtmlString("<table>");
+               var tableClose = new HtmlString("</table>");
+               var divOpen = new HtmlString("<div>");
+               var divClose = new HtmlString("</div>");
+
+               if (Model.ateOutputModel.testResults.Count() > 0)
+               {
+                   foreach (var item in Model.ateOutputModel.testResults)
+                   {
+                       numSimilarTests++;
+               
+                       if (!testName.Equals(item.TestName))
+                       {
+                           testName = item.TestName;
+                   
+                           var testParam = Model.ateOutputModel.testParams.Find(x => x.TestName.Contains(item.TestNameNoDigit) );
+
+                           if (numSimilarTests < 5) { yscroll = 250; }
+                           else { yscroll = 500; }
+                   
+                           numSimilarTests = 0;
+
+                           //close table"scrollY": false //@yscroll,
+                           if (counter > 0)
+                           {
+
+                                        @tBodyClose
+                                    @tableClose
+                                @divClose
+
+                                <script>
+
+                                    $(document).ready(function () {
+                                        $('#table_id_@counter').DataTable({
+                                            "bInfo": false,             //hide info at the bootom of the table
+                                            "bFilter": false,           //removes search box
+                                            "bPaginate": false,         //
+                                            "scrollCollapse": true,     //collapses table to num of rows
+                                            "scrollX": true,
+                                            "scrollY": @yscroll,
+                                        });
+                                    });
+                                </script>
+                        
+                           }
+                           counter++;
+                           tableOpen = new HtmlString(String.Format("<table id='table_id_{0}' class='display'>", counter));
+                            <hr />
+        
+                            <div class="row"><h2>@Html.Raw(item.TestNameNoDigit)</h2></div>
+        
+                            @divOpen
+                            @tableOpen <!--<table id="table_id_" class="display">-->
+                                    <thead>
+                                        <tr>
+                                            <th>@Html.DisplayNameFor(model => item.ModelSN)</th>
+                                            <!--<th>@Html.DisplayNameFor(model => item.StartTime)</th>-->
+                                            <th>@Html.DisplayNameFor(model => item.Result)</th>
+                                            <th>@Html.DisplayNameFor(model => item.Units)</th>
+                                            <th>@Html.DisplayNameFor(model => item.LowLimit)</th>
+                                            <th>@Html.DisplayNameFor(model => item.UpLimit)</th>
+                                            <th>@Html.DisplayNameFor(model => item.Channel)</th>
+                                            <th>@Html.DisplayFor(modelItem => testParam.P1)</th>
+                                            <th>@Html.DisplayFor(modelItem => testParam.P2)</th>
+                                            <th>@Html.DisplayFor(modelItem => testParam.P3)</th>
+                                            <th>@Html.DisplayFor(modelItem => testParam.P4)</th>
+                                            <th>@Html.DisplayFor(modelItem => testParam.P5)</th>
+                                            <th>@Html.DisplayFor(modelItem => testParam.P6)</th>
+                                            <th>@Html.DisplayFor(modelItem => testParam.P7)</th>
+                                            <th>@Html.DisplayFor(modelItem => testParam.P8)</th>
+                                            <th>@Html.DisplayFor(modelItem => testParam.P9)</th>
+                                        </tr>
+                                    </thead>
+                            @tBodyOpen
+                       }
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.ModelSN)</td>
+                            <!--<td>@Html.DisplayFor(modelItem => item.StartTime)</td>-->
+                            <td>@Html.DisplayFor(modelItem => item.Result)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Units)</td>
+                            <td>@Html.DisplayFor(modelItem => item.LowLimit)</td>
+                            <td>@Html.DisplayFor(modelItem => item.UpLimit)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Channel)</td>
+                            <td>@Html.DisplayFor(modelItem => item.P1)</td>
+                            <td>@Html.DisplayFor(modelItem => item.P2)</td>
+                            <td>@Html.DisplayFor(modelItem => item.P3)</td>
+                            <td>@Html.DisplayFor(modelItem => item.P4)</td>
+                            <td>@Html.DisplayFor(modelItem => item.P5)</td>
+                            <td>@Html.DisplayFor(modelItem => item.P6)</td>
+                            <td>@Html.DisplayFor(modelItem => item.P7)</td>
+                            <td>@Html.DisplayFor(modelItem => item.P8)</td>
+                            <td>@Html.DisplayFor(modelItem => item.P9)</td>
+                        </tr>
+                   }
+
+                   //close table at the very end
+
+                            @tBodyClose
+                        @tableClose
+                    @divClose
+
+                    <script>
+                        $(document).ready(function () {
+                            $('#table_id_@counter').DataTable({
+                                "bInfo": false,             //hide info at the bootom of the table
+                                "bFilter": false,           //removes search box
+                                "bPaginate": false,         //
+                                "scrollCollapse": true,     //collapses table to num of rows
+                                "scrollX": true,
+                                "scrollY": @yscroll,
+                            });
+                        });
+                    </script>
+               }
+            } 
+        </div>
+    </div>
+</div>

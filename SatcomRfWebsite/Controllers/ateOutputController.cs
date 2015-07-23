@@ -14,45 +14,51 @@ namespace SatcomRfWebsite.Controllers
         public SearchModel searchModel = new SearchModel();
 
         //
-        // GET: /ateOutput/
+        // GET: /ateData/AteOutput/...
         [HttpGet]
-        public ActionResult AteOutput(string prodT = "", string modelN = "", string filter = "")
+        public ActionResult AteOutput(string filter = "")
         {
-            var model = new AteDataTopViewModel();
-
             ViewBag.getResetPath = "ateData/AteOutput";
-            ViewBag.getProdType = prodT;
-            ViewBag.getModName = modelN;
-            ViewBag.getFilter = filter;
+            var model = new AteOutputTopViewModel();
 
-            //Do this if product type was selected
-            if (prodT != "")
+            //set all the filter parameters: pordType, modelName, ser# ...
+            model.ateOutputModel.ParseFilter(filter);
+
+            //generate lists of prodType, modNames, serNums, tubeNames based on filter
+            model.ateOutputModel.GenerateLists();
+
+            //generate ate output based on filter
+            model.ateOutputModel.GenerateAteOutput();
+
+            return View(model);
+        }
+
+        //
+        // GET: /ateData/AteOutput/...
+        [HttpGet]
+        public ActionResult AteOutputDetail(string serNum = "")
+        {
+            var model = new AteOutputTopViewModel();
+            var tools = new ToolBox();
+
+            model.ateOutputModel.serialNum = serNum;
+
+            //make sure product type is set
+            model.ateOutputModel.productType = tools.getProdTypeFromSN(serNum);
+
+            if (model.ateOutputModel.GenerateAteOutputDetail())
             {
-                //limit model names related to product type only.
-                //model.modelNames(prodT);
-                model.searchModel.modelNames(prodT);
-
-                if (modelN != "")
-                {
-                    model.searchModel.getTubes(modelN);
-                    model.searchModel.parseFilter(filter);
-
-                    model.ateOutModel.generateAteOutput(prodT, modelN, model.searchModel.testType, model.searchModel.tubeName, model.searchModel.options);
-                }
+                return View(model);
             }
             else
             {
-                // get all product types and model names
-                model.searchModel.allProdTypesModelNames();
+                return View("Error");
             }
-
-            return View(model);
         }
 
         [HttpPost]
         public ActionResult Index(FormCollection value)
         {
-
             return View();
         }
     }

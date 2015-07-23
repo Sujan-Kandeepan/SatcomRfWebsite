@@ -140,6 +140,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AteOutputModel.cs" />
+    <Compile Include="Models\AteOutputTopViewModel.cs" />
     <Compile Include="Models\HomeModel.cs" />
     <Compile Include="Models\rfDb.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -289,7 +290,7 @@
     <Content Include="Views\testsData\Delete.cshtml" />
     <Content Include="Views\Shared\_Search.cshtml" />
     <Content Include="Views\ateData\AteOutput.cshtml" />
-    <Content Include="Views\products\Index.cshtml" />
+    <Content Include="Views\ateData\AteOutputDetail.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

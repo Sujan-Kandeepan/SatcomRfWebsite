@@ -27,8 +27,8 @@
                     <ul class='list-unstyled'>
                         <li class="col-md-1" align='left'><b>1</b></li>
                         <li class="col-md-2" align='left'><b>@Model.getProductType</b></li>
-                        <li class="col-md-3" align='left'><b><a href='~/ateData/AteOutput/@Model.getProductType/@Model.getModelName'>@Model.getLongModelName</a></b></li>
-                        <li class="col-md-2" align='left'><b>@Model.getSerialNum</b></li>
+                        <li class="col-md-3" align='left'><b>@Model.getLongModelName</b></li>
+                        <li class="col-md-2" align='left'><b><a href='~/ateData/AteOutputDetail/?serNum=@Model.getSerialNum'>@Model.getSerialNum</a></b></li>
                         <li class="col-md-4" align='left'><b>@Model.getLastTestDate</b></li>
                     </ul>
                 </div>
@@ -46,8 +46,8 @@
                         counter++;
                         <li class="col-md-1" align='left'><b>@counter</b></li>
                         <li class="col-md-2" align='left'><b>@product.Item1.ToString()</b></li>
-                        <li class="col-md-3" align='left'><b><a href='~/ateData/AteOutput/@product.Item1.ToString()/@Model.tools.getModelNameFromSN(product.Item3)'>@product.Item2.ToString()</a></b></li>
-                        <li class="col-md-2" align='left'><b>@product.Item3.ToString()</b></li>
+                        <li class="col-md-3" align='left'><b>@product.Item2.ToString()</b></li>
+                        <li class="col-md-2" align='left'><b><a href='~/ateData/AteOutputDetail/?serNum=@product.Item3.ToString()'>@product.Item3.ToString()</a></b></li>
                         <li class="col-md-4" align='left'><b>@product.Item4.ToString()</b></li>
                     }
                     </ul>
@@ -67,8 +67,8 @@
                         counter++;
                         <li class="col-md-1" align='left'><b>@counter</b></li>
                         <li class="col-md-2" align='left'><b>@product.Item1.ToString()</b></li>
-                        <li class="col-md-3" align='left'><b><a href='~/ateData/AteOutput/@product.Item1.ToString()/@Model.tools.getModelNameFromSN(product.Item3)'>@product.Item2.ToString()</a></b></li>
-                        <li class="col-md-2" align='left'><b>@product.Item3.ToString()</b></li>
+                        <li class="col-md-3" align='left'><b>@product.Item2.ToString()</b></li>
+                        <li class="col-md-2" align='left'><b><a href='~/ateData/AteOutputDetail/?serNum=@product.Item3.ToString()'>@product.Item3.ToString()</a></b></li>
                         <li class="col-md-4" align='left'><b>@product.Item4.ToString()</b></li>
                     }
                     </ul>
