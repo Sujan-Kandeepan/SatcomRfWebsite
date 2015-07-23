@@ -187,6 +187,10 @@ namespace SatcomRfWebsite.Models
          */
         public void GenerateLists()
         {
+            bool mN = false;
+            bool sN = false;
+            bool tN = false;
+
             var myQuery = (from prodTypes in db.tblProductTypes
                             join modNames in db.tblModelNames on prodTypes.ProductType equals modNames.ProductType
                             join serNums in db.tblSerialNumbers on modNames.ModelName equals serNums.ModelName
@@ -197,24 +201,28 @@ namespace SatcomRfWebsite.Models
                                          ateOut.ModelSN,
                                          ateOut.TubeName });
 
+
             if (this.productType != "" && this.productType != "na")
             {
                 myQuery = myQuery.Where(p => p.ProductType.Equals(this.productType));
-            }
+            } 
             
             if (this.modelName != "" && this.modelName != "na")
             {
                 myQuery = myQuery.Where(m => m.ModelName.Equals(this.modelName));
+                mN = true;
             }
 
             if (this.serialNum != "" && this.serialNum != "na")
             {
                 myQuery = myQuery.Where(s => s.ModelSN.Equals(this.serialNum));
+                sN = true;
             }
 
             if (this.tubeName != "" && this.tubeName != "na")
             {
                 myQuery = myQuery.Where(t => t.TubeName.Equals(this.tubeName));
+                tN = true;
             }
 
             string charSeperator = "";
@@ -245,11 +253,25 @@ namespace SatcomRfWebsite.Models
                 serialNumStrList += charSeperator + "'" + item.ModelSN + "'";
                 charSeperator = ",";
             }
+
+            //special case
+            // if no search parameter has been set then we want to generate
+            // complete list of prodcut types. This is so users can switch 
+            // between product types insted of select-delete-select
+            if (!mN && !sN && !tN)
+            {
+                prodList = db.tblProductTypes.Select(p => p.ProductType).ToList();
+            }
+            // the same for model name as above
+            if (!sN && !tN)
+            {
+                modelList = db.tblModelNames.Where(p => p.ProductType.Equals(this.productType)).Select(m => m.ModelName).ToList();
+            }
         }
 
         private void AddToList(ref List<string> myList, string item){
 
-            myList.Sort();
+            //myList.Sort();
             int index = myList.BinarySearch(item);
 
             if (index < 0)
