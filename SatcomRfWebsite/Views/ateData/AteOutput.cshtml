@@ -262,6 +262,7 @@
 		                delimiter: ',',
 		                persist: false,
 		                onChange: function (value) {
+		                    if (value == null) { value = "na"; }
 		                    if (document.URL.search("opt=") > -1) {
 		                        location.href = document.URL.replace(/opt=[a-zA-Z,]*/, "opt=" + value);
 		                    } else {

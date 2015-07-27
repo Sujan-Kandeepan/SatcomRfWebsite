@@ -187,6 +187,7 @@ namespace SatcomRfWebsite.Models
          */
         public void GenerateLists()
         {
+            bool pT = false;
             bool mN = false;
             bool sN = false;
             bool tN = false;
@@ -205,6 +206,7 @@ namespace SatcomRfWebsite.Models
             if (this.productType != "" && this.productType != "na")
             {
                 myQuery = myQuery.Where(p => p.ProductType.Equals(this.productType));
+                pT = true;
             } 
             
             if (this.modelName != "" && this.modelName != "na")
@@ -253,8 +255,10 @@ namespace SatcomRfWebsite.Models
                 serialNumStrList += charSeperator + "'" + item.ModelSN + "'";
                 charSeperator = ",";
             }
-
+            ////////////////////////////////////////////////////////////////////////////////
             //special case
+            ////////////////////////////////////////////////////////////////////////////////
+
             // if no search parameter has been set then we want to generate
             // complete list of prodcut types. This is so users can switch 
             // between product types insted of select-delete-select
@@ -263,7 +267,7 @@ namespace SatcomRfWebsite.Models
                 prodList = db.tblProductTypes.Select(p => p.ProductType).ToList();
             }
             // the same for model name as above
-            if (!sN && !tN)
+            if (pT && !sN && !tN)
             {
                 modelList = db.tblModelNames.Where(p => p.ProductType.Equals(this.productType)).Select(m => m.ModelName).ToList();
             }

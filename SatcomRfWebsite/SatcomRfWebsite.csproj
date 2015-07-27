@@ -170,7 +170,7 @@
     <Content Include="Content\jquery.dataTables_themeroller.css" />
     <Content Include="Content\selectize.css" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
+    <Content Include="Content\site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\html5shiv.js" />
