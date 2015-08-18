@@ -125,7 +125,7 @@ namespace SatcomRfWebsite.Models
                 myQuery = myQuery.Where(ateOut => ateOut.ModelSN.Equals(serialNum));
             }
             counter = myQuery.Count();
-            if (testType.Equals("") || testType.Equals("none"))
+            if (testType.Equals("") || testType.Equals("none") || testType.Equals("na"))
             {
                 myQuery = myQuery.Where(ateOut => ateOut.TestType.Contains("Production") ||
                                                     ateOut.TestType.Contains("Engineering") ||
