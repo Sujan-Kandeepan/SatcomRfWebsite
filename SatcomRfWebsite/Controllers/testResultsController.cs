@@ -31,7 +31,7 @@ namespace SatcomRfWebsite.Controllers
             //var model = new SearchModel();
             var testsModel = new TestResultsModel();
 
-            ViewBag.getResetPath = "/testsData/TestResults";
+            ViewBag.getResetPath = "testsData/TestResults";
             ViewBag.getProdType = prodT;
             ViewBag.getModName = modelN;
             ViewBag.getFilter = filter;

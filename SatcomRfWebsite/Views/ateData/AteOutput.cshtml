@@ -294,8 +294,8 @@
             });
 
             function resetFilter() {
-                //location.href = document.URL.replace(/\/testType=[a-zA-Z0-9=+,-]*/, "");
-                location.href = document.location.origin + "/SatcomRF/ateData/AteOutput";
+                //location.href = document.location.origin + "/ateData/AteOutput";
+                location.href = document.URL.replace(/AteOutput\?[a-zA-Z0-9=+,-\\%]*/, "AteOutput");
             }
         </script>
 
