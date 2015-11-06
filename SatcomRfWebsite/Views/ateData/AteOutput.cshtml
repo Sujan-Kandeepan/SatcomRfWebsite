@@ -3,7 +3,6 @@
 @{
     ViewBag.Title = "ATE Output data";
 }
-
 <div class="container">
 
     <div class="row"><h1>ATE Tests</h1></div>
@@ -29,7 +28,6 @@
 
     <div class="row">
         <div class="col-lg-2">
-
 			<select id="selectProductType" class="demo-default" placeholder="Product Types...">
 				<option value="">Product Types...</option>
 			@foreach (var itemProd in Model.ateOutputModel.prodList)
@@ -291,6 +289,17 @@
                     $('#filterReset').prop('disabled', false);
                     $('#filterApply').prop('disabled', false);
                 }
+
+                $("button").click(function () {
+                    //$("#filterReset").html('Please Wait');
+                    $body = $("body");
+                    $body.addClass("loading");
+                });
+            });
+
+            $(document).on({
+                //ajaxStart: function () { $body.addClass("loading"); },
+                //ajaxStop: function () { $body.removeClass("loading"); }
             });
 
             function resetFilter() {
@@ -301,6 +310,9 @@
 
         <div class="col-lg-10"></div>
     </div>
+
+
+    <!---------------------------- FILTER END ------------------------------>
 
     <div class="row"><hr /></div>
         <table id="table_id_1" class="display">
@@ -361,4 +373,5 @@
             });
         });
     </script>
+
 </div>

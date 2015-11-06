@@ -6,8 +6,6 @@
     int counter = 0;
 }
  
-
-
 @*section featured {*@
     <div class="row-fluid">
         <div class="jumbotron">
@@ -28,7 +26,7 @@
                         <li class="col-md-1" align='left'><b>1</b></li>
                         <li class="col-md-2" align='left'><b>@Model.getProductType</b></li>
                         <li class="col-md-3" align='left'><b>@Model.getLongModelName</b></li>
-                        <li class="col-md-2" align='left'><b><a href='~/ateData/AteOutputDetail/?serNum=@Model.getSerialNum'>@Model.getSerialNum</a></b></li>
+                        <li class="col-md-2" align='left'><b><a id='ser-@Model.getSerialNum' href='~/ateData/AteOutputDetail/?serNum=@Model.getSerialNum'>@Model.getSerialNum</a></b></li>
                         <li class="col-md-4" align='left'><b>@Model.getLastTestDate</b></li>
                     </ul>
                 </div>
@@ -47,7 +45,7 @@
                         <li class="col-md-1" align='left'><b>@counter</b></li>
                         <li class="col-md-2" align='left'><b>@product.Item1.ToString()</b></li>
                         <li class="col-md-3" align='left'><b>@product.Item2.ToString()</b></li>
-                        <li class="col-md-2" align='left'><b><a href='~/ateData/AteOutputDetail/?serNum=@product.Item3.ToString()'>@product.Item3.ToString()</a></b></li>
+                        <li class="col-md-2" align='left'><b><a id='ser-@product.Item3.ToString()' href='~/ateData/AteOutputDetail/?serNum=@product.Item3.ToString()'>@product.Item3.ToString()</a></b></li>
                         <li class="col-md-4" align='left'><b>@product.Item4.ToString()</b></li>
                     }
                     </ul>
@@ -68,7 +66,7 @@
                         <li class="col-md-1" align='left'><b>@counter</b></li>
                         <li class="col-md-2" align='left'><b>@product.Item1.ToString()</b></li>
                         <li class="col-md-3" align='left'><b>@product.Item2.ToString()</b></li>
-                        <li class="col-md-2" align='left'><b><a href='~/ateData/AteOutputDetail/?serNum=@product.Item3.ToString()'>@product.Item3.ToString()</a></b></li>
+                        <li class="col-md-2" align='left'><b><a id='ser-@product.Item3.ToString()' href='~/ateData/AteOutputDetail/?serNum=@product.Item3.ToString()'>@product.Item3.ToString()</a></b></li>
                         <li class="col-md-4" align='left'><b>@product.Item4.ToString()</b></li>
                     }
                     </ul>
@@ -77,6 +75,19 @@
         </div>
     </div>
 @*}*@
+
+<script>
+    $(document).ready(function () {
+        $("a[id^='ser-']").each(function () {
+            $(this).click(function () {
+                $body = $("body");
+                //addes class 'loading' from 'site.css'
+                $body.addClass("loading");
+            });
+        });
+    });
+</script>
+
 <!-- Example row of columns -->
 <div class="row">
   <!--<div class="col-md-4">

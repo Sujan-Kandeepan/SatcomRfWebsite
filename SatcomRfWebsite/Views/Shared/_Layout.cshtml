@@ -22,13 +22,26 @@
         <link rel="apple-touch-icon-precomposed" sizes="72x72" href="~/Content/ico/apple-touch-icon-72-precomposed.png">
         <link rel="apple-touch-icon-precomposed" href="~/Content/ico/apple-touch-icon-57-precomposed.png">
         <link href="~/Content/ico/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+
     </head>
     <body>
         <div class="container-fluid">
             <div class="span12">
                 @Html.Partial("_NavBar")
- 
+
                 @RenderSection("featured", required: false)
+
+                <script>
+                    $(document).ready(function () {
+                        $('#navBarAteOutput,#navBarTests,#navBarSerial').each(function () {
+                            $(this).click(function () {
+                                $body = $("body");
+                                //addes class 'loading' from 'site.css'
+                                $body.addClass("loading");
+                            });
+                        });
+                    });
+                </script>
  
                 <div class="container">
                     @RenderBody()
@@ -38,6 +51,7 @@
                     </div>
                 </div>
             </div>
+            <div class="modal"><!-- Wait loading animation --></div>
         </div>
  
         

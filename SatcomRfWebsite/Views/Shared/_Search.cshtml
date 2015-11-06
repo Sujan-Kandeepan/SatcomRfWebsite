@@ -123,6 +123,13 @@
                             }
 		                }
 		            });
+
+
+		            $("#selectModelName").change(function () {
+		                //$("#filterReset").html('Please Wait');
+		                $body = $("body");
+		                $body.addClass("loading");
+		            });
 		        });
                 
 		    </script>
@@ -289,6 +296,18 @@
                         $('#filterReset').prop('disabled', false);
                         $('#filterApply').prop('disabled', false);
                     }
+
+                    $("#filterReset").click(function () {
+                        //$("#filterReset").html('Please Wait');
+                        $body = $("body");
+                        $body.addClass("loading");
+                    });
+
+                    $("#filterApply").click(function () {
+                        //$("#filterReset").html('Please Wait');
+                        $body = $("body");
+                        $body.addClass("loading");
+                    });
                 });
 
                 function resetFilter() {

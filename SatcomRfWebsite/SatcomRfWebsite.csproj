@@ -159,6 +159,8 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Images\favicon.ico" />
+    <Content Include="Content\Images\loader1.gif" />
+    <Content Include="Content\Images\loader2.gif" />
     <Content Include="Content\Images\sort_asc.png" />
     <Content Include="Content\Images\sort_asc_disabled.png" />
     <Content Include="Content\Images\sort_both.png" />
