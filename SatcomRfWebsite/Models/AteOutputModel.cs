@@ -397,7 +397,17 @@ namespace SatcomRfWebsite.Models
                 var qTests = db.tblKLYTestResults.Where(x => x.ModelSN.Equals(this.serialNum));
                 foreach (var test in qTests)
                 {
-                    testResults.Add(new TestResults(test.id, test.ModelSN, test.StartTime, test.TestName, Regex.Replace(test.TestName, @"[\d-]", ""), test.Result, test.Units, test.LowLimit, test.UpLimit, test.PassFail, test.Channel, test.P1, test.P2, test.P3, test.P4, test.P5, test.P6, test.P7, test.P8, test.P9));
+                    //GainVariation1NB is the same as GainVariation1NBW
+                    if (test.TestName.Equals("GainVariation1NB"))
+                    {
+                        testResults.Add(new TestResults(test.id, test.ModelSN, test.StartTime, "GainVariation1NBW", "GainVariationNBW", test.Result, test.Units, test.LowLimit, test.UpLimit, test.PassFail, test.Channel, test.P1, test.P2, test.P3, test.P4, test.P5, test.P6, test.P7, test.P8, test.P9));
+                    }
+                    else
+                    {
+                        testResults.Add(new TestResults(test.id, test.ModelSN, test.StartTime, test.TestName, Regex.Replace(test.TestName, @"[\d-]", ""), test.Result, test.Units, test.LowLimit, test.UpLimit, test.PassFail, test.Channel, test.P1, test.P2, test.P3, test.P4, test.P5, test.P6, test.P7, test.P8, test.P9));
+                    }
+                    
+                    
                 }
             }
             else if (prodClass.isSSPA)
