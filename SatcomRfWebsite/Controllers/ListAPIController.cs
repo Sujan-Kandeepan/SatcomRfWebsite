@@ -148,12 +148,18 @@ namespace SatcomRfWebsite.Controllers
                 {
                     var tmp = new TestData();
                     var rawtmp = from val in i.Value.Results select Convert.ToDouble(val.Replace(":1",""));
+                    var longest = i.Value.Results.OrderByDescending(x => x.Length).First();
+                    int rounding = 15;
+                    if(longest.IndexOf(".") != -1)
+                    {
+                        rounding = longest.Length - longest.IndexOf(".") - 1;
+                    }
                     tmp.TestName = i.Value.TestName;
                     tmp.Unit = i.Value.Units;
                     tmp.Channel = i.Value.Channel;
                     tmp.MinResult = Convert.ToString(rawtmp.Min());
                     tmp.MaxResult = Convert.ToString(rawtmp.Max());
-                    tmp.AvgResult = Convert.ToString(Math.Round(rawtmp.Average(), 2));
+                    tmp.AvgResult = Convert.ToString(Math.Round(rawtmp.Average(), rounding));
                     data.Add(tmp);
                 }
 
