@@ -5,7 +5,7 @@
 }
 
 <div class="container">
-
+    <script>document.getElementById("rfdbpage").classList.add("active");</script>
     <div class="row"><h1>Search Test Results</h1></div>
     <div>@Html.Partial("../Shared/_Search")</div>
 
@@ -116,7 +116,6 @@
             @divClose
 
             <script>
-
                 $(document).ready(function () {
                     $('#table_id_@counter').DataTable({
                         "scrollX": true,

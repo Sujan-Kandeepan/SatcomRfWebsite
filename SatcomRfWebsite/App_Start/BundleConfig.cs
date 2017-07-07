@@ -25,6 +25,8 @@ namespace SatcomRfWebsite
                         "~/Scripts/selectize.js",
                         "~/Scripts/jquery.dataTables.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/js/SatcomStats").Include("~/Scripts/SatcomStats/Index.js"));
+
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
@@ -36,6 +38,10 @@ namespace SatcomRfWebsite
                 "~/Content/bootstrap.css",
                 "~/Content/selectize.css",
                 "~/Content/jquery.dataTables.css"));
+
+#if !DEBUG
+            BundleTable.EnableOptimizations = true;
+#endif
         }
     }
 }

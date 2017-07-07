@@ -1,22 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
   <!-- EF Runtime content -->
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="rfDbModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+    <Schema Namespace="rfDbModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityContainer Name="rfDbModelStoreContainer">
-          <EntitySet Name="tblATEOutput" EntityType="rfDbModel.Store.tblATEOutput" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="tblKLYTestParameters" EntityType="rfDbModel.Store.tblKLYTestParameters" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="tblKLYTestResults" EntityType="rfDbModel.Store.tblKLYTestResults" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="tblModelNames" EntityType="rfDbModel.Store.tblModelNames" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="tblMonitorData" EntityType="rfDbModel.Store.tblMonitorData" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="tblProductTypes" EntityType="rfDbModel.Store.tblProductTypes" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="tblSerialNumbers" EntityType="rfDbModel.Store.tblSerialNumbers" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="tblSSPATestParameters" EntityType="rfDbModel.Store.tblSSPATestParameters" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="tblSSPATestResults" EntityType="rfDbModel.Store.tblSSPATestResults" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="tblTWTTestParameters" EntityType="rfDbModel.Store.tblTWTTestParameters" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="tblTWTTestResults" EntityType="rfDbModel.Store.tblTWTTestResults" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="tblATEOutput" EntityType="rfDbModel.Store.tblATEOutput" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="tblKLYTestParameters" EntityType="rfDbModel.Store.tblKLYTestParameters" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="tblKLYTestResults" EntityType="rfDbModel.Store.tblKLYTestResults" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="tblModelNames" EntityType="rfDbModel.Store.tblModelNames" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="tblMonitorData" EntityType="rfDbModel.Store.tblMonitorData" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="tblProductTypes" EntityType="rfDbModel.Store.tblProductTypes" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="tblSerialNumbers" EntityType="rfDbModel.Store.tblSerialNumbers" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="tblSSPATestParameters" EntityType="rfDbModel.Store.tblSSPATestParameters" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="tblSSPATestResults" EntityType="rfDbModel.Store.tblSSPATestResults" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="tblTWTTestParameters" EntityType="rfDbModel.Store.tblTWTTestParameters" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="tblTWTTestResults" EntityType="rfDbModel.Store.tblTWTTestResults" store:Type="Tables" Schema="dbo" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
         </EntityContainer>
         <EntityType Name="tblATEOutput">
           <Key>
@@ -239,8 +239,8 @@
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="rfDbModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
-        <EntityContainer Name="rfDbEntities" annotation:LazyLoadingEnabled="true">
+      <Schema Namespace="rfDbModel" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2009/11/edm" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+        <EntityContainer Name="rfDbEntities" annotation:LazyLoadingEnabled="true" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
           <EntitySet Name="tblATEOutputs" EntityType="rfDbModel.tblATEOutput" />
           <EntitySet Name="tblKLYTestParameters" EntityType="rfDbModel.tblKLYTestParameter" />
           <EntitySet Name="tblKLYTestResults" EntityType="rfDbModel.tblKLYTestResult" />
@@ -259,7 +259,7 @@
             <PropertyRef Name="ModelSN" />
             <PropertyRef Name="StartTime" />
           </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Name="ModelSN" Type="String" Nullable="false" MaxLength="25" Unicode="true" FixedLength="false" />
           <Property Name="StartTime" Type="DateTime" Nullable="false" />
           <Property Name="SalesOrder" Type="String" Nullable="false" MaxLength="40" Unicode="true" FixedLength="false" />
@@ -295,7 +295,7 @@
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Name="TestName" Type="String" Nullable="false" MaxLength="30" Unicode="true" FixedLength="false" />
           <Property Name="P1" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
           <Property Name="P2" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
@@ -314,7 +314,7 @@
             <PropertyRef Name="ModelSN" />
             <PropertyRef Name="StartTime" />
           </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Name="ModelSN" Type="String" Nullable="false" MaxLength="25" Unicode="true" FixedLength="false" />
           <Property Name="StartTime" Type="DateTime" Nullable="false" />
           <Property Name="TestName" Type="String" Nullable="false" MaxLength="30" Unicode="true" FixedLength="false" />
@@ -339,7 +339,7 @@
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Name="ModelName" Type="String" Nullable="false" MaxLength="20" Unicode="true" FixedLength="false" />
           <Property Name="ProductType" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="false" />
         </EntityType>
@@ -347,7 +347,7 @@
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Name="ModelSN" Type="String" Nullable="false" MaxLength="25" Unicode="true" FixedLength="false" />
           <Property Name="StartTime" Type="DateTime" Nullable="false" />
           <Property Name="Frequency" Type="Decimal" Nullable="false" Precision="11" Scale="4" />
@@ -359,14 +359,14 @@
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Name="ProductType" Type="String" Nullable="false" MaxLength="10" Unicode="true" FixedLength="false" />
         </EntityType>
         <EntityType Name="tblSerialNumber">
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Name="ModelSN" Type="String" Nullable="false" MaxLength="25" Unicode="true" FixedLength="false" />
           <Property Name="ModelName" Type="String" Nullable="false" MaxLength="20" Unicode="true" FixedLength="false" />
         </EntityType>
@@ -374,7 +374,7 @@
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Name="TestName" Type="String" Nullable="false" MaxLength="30" Unicode="true" FixedLength="false" />
           <Property Name="P1" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
           <Property Name="P2" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
@@ -393,7 +393,7 @@
             <PropertyRef Name="ModelSN" />
             <PropertyRef Name="StartTime" />
           </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Name="ModelSN" Type="String" Nullable="false" MaxLength="25" Unicode="true" FixedLength="false" />
           <Property Name="StartTime" Type="DateTime" Nullable="false" />
           <Property Name="TestName" Type="String" Nullable="false" MaxLength="30" Unicode="true" FixedLength="false" />
@@ -418,7 +418,7 @@
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Name="TestName" Type="String" Nullable="false" MaxLength="30" Unicode="true" FixedLength="false" />
           <Property Name="P1" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
           <Property Name="P2" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
@@ -437,7 +437,7 @@
             <PropertyRef Name="ModelSN" />
             <PropertyRef Name="StartTime" />
           </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Name="ModelSN" Type="String" Nullable="false" MaxLength="25" Unicode="true" FixedLength="false" />
           <Property Name="StartTime" Type="DateTime" Nullable="false" />
           <Property Name="TestName" Type="String" Nullable="false" MaxLength="30" Unicode="true" FixedLength="false" />
@@ -462,7 +462,7 @@
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
-      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="rfDbModelStoreContainer" CdmEntityContainer="rfDbEntities">
           <EntitySetMapping Name="tblATEOutputs">
             <EntityTypeMapping TypeName="rfDbModel.tblATEOutput">
@@ -677,34 +677,34 @@
     </edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
-  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
-    <Connection>
-      <DesignerInfoPropertySet>
-        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
-      </DesignerInfoPropertySet>
-    </Connection>
-    <Options>
-      <DesignerInfoPropertySet>
-        <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="True" />
-        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
-      </DesignerInfoPropertySet>
-    </Options>
+  <edmx:Designer>
+    <edmx:Connection>
+      <edmx:DesignerInfoPropertySet>
+        <edmx:DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </edmx:DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <edmx:DesignerInfoPropertySet>
+        <edmx:DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <edmx:DesignerProperty Name="EnablePluralization" Value="True" />
+        <edmx:DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </edmx:DesignerInfoPropertySet>
+    </edmx:Options>
     <!-- Diagram content (shape and connector positions) -->
-    <Diagrams>
-      <Diagram Name="rfDb" ZoomLevel="96">
-        <EntityTypeShape EntityType="rfDbModel.tblATEOutput" Width="1.875" PointX="4.375" PointY="0.5" Height="6.4032194010416656" IsExpanded="true" />
-        <EntityTypeShape EntityType="rfDbModel.tblKLYTestParameter" Width="1.75" PointX="6.75" PointY="5.75" Height="3.3263964843749996" IsExpanded="true" />
-        <EntityTypeShape EntityType="rfDbModel.tblKLYTestResult" Width="1.75" PointX="6.75" PointY="0.5" Height="4.8648079427083326" IsExpanded="true" />
-        <EntityTypeShape EntityType="rfDbModel.tblModelName" Width="1.5" PointX="0.5" PointY="2.5" Height="1.5956835937499996" IsExpanded="true" />
-        <EntityTypeShape EntityType="rfDbModel.tblMonitorData" Width="1.5" PointX="2.5" PointY="0.5" Height="2.3648893229166656" IsExpanded="true" />
-        <EntityTypeShape EntityType="rfDbModel.tblProductType" Width="1.5" PointX="0.5" PointY="0.5" Height="1.4033821614583322" IsExpanded="true" />
-        <EntityTypeShape EntityType="rfDbModel.tblSerialNumber" Width="1.5" PointX="0.5" PointY="4.875" Height="1.5956835937499996" IsExpanded="true" />
-        <EntityTypeShape EntityType="rfDbModel.tblSSPATestParameter" Width="1.875" PointX="8.75" PointY="5.75" Height="3.3263964843749996" IsExpanded="true" />
-        <EntityTypeShape EntityType="rfDbModel.tblSSPATestResult" Width="1.875" PointX="8.75" PointY="0.5" Height="4.8648079427083353" IsExpanded="true" />
-        <EntityTypeShape EntityType="rfDbModel.tblTWTTestParameter" Width="2.125" PointX="10.875" PointY="5.75" Height="3.3263964843750031" IsExpanded="true" />
-        <EntityTypeShape EntityType="rfDbModel.tblTWTTestResult" Width="2" PointX="10.875" PointY="0.5" Height="4.8648079427083317" IsExpanded="true" />
-      </Diagram>
-    </Diagrams>
-  </Designer>
+    <edmx:Diagrams>
+      <edmx:Diagram Name="rfDb" ZoomLevel="96">
+        <edmx:EntityTypeShape EntityType="rfDbModel.tblATEOutput" Width="1.875" PointX="4.375" PointY="0.5" Height="6.4032194010416656" IsExpanded="true" />
+        <edmx:EntityTypeShape EntityType="rfDbModel.tblKLYTestParameter" Width="1.75" PointX="6.75" PointY="5.75" Height="3.3263964843749996" IsExpanded="true" />
+        <edmx:EntityTypeShape EntityType="rfDbModel.tblKLYTestResult" Width="1.75" PointX="6.75" PointY="0.5" Height="4.8648079427083326" IsExpanded="true" />
+        <edmx:EntityTypeShape EntityType="rfDbModel.tblModelName" Width="1.5" PointX="0.5" PointY="2.5" Height="1.5956835937499996" IsExpanded="true" />
+        <edmx:EntityTypeShape EntityType="rfDbModel.tblMonitorData" Width="1.5" PointX="2.5" PointY="0.5" Height="2.3648893229166656" IsExpanded="true" />
+        <edmx:EntityTypeShape EntityType="rfDbModel.tblProductType" Width="1.5" PointX="0.5" PointY="0.5" Height="1.4033821614583322" IsExpanded="true" />
+        <edmx:EntityTypeShape EntityType="rfDbModel.tblSerialNumber" Width="1.5" PointX="0.5" PointY="4.875" Height="1.5956835937499996" IsExpanded="true" />
+        <edmx:EntityTypeShape EntityType="rfDbModel.tblSSPATestParameter" Width="1.875" PointX="8.75" PointY="5.75" Height="3.3263964843749996" IsExpanded="true" />
+        <edmx:EntityTypeShape EntityType="rfDbModel.tblSSPATestResult" Width="1.875" PointX="8.75" PointY="0.5" Height="4.8648079427083353" IsExpanded="true" />
+        <edmx:EntityTypeShape EntityType="rfDbModel.tblTWTTestParameter" Width="2.125" PointX="10.875" PointY="5.75" Height="3.3263964843750031" IsExpanded="true" />
+        <edmx:EntityTypeShape EntityType="rfDbModel.tblTWTTestResult" Width="2" PointX="10.875" PointY="0.5" Height="4.8648079427083317" IsExpanded="true" />
+      </edmx:Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
 </edmx:Edmx>

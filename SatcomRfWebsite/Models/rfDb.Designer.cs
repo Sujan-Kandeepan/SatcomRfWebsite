@@ -8,19 +8,16 @@
 //------------------------------------------------------------------------------
 
 using System;
-using System.ComponentModel;
-using System.Data.EntityClient;
-using System.Data.Objects;
-using System.Data.Objects.DataClasses;
-using System.Linq;
+using System.Data.Entity.Core.Objects;
+using System.Data.Entity.Core.EntityClient;
+using System.Data.Entity.Core.Objects.DataClasses;
 using System.Runtime.Serialization;
-using System.Xml.Serialization;
 
 [assembly: EdmSchemaAttribute()]
 namespace SatcomRfWebsite.Models
 {
     #region Contexts
-    
+
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
@@ -386,7 +383,7 @@ namespace SatcomRfWebsite.Models
 
         #endregion
 
-        #region Primitive Properties
+        #region Simple Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -405,7 +402,7 @@ namespace SatcomRfWebsite.Models
                 {
                     OnidChanging(value);
                     ReportPropertyChanging("id");
-                    _id = StructuralObject.SetValidValue(value);
+                    _id = StructuralObject.SetValidValue(value, "id");
                     ReportPropertyChanged("id");
                     OnidChanged();
                 }
@@ -432,7 +429,7 @@ namespace SatcomRfWebsite.Models
                 {
                     OnModelSNChanging(value);
                     ReportPropertyChanging("ModelSN");
-                    _ModelSN = StructuralObject.SetValidValue(value, false);
+                    _ModelSN = StructuralObject.SetValidValue(value, false, "ModelSN");
                     ReportPropertyChanged("ModelSN");
                     OnModelSNChanged();
                 }
@@ -459,7 +456,7 @@ namespace SatcomRfWebsite.Models
                 {
                     OnStartTimeChanging(value);
                     ReportPropertyChanging("StartTime");
-                    _StartTime = StructuralObject.SetValidValue(value);
+                    _StartTime = StructuralObject.SetValidValue(value, "StartTime");
                     ReportPropertyChanged("StartTime");
                     OnStartTimeChanged();
                 }
@@ -484,7 +481,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnSalesOrderChanging(value);
                 ReportPropertyChanging("SalesOrder");
-                _SalesOrder = StructuralObject.SetValidValue(value, false);
+                _SalesOrder = StructuralObject.SetValidValue(value, false, "SalesOrder");
                 ReportPropertyChanged("SalesOrder");
                 OnSalesOrderChanged();
             }
@@ -508,7 +505,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnTestPlanChanging(value);
                 ReportPropertyChanging("TestPlan");
-                _TestPlan = StructuralObject.SetValidValue(value, false);
+                _TestPlan = StructuralObject.SetValidValue(value, false, "TestPlan");
                 ReportPropertyChanged("TestPlan");
                 OnTestPlanChanged();
             }
@@ -532,7 +529,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnTestTypeChanging(value);
                 ReportPropertyChanging("TestType");
-                _TestType = StructuralObject.SetValidValue(value, false);
+                _TestType = StructuralObject.SetValidValue(value, false, "TestType");
                 ReportPropertyChanged("TestType");
                 OnTestTypeChanged();
             }
@@ -556,7 +553,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnTPRevChanging(value);
                 ReportPropertyChanging("TPRev");
-                _TPRev = StructuralObject.SetValidValue(value, true);
+                _TPRev = StructuralObject.SetValidValue(value, true, "TPRev");
                 ReportPropertyChanged("TPRev");
                 OnTPRevChanged();
             }
@@ -580,7 +577,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnAuditChanging(value);
                 ReportPropertyChanging("Audit");
-                _Audit = StructuralObject.SetValidValue(value);
+                _Audit = StructuralObject.SetValidValue(value, "Audit");
                 ReportPropertyChanged("Audit");
                 OnAuditChanged();
             }
@@ -604,7 +601,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnItarChanging(value);
                 ReportPropertyChanging("Itar");
-                _Itar = StructuralObject.SetValidValue(value);
+                _Itar = StructuralObject.SetValidValue(value, "Itar");
                 ReportPropertyChanged("Itar");
                 OnItarChanged();
             }
@@ -628,7 +625,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnRackNumChanging(value);
                 ReportPropertyChanging("RackNum");
-                _RackNum = StructuralObject.SetValidValue(value, false);
+                _RackNum = StructuralObject.SetValidValue(value, false, "RackNum");
                 ReportPropertyChanged("RackNum");
                 OnRackNumChanged();
             }
@@ -652,7 +649,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnUserNameChanging(value);
                 ReportPropertyChanging("UserName");
-                _UserName = StructuralObject.SetValidValue(value, false);
+                _UserName = StructuralObject.SetValidValue(value, false, "UserName");
                 ReportPropertyChanged("UserName");
                 OnUserNameChanged();
             }
@@ -676,7 +673,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnLongModelNameChanging(value);
                 ReportPropertyChanging("LongModelName");
-                _LongModelName = StructuralObject.SetValidValue(value, false);
+                _LongModelName = StructuralObject.SetValidValue(value, false, "LongModelName");
                 ReportPropertyChanged("LongModelName");
                 OnLongModelNameChanged();
             }
@@ -700,7 +697,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnTubeSNChanging(value);
                 ReportPropertyChanging("TubeSN");
-                _TubeSN = StructuralObject.SetValidValue(value, false);
+                _TubeSN = StructuralObject.SetValidValue(value, false, "TubeSN");
                 ReportPropertyChanged("TubeSN");
                 OnTubeSNChanged();
             }
@@ -724,7 +721,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnTubeNameChanging(value);
                 ReportPropertyChanging("TubeName");
-                _TubeName = StructuralObject.SetValidValue(value, true);
+                _TubeName = StructuralObject.SetValidValue(value, true, "TubeName");
                 ReportPropertyChanged("TubeName");
                 OnTubeNameChanged();
             }
@@ -748,7 +745,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnMainRevisionChanging(value);
                 ReportPropertyChanging("MainRevision");
-                _MainRevision = StructuralObject.SetValidValue(value, true);
+                _MainRevision = StructuralObject.SetValidValue(value, true, "MainRevision");
                 ReportPropertyChanged("MainRevision");
                 OnMainRevisionChanged();
             }
@@ -772,7 +769,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnSsaSNChanging(value);
                 ReportPropertyChanging("SsaSN");
-                _SsaSN = StructuralObject.SetValidValue(value, true);
+                _SsaSN = StructuralObject.SetValidValue(value, true, "SsaSN");
                 ReportPropertyChanged("SsaSN");
                 OnSsaSNChanged();
             }
@@ -796,7 +793,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnLinSNChanging(value);
                 ReportPropertyChanging("LinSN");
-                _LinSN = StructuralObject.SetValidValue(value, true);
+                _LinSN = StructuralObject.SetValidValue(value, true, "LinSN");
                 ReportPropertyChanged("LinSN");
                 OnLinSNChanged();
             }
@@ -820,7 +817,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnLipaSNChanging(value);
                 ReportPropertyChanging("LipaSN");
-                _LipaSN = StructuralObject.SetValidValue(value, true);
+                _LipaSN = StructuralObject.SetValidValue(value, true, "LipaSN");
                 ReportPropertyChanged("LipaSN");
                 OnLipaSNChanged();
             }
@@ -844,7 +841,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnLinGainChanging(value);
                 ReportPropertyChanging("LinGain");
-                _LinGain = StructuralObject.SetValidValue(value);
+                _LinGain = StructuralObject.SetValidValue(value, "LinGain");
                 ReportPropertyChanged("LinGain");
                 OnLinGainChanged();
             }
@@ -868,7 +865,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnLinGainOffsetChanging(value);
                 ReportPropertyChanging("LinGainOffset");
-                _LinGainOffset = StructuralObject.SetValidValue(value);
+                _LinGainOffset = StructuralObject.SetValidValue(value, "LinGainOffset");
                 ReportPropertyChanged("LinGainOffset");
                 OnLinGainOffsetChanged();
             }
@@ -892,7 +889,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnLinPhaseChanging(value);
                 ReportPropertyChanging("LinPhase");
-                _LinPhase = StructuralObject.SetValidValue(value);
+                _LinPhase = StructuralObject.SetValidValue(value, "LinPhase");
                 ReportPropertyChanged("LinPhase");
                 OnLinPhaseChanged();
             }
@@ -916,7 +913,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnLinPhaseOffsetChanging(value);
                 ReportPropertyChanging("LinPhaseOffset");
-                _LinPhaseOffset = StructuralObject.SetValidValue(value);
+                _LinPhaseOffset = StructuralObject.SetValidValue(value, "LinPhaseOffset");
                 ReportPropertyChanged("LinPhaseOffset");
                 OnLinPhaseOffsetChanged();
             }
@@ -940,7 +937,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnLinMagChanging(value);
                 ReportPropertyChanging("LinMag");
-                _LinMag = StructuralObject.SetValidValue(value);
+                _LinMag = StructuralObject.SetValidValue(value, "LinMag");
                 ReportPropertyChanged("LinMag");
                 OnLinMagChanged();
             }
@@ -964,7 +961,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnLinMagOffsetChanging(value);
                 ReportPropertyChanging("LinMagOffset");
-                _LinMagOffset = StructuralObject.SetValidValue(value);
+                _LinMagOffset = StructuralObject.SetValidValue(value, "LinMagOffset");
                 ReportPropertyChanged("LinMagOffset");
                 OnLinMagOffsetChanged();
             }
@@ -988,7 +985,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnLineVoltageChanging(value);
                 ReportPropertyChanging("LineVoltage");
-                _LineVoltage = StructuralObject.SetValidValue(value);
+                _LineVoltage = StructuralObject.SetValidValue(value, "LineVoltage");
                 ReportPropertyChanged("LineVoltage");
                 OnLineVoltageChanged();
             }
@@ -1012,7 +1009,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnLineFrequencyChanging(value);
                 ReportPropertyChanging("LineFrequency");
-                _LineFrequency = StructuralObject.SetValidValue(value);
+                _LineFrequency = StructuralObject.SetValidValue(value, "LineFrequency");
                 ReportPropertyChanged("LineFrequency");
                 OnLineFrequencyChanged();
             }
@@ -1036,7 +1033,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnIPChanging(value);
                 ReportPropertyChanging("IP");
-                _IP = StructuralObject.SetValidValue(value, true);
+                _IP = StructuralObject.SetValidValue(value, true, "IP");
                 ReportPropertyChanged("IP");
                 OnIPChanged();
             }
@@ -1060,7 +1057,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnMACChanging(value);
                 ReportPropertyChanging("MAC");
-                _MAC = StructuralObject.SetValidValue(value, true);
+                _MAC = StructuralObject.SetValidValue(value, true, "MAC");
                 ReportPropertyChanged("MAC");
                 OnMACChanged();
             }
@@ -1084,7 +1081,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnBucSNChanging(value);
                 ReportPropertyChanging("BucSN");
-                _BucSN = StructuralObject.SetValidValue(value, true);
+                _BucSN = StructuralObject.SetValidValue(value, true, "BucSN");
                 ReportPropertyChanged("BucSN");
                 OnBucSNChanged();
             }
@@ -1108,7 +1105,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnBipaSNChanging(value);
                 ReportPropertyChanging("BipaSN");
-                _BipaSN = StructuralObject.SetValidValue(value, true);
+                _BipaSN = StructuralObject.SetValidValue(value, true, "BipaSN");
                 ReportPropertyChanged("BipaSN");
                 OnBipaSNChanged();
             }
@@ -1132,7 +1129,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnBlipaSNChanging(value);
                 ReportPropertyChanging("BlipaSN");
-                _BlipaSN = StructuralObject.SetValidValue(value, true);
+                _BlipaSN = StructuralObject.SetValidValue(value, true, "BlipaSN");
                 ReportPropertyChanged("BlipaSN");
                 OnBlipaSNChanged();
             }
@@ -1143,7 +1140,6 @@ namespace SatcomRfWebsite.Models
 
         #endregion
 
-    
     }
     
     /// <summary>
@@ -1171,7 +1167,7 @@ namespace SatcomRfWebsite.Models
 
         #endregion
 
-        #region Primitive Properties
+        #region Simple Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -1190,7 +1186,7 @@ namespace SatcomRfWebsite.Models
                 {
                     OnidChanging(value);
                     ReportPropertyChanging("id");
-                    _id = StructuralObject.SetValidValue(value);
+                    _id = StructuralObject.SetValidValue(value, "id");
                     ReportPropertyChanged("id");
                     OnidChanged();
                 }
@@ -1215,7 +1211,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnTestNameChanging(value);
                 ReportPropertyChanging("TestName");
-                _TestName = StructuralObject.SetValidValue(value, false);
+                _TestName = StructuralObject.SetValidValue(value, false, "TestName");
                 ReportPropertyChanged("TestName");
                 OnTestNameChanged();
             }
@@ -1239,7 +1235,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnP1Changing(value);
                 ReportPropertyChanging("P1");
-                _P1 = StructuralObject.SetValidValue(value, true);
+                _P1 = StructuralObject.SetValidValue(value, true, "P1");
                 ReportPropertyChanged("P1");
                 OnP1Changed();
             }
@@ -1263,7 +1259,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnP2Changing(value);
                 ReportPropertyChanging("P2");
-                _P2 = StructuralObject.SetValidValue(value, true);
+                _P2 = StructuralObject.SetValidValue(value, true, "P2");
                 ReportPropertyChanged("P2");
                 OnP2Changed();
             }
@@ -1287,7 +1283,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnP3Changing(value);
                 ReportPropertyChanging("P3");
-                _P3 = StructuralObject.SetValidValue(value, true);
+                _P3 = StructuralObject.SetValidValue(value, true, "P3");
                 ReportPropertyChanged("P3");
                 OnP3Changed();
             }
@@ -1311,7 +1307,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnP4Changing(value);
                 ReportPropertyChanging("P4");
-                _P4 = StructuralObject.SetValidValue(value, true);
+                _P4 = StructuralObject.SetValidValue(value, true, "P4");
                 ReportPropertyChanged("P4");
                 OnP4Changed();
             }
@@ -1335,7 +1331,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnP5Changing(value);
                 ReportPropertyChanging("P5");
-                _P5 = StructuralObject.SetValidValue(value, true);
+                _P5 = StructuralObject.SetValidValue(value, true, "P5");
                 ReportPropertyChanged("P5");
                 OnP5Changed();
             }
@@ -1359,7 +1355,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnP6Changing(value);
                 ReportPropertyChanging("P6");
-                _P6 = StructuralObject.SetValidValue(value, true);
+                _P6 = StructuralObject.SetValidValue(value, true, "P6");
                 ReportPropertyChanged("P6");
                 OnP6Changed();
             }
@@ -1383,7 +1379,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnP7Changing(value);
                 ReportPropertyChanging("P7");
-                _P7 = StructuralObject.SetValidValue(value, true);
+                _P7 = StructuralObject.SetValidValue(value, true, "P7");
                 ReportPropertyChanged("P7");
                 OnP7Changed();
             }
@@ -1407,7 +1403,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnP8Changing(value);
                 ReportPropertyChanging("P8");
-                _P8 = StructuralObject.SetValidValue(value, true);
+                _P8 = StructuralObject.SetValidValue(value, true, "P8");
                 ReportPropertyChanged("P8");
                 OnP8Changed();
             }
@@ -1431,7 +1427,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnP9Changing(value);
                 ReportPropertyChanging("P9");
-                _P9 = StructuralObject.SetValidValue(value, true);
+                _P9 = StructuralObject.SetValidValue(value, true, "P9");
                 ReportPropertyChanged("P9");
                 OnP9Changed();
             }
@@ -1455,7 +1451,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnP10Changing(value);
                 ReportPropertyChanging("P10");
-                _P10 = StructuralObject.SetValidValue(value, true);
+                _P10 = StructuralObject.SetValidValue(value, true, "P10");
                 ReportPropertyChanged("P10");
                 OnP10Changed();
             }
@@ -1466,7 +1462,6 @@ namespace SatcomRfWebsite.Models
 
         #endregion
 
-    
     }
     
     /// <summary>
@@ -1500,7 +1495,7 @@ namespace SatcomRfWebsite.Models
 
         #endregion
 
-        #region Primitive Properties
+        #region Simple Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -1519,7 +1514,7 @@ namespace SatcomRfWebsite.Models
                 {
                     OnidChanging(value);
                     ReportPropertyChanging("id");
-                    _id = StructuralObject.SetValidValue(value);
+                    _id = StructuralObject.SetValidValue(value, "id");
                     ReportPropertyChanged("id");
                     OnidChanged();
                 }
@@ -1546,7 +1541,7 @@ namespace SatcomRfWebsite.Models
                 {
                     OnModelSNChanging(value);
                     ReportPropertyChanging("ModelSN");
-                    _ModelSN = StructuralObject.SetValidValue(value, false);
+                    _ModelSN = StructuralObject.SetValidValue(value, false, "ModelSN");
                     ReportPropertyChanged("ModelSN");
                     OnModelSNChanged();
                 }
@@ -1573,7 +1568,7 @@ namespace SatcomRfWebsite.Models
                 {
                     OnStartTimeChanging(value);
                     ReportPropertyChanging("StartTime");
-                    _StartTime = StructuralObject.SetValidValue(value);
+                    _StartTime = StructuralObject.SetValidValue(value, "StartTime");
                     ReportPropertyChanged("StartTime");
                     OnStartTimeChanged();
                 }
@@ -1598,7 +1593,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnTestNameChanging(value);
                 ReportPropertyChanging("TestName");
-                _TestName = StructuralObject.SetValidValue(value, false);
+                _TestName = StructuralObject.SetValidValue(value, false, "TestName");
                 ReportPropertyChanged("TestName");
                 OnTestNameChanged();
             }
@@ -1622,7 +1617,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnResultChanging(value);
                 ReportPropertyChanging("Result");
-                _Result = StructuralObject.SetValidValue(value, true);
+                _Result = StructuralObject.SetValidValue(value, true, "Result");
                 ReportPropertyChanged("Result");
                 OnResultChanged();
             }
@@ -1646,7 +1641,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnUnitsChanging(value);
                 ReportPropertyChanging("Units");
-                _Units = StructuralObject.SetValidValue(value, true);
+                _Units = StructuralObject.SetValidValue(value, true, "Units");
                 ReportPropertyChanged("Units");
                 OnUnitsChanged();
             }
@@ -1670,7 +1665,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnLowLimitChanging(value);
                 ReportPropertyChanging("LowLimit");
-                _LowLimit = StructuralObject.SetValidValue(value, true);
+                _LowLimit = StructuralObject.SetValidValue(value, true, "LowLimit");
                 ReportPropertyChanged("LowLimit");
                 OnLowLimitChanged();
             }
@@ -1694,7 +1689,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnUpLimitChanging(value);
                 ReportPropertyChanging("UpLimit");
-                _UpLimit = StructuralObject.SetValidValue(value, true);
+                _UpLimit = StructuralObject.SetValidValue(value, true, "UpLimit");
                 ReportPropertyChanged("UpLimit");
                 OnUpLimitChanged();
             }
@@ -1718,7 +1713,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnPassFailChanging(value);
                 ReportPropertyChanging("PassFail");
-                _PassFail = StructuralObject.SetValidValue(value);
+                _PassFail = StructuralObject.SetValidValue(value, "PassFail");
                 ReportPropertyChanged("PassFail");
                 OnPassFailChanged();
             }
@@ -1742,7 +1737,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnChannelChanging(value);
                 ReportPropertyChanging("Channel");
-                _Channel = StructuralObject.SetValidValue(value, true);
+                _Channel = StructuralObject.SetValidValue(value, true, "Channel");
                 ReportPropertyChanged("Channel");
                 OnChannelChanged();
             }
@@ -1766,7 +1761,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnP1Changing(value);
                 ReportPropertyChanging("P1");
-                _P1 = StructuralObject.SetValidValue(value, true);
+                _P1 = StructuralObject.SetValidValue(value, true, "P1");
                 ReportPropertyChanged("P1");
                 OnP1Changed();
             }
@@ -1790,7 +1785,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnP2Changing(value);
                 ReportPropertyChanging("P2");
-                _P2 = StructuralObject.SetValidValue(value, true);
+                _P2 = StructuralObject.SetValidValue(value, true, "P2");
                 ReportPropertyChanged("P2");
                 OnP2Changed();
             }
@@ -1814,7 +1809,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnP3Changing(value);
                 ReportPropertyChanging("P3");
-                _P3 = StructuralObject.SetValidValue(value, true);
+                _P3 = StructuralObject.SetValidValue(value, true, "P3");
                 ReportPropertyChanged("P3");
                 OnP3Changed();
             }
@@ -1838,7 +1833,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnP4Changing(value);
                 ReportPropertyChanging("P4");
-                _P4 = StructuralObject.SetValidValue(value, true);
+                _P4 = StructuralObject.SetValidValue(value, true, "P4");
                 ReportPropertyChanged("P4");
                 OnP4Changed();
             }
@@ -1862,7 +1857,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnP5Changing(value);
                 ReportPropertyChanging("P5");
-                _P5 = StructuralObject.SetValidValue(value, true);
+                _P5 = StructuralObject.SetValidValue(value, true, "P5");
                 ReportPropertyChanged("P5");
                 OnP5Changed();
             }
@@ -1886,7 +1881,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnP6Changing(value);
                 ReportPropertyChanging("P6");
-                _P6 = StructuralObject.SetValidValue(value, true);
+                _P6 = StructuralObject.SetValidValue(value, true, "P6");
                 ReportPropertyChanged("P6");
                 OnP6Changed();
             }
@@ -1910,7 +1905,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnP7Changing(value);
                 ReportPropertyChanging("P7");
-                _P7 = StructuralObject.SetValidValue(value, true);
+                _P7 = StructuralObject.SetValidValue(value, true, "P7");
                 ReportPropertyChanged("P7");
                 OnP7Changed();
             }
@@ -1934,7 +1929,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnP8Changing(value);
                 ReportPropertyChanging("P8");
-                _P8 = StructuralObject.SetValidValue(value, true);
+                _P8 = StructuralObject.SetValidValue(value, true, "P8");
                 ReportPropertyChanged("P8");
                 OnP8Changed();
             }
@@ -1958,7 +1953,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnP9Changing(value);
                 ReportPropertyChanging("P9");
-                _P9 = StructuralObject.SetValidValue(value, true);
+                _P9 = StructuralObject.SetValidValue(value, true, "P9");
                 ReportPropertyChanged("P9");
                 OnP9Changed();
             }
@@ -1982,7 +1977,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnP10Changing(value);
                 ReportPropertyChanging("P10");
-                _P10 = StructuralObject.SetValidValue(value, true);
+                _P10 = StructuralObject.SetValidValue(value, true, "P10");
                 ReportPropertyChanged("P10");
                 OnP10Changed();
             }
@@ -1993,7 +1988,6 @@ namespace SatcomRfWebsite.Models
 
         #endregion
 
-    
     }
     
     /// <summary>
@@ -2023,7 +2017,7 @@ namespace SatcomRfWebsite.Models
 
         #endregion
 
-        #region Primitive Properties
+        #region Simple Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -2042,7 +2036,7 @@ namespace SatcomRfWebsite.Models
                 {
                     OnidChanging(value);
                     ReportPropertyChanging("id");
-                    _id = StructuralObject.SetValidValue(value);
+                    _id = StructuralObject.SetValidValue(value, "id");
                     ReportPropertyChanged("id");
                     OnidChanged();
                 }
@@ -2067,7 +2061,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnModelNameChanging(value);
                 ReportPropertyChanging("ModelName");
-                _ModelName = StructuralObject.SetValidValue(value, false);
+                _ModelName = StructuralObject.SetValidValue(value, false, "ModelName");
                 ReportPropertyChanged("ModelName");
                 OnModelNameChanged();
             }
@@ -2091,7 +2085,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnProductTypeChanging(value);
                 ReportPropertyChanging("ProductType");
-                _ProductType = StructuralObject.SetValidValue(value, false);
+                _ProductType = StructuralObject.SetValidValue(value, false, "ProductType");
                 ReportPropertyChanged("ProductType");
                 OnProductTypeChanged();
             }
@@ -2102,7 +2096,6 @@ namespace SatcomRfWebsite.Models
 
         #endregion
 
-    
     }
     
     /// <summary>
@@ -2136,7 +2129,7 @@ namespace SatcomRfWebsite.Models
 
         #endregion
 
-        #region Primitive Properties
+        #region Simple Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -2155,7 +2148,7 @@ namespace SatcomRfWebsite.Models
                 {
                     OnidChanging(value);
                     ReportPropertyChanging("id");
-                    _id = StructuralObject.SetValidValue(value);
+                    _id = StructuralObject.SetValidValue(value, "id");
                     ReportPropertyChanged("id");
                     OnidChanged();
                 }
@@ -2180,7 +2173,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnModelSNChanging(value);
                 ReportPropertyChanging("ModelSN");
-                _ModelSN = StructuralObject.SetValidValue(value, false);
+                _ModelSN = StructuralObject.SetValidValue(value, false, "ModelSN");
                 ReportPropertyChanged("ModelSN");
                 OnModelSNChanged();
             }
@@ -2204,7 +2197,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnStartTimeChanging(value);
                 ReportPropertyChanging("StartTime");
-                _StartTime = StructuralObject.SetValidValue(value);
+                _StartTime = StructuralObject.SetValidValue(value, "StartTime");
                 ReportPropertyChanged("StartTime");
                 OnStartTimeChanged();
             }
@@ -2228,7 +2221,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnFrequencyChanging(value);
                 ReportPropertyChanging("Frequency");
-                _Frequency = StructuralObject.SetValidValue(value);
+                _Frequency = StructuralObject.SetValidValue(value, "Frequency");
                 ReportPropertyChanged("Frequency");
                 OnFrequencyChanged();
             }
@@ -2252,7 +2245,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnInputResultChanging(value);
                 ReportPropertyChanging("InputResult");
-                _InputResult = StructuralObject.SetValidValue(value);
+                _InputResult = StructuralObject.SetValidValue(value, "InputResult");
                 ReportPropertyChanged("InputResult");
                 OnInputResultChanged();
             }
@@ -2276,7 +2269,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnOutputResultChanging(value);
                 ReportPropertyChanging("OutputResult");
-                _OutputResult = StructuralObject.SetValidValue(value);
+                _OutputResult = StructuralObject.SetValidValue(value, "OutputResult");
                 ReportPropertyChanged("OutputResult");
                 OnOutputResultChanged();
             }
@@ -2300,7 +2293,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnChannelChanging(value);
                 ReportPropertyChanging("Channel");
-                _Channel = StructuralObject.SetValidValue(value, false);
+                _Channel = StructuralObject.SetValidValue(value, false, "Channel");
                 ReportPropertyChanged("Channel");
                 OnChannelChanged();
             }
@@ -2311,7 +2304,6 @@ namespace SatcomRfWebsite.Models
 
         #endregion
 
-    
     }
     
     /// <summary>
@@ -2339,7 +2331,7 @@ namespace SatcomRfWebsite.Models
 
         #endregion
 
-        #region Primitive Properties
+        #region Simple Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -2358,7 +2350,7 @@ namespace SatcomRfWebsite.Models
                 {
                     OnidChanging(value);
                     ReportPropertyChanging("id");
-                    _id = StructuralObject.SetValidValue(value);
+                    _id = StructuralObject.SetValidValue(value, "id");
                     ReportPropertyChanged("id");
                     OnidChanged();
                 }
@@ -2383,7 +2375,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnProductTypeChanging(value);
                 ReportPropertyChanging("ProductType");
-                _ProductType = StructuralObject.SetValidValue(value, false);
+                _ProductType = StructuralObject.SetValidValue(value, false, "ProductType");
                 ReportPropertyChanged("ProductType");
                 OnProductTypeChanged();
             }
@@ -2394,7 +2386,6 @@ namespace SatcomRfWebsite.Models
 
         #endregion
 
-    
     }
     
     /// <summary>
@@ -2424,7 +2415,7 @@ namespace SatcomRfWebsite.Models
 
         #endregion
 
-        #region Primitive Properties
+        #region Simple Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -2443,7 +2434,7 @@ namespace SatcomRfWebsite.Models
                 {
                     OnidChanging(value);
                     ReportPropertyChanging("id");
-                    _id = StructuralObject.SetValidValue(value);
+                    _id = StructuralObject.SetValidValue(value, "id");
                     ReportPropertyChanged("id");
                     OnidChanged();
                 }
@@ -2468,7 +2459,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnModelSNChanging(value);
                 ReportPropertyChanging("ModelSN");
-                _ModelSN = StructuralObject.SetValidValue(value, false);
+                _ModelSN = StructuralObject.SetValidValue(value, false, "ModelSN");
                 ReportPropertyChanged("ModelSN");
                 OnModelSNChanged();
             }
@@ -2492,7 +2483,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnModelNameChanging(value);
                 ReportPropertyChanging("ModelName");
-                _ModelName = StructuralObject.SetValidValue(value, false);
+                _ModelName = StructuralObject.SetValidValue(value, false, "ModelName");
                 ReportPropertyChanged("ModelName");
                 OnModelNameChanged();
             }
@@ -2503,7 +2494,6 @@ namespace SatcomRfWebsite.Models
 
         #endregion
 
-    
     }
     
     /// <summary>
@@ -2531,7 +2521,7 @@ namespace SatcomRfWebsite.Models
 
         #endregion
 
-        #region Primitive Properties
+        #region Simple Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -2550,7 +2540,7 @@ namespace SatcomRfWebsite.Models
                 {
                     OnidChanging(value);
                     ReportPropertyChanging("id");
-                    _id = StructuralObject.SetValidValue(value);
+                    _id = StructuralObject.SetValidValue(value, "id");
                     ReportPropertyChanged("id");
                     OnidChanged();
                 }
@@ -2575,7 +2565,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnTestNameChanging(value);
                 ReportPropertyChanging("TestName");
-                _TestName = StructuralObject.SetValidValue(value, false);
+                _TestName = StructuralObject.SetValidValue(value, false, "TestName");
                 ReportPropertyChanged("TestName");
                 OnTestNameChanged();
             }
@@ -2599,7 +2589,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnP1Changing(value);
                 ReportPropertyChanging("P1");
-                _P1 = StructuralObject.SetValidValue(value, true);
+                _P1 = StructuralObject.SetValidValue(value, true, "P1");
                 ReportPropertyChanged("P1");
                 OnP1Changed();
             }
@@ -2623,7 +2613,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnP2Changing(value);
                 ReportPropertyChanging("P2");
-                _P2 = StructuralObject.SetValidValue(value, true);
+                _P2 = StructuralObject.SetValidValue(value, true, "P2");
                 ReportPropertyChanged("P2");
                 OnP2Changed();
             }
@@ -2647,7 +2637,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnP3Changing(value);
                 ReportPropertyChanging("P3");
-                _P3 = StructuralObject.SetValidValue(value, true);
+                _P3 = StructuralObject.SetValidValue(value, true, "P3");
                 ReportPropertyChanged("P3");
                 OnP3Changed();
             }
@@ -2671,7 +2661,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnP4Changing(value);
                 ReportPropertyChanging("P4");
-                _P4 = StructuralObject.SetValidValue(value, true);
+                _P4 = StructuralObject.SetValidValue(value, true, "P4");
                 ReportPropertyChanged("P4");
                 OnP4Changed();
             }
@@ -2695,7 +2685,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnP5Changing(value);
                 ReportPropertyChanging("P5");
-                _P5 = StructuralObject.SetValidValue(value, true);
+                _P5 = StructuralObject.SetValidValue(value, true, "P5");
                 ReportPropertyChanged("P5");
                 OnP5Changed();
             }
@@ -2719,7 +2709,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnP6Changing(value);
                 ReportPropertyChanging("P6");
-                _P6 = StructuralObject.SetValidValue(value, true);
+                _P6 = StructuralObject.SetValidValue(value, true, "P6");
                 ReportPropertyChanged("P6");
                 OnP6Changed();
             }
@@ -2743,7 +2733,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnP7Changing(value);
                 ReportPropertyChanging("P7");
-                _P7 = StructuralObject.SetValidValue(value, true);
+                _P7 = StructuralObject.SetValidValue(value, true, "P7");
                 ReportPropertyChanged("P7");
                 OnP7Changed();
             }
@@ -2767,7 +2757,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnP8Changing(value);
                 ReportPropertyChanging("P8");
-                _P8 = StructuralObject.SetValidValue(value, true);
+                _P8 = StructuralObject.SetValidValue(value, true, "P8");
                 ReportPropertyChanged("P8");
                 OnP8Changed();
             }
@@ -2791,7 +2781,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnP9Changing(value);
                 ReportPropertyChanging("P9");
-                _P9 = StructuralObject.SetValidValue(value, true);
+                _P9 = StructuralObject.SetValidValue(value, true, "P9");
                 ReportPropertyChanged("P9");
                 OnP9Changed();
             }
@@ -2815,7 +2805,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnP10Changing(value);
                 ReportPropertyChanging("P10");
-                _P10 = StructuralObject.SetValidValue(value, true);
+                _P10 = StructuralObject.SetValidValue(value, true, "P10");
                 ReportPropertyChanged("P10");
                 OnP10Changed();
             }
@@ -2826,7 +2816,6 @@ namespace SatcomRfWebsite.Models
 
         #endregion
 
-    
     }
     
     /// <summary>
@@ -2860,7 +2849,7 @@ namespace SatcomRfWebsite.Models
 
         #endregion
 
-        #region Primitive Properties
+        #region Simple Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -2879,7 +2868,7 @@ namespace SatcomRfWebsite.Models
                 {
                     OnidChanging(value);
                     ReportPropertyChanging("id");
-                    _id = StructuralObject.SetValidValue(value);
+                    _id = StructuralObject.SetValidValue(value, "id");
                     ReportPropertyChanged("id");
                     OnidChanged();
                 }
@@ -2906,7 +2895,7 @@ namespace SatcomRfWebsite.Models
                 {
                     OnModelSNChanging(value);
                     ReportPropertyChanging("ModelSN");
-                    _ModelSN = StructuralObject.SetValidValue(value, false);
+                    _ModelSN = StructuralObject.SetValidValue(value, false, "ModelSN");
                     ReportPropertyChanged("ModelSN");
                     OnModelSNChanged();
                 }
@@ -2933,7 +2922,7 @@ namespace SatcomRfWebsite.Models
                 {
                     OnStartTimeChanging(value);
                     ReportPropertyChanging("StartTime");
-                    _StartTime = StructuralObject.SetValidValue(value);
+                    _StartTime = StructuralObject.SetValidValue(value, "StartTime");
                     ReportPropertyChanged("StartTime");
                     OnStartTimeChanged();
                 }
@@ -2958,7 +2947,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnTestNameChanging(value);
                 ReportPropertyChanging("TestName");
-                _TestName = StructuralObject.SetValidValue(value, false);
+                _TestName = StructuralObject.SetValidValue(value, false, "TestName");
                 ReportPropertyChanged("TestName");
                 OnTestNameChanged();
             }
@@ -2982,7 +2971,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnResultChanging(value);
                 ReportPropertyChanging("Result");
-                _Result = StructuralObject.SetValidValue(value, true);
+                _Result = StructuralObject.SetValidValue(value, true, "Result");
                 ReportPropertyChanged("Result");
                 OnResultChanged();
             }
@@ -3006,7 +2995,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnUnitsChanging(value);
                 ReportPropertyChanging("Units");
-                _Units = StructuralObject.SetValidValue(value, true);
+                _Units = StructuralObject.SetValidValue(value, true, "Units");
                 ReportPropertyChanged("Units");
                 OnUnitsChanged();
             }
@@ -3030,7 +3019,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnLowLimitChanging(value);
                 ReportPropertyChanging("LowLimit");
-                _LowLimit = StructuralObject.SetValidValue(value, true);
+                _LowLimit = StructuralObject.SetValidValue(value, true, "LowLimit");
                 ReportPropertyChanged("LowLimit");
                 OnLowLimitChanged();
             }
@@ -3054,7 +3043,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnUpLimitChanging(value);
                 ReportPropertyChanging("UpLimit");
-                _UpLimit = StructuralObject.SetValidValue(value, true);
+                _UpLimit = StructuralObject.SetValidValue(value, true, "UpLimit");
                 ReportPropertyChanged("UpLimit");
                 OnUpLimitChanged();
             }
@@ -3078,7 +3067,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnPassFailChanging(value);
                 ReportPropertyChanging("PassFail");
-                _PassFail = StructuralObject.SetValidValue(value);
+                _PassFail = StructuralObject.SetValidValue(value, "PassFail");
                 ReportPropertyChanged("PassFail");
                 OnPassFailChanged();
             }
@@ -3102,7 +3091,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnChannelChanging(value);
                 ReportPropertyChanging("Channel");
-                _Channel = StructuralObject.SetValidValue(value, true);
+                _Channel = StructuralObject.SetValidValue(value, true, "Channel");
                 ReportPropertyChanged("Channel");
                 OnChannelChanged();
             }
@@ -3126,7 +3115,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnP1Changing(value);
                 ReportPropertyChanging("P1");
-                _P1 = StructuralObject.SetValidValue(value, true);
+                _P1 = StructuralObject.SetValidValue(value, true, "P1");
                 ReportPropertyChanged("P1");
                 OnP1Changed();
             }
@@ -3150,7 +3139,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnP2Changing(value);
                 ReportPropertyChanging("P2");
-                _P2 = StructuralObject.SetValidValue(value, true);
+                _P2 = StructuralObject.SetValidValue(value, true, "P2");
                 ReportPropertyChanged("P2");
                 OnP2Changed();
             }
@@ -3174,7 +3163,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnP3Changing(value);
                 ReportPropertyChanging("P3");
-                _P3 = StructuralObject.SetValidValue(value, true);
+                _P3 = StructuralObject.SetValidValue(value, true, "P3");
                 ReportPropertyChanged("P3");
                 OnP3Changed();
             }
@@ -3198,7 +3187,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnP4Changing(value);
                 ReportPropertyChanging("P4");
-                _P4 = StructuralObject.SetValidValue(value, true);
+                _P4 = StructuralObject.SetValidValue(value, true, "P4");
                 ReportPropertyChanged("P4");
                 OnP4Changed();
             }
@@ -3222,7 +3211,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnP5Changing(value);
                 ReportPropertyChanging("P5");
-                _P5 = StructuralObject.SetValidValue(value, true);
+                _P5 = StructuralObject.SetValidValue(value, true, "P5");
                 ReportPropertyChanged("P5");
                 OnP5Changed();
             }
@@ -3246,7 +3235,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnP6Changing(value);
                 ReportPropertyChanging("P6");
-                _P6 = StructuralObject.SetValidValue(value, true);
+                _P6 = StructuralObject.SetValidValue(value, true, "P6");
                 ReportPropertyChanged("P6");
                 OnP6Changed();
             }
@@ -3270,7 +3259,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnP7Changing(value);
                 ReportPropertyChanging("P7");
-                _P7 = StructuralObject.SetValidValue(value, true);
+                _P7 = StructuralObject.SetValidValue(value, true, "P7");
                 ReportPropertyChanged("P7");
                 OnP7Changed();
             }
@@ -3294,7 +3283,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnP8Changing(value);
                 ReportPropertyChanging("P8");
-                _P8 = StructuralObject.SetValidValue(value, true);
+                _P8 = StructuralObject.SetValidValue(value, true, "P8");
                 ReportPropertyChanged("P8");
                 OnP8Changed();
             }
@@ -3318,7 +3307,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnP9Changing(value);
                 ReportPropertyChanging("P9");
-                _P9 = StructuralObject.SetValidValue(value, true);
+                _P9 = StructuralObject.SetValidValue(value, true, "P9");
                 ReportPropertyChanged("P9");
                 OnP9Changed();
             }
@@ -3342,7 +3331,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnP10Changing(value);
                 ReportPropertyChanging("P10");
-                _P10 = StructuralObject.SetValidValue(value, true);
+                _P10 = StructuralObject.SetValidValue(value, true, "P10");
                 ReportPropertyChanged("P10");
                 OnP10Changed();
             }
@@ -3353,7 +3342,6 @@ namespace SatcomRfWebsite.Models
 
         #endregion
 
-    
     }
     
     /// <summary>
@@ -3381,7 +3369,7 @@ namespace SatcomRfWebsite.Models
 
         #endregion
 
-        #region Primitive Properties
+        #region Simple Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -3400,7 +3388,7 @@ namespace SatcomRfWebsite.Models
                 {
                     OnidChanging(value);
                     ReportPropertyChanging("id");
-                    _id = StructuralObject.SetValidValue(value);
+                    _id = StructuralObject.SetValidValue(value, "id");
                     ReportPropertyChanged("id");
                     OnidChanged();
                 }
@@ -3425,7 +3413,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnTestNameChanging(value);
                 ReportPropertyChanging("TestName");
-                _TestName = StructuralObject.SetValidValue(value, false);
+                _TestName = StructuralObject.SetValidValue(value, false, "TestName");
                 ReportPropertyChanged("TestName");
                 OnTestNameChanged();
             }
@@ -3449,7 +3437,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnP1Changing(value);
                 ReportPropertyChanging("P1");
-                _P1 = StructuralObject.SetValidValue(value, true);
+                _P1 = StructuralObject.SetValidValue(value, true, "P1");
                 ReportPropertyChanged("P1");
                 OnP1Changed();
             }
@@ -3473,7 +3461,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnP2Changing(value);
                 ReportPropertyChanging("P2");
-                _P2 = StructuralObject.SetValidValue(value, true);
+                _P2 = StructuralObject.SetValidValue(value, true, "P2");
                 ReportPropertyChanged("P2");
                 OnP2Changed();
             }
@@ -3497,7 +3485,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnP3Changing(value);
                 ReportPropertyChanging("P3");
-                _P3 = StructuralObject.SetValidValue(value, true);
+                _P3 = StructuralObject.SetValidValue(value, true, "P3");
                 ReportPropertyChanged("P3");
                 OnP3Changed();
             }
@@ -3521,7 +3509,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnP4Changing(value);
                 ReportPropertyChanging("P4");
-                _P4 = StructuralObject.SetValidValue(value, true);
+                _P4 = StructuralObject.SetValidValue(value, true, "P4");
                 ReportPropertyChanged("P4");
                 OnP4Changed();
             }
@@ -3545,7 +3533,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnP5Changing(value);
                 ReportPropertyChanging("P5");
-                _P5 = StructuralObject.SetValidValue(value, true);
+                _P5 = StructuralObject.SetValidValue(value, true, "P5");
                 ReportPropertyChanged("P5");
                 OnP5Changed();
             }
@@ -3569,7 +3557,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnP6Changing(value);
                 ReportPropertyChanging("P6");
-                _P6 = StructuralObject.SetValidValue(value, true);
+                _P6 = StructuralObject.SetValidValue(value, true, "P6");
                 ReportPropertyChanged("P6");
                 OnP6Changed();
             }
@@ -3593,7 +3581,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnP7Changing(value);
                 ReportPropertyChanging("P7");
-                _P7 = StructuralObject.SetValidValue(value, true);
+                _P7 = StructuralObject.SetValidValue(value, true, "P7");
                 ReportPropertyChanged("P7");
                 OnP7Changed();
             }
@@ -3617,7 +3605,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnP8Changing(value);
                 ReportPropertyChanging("P8");
-                _P8 = StructuralObject.SetValidValue(value, true);
+                _P8 = StructuralObject.SetValidValue(value, true, "P8");
                 ReportPropertyChanged("P8");
                 OnP8Changed();
             }
@@ -3641,7 +3629,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnP9Changing(value);
                 ReportPropertyChanging("P9");
-                _P9 = StructuralObject.SetValidValue(value, true);
+                _P9 = StructuralObject.SetValidValue(value, true, "P9");
                 ReportPropertyChanged("P9");
                 OnP9Changed();
             }
@@ -3665,7 +3653,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnP10Changing(value);
                 ReportPropertyChanging("P10");
-                _P10 = StructuralObject.SetValidValue(value, true);
+                _P10 = StructuralObject.SetValidValue(value, true, "P10");
                 ReportPropertyChanged("P10");
                 OnP10Changed();
             }
@@ -3676,7 +3664,6 @@ namespace SatcomRfWebsite.Models
 
         #endregion
 
-    
     }
     
     /// <summary>
@@ -3710,7 +3697,7 @@ namespace SatcomRfWebsite.Models
 
         #endregion
 
-        #region Primitive Properties
+        #region Simple Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -3729,7 +3716,7 @@ namespace SatcomRfWebsite.Models
                 {
                     OnidChanging(value);
                     ReportPropertyChanging("id");
-                    _id = StructuralObject.SetValidValue(value);
+                    _id = StructuralObject.SetValidValue(value, "id");
                     ReportPropertyChanged("id");
                     OnidChanged();
                 }
@@ -3756,7 +3743,7 @@ namespace SatcomRfWebsite.Models
                 {
                     OnModelSNChanging(value);
                     ReportPropertyChanging("ModelSN");
-                    _ModelSN = StructuralObject.SetValidValue(value, false);
+                    _ModelSN = StructuralObject.SetValidValue(value, false, "ModelSN");
                     ReportPropertyChanged("ModelSN");
                     OnModelSNChanged();
                 }
@@ -3783,7 +3770,7 @@ namespace SatcomRfWebsite.Models
                 {
                     OnStartTimeChanging(value);
                     ReportPropertyChanging("StartTime");
-                    _StartTime = StructuralObject.SetValidValue(value);
+                    _StartTime = StructuralObject.SetValidValue(value, "StartTime");
                     ReportPropertyChanged("StartTime");
                     OnStartTimeChanged();
                 }
@@ -3808,7 +3795,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnTestNameChanging(value);
                 ReportPropertyChanging("TestName");
-                _TestName = StructuralObject.SetValidValue(value, false);
+                _TestName = StructuralObject.SetValidValue(value, false, "TestName");
                 ReportPropertyChanged("TestName");
                 OnTestNameChanged();
             }
@@ -3832,7 +3819,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnResultChanging(value);
                 ReportPropertyChanging("Result");
-                _Result = StructuralObject.SetValidValue(value, true);
+                _Result = StructuralObject.SetValidValue(value, true, "Result");
                 ReportPropertyChanged("Result");
                 OnResultChanged();
             }
@@ -3856,7 +3843,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnUnitsChanging(value);
                 ReportPropertyChanging("Units");
-                _Units = StructuralObject.SetValidValue(value, true);
+                _Units = StructuralObject.SetValidValue(value, true, "Units");
                 ReportPropertyChanged("Units");
                 OnUnitsChanged();
             }
@@ -3880,7 +3867,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnLowLimitChanging(value);
                 ReportPropertyChanging("LowLimit");
-                _LowLimit = StructuralObject.SetValidValue(value, true);
+                _LowLimit = StructuralObject.SetValidValue(value, true, "LowLimit");
                 ReportPropertyChanged("LowLimit");
                 OnLowLimitChanged();
             }
@@ -3904,7 +3891,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnUpLimitChanging(value);
                 ReportPropertyChanging("UpLimit");
-                _UpLimit = StructuralObject.SetValidValue(value, true);
+                _UpLimit = StructuralObject.SetValidValue(value, true, "UpLimit");
                 ReportPropertyChanged("UpLimit");
                 OnUpLimitChanged();
             }
@@ -3928,7 +3915,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnPassFailChanging(value);
                 ReportPropertyChanging("PassFail");
-                _PassFail = StructuralObject.SetValidValue(value);
+                _PassFail = StructuralObject.SetValidValue(value, "PassFail");
                 ReportPropertyChanged("PassFail");
                 OnPassFailChanged();
             }
@@ -3952,7 +3939,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnChannelChanging(value);
                 ReportPropertyChanging("Channel");
-                _Channel = StructuralObject.SetValidValue(value, true);
+                _Channel = StructuralObject.SetValidValue(value, true, "Channel");
                 ReportPropertyChanged("Channel");
                 OnChannelChanged();
             }
@@ -3976,7 +3963,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnP1Changing(value);
                 ReportPropertyChanging("P1");
-                _P1 = StructuralObject.SetValidValue(value, true);
+                _P1 = StructuralObject.SetValidValue(value, true, "P1");
                 ReportPropertyChanged("P1");
                 OnP1Changed();
             }
@@ -4000,7 +3987,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnP2Changing(value);
                 ReportPropertyChanging("P2");
-                _P2 = StructuralObject.SetValidValue(value, true);
+                _P2 = StructuralObject.SetValidValue(value, true, "P2");
                 ReportPropertyChanged("P2");
                 OnP2Changed();
             }
@@ -4024,7 +4011,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnP3Changing(value);
                 ReportPropertyChanging("P3");
-                _P3 = StructuralObject.SetValidValue(value, true);
+                _P3 = StructuralObject.SetValidValue(value, true, "P3");
                 ReportPropertyChanged("P3");
                 OnP3Changed();
             }
@@ -4048,7 +4035,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnP4Changing(value);
                 ReportPropertyChanging("P4");
-                _P4 = StructuralObject.SetValidValue(value, true);
+                _P4 = StructuralObject.SetValidValue(value, true, "P4");
                 ReportPropertyChanged("P4");
                 OnP4Changed();
             }
@@ -4072,7 +4059,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnP5Changing(value);
                 ReportPropertyChanging("P5");
-                _P5 = StructuralObject.SetValidValue(value, true);
+                _P5 = StructuralObject.SetValidValue(value, true, "P5");
                 ReportPropertyChanged("P5");
                 OnP5Changed();
             }
@@ -4096,7 +4083,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnP6Changing(value);
                 ReportPropertyChanging("P6");
-                _P6 = StructuralObject.SetValidValue(value, true);
+                _P6 = StructuralObject.SetValidValue(value, true, "P6");
                 ReportPropertyChanged("P6");
                 OnP6Changed();
             }
@@ -4120,7 +4107,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnP7Changing(value);
                 ReportPropertyChanging("P7");
-                _P7 = StructuralObject.SetValidValue(value, true);
+                _P7 = StructuralObject.SetValidValue(value, true, "P7");
                 ReportPropertyChanged("P7");
                 OnP7Changed();
             }
@@ -4144,7 +4131,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnP8Changing(value);
                 ReportPropertyChanging("P8");
-                _P8 = StructuralObject.SetValidValue(value, true);
+                _P8 = StructuralObject.SetValidValue(value, true, "P8");
                 ReportPropertyChanged("P8");
                 OnP8Changed();
             }
@@ -4168,7 +4155,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnP9Changing(value);
                 ReportPropertyChanging("P9");
-                _P9 = StructuralObject.SetValidValue(value, true);
+                _P9 = StructuralObject.SetValidValue(value, true, "P9");
                 ReportPropertyChanged("P9");
                 OnP9Changed();
             }
@@ -4192,7 +4179,7 @@ namespace SatcomRfWebsite.Models
             {
                 OnP10Changing(value);
                 ReportPropertyChanging("P10");
-                _P10 = StructuralObject.SetValidValue(value, true);
+                _P10 = StructuralObject.SetValidValue(value, true, "P10");
                 ReportPropertyChanged("P10");
                 OnP10Changed();
             }
@@ -4203,10 +4190,8 @@ namespace SatcomRfWebsite.Models
 
         #endregion
 
-    
     }
 
     #endregion
 
-    
 }
