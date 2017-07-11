@@ -69,8 +69,8 @@ function buildTable(tableData) {
             unit = " " + tableData[i].Unit;
         }
 
-        result += "<tr><td>" + tableData[i].TestName + "</td><td>" + (tableData[i].Channel === "" ? "N/A" : tableData[i].Channel) +
-            "</td><td>" + tableData[i].MinResult + unit + "</td><td>" + tableData[i].MaxResult + unit + "</td><td>" + tableData[i].AvgResult + unit + "</td></tr>";
+        result += "<tr><td>" + tableData[i].TestName + "</td><td>" + tableData[i].Channel + "</td><td>" + tableData[i].MinResult +
+            unit + "</td><td>" + tableData[i].MaxResult + unit + "</td><td>" + tableData[i].AvgResult + unit + "</td></tr>";
     }
 
     return result;
@@ -112,7 +112,22 @@ function getTable(modelName, familyName) {
     data.send();
 }
 
+function showSelectionError() {
+    var alertHTML = "<div class=\"alert alert-danger alert-dismissible fade in\" id=\"alert-failed\"><a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\">&times;</a><strong>Error:</strong> Select a family or model before downloading report.</div>";
+    document.getElementById("selection-failed").innerHTML = alertHTML;
+    document.getElementById("selection-failed").classList.remove("hide");
+}
+
+function getxlsxfile(modelName, familyName) {
+    if (modelName === "default" || familyName === "default") {
+        showSelectionError();
+        return;
+    }
+
+    document.getElementById("iframe-temp").innerHTML = "<iframe style=\"display:none\" src=\"" + document.location.origin +
+        "/api/ListAPI/GetTableFile?modelName=" + modelName + "&familyName=" + familyName + "\"></iframe>";
+}
+
 function setupIndex() {
     getFamilies();
-    document.getElementById("statspage").classList.add("active");
 }

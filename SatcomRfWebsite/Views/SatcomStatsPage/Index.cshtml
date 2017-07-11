@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Model Statistics";
+    ViewData["Title"] = "Home Page";
 }
 
 <style>
@@ -14,24 +14,28 @@
     th {
         text-align: center;
     }
-
 </style>
 
 @Scripts.Render("~/bundles/js/SatcomStats")
 <script>setupIndex();</script>
+<div class="container hide" id="iframe-temp"></div>
 
 <h2>Select a model family and a model:</h2>
 <div class="container row" id="main-data">
-    @using (Html.BeginForm())
-    {
-        <div class="col-sm-6">
+    <div id="selection-failed"></div>
+    <form action="">
+        <div class="col-sm-4">
             <select class="form-control" id="families" name="families" onchange="getModelNames(this.value);"></select>
         </div>
 
-        <div class="col-sm-6">
+        <div class="col-sm-4">
             <select class="form-control" id="models" name="models" onchange="getTable(this.value, families.value)"></select>
         </div>
-    }
+
+        <div class="col-sm-4">
+            <input type="button" class="form-control btn btn-primary" id="dlxlsx" name="dlbtn" onclick="getxlsxfile(models.value, families.value)" value="Download as Excel file (.xlsx)" />
+        </div>
+    </form>
 </div>
 
 <div class="container hide" id="data-display">

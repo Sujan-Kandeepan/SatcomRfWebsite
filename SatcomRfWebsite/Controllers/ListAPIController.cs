@@ -1,23 +1,75 @@
-﻿using System;
+﻿//Note: ClosedXML requires DocumentFormat.OpenXML v:2.5 exactly (as of time of writing)
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Web.Http;
+
+using ClosedXML.Excel;
 
 using SatcomRfWebsite.Models;
 
 namespace SatcomRfWebsite.Controllers
 {
+    public class DataNotFoundException : SystemException
+    {
+        public DataNotFoundException() : base() { }
+    }
+
+    public class ExcelFileResponse : IHttpActionResult
+    {
+        private byte[] filecontent;
+        private HttpRequestMessage src;
+        private string filename;
+
+        public ExcelFileResponse(byte[] bin, HttpRequestMessage req, string infilename)
+        {
+            filecontent = bin;
+            src = req;
+            filename = infilename;
+        }
+
+        public Task<HttpResponseMessage> ExecuteAsync(CancellationToken cancellationToken)
+        {
+            var response = new HttpResponseMessage(System.Net.HttpStatusCode.OK);
+            response.RequestMessage = src;
+            response.Content = new ByteArrayContent(filecontent);
+            response.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
+            {
+                FileName = filename
+            };
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.ms-excel");
+
+            return Task.FromResult(response);
+        }
+    }
+
     public class ListAPIController : ApiController
     {
         [NonAction]
         private int Compare(TestData lhs, TestData rhs)
         {
-            if(lhs.TestName == rhs.TestName && lhs.Channel != "" && rhs.Channel != "")
+            if (lhs.TestName == rhs.TestName && lhs.Channel != "" && rhs.Channel != "")
             {
-                return Convert.ToInt32(lhs.Channel) - Convert.ToInt32(rhs.Channel);
+                int numlhs, numrhs;
+                bool trylhs = int.TryParse(lhs.Channel, out numlhs);
+                bool tryrhs = int.TryParse(rhs.Channel, out numrhs);
+
+                if ((trylhs == true) && (tryrhs == true))
+                {
+                    return numlhs - numrhs;
+                }
+                else
+                {
+                    return lhs.Channel.CompareTo(rhs.Channel);
+                }
             }
 
             return lhs.TestName.CompareTo(rhs.TestName);
@@ -33,7 +85,7 @@ namespace SatcomRfWebsite.Controllers
         private List<string> ReadAllData(SqlDataReader sql, string column)
         {
             var result = new List<string>();
-            while(sql.Read())
+            while (sql.Read())
             {
                 var tmp = (IDataRecord)sql;
                 result.Add(tmp[column].ToString());
@@ -41,7 +93,8 @@ namespace SatcomRfWebsite.Controllers
             return result;
         }
 
-        public IHttpActionResult GetTableData(string modelName, string familyName)
+        [NonAction]
+        public List<TestData> InternalGetTableData(string modelName, string familyName)
         {
             var data = new List<TestData>();
             using (var conn = new SqlConnection(GetSqlConnectString()))
@@ -62,9 +115,9 @@ namespace SatcomRfWebsite.Controllers
 
                     if (!sqlResultModels.HasRows)
                     {
-                        return NotFound();
+                        throw new DataNotFoundException();
                     }
-                    
+
                     List<string> sqlResultModelData = ReadAllData(sqlResultModels, "ModelName");
                     sqlResultModels.Close();
                     cmd.CommandText = "SELECT ModelSN FROM dbo.tblSerialNumbers WHERE ModelName = @name;";
@@ -73,14 +126,14 @@ namespace SatcomRfWebsite.Controllers
                     cmd.Prepare();
                     sqlResultData = new List<string>();
 
-                    foreach(string i in sqlResultModelData)
+                    foreach (string i in sqlResultModelData)
                     {
                         modelParam.Value = i;
                         SqlDataReader sqlResultTmp = cmd.ExecuteReader();
 
                         if (!sqlResultTmp.HasRows)
                         {
-                            return NotFound();
+                            throw new DataNotFoundException();
                         }
                         sqlResultData.AddRange(ReadAllData(sqlResultTmp, "ModelSN"));
                         sqlResultTmp.Close();
@@ -99,12 +152,12 @@ namespace SatcomRfWebsite.Controllers
 
                     if (!sqlResult.HasRows)
                     {
-                        return NotFound();
+                        throw new DataNotFoundException();
                     }
                     sqlResultData = ReadAllData(sqlResult, "ModelSN");
                     sqlResult.Close();
                 }
-                
+
                 if (familyName.ToUpper().Contains("GENIV"))
                 {
                     cmd.CommandText = "SELECT TestName,Result,Units,Channel FROM dbo.tblKLYTestResults WHERE ModelSn = @sn AND NOT Result = 'PASS';";
@@ -127,7 +180,7 @@ namespace SatcomRfWebsite.Controllers
                     while (sqlResult2.Read())
                     {
                         var tmp2 = (IDataRecord)sqlResult2;
-                        var tinfo = new TestInfo(tmp2["TestName"].ToString(), tmp2["Channel"].ToString(), 
+                        var tinfo = new TestInfo(tmp2["TestName"].ToString(), tmp2["Channel"].ToString(),
                             tmp2["Units"].ToString(), new string[] { tmp2["Result"].ToString() });
                         var key = tmp2["TestName"].ToString() + tmp2["Channel"].ToString();
 
@@ -146,17 +199,17 @@ namespace SatcomRfWebsite.Controllers
                 cmd.Dispose();
                 foreach (var i in raw)
                 {
-                    var tmp = new TestData();
-                    var rawtmp = from val in i.Value.Results select Convert.ToDouble(val.Replace(":1",""));
                     var longest = i.Value.Results.OrderByDescending(x => x.Length).First();
                     int rounding = 15;
-                    if(longest.IndexOf(".") != -1)
+                    if (longest.IndexOf(".") != -1)
                     {
                         rounding = longest.Length - longest.IndexOf(".") - 1;
                     }
+                    var tmp = new TestData();
+                    var rawtmp = from val in i.Value.Results select Convert.ToDouble(val.Replace(":1", ""));
                     tmp.TestName = i.Value.TestName;
                     tmp.Unit = i.Value.Units;
-                    tmp.Channel = i.Value.Channel;
+                    tmp.Channel = (string.IsNullOrEmpty(i.Value.Channel) ? "N/A" : i.Value.Channel);
                     tmp.MinResult = Convert.ToString(rawtmp.Min());
                     tmp.MaxResult = Convert.ToString(rawtmp.Max());
                     tmp.AvgResult = Convert.ToString(Math.Round(rawtmp.Average(), rounding));
@@ -167,7 +220,56 @@ namespace SatcomRfWebsite.Controllers
             }
 
             data.Sort(new Comparison<TestData>(Compare));
-            return Ok(data);
+            return data;
+        }
+
+        public IHttpActionResult GetTableData(string modelName, string familyName)
+        {
+            try
+            {
+                List<TestData> data = InternalGetTableData(modelName, familyName);
+                return Ok(data);
+            }
+            catch (DataNotFoundException)
+            {
+                return NotFound();
+            }
+            catch (Exception)
+            {
+                return InternalServerError();
+            }
+        }
+
+        public IHttpActionResult GetTableFile(string modelName, string familyName)
+        {
+            try
+            {
+                List<TestData> data = InternalGetTableData(modelName, familyName);
+                string[][] headers = new string[1][];
+                headers[0] = new string[] { "Testname", "Min", "Max", "Average", "Unit", "Channel #" };
+                var file = new MemoryStream();
+                var document = new XLWorkbook();
+                var worksheet = document.Worksheets.Add("Table Data");
+                worksheet.Cell(1, 1).InsertData(headers);
+                worksheet.Cell(2, 1).InsertData(data);
+                var style = document.Style;
+                style.Font.Bold = true;
+                worksheet.Range(1, 1, 1, 6).Style = style;
+                worksheet.Columns().AdjustToContents();
+                document.SaveAs(file);
+                string filename = DateTime.Now.ToString("yyyy-MM-dd") + $" {familyName} {modelName}.xlsx";
+                var resp = new ExcelFileResponse(file.ToArray(), Request, filename);
+                file.Dispose();
+                return resp;
+            }
+            catch (DataNotFoundException)
+            {
+                return NotFound();
+            }
+            catch (Exception)
+            {
+                return InternalServerError();
+            }
         }
 
         public IHttpActionResult GetModels(string familyName)
@@ -183,7 +285,7 @@ namespace SatcomRfWebsite.Controllers
                 cmd.Prepare();
                 SqlDataReader sqlResult = cmd.ExecuteReader();
 
-                if(!sqlResult.HasRows)
+                if (!sqlResult.HasRows)
                 {
                     return NotFound();
                 }
