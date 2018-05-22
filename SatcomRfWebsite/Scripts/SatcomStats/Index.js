@@ -9,7 +9,8 @@
     data.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
             var retData = JSON.parse(data.responseText);
-            var html = "<option value=\"default\" selected>Choose a model.</option><option value=\"all\">All Models.</option>";
+            var html = "<option value=\"default\" selected>Choose a model.</option>";
+            //html += "<option value=\"all\">All Models.</option>";
 
             if (retData !== null) {
                 for (var i = 0; i < retData.length; i++) {
