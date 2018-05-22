@@ -55,10 +55,10 @@ function showFail() {
 }
 
 function buildTable(tableData) {
-    var result = "<tr><th>Testname</th><th>Channel</th><th>Min</th><th>Max</th><th>Average</th></tr>";
+    var result = "<tr><th>Test Name</th><th>Channel</th><th>Min</th><th>Max</th><th>Average</th></tr>";
     for (var i = 0; i < tableData.length; i++) {
         var unit = "";
-
+         
         if (tableData[i].Unit === "%") {
             unit = "%";
         }
@@ -69,8 +69,10 @@ function buildTable(tableData) {
             unit = " " + tableData[i].Unit;
         }
 
-        result += "<tr><td>" + tableData[i].TestName + "</td><td>" + tableData[i].Channel + "</td><td>" + tableData[i].MinResult +
-            unit + "</td><td>" + tableData[i].MaxResult + unit + "</td><td>" + tableData[i].AvgResult + unit + "</td></tr>";
+        if (i === tableData.length - 1 || i < tableData.length - 1 && !(tableData[i].TestName === tableData[i + 1].TestName && tableData[i].Channel === tableData[i + 1].Channel)) {
+            result += "<tr><td>" + tableData[i].TestName + "</td><td>" + tableData[i].Channel + "</td><td>" + tableData[i].MinResult +
+                unit + "</td><td>" + tableData[i].MaxResult + unit + "</td><td>" + tableData[i].AvgResult + unit + "</td></tr>";
+        }
     }
 
     return result;
