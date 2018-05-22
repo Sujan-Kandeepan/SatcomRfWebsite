@@ -214,6 +214,14 @@ namespace SatcomRfWebsite.Controllers
                     tmp.MinResult = Convert.ToString(rawtmp.Min());
                     tmp.MaxResult = Convert.ToString(rawtmp.Max());
                     tmp.AvgResult = Convert.ToString(Math.Round(rawtmp.Average(), rounding));
+
+                    var tempSum = 0.0;
+                    foreach (var item in rawtmp)
+                    {
+                        tempSum += Math.Pow(item - rawtmp.Average(), 2);
+                    }
+                    tmp.StdDev = Convert.ToString(Math.Round(Math.Sqrt(tempSum / rawtmp.Count()), rounding));
+
                     data.Add(tmp);
                 }
 
