@@ -136,10 +136,15 @@
         </div>
 
         <div class="col-lg-2">
-            <a href="~/@ViewBag.getResetPath"><button class="btn btn-primary btn-block">
-                Reset Search
-            </button></a>
+            <button id='searchReset' class="btn btn-primary btn-block" type="button" onclick='resetSearch()'>Reset Search</button>
         </div>
+
+        <script>
+            function resetSearch() {
+                location.href = document.location.origin + "/testsData/TestResults";
+                //location.href = document.URL.replace(/TestResults\?[a-zA-Z0-9=+,-\\%]*/, "TestResults");
+            }
+        </script>
     </div>
 
     <!-----------------------------  FILTER ------------------------------->
