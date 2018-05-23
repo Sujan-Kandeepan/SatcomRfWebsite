@@ -224,11 +224,11 @@ namespace SatcomRfWebsite.Controllers
                         }
                         tmp.StdDev = Convert.ToString(Math.Round(Math.Sqrt(tempSum / rawtmp.Count()), rounding));
 
-                        // NEED TO ADD CONVERSION
-                        if (tmp.Unit.Contains("dB"))
-                        {
-                            tmp.Unit += " | (conversion)";
-                        }
+                        tmp.UnitConv = "units";
+                        tmp.MinResultConv = "###";
+                        tmp.MaxResultConv = "###";
+                        tmp.AvgResultConv = "###";
+                        tmp.StdDevConv = "###";
 
                         data.Add(tmp);
                     }

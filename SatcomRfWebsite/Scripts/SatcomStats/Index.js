@@ -70,8 +70,24 @@ function buildTable(tableData) {
             unit = " " + tableData[i].Unit;
         }
 
-        result += "<tr><td>" + tableData[i].TestName + "</td><td>" + tableData[i].Channel + "</td><td>" + tableData[i].MinResult +
-            unit + "</td><td>" + tableData[i].MaxResult + unit + "</td><td>" + tableData[i].AvgResult + unit + "</td><td>" + tableData[i].StdDev + unit + "</td></tr>";
+        var unitConv = "";
+        if (true)
+        {
+            unitConv = " " + tableData[i].UnitConv;
+        }
+
+        if (true)
+        {
+            result += "<tr><td>" + tableData[i].TestName + "</td><td>" + tableData[i].Channel + "</td><td>" + tableData[i].MinResult + unit + " | "
+                + tableData[i].MinResultConv + unitConv + "</td><td>" + tableData[i].MaxResult + unit + " | " + tableData[i].MaxResultConv + unitConv + "</td><td>"
+                + tableData[i].AvgResult + unit + " | " + tableData[i].AvgResultConv + unitConv + "</td><td>" + tableData[i].StdDev + unit + " | "
+                + tableData[i].StdDevConv + unitConv + "</td></tr>";
+        }
+        else
+        {
+            result += "<tr><td>" + tableData[i].TestName + "</td><td>" + tableData[i].Channel + "</td><td>" + tableData[i].MinResult +
+                unit + "</td><td>" + tableData[i].MaxResult + unit + "</td><td>" + tableData[i].AvgResult + unit + "</td><td>" + tableData[i].StdDev + unit + "</td></tr>";
+        }
     }
 
     return result;
