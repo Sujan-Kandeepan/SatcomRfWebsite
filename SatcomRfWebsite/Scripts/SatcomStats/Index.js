@@ -40,7 +40,7 @@ function getFamilies() {
             for (var i = 0; i < retData.length; i++) {
                 html += "<option value=\"" + retData[i] + "\">" + retData[i] + "</option>";
             }
-            document.getElementById("families").innerHTML = html;buildtable
+            document.getElementById("families").innerHTML = html;
         }
     };
 
