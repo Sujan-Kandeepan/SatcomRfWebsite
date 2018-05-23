@@ -198,33 +198,36 @@ namespace SatcomRfWebsite.Controllers
                 }
 
                 cmd.Dispose();
-                foreach (var i in raw)
+                for (var i = 0; i < raw.Count(); i++)
                 {
-                    var longest = i.Value.Results.OrderByDescending(x => x.Length).First();
-                    int rounding = 15;
-                    if (longest.IndexOf(".") != -1)
-                    {
-                        rounding = longest.Length - longest.IndexOf(".") - 1;
+                    if (i == raw.Count() - 1 || i < raw.Count() - 1 && !(raw.ElementAt(i).Value.TestName == raw.ElementAt(i + 1).Value.TestName && raw.ElementAt(i).Value.Channel == raw.ElementAt(i + 1).Value.Channel)) {
+
+                        var longest = raw.ElementAt(i).Value.Results.OrderByDescending(x => x.Length).First();
+                        int rounding = 15;
+                        if (longest.IndexOf(".") != -1)
+                        {
+                            rounding = longest.Length - longest.IndexOf(".") - 1;
+                        }
+                        var tmp = new TestData();
+                        var rawtmp = from val in raw.ElementAt(i).Value.Results select Convert.ToDouble(val.Replace(":1", ""));
+                        tmp.TestName = raw.ElementAt(i).Value.TestName;
+                        tmp.Unit = raw.ElementAt(i).Value.Units;
+                        tmp.Channel = (string.IsNullOrEmpty(raw.ElementAt(i).Value.Channel) ? "N/A" : raw.ElementAt(i).Value.Channel);
+                        tmp.MinResult = Convert.ToString(rawtmp.Min());
+                        tmp.MaxResult = Convert.ToString(rawtmp.Max());
+                        tmp.AvgResult = Convert.ToString(Math.Round(rawtmp.Average(), rounding));
+
+                        var tempSum = 0.0;
+                        foreach (var item in rawtmp)
+                        {
+                            tempSum += Math.Pow(item - rawtmp.Average(), 2);
+                        }
+                        tmp.StdDevLog = Convert.ToString(Math.Round(Math.Sqrt(tempSum / rawtmp.Count()), rounding));
+
+                        tmp.StdDevLin = "_";
+
+                        data.Add(tmp);
                     }
-                    var tmp = new TestData();
-                    var rawtmp = from val in i.Value.Results select Convert.ToDouble(val.Replace(":1", ""));
-                    tmp.TestName = i.Value.TestName;
-                    tmp.Unit = i.Value.Units;
-                    tmp.Channel = (string.IsNullOrEmpty(i.Value.Channel) ? "N/A" : i.Value.Channel);
-                    tmp.MinResult = Convert.ToString(rawtmp.Min());
-                    tmp.MaxResult = Convert.ToString(rawtmp.Max());
-                    tmp.AvgResult = Convert.ToString(Math.Round(rawtmp.Average(), rounding));
-
-                    var tempSum = 0.0;
-                    foreach (var item in rawtmp)
-                    {
-                        tempSum += Math.Pow(item - rawtmp.Average(), 2);
-                    }
-                    tmp.StdDevLog = Convert.ToString(Math.Round(Math.Sqrt(tempSum / rawtmp.Count()), rounding));
-
-                    tmp.StdDevLin = "_";
-
-                    data.Add(tmp);
                 }
 
                 conn.Close();
