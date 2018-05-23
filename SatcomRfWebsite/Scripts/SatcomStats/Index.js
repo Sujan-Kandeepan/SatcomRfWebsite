@@ -56,7 +56,7 @@ function showFail() {
 }
 
 function buildTable(tableData) {
-    var result = "<tr><th>Test Name</th><th>Channel</th><th>Min</th><th>Max</th><th>Average</th><th>Std. Deviation</th></tr>";
+    var result = "<tr><th>Test Name</th><th>Channel</th><th>Min</th><th>Max</th><th>Average</th><th>Std. Dev. (Log)</th></tr>";
     for (var i = 0; i < tableData.length; i++) {
         var unit = "";
          
@@ -72,7 +72,7 @@ function buildTable(tableData) {
 
         if (i === tableData.length - 1 || i < tableData.length - 1 && !(tableData[i].TestName === tableData[i + 1].TestName && tableData[i].Channel === tableData[i + 1].Channel)) {
             result += "<tr><td>" + tableData[i].TestName + "</td><td>" + tableData[i].Channel + "</td><td>" + tableData[i].MinResult +
-                unit + "</td><td>" + tableData[i].MaxResult + unit + "</td><td>" + tableData[i].AvgResult + unit + "</td><td>" + tableData[i].StdDev + " (needs to be verified)</td></tr>";
+                unit + "</td><td>" + tableData[i].MaxResult + unit + "</td><td>" + tableData[i].AvgResult + unit + "</td><td>" + tableData[i].StdDev + unit + "</td></tr>";
         }
     }
 
