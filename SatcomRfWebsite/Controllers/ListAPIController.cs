@@ -222,9 +222,13 @@ namespace SatcomRfWebsite.Controllers
                         {
                             tempSum += Math.Pow(item - rawtmp.Average(), 2);
                         }
-                        tmp.StdDevLog = Convert.ToString(Math.Round(Math.Sqrt(tempSum / rawtmp.Count()), rounding));
+                        tmp.StdDev = Convert.ToString(Math.Round(Math.Sqrt(tempSum / rawtmp.Count()), rounding));
 
-                        tmp.StdDevLin = "_";
+                        // NEED TO ADD CONVERSION
+                        if (tmp.Unit.Contains("dB"))
+                        {
+                            tmp.Unit += " | (conversion)";
+                        }
 
                         data.Add(tmp);
                     }
