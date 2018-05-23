@@ -222,6 +222,8 @@ namespace SatcomRfWebsite.Controllers
                     }
                     tmp.StdDevLog = Convert.ToString(Math.Round(Math.Sqrt(tempSum / rawtmp.Count()), rounding));
 
+                    tmp.StdDevLin = "_";
+
                     data.Add(tmp);
                 }
 
