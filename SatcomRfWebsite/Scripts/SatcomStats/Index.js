@@ -40,7 +40,7 @@ function getFamilies() {
             for (var i = 0; i < retData.length; i++) {
                 html += "<option value=\"" + retData[i] + "\">" + retData[i] + "</option>";
             }
-            document.getElementById("families").innerHTML = html;
+            document.getElementById("families").innerHTML = html;buildtable
         }
     };
 
@@ -56,7 +56,7 @@ function showFail() {
 }
 
 function buildTable(tableData) {
-    var result = "<tr><th>Test Name</th><th>Channel</th><th>Min</th><th>Max</th><th>Average</th><th>Std. Dev. (Log)</th><th>Std. Dev. (Lin)</th></tr>";
+    var result = "<tr><th>Test Name</th><th>Channel</th><th>Min</th><th>Max</th><th>Average</th><th>Standard Deviation</th></tr>";
     for (var i = 0; i < tableData.length; i++) {
         var unit = "";
          
@@ -71,7 +71,7 @@ function buildTable(tableData) {
         }
 
         result += "<tr><td>" + tableData[i].TestName + "</td><td>" + tableData[i].Channel + "</td><td>" + tableData[i].MinResult +
-            unit + "</td><td>" + tableData[i].MaxResult + unit + "</td><td>" + tableData[i].AvgResult + unit + "</td><td>" + tableData[i].StdDevLog + unit + "</td><td>" + tableData[i].StdDevLin + unit + "</td></tr>";
+            unit + "</td><td>" + tableData[i].MaxResult + unit + "</td><td>" + tableData[i].AvgResult + unit + "</td><td>" + tableData[i].StdDev + unit + "</td></tr>";
     }
 
     return result;

@@ -10,8 +10,7 @@ namespace SatcomRfWebsite.Models
         public string AvgResult { get; set; }
         public string Unit { get; set; }
         public string Channel { get; set; }
-        public string StdDevLog { get; set; }
-        public string StdDevLin { get; set; }
+        public string StdDev { get; set; }
 
         public TestData() { }
     }
