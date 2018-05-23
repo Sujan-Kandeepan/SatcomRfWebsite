@@ -220,7 +220,7 @@ namespace SatcomRfWebsite.Controllers
                     {
                         tempSum += Math.Pow(item - rawtmp.Average(), 2);
                     }
-                    tmp.StdDev = Convert.ToString(Math.Round(Math.Sqrt(tempSum / rawtmp.Count()), rounding));
+                    tmp.StdDevLog = Convert.ToString(Math.Round(Math.Sqrt(tempSum / rawtmp.Count()), rounding));
 
                     data.Add(tmp);
                 }
