@@ -230,6 +230,68 @@ namespace SatcomRfWebsite.Controllers
                         tmp.AvgResultConv = "###";
                         tmp.StdDevConv = "###";
 
+                        switch (tmp.Unit)
+                        {
+                            case "dB":
+                            case "dBc":
+                                double tempMin = Math.Pow(10, rawtmp.Min() / 10);
+                                double tempMax = Math.Pow(10, rawtmp.Max() / 10);
+                                double tempAvg = Math.Pow(10, rawtmp.Average() / 10);
+
+                                var tempSum2 = 0.0;
+                                foreach (var item in rawtmp)
+                                {
+                                    double c = Math.Pow(10, Convert.ToDouble(item) / 10);
+                                    tempSum2 += Math.Pow(c - tempAvg, 2);
+                                }
+                                double tempStd = Math.Sqrt(tempSum2 / rawtmp.Count());
+
+                                tmp.UnitConv = "W";
+
+                                String[] largeW = { "kW", "MW", "GW", "TW", "PW", "EW", "ZW", "YW" };
+                                String[] smallW = { "mW", "µW", "nW", "pW", "fW", "aW", "zW", "yW" };
+                                int wIndex = 0;
+                                for (int x = 0; x < 8; i++)
+                                {
+                                    if (tempAvg > 10000)
+                                    {
+                                        tempMin /= 1000;
+                                        tempMax /= 1000;
+                                        tempAvg /= 1000;
+                                        tempStd /= 1000;
+                                        tmp.UnitConv = largeW[wIndex++];
+                                    }
+                                    else if (tempAvg < 1)
+                                    {
+                                        tempMin *= 1000;
+                                        tempMax *= 1000;
+                                        tempAvg *= 1000;
+                                        tempStd *= 1000;
+                                        tmp.UnitConv = smallW[wIndex++];
+                                    }
+                                    else
+                                    {
+                                        break;
+                                    }
+                                }
+                                
+                                tmp.MinResultConv = Convert.ToString(Math.Round(tempMin));
+                                tmp.MaxResultConv = Convert.ToString(Math.Round(tempMax));
+                                tmp.AvgResultConv = Convert.ToString(Math.Round(tempAvg));
+                                tmp.StdDevConv = Convert.ToString(Math.Round(tempStd));
+                                break;
+                            case "dBm":
+                                break;
+                            case "dB/MHz":
+                                break;
+                            case "dBW/4kHz":
+                                break;
+                            case "deg/dB":
+                                break;
+                            case "o/dB":
+                                break;
+                        }
+
                         data.Add(tmp);
                     }
                 }
