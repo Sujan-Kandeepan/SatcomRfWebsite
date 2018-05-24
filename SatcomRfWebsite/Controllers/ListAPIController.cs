@@ -230,27 +230,30 @@ namespace SatcomRfWebsite.Controllers
                         tmp.AvgResultConv = "###";
                         tmp.StdDevConv = "###";
 
+                        string[] largeW = { "kW", "MW", "GW", "TW", "PW", "EW", "ZW", "YW" };
+                        string[] smallW = { "mW", "µW", "nW", "pW", "fW", "aW", "zW", "yW" };
+                        double tempMin, tempMax, tempAvg, tempStd, tempSum2;
+                        int wIndex;
+
                         switch (tmp.Unit)
                         {
                             case "dB":
                             case "dBc":
-                                double tempMin = Math.Pow(10, rawtmp.Min() / 10);
-                                double tempMax = Math.Pow(10, rawtmp.Max() / 10);
-                                double tempAvg = Math.Pow(10, rawtmp.Average() / 10);
+                                tempMin = Math.Pow(10, rawtmp.Min() / 10);
+                                tempMax = Math.Pow(10, rawtmp.Max() / 10);
+                                tempAvg = Math.Pow(10, rawtmp.Average() / 10);
 
-                                var tempSum2 = 0.0;
+                                tempSum2 = 0.0;
                                 foreach (var item in rawtmp)
                                 {
                                     double c = Math.Pow(10, Convert.ToDouble(item) / 10);
                                     tempSum2 += Math.Pow(c - tempAvg, 2);
                                 }
-                                double tempStd = Math.Sqrt(tempSum2 / rawtmp.Count());
+                                tempStd = Math.Sqrt(tempSum2 / rawtmp.Count());
 
                                 tmp.UnitConv = "W";
 
-                                String[] largeW = { "kW", "MW", "GW", "TW", "PW", "EW", "ZW", "YW" };
-                                String[] smallW = { "mW", "µW", "nW", "pW", "fW", "aW", "zW", "yW" };
-                                int wIndex = 0;
+                                wIndex = 0;
                                 for (int x = 0; x < 8; i++)
                                 {
                                     if (tempAvg > 10000)
@@ -281,14 +284,233 @@ namespace SatcomRfWebsite.Controllers
                                 tmp.StdDevConv = Convert.ToString(Math.Round(tempStd));
                                 break;
                             case "dBm":
+                                tempMin = Math.Pow(10, (rawtmp.Min() - 30) / 10);
+                                tempMax = Math.Pow(10, (rawtmp.Max() - 30) / 10);
+                                tempAvg = Math.Pow(10, (rawtmp.Average() - 30) / 10);
+
+                                tempSum2 = 0.0;
+                                foreach (var item in rawtmp)
+                                {
+                                    double c = Math.Pow(10, (Convert.ToDouble(item) - 30) / 10);
+                                    tempSum2 += Math.Pow(c - tempAvg, 2);
+                                }
+                                tempStd = Math.Sqrt(tempSum2 / rawtmp.Count());
+
+                                tmp.UnitConv = "W";
+
+                                wIndex = 0;
+                                for (int x = 0; x < 8; i++)
+                                {
+                                    if (tempAvg > 10000)
+                                    {
+                                        tempMin /= 1000;
+                                        tempMax /= 1000;
+                                        tempAvg /= 1000;
+                                        tempStd /= 1000;
+                                        tmp.UnitConv = largeW[wIndex++];
+                                    }
+                                    else if (tempAvg < 1)
+                                    {
+                                        tempMin *= 1000;
+                                        tempMax *= 1000;
+                                        tempAvg *= 1000;
+                                        tempStd *= 1000;
+                                        tmp.UnitConv = smallW[wIndex++];
+                                    }
+                                    else
+                                    {
+                                        break;
+                                    }
+                                }
+
+                                tmp.MinResultConv = Convert.ToString(Math.Round(tempMin));
+                                tmp.MaxResultConv = Convert.ToString(Math.Round(tempMax));
+                                tmp.AvgResultConv = Convert.ToString(Math.Round(tempAvg));
+                                tmp.StdDevConv = Convert.ToString(Math.Round(tempStd));
                                 break;
                             case "dB/MHz":
+                                tempMin = Math.Pow(10, rawtmp.Min() / 10);
+                                tempMax = Math.Pow(10, rawtmp.Max() / 10);
+                                tempAvg = Math.Pow(10, rawtmp.Average() / 10);
+
+                                tempSum2 = 0.0;
+                                foreach (var item in rawtmp)
+                                {
+                                    double c = Math.Pow(10, Convert.ToDouble(item) / 10);
+                                    tempSum2 += Math.Pow(c - tempAvg, 2);
+                                }
+                                tempStd = Math.Sqrt(tempSum2 / rawtmp.Count());
+
+                                tmp.UnitConv = "W";
+
+                                wIndex = 0;
+                                for (int x = 0; x < 8; i++)
+                                {
+                                    if (tempAvg > 10000)
+                                    {
+                                        tempMin /= 1000;
+                                        tempMax /= 1000;
+                                        tempAvg /= 1000;
+                                        tempStd /= 1000;
+                                        tmp.UnitConv = largeW[wIndex++];
+                                    }
+                                    else if (tempAvg < 1)
+                                    {
+                                        tempMin *= 1000;
+                                        tempMax *= 1000;
+                                        tempAvg *= 1000;
+                                        tempStd *= 1000;
+                                        tmp.UnitConv = smallW[wIndex++];
+                                    }
+                                    else
+                                    {
+                                        break;
+                                    }
+                                }
+
+                                tmp.MinResultConv = Convert.ToString(Math.Round(tempMin));
+                                tmp.MaxResultConv = Convert.ToString(Math.Round(tempMax));
+                                tmp.AvgResultConv = Convert.ToString(Math.Round(tempAvg));
+                                tmp.StdDevConv = Convert.ToString(Math.Round(tempStd));
+                                tmp.UnitConv += "/MHz";
                                 break;
-                            case "dBW/4kHz":
+                            case "dBW/4KHz":
+                                tempMin = Math.Pow(10, rawtmp.Min() / 10);
+                                tempMax = Math.Pow(10, rawtmp.Max() / 10);
+                                tempAvg = Math.Pow(10, rawtmp.Average() / 10);
+
+                                tempSum2 = 0.0;
+                                foreach (var item in rawtmp)
+                                {
+                                    double c = Math.Pow(10, Convert.ToDouble(item) / 10);
+                                    tempSum2 += Math.Pow(c - tempAvg, 2);
+                                }
+                                tempStd = Math.Sqrt(tempSum2 / rawtmp.Count());
+
+                                tmp.UnitConv = "W";
+
+                                wIndex = 0;
+                                for (int x = 0; x < 8; i++)
+                                {
+                                    if (tempAvg > 10000)
+                                    {
+                                        tempMin /= 1000;
+                                        tempMax /= 1000;
+                                        tempAvg /= 1000;
+                                        tempStd /= 1000;
+                                        tmp.UnitConv = largeW[wIndex++];
+                                    }
+                                    else if (tempAvg < 1)
+                                    {
+                                        tempMin *= 1000;
+                                        tempMax *= 1000;
+                                        tempAvg *= 1000;
+                                        tempStd *= 1000;
+                                        tmp.UnitConv = smallW[wIndex++];
+                                    }
+                                    else
+                                    {
+                                        break;
+                                    }
+                                }
+
+                                tmp.MinResultConv = Convert.ToString(Math.Round(tempMin));
+                                tmp.MaxResultConv = Convert.ToString(Math.Round(tempMax));
+                                tmp.AvgResultConv = Convert.ToString(Math.Round(tempAvg));
+                                tmp.StdDevConv = Convert.ToString(Math.Round(tempStd));
+                                tmp.UnitConv += "/4KHz";
                                 break;
                             case "deg/dB":
+                                tempMin = 1 / Math.Pow(10, 1 / rawtmp.Min() / 10);
+                                tempMax = 1 / Math.Pow(10, 1 / rawtmp.Max() / 10);
+                                tempAvg = 1 / Math.Pow(10, 1 / rawtmp.Average() / 10);
+
+                                tempSum2 = 0.0;
+                                foreach (var item in rawtmp)
+                                {
+                                    double c = 1 / Math.Pow(10, 1 / Convert.ToDouble(item) / 10);
+                                    tempSum2 += Math.Pow(c - tempAvg, 2);
+                                }
+                                tempStd = Math.Sqrt(tempSum2 / rawtmp.Count());
+
+                                tmp.UnitConv = "W";
+
+                                wIndex = 0;
+                                for (int x = 0; x < 8; i++)
+                                {
+                                    if (tempAvg > 10000)
+                                    {
+                                        tempMin /= 1000;
+                                        tempMax /= 1000;
+                                        tempAvg /= 1000;
+                                        tempStd /= 1000;
+                                        tmp.UnitConv = largeW[wIndex++];
+                                    }
+                                    else if (tempAvg < 1)
+                                    {
+                                        tempMin *= 1000;
+                                        tempMax *= 1000;
+                                        tempAvg *= 1000;
+                                        tempStd *= 1000;
+                                        tmp.UnitConv = smallW[wIndex++];
+                                    }
+                                    else
+                                    {
+                                        break;
+                                    }
+                                }
+
+                                tmp.MinResultConv = Convert.ToString(Math.Round(tempMin));
+                                tmp.MaxResultConv = Convert.ToString(Math.Round(tempMax));
+                                tmp.AvgResultConv = Convert.ToString(Math.Round(tempAvg));
+                                tmp.StdDevConv = Convert.ToString(Math.Round(tempStd));
+                                tmp.UnitConv = "deg/" + tmp.UnitConv;
                                 break;
                             case "o/dB":
+                                tempMin = 1 / Math.Pow(10, 1 / rawtmp.Min() / 10);
+                                tempMax = 1 / Math.Pow(10, 1 / rawtmp.Max() / 10);
+                                tempAvg = 1 / Math.Pow(10, 1 / rawtmp.Average() / 10);
+
+                                tempSum2 = 0.0;
+                                foreach (var item in rawtmp)
+                                {
+                                    double c = 1 / Math.Pow(10, 1 / Convert.ToDouble(item) / 10);
+                                    tempSum2 += Math.Pow(c - tempAvg, 2);
+                                }
+                                tempStd = Math.Sqrt(tempSum2 / rawtmp.Count());
+
+                                tmp.UnitConv = "W";
+
+                                wIndex = 0;
+                                for (int x = 0; x < 8; i++)
+                                {
+                                    if (tempAvg > 10000)
+                                    {
+                                        tempMin /= 1000;
+                                        tempMax /= 1000;
+                                        tempAvg /= 1000;
+                                        tempStd /= 1000;
+                                        tmp.UnitConv = largeW[wIndex++];
+                                    }
+                                    else if (tempAvg < 1)
+                                    {
+                                        tempMin *= 1000;
+                                        tempMax *= 1000;
+                                        tempAvg *= 1000;
+                                        tempStd *= 1000;
+                                        tmp.UnitConv = smallW[wIndex++];
+                                    }
+                                    else
+                                    {
+                                        break;
+                                    }
+                                }
+
+                                tmp.MinResultConv = Convert.ToString(Math.Round(tempMin));
+                                tmp.MaxResultConv = Convert.ToString(Math.Round(tempMax));
+                                tmp.AvgResultConv = Convert.ToString(Math.Round(tempAvg));
+                                tmp.StdDevConv = Convert.ToString(Math.Round(tempStd));
+                                tmp.UnitConv = "o/" + tmp.UnitConv;
                                 break;
                         }
 
