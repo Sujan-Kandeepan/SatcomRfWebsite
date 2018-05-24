@@ -71,12 +71,12 @@ function buildTable(tableData) {
         }
 
         var unitConv = "";
-        if (true)
+        if (unit.includes("dB"))
         {
             unitConv = " " + tableData[i].UnitConv;
         }
 
-        if (true)
+        if (unit.includes("dB"))
         {
             result += "<tr><td>" + tableData[i].TestName + "</td><td>" + tableData[i].Channel + "</td><td>" + tableData[i].MinResult + unit + " | "
                 + tableData[i].MinResultConv + unitConv + "</td><td>" + tableData[i].MaxResult + unit + " | " + tableData[i].MaxResultConv + unitConv + "</td><td>"
