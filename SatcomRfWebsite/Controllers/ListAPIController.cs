@@ -239,6 +239,8 @@ namespace SatcomRfWebsite.Controllers
                         {
                             case "dB":
                             case "dBc":
+                            case "dB/MHz":
+                            case "dBW/4KHz":
                                 tempMin = Math.Pow(10, rawtmp.Min() / 10);
                                 tempMax = Math.Pow(10, rawtmp.Max() / 10);
                                 tempAvg = Math.Pow(10, rawtmp.Average() / 10);
@@ -266,48 +268,7 @@ namespace SatcomRfWebsite.Controllers
                                 tempStd = Math.Sqrt(tempSum2 / rawtmp.Count());
 
                                 break;
-                            case "dB/MHz":
-                                tempMin = Math.Pow(10, rawtmp.Min() / 10);
-                                tempMax = Math.Pow(10, rawtmp.Max() / 10);
-                                tempAvg = Math.Pow(10, rawtmp.Average() / 10);
-
-                                tempSum2 = 0.0;
-                                foreach (var item in rawtmp)
-                                {
-                                    double c = Math.Pow(10, Convert.ToDouble(item) / 10);
-                                    tempSum2 += Math.Pow(c - tempAvg, 2);
-                                }
-                                tempStd = Math.Sqrt(tempSum2 / rawtmp.Count());
-
-                                break;
-                            case "dBW/4KHz":
-                                tempMin = Math.Pow(10, rawtmp.Min() / 10);
-                                tempMax = Math.Pow(10, rawtmp.Max() / 10);
-                                tempAvg = Math.Pow(10, rawtmp.Average() / 10);
-
-                                tempSum2 = 0.0;
-                                foreach (var item in rawtmp)
-                                {
-                                    double c = Math.Pow(10, Convert.ToDouble(item) / 10);
-                                    tempSum2 += Math.Pow(c - tempAvg, 2);
-                                }
-                                tempStd = Math.Sqrt(tempSum2 / rawtmp.Count());
-
-                                break;
                             case "deg/dB":
-                                tempMin = 1 / Math.Pow(10, 1 / rawtmp.Min() / 10);
-                                tempMax = 1 / Math.Pow(10, 1 / rawtmp.Max() / 10);
-                                tempAvg = 1 / Math.Pow(10, 1 / rawtmp.Average() / 10);
-
-                                tempSum2 = 0.0;
-                                foreach (var item in rawtmp)
-                                {
-                                    double c = 1 / Math.Pow(10, 1 / Convert.ToDouble(item) / 10);
-                                    tempSum2 += Math.Pow(c - tempAvg, 2);
-                                }
-                                tempStd = Math.Sqrt(tempSum2 / rawtmp.Count());
-
-                                break;
                             case "o/dB":
                                 tempMin = 1 / Math.Pow(10, 1 / rawtmp.Min() / 10);
                                 tempMax = 1 / Math.Pow(10, 1 / rawtmp.Max() / 10);
