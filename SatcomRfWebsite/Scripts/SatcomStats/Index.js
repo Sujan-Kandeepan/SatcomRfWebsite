@@ -56,7 +56,7 @@ function showFail() {
 }
 
 function buildTable(tableData) {
-    var result = "<tr><th>Test Name</th><th>Channel</th><th>Min</th><th>Max</th><th>Average</th><th>Standard Deviation</th></tr>";
+    var result = "<tr><th>Test Name</th><th>Channel</th><th>Minimum</th><th>Maximum</th><th>Average</th><th>Standard Deviation</th></tr>";
     for (var i = 0; i < tableData.length; i++) {
         var unit = "";
          
