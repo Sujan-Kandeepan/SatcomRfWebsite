@@ -224,11 +224,11 @@ namespace SatcomRfWebsite.Controllers
                         }
                         tmp.StdDev = Convert.ToString(Math.Round(Math.Sqrt(tempSum / rawtmp.Count()), rounding));
 
-                        tmp.UnitConv = "units";
-                        tmp.MinResultConv = "###";
-                        tmp.MaxResultConv = "###";
-                        tmp.AvgResultConv = "###";
-                        tmp.StdDevConv = "###";
+                        tmp.UnitConv = "---";
+                        tmp.MinResultConv = "---";
+                        tmp.MaxResultConv = "---";
+                        tmp.AvgResultConv = "---";
+                        tmp.StdDevConv = "---";
 
                         string[] largeW = { "kW", "MW", "GW", "TW", "PW", "EW", "ZW", "YW" };
                         string[] smallW = { "mW", "µW", "nW", "pW", "fW", "aW", "zW", "yW" };
@@ -370,7 +370,7 @@ namespace SatcomRfWebsite.Controllers
             {
                 List<TestData> data = InternalGetTableData(modelName, familyName);
                 string[][] headers = new string[1][];
-                headers[0] = new string[] { "Testname", "Min", "Max", "Average", "Unit", "Channel #" };
+                headers[0] = new string[] { "Testname", "Channel #", "Min", "Max", "Average", "Std. Deviation", "Unit", "Min (Conv.)", "Max (Conv.)", "Average (Conv.)", "Std. Deviation (Conv.)", "Unit (Conv.)" };
                 var file = new MemoryStream();
                 var document = new XLWorkbook();
                 var worksheet = document.Worksheets.Add("Table Data");
@@ -378,7 +378,7 @@ namespace SatcomRfWebsite.Controllers
                 worksheet.Cell(2, 1).InsertData(data);
                 var style = document.Style;
                 style.Font.Bold = true;
-                worksheet.Range(1, 1, 1, 6).Style = style;
+                worksheet.Range(1, 1, 1, 12).Style = style;
                 worksheet.Columns().AdjustToContents();
                 document.SaveAs(file);
                 string filename = DateTime.Now.ToString("yyyy-MM-dd") + $" {familyName} {modelName}.xlsx";
