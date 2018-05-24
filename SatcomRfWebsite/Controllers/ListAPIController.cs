@@ -370,7 +370,7 @@ namespace SatcomRfWebsite.Controllers
             {
                 List<TestData> data = InternalGetTableData(modelName, familyName);
                 string[][] headers = new string[1][];
-                headers[0] = new string[] { "Testname", "Channel #", "Min", "Max", "Average", "Std. Deviation", "Unit", "Min (Conv.)", "Max (Conv.)", "Average (Conv.)", "Std. Deviation (Conv.)", "Unit (Conv.)" };
+                headers[0] = new string[] { "Testname", "Channel #", "Min", "Max", "Average", "Std. Deviation", "Unit", "Min (Conv)", "Max (Conv)", "Average (Conv)", "Std. Deviation (Conv)", "Unit (Conv.)" };
                 var file = new MemoryStream();
                 var document = new XLWorkbook();
                 var worksheet = document.Worksheets.Add("Table Data");
