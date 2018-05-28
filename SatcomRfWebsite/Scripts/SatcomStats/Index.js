@@ -2,6 +2,7 @@
     if (familyName === "default") {
         document.getElementById("models").innerHTML = "";
         document.getElementById("getdata-failed").classList.add("hide");
+        document.getElementById("data-table").innerHTML = "";
         return;
     }
 
