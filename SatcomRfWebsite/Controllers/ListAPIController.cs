@@ -298,7 +298,7 @@ namespace SatcomRfWebsite.Controllers
                                     tempMax /= 1000;
                                     tempAvg /= 1000;
                                     tempStd /= 1000;
-                                    tmp.UnitConv = largeW[wIndex++];
+                                    tmp.UnitConv = largeW[wIndex < 7 ? wIndex++ : wIndex];
                                 }
                                 else if (tempMin < 1 || Math.Round(tempMin, rounding) == 0 || Math.Round(tempStd, rounding) == 0)
                                 {
@@ -306,7 +306,7 @@ namespace SatcomRfWebsite.Controllers
                                     tempMax *= 1000;
                                     tempAvg *= 1000;
                                     tempStd *= 1000;
-                                    tmp.UnitConv = smallW[wIndex++];
+                                    tmp.UnitConv = smallW[wIndex < 7 ? wIndex++ : wIndex];
                                 }
                                 else
                                 {
