@@ -1,6 +1,7 @@
 ﻿function getModelNames(familyName) {
     if (familyName === "default") {
         document.getElementById("models").innerHTML = "";
+        document.getElementById("getdata-failed").classList.add("hide");
         return;
     }
 
@@ -55,6 +56,7 @@ function showFail() {
     document.getElementById("getdata-failed").innerHTML = alertHTML;
     document.getElementById("getdata-failed").classList.remove("hide");
     document.getElementById("getdata-loading").classList.add("hide");
+    document.getElementById("data-table").innerHTML = "";
 }
 
 function buildTable(tableData) {
