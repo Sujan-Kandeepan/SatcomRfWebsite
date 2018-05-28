@@ -50,9 +50,10 @@ function getFamilies() {
 }
 
 function showFail() {
-    var alertHTML = "<div class=\"alert alert-danger alert-dismissible fade in\" id=\"alert-failed\"><a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\">&times;</a><strong>Error:</strong> Failed to get data from server.</div>";
+    var alertHTML = "<div class=\"alert alert-danger fade in\" id=\"alert-failed\"><strong>Error:</strong> Failed to get data from server.</div>";
     document.getElementById("getdata-failed").innerHTML = alertHTML;
     document.getElementById("getdata-failed").classList.remove("hide");
+    document.getElementById("getdata-loading").classList.add("hide");
 }
 
 function buildTable(tableData) {
@@ -110,19 +111,20 @@ function getTable(modelName, familyName) {
                 document.getElementById("data-table").classList.remove("hide");
                 document.getElementById("data-table").innerHTML = html;
                 document.getElementById("getdata-loading").classList.add("hide");
+                document.getElementById("getdata-failed").classList.add("hide");
             }
             else {
                 showFail();
             }
         }
         else if (this.readyState === 4 && this.status !== 200) {
-            document.getElementById("getdata-loading").classList.add("hide");
             showFail();
         }
     };
 
     document.getElementById("data-display").classList.remove("hide");
     document.getElementById("getdata-loading").classList.remove("hide");
+    document.getElementById("getdata-failed").classList.add("hide");
 
     data.open("GET", src, true);
     data.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -130,7 +132,7 @@ function getTable(modelName, familyName) {
 }
 
 function showSelectionError() {
-    var alertHTML = "<div class=\"alert alert-danger alert-dismissible fade in\" id=\"alert-failed\"><a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\">&times;</a><strong>Error:</strong> Select a family or model before downloading report.</div>";
+    var alertHTML = "<div class=\"alert alert-danger fade in\" id=\"alert-failed\"><strong>Error:</strong> Select a family or model before downloading report.</div>";
     document.getElementById("selection-failed").innerHTML = alertHTML;
     document.getElementById("selection-failed").classList.remove("hide");
 }
