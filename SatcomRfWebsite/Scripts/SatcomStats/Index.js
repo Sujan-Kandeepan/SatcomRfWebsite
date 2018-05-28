@@ -22,6 +22,7 @@
             }
 
             document.getElementById("models").innerHTML = html;
+            document.getElementById("selection-failed").classList.add("hide");
         }
     };
 
@@ -125,6 +126,7 @@ function getTable(modelName, familyName) {
     document.getElementById("data-display").classList.remove("hide");
     document.getElementById("getdata-loading").classList.remove("hide");
     document.getElementById("getdata-failed").classList.add("hide");
+    document.getElementById("selection-failed").classList.add("hide");
 
     data.open("GET", src, true);
     data.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -132,7 +134,7 @@ function getTable(modelName, familyName) {
 }
 
 function showSelectionError() {
-    var alertHTML = "<div class=\"alert alert-danger fade in\" id=\"alert-failed\"><strong>Error:</strong> Select a family or model before downloading report.</div>";
+    var alertHTML = "<div class=\"alert alert-danger fade in\" id=\"alert-failed\"><strong>Error:</strong> Select a family and model before downloading report.</div>";
     document.getElementById("selection-failed").innerHTML = alertHTML;
     document.getElementById("selection-failed").classList.remove("hide");
 }
