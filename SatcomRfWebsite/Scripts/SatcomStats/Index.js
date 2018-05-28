@@ -103,6 +103,7 @@ function getTable(modelName, familyName) {
     var src = document.location.origin + "/api/ListAPI/GetTableData?modelName=" + modelName + "&familyName=" + familyName;
     var data = new XMLHttpRequest();
     data.onreadystatechange = function () {
+        document.getElementById("data-table").innerHTML = "";
         if (this.readyState === 4 && this.status === 200) {
             var retData = JSON.parse(data.responseText);
             if (retData !== null) {
