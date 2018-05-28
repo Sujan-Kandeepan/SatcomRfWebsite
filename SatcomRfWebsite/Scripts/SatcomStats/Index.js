@@ -52,14 +52,6 @@ function getFamilies() {
     data.send();
 }
 
-function showFail() {
-    var alertHTML = "<div class=\"alert alert-danger fade in\" id=\"alert-failed\"><strong>Error:</strong> Failed to get data from server.</div>";
-    document.getElementById("getdata-failed").innerHTML = alertHTML;
-    document.getElementById("getdata-failed").classList.remove("hide");
-    document.getElementById("getdata-loading").classList.add("hide");
-    document.getElementById("data-table").innerHTML = "";
-}
-
 function buildTable(tableData) {
     var result = "<tr><th>Test Name</th><th>Channel</th><th>Minimum</th><th>Maximum</th><th>Average</th><th>Standard Deviation</th></tr>";
     for (var i = 0; i < tableData.length; i++) {
@@ -136,15 +128,15 @@ function getTable(modelName, familyName) {
     data.send();
 }
 
-function showSelectionError() {
-    var alertHTML = "<div class=\"alert alert-danger fade in\" id=\"alert-failed\"><strong>Error:</strong> Select a family and model before downloading report.</div>";
-    document.getElementById("selection-failed").innerHTML = alertHTML;
-    document.getElementById("selection-failed").classList.remove("hide");
+function showFail() {
+    document.getElementById("getdata-failed").classList.remove("hide");
+    document.getElementById("getdata-loading").classList.add("hide");
+    document.getElementById("data-table").innerHTML = "";
 }
 
 function getxlsxfile(modelName, familyName) {
     if (modelName === "default" || familyName === "default") {
-        showSelectionError();
+        document.getElementById("selection-failed").classList.remove("hide");
         return;
     }
 

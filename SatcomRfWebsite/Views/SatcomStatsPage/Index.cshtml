@@ -22,7 +22,10 @@
 
 <h2>Select a model family and a model:</h2>
 <div class="container row" id="main-data">
-    <div id="selection-failed"></div>
+    <div class="alert alert-danger hide fade in" id="selection-failed">
+        <strong>Error:</strong> Select a family and model before downloading report.
+    </div>
+
     <form action="">
         <div class="col-sm-4">
             <select class="form-control" id="families" name="families" onchange="getModelNames(this.value);"></select>
@@ -41,7 +44,9 @@
 <div class="container hide" id="data-display">
     <hr />
 
-    <div id="getdata-failed"></div>
+    <div class="alert alert-danger hide fade in" id="getdata-failed">
+        <strong>Error:</strong> Failed to get data from server.
+    </div>
 
     <div class="alert alert-info hide fade in" id="getdata-loading">
         <strong style="vertical-align:middle">Loading...</strong>
