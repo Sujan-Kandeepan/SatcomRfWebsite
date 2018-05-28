@@ -26,6 +26,10 @@
         <strong>Error:</strong> Select a family and model before downloading report.
     </div>
 
+    <div class="alert alert-danger hide fade in" id="download-failed">
+        <strong>Error:</strong> Cannot generate report when data not found.
+    </div>
+
     <form action="">
         <div class="col-sm-4">
             <select class="form-control" id="families" name="families" onchange="getModelNames(this.value);"></select>

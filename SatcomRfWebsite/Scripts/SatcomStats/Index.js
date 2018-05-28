@@ -2,6 +2,8 @@
     if (familyName === "default") {
         document.getElementById("models").innerHTML = "";
         document.getElementById("getdata-failed").classList.add("hide");
+        document.getElementById("selection-failed").classList.add("hide");
+        document.getElementById("download-failed").classList.add("hide");
         document.getElementById("data-table").innerHTML = "";
         return;
     }
@@ -25,6 +27,7 @@
 
             document.getElementById("models").innerHTML = html;
             document.getElementById("selection-failed").classList.add("hide");
+            document.getElementById("download-failed").classList.add("hide");
         }
     };
 
@@ -122,6 +125,7 @@ function getTable(modelName, familyName) {
     document.getElementById("getdata-loading").classList.remove("hide");
     document.getElementById("getdata-failed").classList.add("hide");
     document.getElementById("selection-failed").classList.add("hide");
+    document.getElementById("download-failed").classList.add("hide");
 
     data.open("GET", src, true);
     data.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -137,6 +141,12 @@ function showFail() {
 function getxlsxfile(modelName, familyName) {
     if (modelName === "default" || familyName === "default") {
         document.getElementById("selection-failed").classList.remove("hide");
+        document.getElementById("download-failed").classList.add("hide");
+        return;
+    }
+
+    if (!document.getElementById("getdata-failed").classList.contains("hide")) {
+        document.getElementById("download-failed").classList.remove("hide");
         return;
     }
 
