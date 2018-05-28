@@ -300,7 +300,7 @@ namespace SatcomRfWebsite.Controllers
                                     tempStd /= 1000;
                                     tmp.UnitConv = largeW[wIndex++];
                                 }
-                                else if (tempAvg < 1)
+                                else if (tempMin < 1 || Math.Round(tempMin, rounding) == 0 || Math.Round(tempStd, rounding) == 0)
                                 {
                                     tempMin *= 1000;
                                     tempMax *= 1000;
@@ -314,10 +314,10 @@ namespace SatcomRfWebsite.Controllers
                                 }
                             }
 
-                            tmp.MinResultConv = Convert.ToString(Math.Round(tempMin));
-                            tmp.MaxResultConv = Convert.ToString(Math.Round(tempMax));
-                            tmp.AvgResultConv = Convert.ToString(Math.Round(tempAvg));
-                            tmp.StdDevConv = Convert.ToString(Math.Round(tempStd));
+                            tmp.MinResultConv = Convert.ToString(Math.Round(tempMin, rounding));
+                            tmp.MaxResultConv = Convert.ToString(Math.Round(tempMax, rounding));
+                            tmp.AvgResultConv = Convert.ToString(Math.Round(tempAvg, rounding));
+                            tmp.StdDevConv = Convert.ToString(Math.Round(tempStd, rounding));
                         }
 
                         switch (tmp.Unit)
