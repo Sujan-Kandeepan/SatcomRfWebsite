@@ -284,17 +284,21 @@ namespace SatcomRfWebsite.Controllers
                                 }
                                 tempStd = Math.Sqrt(tempSum2 / rawtmp.Count());
 
+                                string[] temp = largeW;
+                                largeW = smallW;
+                                smallW = temp;
+
                                 break;
                         }
-                        
+
                         if (tmp.Unit.Contains("dB"))
                         {
                             tmp.UnitConv = "W";
 
-                            /*wIndex = 0;
-                            for (int x = 0; x < 8; i++)
+                            wIndex = 0;
+                            for (int x = 0; x < 8; x++)
                             {
-                                if (tempAvg > 10000)
+                                if (tempAvg > 1000)
                                 {
                                     tempMin /= 1000;
                                     tempMax /= 1000;
@@ -302,7 +306,7 @@ namespace SatcomRfWebsite.Controllers
                                     tempStd /= 1000;
                                     tmp.UnitConv = largeW[wIndex < 7 ? wIndex++ : wIndex];
                                 }
-                                else if (tempMin < 1 || Math.Round(tempMin, rounding) == 0 || Math.Round(tempStd, rounding) == 0)
+                                else if (Math.Round(tempStd, rounding) == 0 && tempMin != tempMax)
                                 {
                                     tempMin *= 1000;
                                     tempMax *= 1000;
@@ -312,9 +316,9 @@ namespace SatcomRfWebsite.Controllers
                                 }
                                 else
                                 {
-                                    break;
+                                    x = 8;
                                 }
-                            }*/
+                            }
 
                             tmp.MinResultConv = Convert.ToString(Math.Round(tempMin, rounding));
                             tmp.MaxResultConv = Convert.ToString(Math.Round(tempMax, rounding));
