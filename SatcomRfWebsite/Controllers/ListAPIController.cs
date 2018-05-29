@@ -298,7 +298,7 @@ namespace SatcomRfWebsite.Controllers
                             wIndex = 0;
                             for (int x = 0; x < 8; x++)
                             {
-                                if (tempAvg > 1000)
+                                if (tempAvg > 10000)
                                 {
                                     tempMin /= 1000;
                                     tempMax /= 1000;
@@ -306,7 +306,7 @@ namespace SatcomRfWebsite.Controllers
                                     tempStd /= 1000;
                                     tmp.UnitConv = largeW[wIndex < 7 ? wIndex++ : wIndex];
                                 }
-                                else if (Math.Round(tempStd, rounding) == 0 && tempMin != tempMax && Convert.ToDouble(tmp.AvgResult) > 1)
+                                else if (tempAvg != 0 && tempAvg < 1 || Math.Round(tempStd, rounding) == 0 && tempMin != tempMax)
                                 {
                                     tempMin *= 1000;
                                     tempMax *= 1000;
