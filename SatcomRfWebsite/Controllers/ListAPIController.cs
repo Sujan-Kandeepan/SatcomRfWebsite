@@ -209,8 +209,8 @@ namespace SatcomRfWebsite.Controllers
                             rounding = longest.Length - longest.IndexOf(".") - 1;
                         }
                         var tmp = new TestData();
-                        foreach (String x in raw.ElementAt(i).Value.Results) { System.Diagnostics.Debug.Write("<" + x + "> "); }
-                        System.Diagnostics.Debug.WriteLine("");
+                        //foreach (String x in raw.ElementAt(i).Value.Results.OrderBy(x => Convert.ToDouble(x.Replace(":1", "").Replace("Below ", "").Replace("+/-", "").Replace("+", "")))) { System.Diagnostics.Debug.Write("<" + x + "> "); }
+                        //System.Diagnostics.Debug.WriteLine("");
                         var rawtmp = from val in raw.ElementAt(i).Value.Results select Convert.ToDouble(val.Replace(":1", "").Replace("Below ", "").Replace("+/-", "").Replace("+", ""));
                         tmp.TestName = raw.ElementAt(i).Value.TestName;
                         tmp.Unit = raw.ElementAt(i).Value.Units;
