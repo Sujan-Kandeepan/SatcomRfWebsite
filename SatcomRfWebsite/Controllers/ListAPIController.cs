@@ -229,7 +229,7 @@ namespace SatcomRfWebsite.Controllers
                         tmp.MaxResultConv = "---";
                         tmp.AvgResultConv = "---";
                         tmp.StdDevConv = "---";
-
+                        
                         string[] largeW = { "kW", "MW", "GW", "TW", "PW", "EW", "ZW", "YW" };
                         string[] smallW = { "mW", "µW", "nW", "pW", "fW", "aW", "zW", "yW" };
                         double tempMin = 0, tempMax = 0, tempAvg = 0, tempStd = 0, tempSum2;
@@ -284,12 +284,12 @@ namespace SatcomRfWebsite.Controllers
 
                                 break;
                         }
-
+                        
                         if (tmp.Unit.Contains("dB"))
                         {
                             tmp.UnitConv = "W";
 
-                            wIndex = 0;
+                            /*wIndex = 0;
                             for (int x = 0; x < 8; i++)
                             {
                                 if (tempAvg > 10000)
@@ -312,14 +312,14 @@ namespace SatcomRfWebsite.Controllers
                                 {
                                     break;
                                 }
-                            }
+                            }*/
 
                             tmp.MinResultConv = Convert.ToString(Math.Round(tempMin, rounding));
                             tmp.MaxResultConv = Convert.ToString(Math.Round(tempMax, rounding));
                             tmp.AvgResultConv = Convert.ToString(Math.Round(tempAvg, rounding));
                             tmp.StdDevConv = Convert.ToString(Math.Round(tempStd, rounding));
                         }
-
+                        
                         switch (tmp.Unit)
                         {
                             case "dB/MHz":
