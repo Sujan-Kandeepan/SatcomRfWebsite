@@ -209,7 +209,9 @@ namespace SatcomRfWebsite.Controllers
                             rounding = longest.Length - longest.IndexOf(".") - 1;
                         }
                         var tmp = new TestData();
-                        var rawtmp = from val in raw.ElementAt(i).Value.Results select Convert.ToDouble(val.Replace(":1", ""));
+                        //foreach (String x in raw.ElementAt(i).Value.Results) { System.Diagnostics.Debug.Write("<" + x + "> "); }
+                        //System.Diagnostics.Debug.WriteLine("");
+                        var rawtmp = from val in raw.ElementAt(i).Value.Results select Convert.ToDouble(val.Replace(":1", "").Replace("Below ", "").Replace("+/-", ""));
                         tmp.TestName = raw.ElementAt(i).Value.TestName;
                         tmp.Unit = raw.ElementAt(i).Value.Units;
                         tmp.Channel = (string.IsNullOrEmpty(raw.ElementAt(i).Value.Channel) ? "N/A" : raw.ElementAt(i).Value.Channel);
@@ -358,8 +360,9 @@ namespace SatcomRfWebsite.Controllers
             {
                 return NotFound();
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                System.Diagnostics.Debug.Write(e.ToString());
                 return InternalServerError();
             }
         }
