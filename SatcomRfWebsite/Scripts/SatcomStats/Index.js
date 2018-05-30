@@ -26,8 +26,10 @@
             }
 
             document.getElementById("models").innerHTML = html;
+            document.getElementById("getdata-failed").classList.add("hide");
             document.getElementById("selection-failed").classList.add("hide");
             document.getElementById("download-failed").classList.add("hide");
+            document.getElementById("data-table").innerHTML = "";
         }
     };
 
@@ -42,7 +44,7 @@ function getFamilies() {
     data.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
             var retData = JSON.parse(data.responseText);
-            var html = "<option value=\"default\" selected>Choose a model family.</option>";
+            var html = "<option value=\"default\" selected>Choose a product type.</option>";
             for (var i = 0; i < retData.length; i++) {
                 html += "<option value=\"" + retData[i] + "\">" + retData[i] + "</option>";
             }
