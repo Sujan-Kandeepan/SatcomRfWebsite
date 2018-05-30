@@ -1,5 +1,5 @@
-﻿function getModelNames(familyName) {
-    if (familyName === "default") {
+﻿function getModelNames(productType) {
+    if (productType === "default") {
         document.getElementById("models").innerHTML = "";
         document.getElementById("getdata-failed").classList.add("hide");
         document.getElementById("selection-failed").classList.add("hide");
@@ -8,7 +8,7 @@
         return;
     }
 
-    var src = document.location.origin + "/api/ListAPI/GetModels?familyName=" + familyName;
+    var src = document.location.origin + "/api/ListAPI/GetModels?productType=" + productType;
     var data = new XMLHttpRequest();
     data.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
@@ -38,8 +38,8 @@
     data.send();
 }
 
-function getFamilies() {
-    var src = document.location.origin + "/api/ListAPI/GetFamilies";
+function getProductTypes() {
+    var src = document.location.origin + "/api/ListAPI/GetProductTypes";
     var data = new XMLHttpRequest();
     data.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
@@ -48,7 +48,7 @@ function getFamilies() {
             for (var i = 0; i < retData.length; i++) {
                 html += "<option value=\"" + retData[i] + "\">" + retData[i] + "</option>";
             }
-            document.getElementById("families").innerHTML = html;
+            document.getElementById("productTypes").innerHTML = html;
         }
     };
 
@@ -95,14 +95,14 @@ function buildTable(tableData) {
     return result;
 }
 
-function getTable(modelName, familyName) {
+function getTable(modelName, productType) {
     if (modelName === "default") {
         document.getElementById("data-display").classList.add("hide");
         document.getElementById("data-table").innerHTML = "";
         return;
     }
 
-    var src = document.location.origin + "/api/ListAPI/GetTableData?modelName=" + modelName + "&familyName=" + familyName;
+    var src = document.location.origin + "/api/ListAPI/GetTableData?modelName=" + modelName + "&productType=" + productType;
     var data = new XMLHttpRequest();
     data.onreadystatechange = function () {
         document.getElementById("data-table").innerHTML = "";
@@ -141,8 +141,8 @@ function showFail() {
     document.getElementById("data-table").innerHTML = "";
 }
 
-function getxlsxfile(modelName, familyName) {
-    if (modelName === "default" || familyName === "default") {
+function getxlsxfile(modelName, productType) {
+    if (modelName === "default" || productType === "default") {
         document.getElementById("selection-failed").classList.remove("hide");
         document.getElementById("download-failed").classList.add("hide");
         return;
@@ -154,9 +154,9 @@ function getxlsxfile(modelName, familyName) {
     }
 
     document.getElementById("iframe-temp").innerHTML = "<iframe style=\"display:none\" src=\"" + document.location.origin +
-        "/api/ListAPI/GetTableFile?modelName=" + modelName + "&familyName=" + familyName + "\"></iframe>";
+        "/api/ListAPI/GetTableFile?modelName=" + modelName + "&productType=" + productType + "\"></iframe>";
 }
 
 function setupIndex() {
-    getFamilies();
+    getProductTypes();
 }
