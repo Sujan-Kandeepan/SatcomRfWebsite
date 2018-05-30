@@ -23,7 +23,7 @@
 <h2>Select a product type and a model name:</h2>
 <div class="container row" id="main-data">
     <div class="alert alert-danger hide fade in" id="selection-failed">
-        <strong>Error:</strong> Select a family and model before downloading report.
+        <strong>Error:</strong> Select a product type and model before downloading report.
     </div>
 
     <div class="alert alert-danger hide fade in" id="download-failed">
@@ -32,15 +32,15 @@
 
     <form action="">
         <div class="col-sm-4">
-            <select class="form-control" id="families" name="families" onchange="getModelNames(this.value);"></select>
+            <select class="form-control" id="productTypes" name="productTypes" onchange="getModelNames(this.value);"></select>
         </div>
 
         <div class="col-sm-4">
-            <select class="form-control" id="models" name="models" onchange="getTable(this.value, families.value)"></select>
+            <select class="form-control" id="models" name="models" onchange="getTable(this.value, productTypes.value)"></select>
         </div>
 
         <div class="col-sm-4">
-            <input type="button" class="form-control btn btn-primary" id="dlxlsx" name="dlbtn" onclick="getxlsxfile(models.value, families.value)" value="Download as Excel file (.xlsx)" />
+            <input type="button" class="form-control btn btn-primary" id="dlxlsx" name="dlbtn" onclick="getxlsxfile(models.value, productTypes.value)" value="Download as Excel file (.xlsx)" />
         </div>
     </form>
 </div>

@@ -95,7 +95,7 @@ namespace SatcomRfWebsite.Controllers
         }
 
         [NonAction]
-        public List<TestData> InternalGetTableData(string modelName, string familyName)
+        public List<TestData> InternalGetTableData(string modelName, string productType)
         {
             var data = new List<TestData>();
             using (var conn = new SqlConnection(GetSqlConnectString()))
@@ -106,10 +106,10 @@ namespace SatcomRfWebsite.Controllers
 
                 if (modelName == "all")
                 {
-                    cmd.CommandText = "SELECT ModelName FROM dbo.tblModelNames WHERE ProductType = @family;";
-                    var familyParam = new SqlParameter("@family", SqlDbType.NVarChar, 10);
-                    familyParam.Value = familyName;
-                    cmd.Parameters.Add(familyParam);
+                    cmd.CommandText = "SELECT ModelName FROM dbo.tblModelNames WHERE ProductType = @productType;";
+                    var productTypeParam = new SqlParameter("@productType", SqlDbType.NVarChar, 10);
+                    productTypeParam.Value = productType;
+                    cmd.Parameters.Add(productTypeParam);
                     cmd.Prepare();
 
                     SqlDataReader sqlResultModels = cmd.ExecuteReader();
@@ -159,7 +159,7 @@ namespace SatcomRfWebsite.Controllers
                     sqlResult.Close();
                 }
 
-                if (familyName.ToUpper().Contains("GENIV"))
+                if (productType.ToUpper().Contains("GENIV"))
                 {
                     cmd.CommandText = "SELECT TestName,Result,Units,Channel FROM dbo.tblKLYTestResults WHERE ModelSn = @sn AND NOT Result = 'PASS';";
                 }
@@ -353,11 +353,11 @@ namespace SatcomRfWebsite.Controllers
             return data;
         }
 
-        public IHttpActionResult GetTableData(string modelName, string familyName)
+        public IHttpActionResult GetTableData(string modelName, string productType)
         {
             try
             {
-                List<TestData> data = InternalGetTableData(modelName, familyName);
+                List<TestData> data = InternalGetTableData(modelName, productType);
                 return Ok(data);
             }
             catch (DataNotFoundException)
@@ -371,11 +371,11 @@ namespace SatcomRfWebsite.Controllers
             }
         }
 
-        public IHttpActionResult GetTableFile(string modelName, string familyName)
+        public IHttpActionResult GetTableFile(string modelName, string productType)
         {
             try
             {
-                List<TestData> data = InternalGetTableData(modelName, familyName);
+                List<TestData> data = InternalGetTableData(modelName, productType);
                 string[][] headers = new string[1][];
                 headers[0] = new string[] { "Testname", "Channel #", "Min", "Max", "Average", "Std. Deviation", "Unit", "Min (Conv)", "Max (Conv)", "Average (Conv)", "Std. Deviation (Conv)", "Unit (Conv)" };
                 var file = new MemoryStream();
@@ -388,7 +388,7 @@ namespace SatcomRfWebsite.Controllers
                 worksheet.Range(1, 1, 1, 12).Style = style;
                 worksheet.Columns().AdjustToContents();
                 document.SaveAs(file);
-                string filename = DateTime.Now.ToString("yyyy-MM-dd") + $" {familyName} {modelName}.xlsx";
+                string filename = DateTime.Now.ToString("yyyy-MM-dd") + $" {productType} {modelName}.xlsx";
                 var resp = new ExcelFileResponse(file.ToArray(), Request, filename);
                 file.Dispose();
                 return resp;
@@ -403,7 +403,7 @@ namespace SatcomRfWebsite.Controllers
             }
         }
 
-        public IHttpActionResult GetModels(string familyName)
+        public IHttpActionResult GetModels(string productType)
         {
             List<string> data = null;
             using (var conn = new SqlConnection(GetSqlConnectString()))
@@ -411,7 +411,7 @@ namespace SatcomRfWebsite.Controllers
                 conn.Open();
                 var cmd = new SqlCommand("SELECT ModelName FROM dbo.tblModelNames WHERE ProductType = @name;", conn);
                 var nameParam = new SqlParameter("@name", SqlDbType.NVarChar, 100);
-                nameParam.Value = familyName;
+                nameParam.Value = productType;
                 cmd.Parameters.Add(nameParam);
                 cmd.Prepare();
                 SqlDataReader sqlResult = cmd.ExecuteReader();
@@ -433,7 +433,7 @@ namespace SatcomRfWebsite.Controllers
             return Ok(data);
         }
 
-        public IHttpActionResult GetFamilies()
+        public IHttpActionResult GetProductTypes()
         {
             List<string> data = null;
             using (var conn = new SqlConnection(GetSqlConnectString()))
