@@ -423,6 +423,7 @@ namespace SatcomRfWebsite.Controllers
                 else
                 {
                     data = ReadAllData(sqlResult, "ModelName");
+                    data.Sort();
                 }
 
                 cmd.Dispose();
@@ -448,6 +449,7 @@ namespace SatcomRfWebsite.Controllers
                 else
                 {
                     data = ReadAllData(sqlResult, "ProductType");
+                    data.Sort();
                 }
 
                 cmd.Dispose();
