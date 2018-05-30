@@ -3,7 +3,7 @@
         document.getElementById("models").innerHTML = "";
         document.getElementById("getdata-failed").classList.add("hide");
         document.getElementById("selection-failed").classList.add("hide");
-        document.getElementById("download-failed").classList.add("hide");
+        document.getElementById("action-failed").classList.add("hide");
         document.getElementById("data-table").innerHTML = "";
         return;
     }
@@ -28,7 +28,7 @@
             document.getElementById("models").innerHTML = html;
             document.getElementById("getdata-failed").classList.add("hide");
             document.getElementById("selection-failed").classList.add("hide");
-            document.getElementById("download-failed").classList.add("hide");
+            document.getElementById("action-failed").classList.add("hide");
             document.getElementById("data-table").innerHTML = "";
         }
     };
@@ -128,7 +128,7 @@ function getTable(modelName, productType) {
     document.getElementById("getdata-loading").classList.remove("hide");
     document.getElementById("getdata-failed").classList.add("hide");
     document.getElementById("selection-failed").classList.add("hide");
-    document.getElementById("download-failed").classList.add("hide");
+    document.getElementById("action-failed").classList.add("hide");
 
     data.open("GET", src, true);
     data.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -141,20 +141,37 @@ function showFail() {
     document.getElementById("data-table").innerHTML = "";
 }
 
-function getxlsxfile(modelName, productType) {
+function getxlsxfile(productType, modelName) {
     if (modelName === "default" || productType === "default") {
         document.getElementById("selection-failed").classList.remove("hide");
-        document.getElementById("download-failed").classList.add("hide");
+        document.getElementById("action-failed").classList.add("hide");
         return;
     }
 
     if (!document.getElementById("getdata-failed").classList.contains("hide")) {
-        document.getElementById("download-failed").classList.remove("hide");
+        document.getElementById("action-failed").classList.remove("hide");
+        document.getElementById("getdata-failed").classList.add("hide");
         return;
     }
 
     document.getElementById("iframe-temp").innerHTML = "<iframe style=\"display:none\" src=\"" + document.location.origin +
         "/api/ListAPI/GetTableFile?modelName=" + modelName + "&productType=" + productType + "\"></iframe>";
+}
+
+function viewResults(productType, modelName) {
+    if (modelName === "default" || productType === "default") {
+        document.getElementById("selection-failed").classList.remove("hide");
+        document.getElementById("action-failed").classList.add("hide");
+        return;
+    }
+
+    if (!document.getElementById("getdata-failed").classList.contains("hide")) {
+        document.getElementById("action-failed").classList.remove("hide");
+        document.getElementById("getdata-failed").classList.add("hide");
+        return;
+    }
+
+    location.href = location.origin + "/testsData/TestResults/" + productType + "/" + modelName;
 }
 
 function setupIndex() {
