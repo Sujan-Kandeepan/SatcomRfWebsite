@@ -24,6 +24,7 @@
         }
 
         if (document.URL.includes("pT=na%mN=na%ser=na%testType=na%tubeName=na%opt=na")) {
+            Model.ateOutputModel.filter = "";
             location.href = document.URL.replace(/AteOutput\?[a-zA-Z0-9=+,-\\%]*/, "AteOutput");
         }
 
