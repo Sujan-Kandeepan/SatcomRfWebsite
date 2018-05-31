@@ -5,6 +5,7 @@
         document.getElementById("selection-failed").classList.add("hide");
         document.getElementById("download-failed").classList.add("hide");
         document.getElementById("data-table").innerHTML = "";
+        location.href = location.origin + "/SatcomStatsPage";
         return;
     }
 
@@ -36,6 +37,10 @@
     data.open("GET", src, true);
     data.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     data.send();
+
+    if (document.URL.indexOf(productType) == -1) {
+        location.href = location.origin + "/SatcomStatsPage/Index/" + productType;
+    }
 }
 
 function getProductTypes() {
@@ -169,6 +174,7 @@ function viewResults(productType, modelName) {
 }
 
 function setupIndex() {
+    getProductTypes();
     if (document.URL.indexOf("SatcomStatsPage") == document.URL.length - 15) { }
     else if (document.URL.indexOf("SatcomStatsPage/Index") == document.URL.length - 21) {
         location.replace(location.origin + "/SatcomStatsPage");
@@ -180,7 +186,6 @@ function setupIndex() {
         var modelName = filter.indexOf("/") != -1 ? filter.substring(filter.indexOf("/") + 1) : "";
         //alert("Model name: " + modelName);
 
-        getProductTypes();
         getModelNames(productType);
         if (modelName != "") {
             getTable(modelName, productType);
