@@ -1,4 +1,4 @@
-﻿function getModelNames(productType) {
+﻿function getModelNames(productType, selected = "default") {
     if (productType === "default") {
         document.getElementById("models").innerHTML = "";
         document.getElementById("getdata-failed").classList.add("hide");
@@ -14,12 +14,12 @@
     data.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
             var retData = JSON.parse(data.responseText);
-            var html = "<option value=\"default\" selected>Choose a model.</option>";
+            var html = "<option value=\"default\"" + (selected == "default" ? " selected" : "") + ">Choose a model.</option>";
             //html += "<option value=\"all\">All Models.</option>";
 
             if (retData !== null) {
                 for (var i = 0; i < retData.length; i++) {
-                    html += "<option value=\"" + retData[i] + "\">" + retData[i] + "</option>";
+                    html += "<option value=\"" + retData[i] + "\"" + (selected == retData[i] ? " selected" : "") + ">" + retData[i] + "</option>";
                 }
             }
             else {
@@ -43,15 +43,15 @@
     }
 }
 
-function getProductTypes() {
+function getProductTypes(selected = "default") {
     var src = document.location.origin + "/api/ListAPI/GetProductTypes";
     var data = new XMLHttpRequest();
     data.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
             var retData = JSON.parse(data.responseText);
-            var html = "<option value=\"default\" selected>Choose a product type.</option>";
+            var html = "<option value=\"default\"" + (selected == "default" ? " selected" : "") + ">Choose a product type.</option>";
             for (var i = 0; i < retData.length; i++) {
-                html += "<option value=\"" + retData[i] + "\">" + retData[i] + "</option>";
+                html += "<option value=\"" + retData[i] + "\"" + (selected == retData[i] ? " selected" : "") + ">" + retData[i] + "</option>";
             }
             document.getElementById("productTypes").innerHTML = html;
         }
@@ -100,7 +100,7 @@ function buildTable(tableData) {
     return result;
 }
 
-function getTable(modelName, productType) {
+function getTable(productType, modelName) {
     if (modelName === "default") {
         document.getElementById("data-display").classList.add("hide");
         document.getElementById("data-table").innerHTML = "";
@@ -178,21 +178,27 @@ function viewResults(productType, modelName) {
 }
 
 function setupIndex() {
-    getProductTypes();
-    if (document.URL.indexOf("SatcomStatsPage") == document.URL.length - 15) { }
+    var filter = document.URL.substring(document.URL.indexOf("Index") + 6);
+    //alert("Filter: " + filter);
+    var productType = filter.indexOf("/") != -1 ? filter.substring(0, filter.indexOf("/")) : filter;
+    //alert("Product type: " + productType);
+    var modelName = filter.indexOf("/") != -1 ? filter.substring(filter.indexOf("/") + 1) : "";
+    //alert("Model name: " + modelName);
+
+    if (document.URL.indexOf("SatcomStatsPage") == document.URL.length - 15) {
+        getProductTypes();
+    }
     else if (document.URL.indexOf("SatcomStatsPage/Index") == document.URL.length - 21) {
         location.replace(location.origin + "/SatcomStatsPage");
-    } else {
-        var filter = document.URL.substring(document.URL.indexOf("Index") + 6);
-        //alert("Filter: " + filter);
-        var productType = filter.indexOf("/") != -1 ? filter.substring(0, filter.indexOf("/")) : filter;
-        //alert("Product type: " + productType);
-        var modelName = filter.indexOf("/") != -1 ? filter.substring(filter.indexOf("/") + 1) : "";
-        //alert("Model name: " + modelName);
-
-        getModelNames(productType);
+    }
+    else {
+        getProductTypes(productType);
         if (modelName != "") {
-            getTable(modelName, productType);
+            getModelNames(productType, modelName);
+            getTable(productType, modelName);
+        }
+        else {
+            getModelNames(productType);
         }
     }
 }
