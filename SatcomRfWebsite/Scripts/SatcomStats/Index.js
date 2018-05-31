@@ -171,7 +171,7 @@ function viewResults(productType, modelName) {
 function setupIndex() {
     getProductTypes();
 
-    if (document.URL.endsWith("SatcomStatsPage/Index")) {
+    if (document.URL.indexOf("SatcomStatsPage/Index") == document.URL.length - 21) {
         location.replace(location.origin + "/SatcomStatsPage");
         return;
     }
