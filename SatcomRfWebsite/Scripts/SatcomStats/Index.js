@@ -138,6 +138,10 @@ function getTable(modelName, productType) {
     data.open("GET", src, true);
     data.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     data.send();
+
+    if (document.URL.indexOf(modelName) == -1) {
+        location.href = location.origin + "/SatcomStatsPage/Index/" + productType + "/" + modelName;
+    }
 }
 
 function showFail() {
