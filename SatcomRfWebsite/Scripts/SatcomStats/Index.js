@@ -169,10 +169,21 @@ function viewResults(productType, modelName) {
 }
 
 function setupIndex() {
-    getProductTypes();
-
-    if (document.URL.indexOf("SatcomStatsPage/Index") == document.URL.length - 21) {
+    if (document.URL.indexOf("SatcomStatsPage") == document.URL.length - 15) { }
+    else if (document.URL.indexOf("SatcomStatsPage/Index") == document.URL.length - 21) {
         location.replace(location.origin + "/SatcomStatsPage");
-        return;
+    } else {
+        var filter = document.URL.substring(document.URL.indexOf("Index") + 6);
+        //alert("Filter: " + filter);
+        var productType = filter.indexOf("/") != -1 ? filter.substring(0, filter.indexOf("/")) : filter;
+        //alert("Product type: " + productType);
+        var modelName = filter.indexOf("/") != -1 ? filter.substring(filter.indexOf("/") + 1) : "";
+        //alert("Model name: " + modelName);
+
+        getProductTypes();
+        getModelNames(productType);
+        if (modelName != "") {
+            getTable(modelName, productType);
+        }
     }
 }
