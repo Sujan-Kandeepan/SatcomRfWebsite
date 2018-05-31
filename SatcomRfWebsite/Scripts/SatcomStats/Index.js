@@ -1,4 +1,5 @@
-﻿function getModelNames(productType, selected = "default") {
+﻿function getModelNames(productType, selected) {
+    selected = selected || "default";
     if (productType === "default") {
         document.getElementById("models").innerHTML = "";
         document.getElementById("getdata-failed").classList.add("hide");
@@ -43,7 +44,8 @@
     }
 }
 
-function getProductTypes(selected = "default") {
+function getProductTypes(selected) {
+    selected = selected || "default";
     var src = document.location.origin + "/api/ListAPI/GetProductTypes";
     var data = new XMLHttpRequest();
     data.onreadystatechange = function () {
