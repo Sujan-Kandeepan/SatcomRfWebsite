@@ -170,4 +170,9 @@ function viewResults(productType, modelName) {
 
 function setupIndex() {
     getProductTypes();
+
+    if (document.URL.endsWith("SatcomStatsPage/Index")) {
+        location.replace(location.origin + "/SatcomStatsPage");
+        return;
+    }
 }
