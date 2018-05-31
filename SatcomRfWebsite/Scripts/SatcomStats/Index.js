@@ -179,11 +179,8 @@ function viewResults(productType, modelName) {
 
 function setupIndex() {
     var filter = document.URL.substring(document.URL.indexOf("Index") + 6);
-    //alert("Filter: " + filter);
     var productType = filter.indexOf("/") != -1 ? filter.substring(0, filter.indexOf("/")) : filter;
-    //alert("Product type: " + productType);
     var modelName = filter.indexOf("/") != -1 ? filter.substring(filter.indexOf("/") + 1) : "";
-    //alert("Model name: " + modelName);
 
     if (document.URL.indexOf("SatcomStatsPage") == document.URL.length - 15) {
         getProductTypes();
