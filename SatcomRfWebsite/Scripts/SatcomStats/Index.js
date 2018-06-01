@@ -117,6 +117,11 @@ function getTable(productType, modelName) {
         return;
     }
 
+    if (document.URL.indexOf(modelName) == -1) {
+        location.href = location.origin + "/SatcomStatsPage/Index/" + productType + "/" + modelName;
+        return;
+    }
+
     var src = document.location.origin + "/api/ListAPI/GetTableData?modelName=" + modelName + "&productType=" + productType;
     var data = new XMLHttpRequest();
     data.onreadystatechange = function () {
@@ -148,10 +153,6 @@ function getTable(productType, modelName) {
     data.open("GET", src, true);
     data.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     data.send();
-
-    if (document.URL.indexOf(modelName) == -1) {
-        location.href = location.origin + "/SatcomStatsPage/Index/" + productType + "/" + modelName;
-    }
 }
 
 function showFail() {
