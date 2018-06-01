@@ -114,9 +114,9 @@ namespace SatcomRfWebsite.Controllers
                                     where serialNum.ModelSN == tblserialnumber.ModelSN
                                     select serialNum;
 
-            foreach (var serail in deleteSerialsTWT)
+            foreach (var serial in deleteSerialsTWT)
             {
-                db.tblTWTTestResults.DeleteObject(serail);
+                db.tblTWTTestResults.DeleteObject(serial);
             }
             db.SaveChanges();
 
@@ -125,9 +125,9 @@ namespace SatcomRfWebsite.Controllers
                                     where serialNum.ModelSN == tblserialnumber.ModelSN
                                     select serialNum;
 
-            foreach (var serail in deleteSerialsKLY)
+            foreach (var serial in deleteSerialsKLY)
             {
-                db.tblKLYTestResults.DeleteObject(serail);
+                db.tblKLYTestResults.DeleteObject(serial);
             }
             db.SaveChanges();
 
@@ -136,9 +136,9 @@ namespace SatcomRfWebsite.Controllers
                                     where serialNum.ModelSN == tblserialnumber.ModelSN
                                     select serialNum;
 
-            foreach (var serail in deleteSerialsSSPA)
+            foreach (var serial in deleteSerialsSSPA)
             {
-                db.tblSSPATestResults.DeleteObject(serail);
+                db.tblSSPATestResults.DeleteObject(serial);
             }
             db.SaveChanges();
 
@@ -147,9 +147,9 @@ namespace SatcomRfWebsite.Controllers
                                     where serialNum.ModelSN == tblserialnumber.ModelSN
                                     select serialNum;
 
-            foreach (var serail in deleteSerialsMD)
+            foreach (var serial in deleteSerialsMD)
             {
-                db.tblMonitorDatas.DeleteObject(serail);
+                db.tblMonitorDatas.DeleteObject(serial);
             }
             db.SaveChanges();
 
@@ -158,9 +158,9 @@ namespace SatcomRfWebsite.Controllers
                                   where serialNum.ModelSN == tblserialnumber.ModelSN
                                   select serialNum;
 
-            foreach (var serail in deleteSerialsATE)
+            foreach (var serial in deleteSerialsATE)
             {
-                db.tblATEOutputs.DeleteObject(serail);
+                db.tblATEOutputs.DeleteObject(serial);
             }
             db.SaveChanges();
 
@@ -169,9 +169,9 @@ namespace SatcomRfWebsite.Controllers
                                        where serialNum.ModelSN == tblserialnumber.ModelSN
                                        select serialNum;
 
-            foreach (var serail in delteFromSerialTable)
+            foreach (var serial in delteFromSerialTable)
             {
-                db.tblSerialNumbers.DeleteObject(serail);
+                db.tblSerialNumbers.DeleteObject(serial);
             }
             db.SaveChanges();
 
