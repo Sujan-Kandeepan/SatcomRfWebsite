@@ -50,12 +50,20 @@ function getProductTypes(selected) {
     var data = new XMLHttpRequest();
     data.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
+            var found = selected == "default";
             var retData = JSON.parse(data.responseText);
             var html = "<option value=\"default\"" + (selected == "default" ? " selected" : "") + ">Choose a product type.</option>";
             for (var i = 0; i < retData.length; i++) {
                 html += "<option value=\"" + retData[i] + "\"" + (selected == retData[i] ? " selected" : "") + ">" + retData[i] + "</option>";
+                if (selected == retData[i]) {
+                    found = true;
+                }
             }
             document.getElementById("productTypes").innerHTML = html;
+            if (!found) {
+                document.getElementById("invalid-url").classList.remove("hide");
+                setTimeout(function () { location.replace(location.origin + "/SatcomStatsPage"); }, 1000);
+            }
         }
     };
 
