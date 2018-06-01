@@ -10,6 +10,10 @@
         return;
     }
 
+    if (document.URL.indexOf(productType) == -1) {
+        location.href = location.origin + "/SatcomStatsPage/Index/" + productType;
+    }
+
     var src = document.location.origin + "/api/ListAPI/GetModels?productType=" + productType;
     var data = new XMLHttpRequest();
     data.onreadystatechange = function () {
@@ -38,10 +42,6 @@
     data.open("GET", src, true);
     data.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     data.send();
-
-    if (document.URL.indexOf(productType) == -1) {
-        location.href = location.origin + "/SatcomStatsPage/Index/" + productType;
-    }
 }
 
 function getProductTypes(selected) {
