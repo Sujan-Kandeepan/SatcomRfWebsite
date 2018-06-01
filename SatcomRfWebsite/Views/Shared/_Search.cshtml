@@ -152,14 +152,11 @@
 
         <script>
             function viewStats() {
-                var filter = document.URL.substring(document.URL.indexOf("TestResults") + 12);
-                if (filter.indexOf("testType") != -1) {
-                    filter = filter.substring(0, filter.indexOf("testType") - 1);
+                if (selectModelName.value == "") {
+                    alert("No model selected");
                 }
-                if (filter != "") {
-                    location.href = location.origin + "/SatcomStatsPage/Index/" + filter;
-                } else {
-                    alert("Throw an error here");
+                else {
+                    location.href = location.origin + "/SatcomStatsPage/Index/" + selectProductType.value + "/" + selectModelName.value;
                 }
             }
         </script>
