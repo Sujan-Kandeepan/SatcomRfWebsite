@@ -182,12 +182,12 @@ namespace SatcomRfWebsite.Controllers
                     {
                         var tmp2 = (IDataRecord)sqlResult2;
                         var tinfo = new TestInfo(tmp2["TestName"].ToString(), tmp2["Channel"].ToString(),
-                            tmp2["Units"].ToString(), new string[] { tmp2["Result"].ToString() });
+                            tmp2["Units"].ToString(), new List<Tuple<string, string>>() { new Tuple<string, string>(i, tmp2["Result"].ToString()) });
                         var key = tmp2["TestName"].ToString() + tmp2["Channel"].ToString();
 
                         if (raw.ContainsKey(key))
                         {
-                            raw[key].Results.Add(tmp2["Result"].ToString());
+                            raw[key].Results.Add(new Tuple<string, string>(i, tmp2["Result"].ToString()));
                         }
                         else
                         {
@@ -200,16 +200,16 @@ namespace SatcomRfWebsite.Controllers
                 cmd.Dispose();
                 for (var i = 0; i < raw.Count(); i++)
                 {
-                    var longest = raw.ElementAt(i).Value.Results.OrderByDescending(x => x.Length).First();
+                    var longest = raw.ElementAt(i).Value.Results.OrderByDescending(x => x.Item2.Length).First();
                     int rounding = 15;
-                    if (longest.IndexOf(".") != -1)
+                    if (longest.Item2.IndexOf(".") != -1)
                     {
-                        rounding = longest.Length - longest.IndexOf(".") - 1;
+                        rounding = longest.Item2.Length - longest.Item2.IndexOf(".") - 1;
                     }
                     var tmp = new TestData();
-                    //foreach (String x in raw.ElementAt(i).Value.Results.OrderBy(x => Convert.ToDouble(x.Replace(":1", "").Replace("Below ", "").Replace("+/-", "").Replace("+", "")))) { System.Diagnostics.Debug.Write("<" + x + "> "); }
+                    //foreach (String x in raw.ElementAt(i).Value.Results.OrderBy(x => Convert.ToDouble(x.Item2.Replace(":1", "").Replace("Below ", "").Replace("+/-", "").Replace("+", "")))) { System.Diagnostics.Debug.Write("<" + x + "> "); }
                     //System.Diagnostics.Debug.WriteLine("");
-                    var rawtmp = from val in raw.ElementAt(i).Value.Results select Convert.ToDouble(val.Replace(":1", "").Replace("Below ", "").Replace("+/-", "").Replace("+", ""));
+                    var rawtmp = from val in raw.ElementAt(i).Value.Results select Convert.ToDouble(val.Item2.Replace(":1", "").Replace("Below ", "").Replace("+/-", "").Replace("+", ""));
                     tmp.TestName = raw.ElementAt(i).Value.TestName;
                     tmp.Unit = raw.ElementAt(i).Value.Units;
                     tmp.Channel = (string.IsNullOrEmpty(raw.ElementAt(i).Value.Channel) ? "N/A" : raw.ElementAt(i).Value.Channel);
