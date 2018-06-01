@@ -200,6 +200,12 @@ namespace SatcomRfWebsite.Controllers
                 cmd.Dispose();
                 for (var i = 0; i < raw.Count(); i++)
                 {
+                    /* --- Serial numbers now associated with individual result records ---
+                    foreach (var v in raw.ElementAt(i).Value.Results)
+                    {
+                        System.Diagnostics.Debug.WriteLine(v.Item1 + " " + v.Item2);
+                    }
+                    System.Diagnostics.Debug.WriteLine("");*/
                     var longest = raw.ElementAt(i).Value.Results.OrderByDescending(x => x.Item2.Length).First();
                     int rounding = 15;
                     if (longest.Item2.IndexOf(".") != -1)
