@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System;
 
 namespace SatcomRfWebsite.Models
 {
@@ -25,14 +26,14 @@ namespace SatcomRfWebsite.Models
         public string TestName { get; set; }
         public string Channel { get; set; }
         public string Units { get; set; }
-        public List<string> Results { get; set; }
+        public List<Tuple<string, string>> Results { get; set; }
 
-        public TestInfo(string inTestName, string inChannel, string inUnits, string[] inResults)
+        public TestInfo(string inTestName, string inChannel, string inUnits, List<Tuple<string, string>> inResults)
         {
             TestName = inTestName;
             Channel = inChannel;
             Units = inUnits;
-            Results = new List<string>(inResults);
+            Results = inResults;
         }
     }
 }
