@@ -200,7 +200,6 @@ namespace SatcomRfWebsite.Controllers
                 cmd.Dispose();
                 for (var i = 0; i < raw.Count(); i++)
                 {
-
                     var longest = raw.ElementAt(i).Value.Results.OrderByDescending(x => x.Length).First();
                     int rounding = 15;
                     if (longest.IndexOf(".") != -1)
