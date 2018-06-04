@@ -73,7 +73,7 @@ function getProductTypes(selected) {
 }
 
 function buildTable(tableData) {
-    var result = "<tr><th>Test Name</th><th>Channel</th><th>Minimum</th><th>Maximum</th><th>Average</th><th>Standard Deviation</th></tr>";
+    var result = "<tr><th>Test Name</th><th>Channel</th><th>Minimum</th><th>Maximum</th><th>Average</th><th>Standard Deviation</th><th></th></tr>";
     for (var i = 0; i < tableData.length; i++) {
         var unit = "";
          
@@ -98,12 +98,12 @@ function buildTable(tableData) {
             result += "<tr><td>" + tableData[i].TestName + "</td><td>" + tableData[i].Channel + "</td><td>" + tableData[i].MinResult + unit + "</br>"
                 + tableData[i].MinResultConv + unitConv + "</td><td>" + tableData[i].MaxResult + unit + "</br>" + tableData[i].MaxResultConv
                 + unitConv + "</td><td>" + tableData[i].AvgResult + unit + "</br>" + tableData[i].AvgResultConv + unitConv + "</td><td>"
-                + tableData[i].StdDev + unit + "</br>" + tableData[i].StdDevConv + unitConv + "</td></tr>";
+                + tableData[i].StdDev + unit + "</br>" + tableData[i].StdDevConv + unitConv + "</td><td>" + "<input type=\"button\" class=\"btn btn-link\" name=\"graph\" onclick=\"showGraph(\'" + tableData[i].AllResults.toString() + "\', \'" + tableData[i].AllResultsConv.toString() + "\', \'" + tableData[i].Unit + "\', \'" + tableData[i].UnitConv + "\')\" value=\"View Graph\" />" + "</td></tr>";
         }
         else
         {
             result += "<tr><td>" + tableData[i].TestName + "</td><td>" + tableData[i].Channel + "</td><td>" + tableData[i].MinResult + unit + "</td><td>"
-                + tableData[i].MaxResult + unit + "</td><td>" + tableData[i].AvgResult + unit + "</td><td>" + tableData[i].StdDev + unit + "</td></tr>";
+                + tableData[i].MaxResult + unit + "</td><td>" + tableData[i].AvgResult + unit + "</td><td>" + tableData[i].StdDev + unit + "</td><td>" + "<input type=\"button\" class=\"btn btn-link\" name=\"graph\" onclick=\"showGraph(\'" + tableData[i].AllResults.toString() + "\', \'" + tableData[i].AllResultsConv.toString() + "\', \'" + tableData[i].Unit + "\', \'" + tableData[i].UnitConv + "\')\" value=\"View Graph\" />" + "</td></tr>";
         }
     }
 
@@ -153,6 +153,38 @@ function getTable(productType, modelName) {
     data.open("GET", src, true);
     data.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     data.send();
+}
+
+function showGraph(allResultsString, allResultsConvString, unit, unitConv) {
+    var allResultsJoined = allResultsString.split(",");
+    var allResultsConvJoined = allResultsConvString.split(",");
+    var allResultsSerials = [], allResultsValues = [], allResultsConvValues = [];
+    for (var i = 0; i < allResultsJoined.length; i++) {
+        if (i % 2 == 0) {
+            allResultsSerials.push(allResultsJoined[i]);
+        } else {
+            allResultsValues.push(allResultsJoined[i]);
+            allResultsConvValues.push(allResultsConvJoined[i]);
+        }
+    }
+    for (var i = 0; i < allResultsSerials.length - 1; i++) {
+        for (var j = i; j < allResultsSerials.length - 1; j++) {
+            if (allResultsSerials[i] > allResultsSerials[i + 1]) {
+                var ser = allResultsSerials[i];
+                var val = allResultsValues[i];
+                var vc = allResultsConvValues[i];
+                allResultsSerials[i] = allResultsSerials[i + 1];
+                allResultsValues[i] = allResultsValues[i + 1];
+                allResultsConvValues[i] = allResultsConvValues[i + 1];
+                allResultsSerials[i + 1] = ser;
+                allResultsValues[i + 1] = val;
+                allResultsConvValues[i + 1  ] = vc;
+            }
+        }
+    }
+    alert(allResultsSerials);
+    alert(allResultsValues);
+    alert(allResultsConvValues);
 }
 
 function showFail() {
