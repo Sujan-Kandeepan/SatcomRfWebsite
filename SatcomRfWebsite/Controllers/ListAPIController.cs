@@ -215,20 +215,24 @@ namespace SatcomRfWebsite.Controllers
                     var tmp = new TestData();
                     //foreach (String x in raw.ElementAt(i).Value.Results.OrderBy(x => Convert.ToDouble(x.Item2.Replace(":1", "").Replace("Below ", "").Replace("+/-", "").Replace("+", "")))) { System.Diagnostics.Debug.Write("<" + x + "> "); }
                     //System.Diagnostics.Debug.WriteLine("");
-                    var rawtmp = from val in raw.ElementAt(i).Value.Results select Convert.ToDouble(val.Item2.Replace(":1", "").Replace("Below ", "").Replace("+/-", "").Replace("+", ""));
+                    var rawtmp = from val in raw.ElementAt(i).Value.Results select new Tuple<string, string>(val.Item1, val.Item2.Replace(":1", "").Replace("Below ", "").Replace("+/-", "").Replace("+", ""));
+                    var rawtmp2 = from val in rawtmp select Convert.ToDouble(val.Item2);
                     tmp.TestName = raw.ElementAt(i).Value.TestName;
                     tmp.Unit = raw.ElementAt(i).Value.Units;
                     tmp.Channel = (string.IsNullOrEmpty(raw.ElementAt(i).Value.Channel) ? "N/A" : raw.ElementAt(i).Value.Channel);
-                    tmp.MinResult = Convert.ToString(rawtmp.Min());
-                    tmp.MaxResult = Convert.ToString(rawtmp.Max());
-                    tmp.AvgResult = Convert.ToString(Math.Round(rawtmp.Average(), rounding));
+                    tmp.MinResult = Convert.ToString(rawtmp2.Min());
+                    tmp.MaxResult = Convert.ToString(rawtmp2.Max());
+                    tmp.AvgResult = Convert.ToString(Math.Round(rawtmp2.Average(), rounding));
 
                     var tempSum = 0.0;
-                    foreach (var item in rawtmp)
+                    foreach (var item in rawtmp2)
                     {
-                        tempSum += Math.Pow(item - rawtmp.Average(), 2);
+                        tempSum += Math.Pow(item - rawtmp2.Average(), 2);
                     }
-                    tmp.StdDev = Convert.ToString(Math.Round(Math.Sqrt(tempSum / rawtmp.Count()), rounding));
+                    tmp.StdDev = Convert.ToString(Math.Round(Math.Sqrt(tempSum / rawtmp2.Count()), rounding));
+
+                    tmp.AllResults = (from val in rawtmp select new Tuple<string, string>(val.Item1, Convert.ToString(val.Item2))).ToList();
+                    tmp.AllResultsConv = new List<Tuple<string, string>>();
 
                     tmp.UnitConv = "---";
                     tmp.MinResultConv = "---";
@@ -247,44 +251,47 @@ namespace SatcomRfWebsite.Controllers
                         case "dBc":
                         case "dB/MHz":
                         case "dBW/4KHz":
-                            tempMin = Math.Pow(10, rawtmp.Min() / 10);
-                            tempMax = Math.Pow(10, rawtmp.Max() / 10);
-                            tempAvg = Math.Pow(10, rawtmp.Average() / 10);
+                            tempMin = Math.Pow(10, rawtmp2.Min() / 10);
+                            tempMax = Math.Pow(10, rawtmp2.Max() / 10);
+                            tempAvg = Math.Pow(10, rawtmp2.Average() / 10);
 
                             tempSum2 = 0.0;
                             foreach (var item in rawtmp)
                             {
-                                double c = Math.Pow(10, Convert.ToDouble(item) / 10);
+                                double c = Math.Pow(10, Convert.ToDouble(item.Item2) / 10);
                                 tempSum2 += Math.Pow(c - tempAvg, 2);
+                                tmp.AllResultsConv.Add(new Tuple<string, string>(item.Item1, Convert.ToString(c)));
                             }
                             tempStd = Math.Sqrt(tempSum2 / rawtmp.Count());
 
                             break;
                         case "dBm":
-                            tempMin = Math.Pow(10, (rawtmp.Min() - 30) / 10);
-                            tempMax = Math.Pow(10, (rawtmp.Max() - 30) / 10);
-                            tempAvg = Math.Pow(10, (rawtmp.Average() - 30) / 10);
+                            tempMin = Math.Pow(10, (rawtmp2.Min() - 30) / 10);
+                            tempMax = Math.Pow(10, (rawtmp2.Max() - 30) / 10);
+                            tempAvg = Math.Pow(10, (rawtmp2.Average() - 30) / 10);
 
                             tempSum2 = 0.0;
                             foreach (var item in rawtmp)
                             {
-                                double c = Math.Pow(10, (Convert.ToDouble(item) - 30) / 10);
+                                double c = Math.Pow(10, (Convert.ToDouble(item.Item2) - 30) / 10);
                                 tempSum2 += Math.Pow(c - tempAvg, 2);
+                                tmp.AllResultsConv.Add(new Tuple<string, string>(item.Item1, Convert.ToString(c)));
                             }
                             tempStd = Math.Sqrt(tempSum2 / rawtmp.Count());
 
                             break;
                         case "deg/dB":
                         case "o/dB":
-                            tempMin = 1 / Math.Pow(10, 1 / rawtmp.Min() / 10);
-                            tempMax = 1 / Math.Pow(10, 1 / rawtmp.Max() / 10);
-                            tempAvg = 1 / Math.Pow(10, 1 / rawtmp.Average() / 10);
+                            tempMin = 1 / Math.Pow(10, 1 / rawtmp2.Min() / 10);
+                            tempMax = 1 / Math.Pow(10, 1 / rawtmp2.Max() / 10);
+                            tempAvg = 1 / Math.Pow(10, 1 / rawtmp2.Average() / 10);
 
                             tempSum2 = 0.0;
                             foreach (var item in rawtmp)
                             {
-                                double c = 1 / Math.Pow(10, 1 / Convert.ToDouble(item) / 10);
+                                double c = 1 / Math.Pow(10, 1 / Convert.ToDouble(item.Item2) / 10);
                                 tempSum2 += Math.Pow(c - tempAvg, 2);
+                                tmp.AllResultsConv.Add(new Tuple<string, string>(item.Item1, Convert.ToString(c)));
                             }
                             tempStd = Math.Sqrt(tempSum2 / rawtmp.Count());
 
@@ -308,6 +315,10 @@ namespace SatcomRfWebsite.Controllers
                                 tempMax /= 1000;
                                 tempAvg /= 1000;
                                 tempStd /= 1000;
+                                for (int z = 0; z < tmp.AllResultsConv.Count(); z++)
+                                {
+                                    tmp.AllResultsConv[z] = new Tuple<string, string>(tmp.AllResultsConv.ElementAt(z).Item1, Convert.ToString(Convert.ToDouble(tmp.AllResultsConv[z].Item2) / 1000));
+                                }
                                 tmp.UnitConv = largeW[wIndex < 7 ? wIndex++ : wIndex];
                             }
                             else if (tempAvg != 0 && tempAvg < 1 || Math.Round(tempStd, rounding) == 0 && tempMin != tempMax && tempAvg < 1)
@@ -316,12 +327,21 @@ namespace SatcomRfWebsite.Controllers
                                 tempMax *= 1000;
                                 tempAvg *= 1000;
                                 tempStd *= 1000;
+                                for (int z = 0; z < tmp.AllResultsConv.Count(); z++)
+                                {
+                                    tmp.AllResultsConv[z] = new Tuple<string, string>(tmp.AllResultsConv.ElementAt(z).Item1, Convert.ToString(Convert.ToDouble(tmp.AllResultsConv[z].Item2) * 1000));
+                                }
                                 tmp.UnitConv = smallW[wIndex < 7 ? wIndex++ : wIndex];
                             }
                             else
                             {
                                 x = 8;
                             }
+                        }
+
+                        for (int x = 0; x < tmp.AllResultsConv.Count(); x++)
+                        {
+                            tmp.AllResultsConv[x] = new Tuple<string, string>(tmp.AllResultsConv[x].Item1, Convert.ToString(Math.Round(Convert.ToDouble(tmp.AllResultsConv[x].Item2), rounding)));
                         }
 
                         tmp.MinResultConv = Convert.ToString(Math.Round(tempMin, rounding));

@@ -17,6 +17,8 @@ namespace SatcomRfWebsite.Models
         public string AvgResultConv { get; set; }
         public string StdDevConv { get; set; }
         public string UnitConv { get; set; }
+        public List<Tuple<string, string>> AllResults { get; set; }
+        public List<Tuple<string, string>> AllResultsConv { get; set; }
 
         public TestData() { }
     }
