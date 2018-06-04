@@ -17,8 +17,8 @@ namespace SatcomRfWebsite.Models
         public string AvgResultConv { get; set; }
         public string StdDevConv { get; set; }
         public string UnitConv { get; set; }
-        public List<Tuple<string, string>> AllResults { get; set; }
-        public List<Tuple<string, string>> AllResultsConv { get; set; }
+        public List<List<string>> AllResults { get; set; }
+        public List<List<string>> AllResultsConv { get; set; }
 
         public TestData() { }
     }
@@ -28,9 +28,9 @@ namespace SatcomRfWebsite.Models
         public string TestName { get; set; }
         public string Channel { get; set; }
         public string Units { get; set; }
-        public List<Tuple<string, string>> Results { get; set; }
+        public List<List<string>> Results { get; set; }
 
-        public TestInfo(string inTestName, string inChannel, string inUnits, List<Tuple<string, string>> inResults)
+        public TestInfo(string inTestName, string inChannel, string inUnits, List<List<string>> inResults)
         {
             TestName = inTestName;
             Channel = inChannel;
