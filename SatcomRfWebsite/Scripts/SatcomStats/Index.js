@@ -96,9 +96,9 @@ function buildTable(tableData) {
         if (unit.indexOf("dB") !== -1)
         {
             result += "<tr><td>" + tableData[i].TestName + "</td><td>" + tableData[i].Channel + "</td><td>" + tableData[i].MinResult + unit + "</br>"
-                + tableData[i].MinResultConv + unitConv + "</td><td>" + tableData[i].MaxResult + unit + "</br>" + tableData[i].MaxResultConv + unitConv + "</td><td>"
-                + tableData[i].AvgResult + unit + "</br>" + tableData[i].AvgResultConv + unitConv + "</td><td>" + tableData[i].StdDev + unit + "</br>"
-                + tableData[i].StdDevConv + unitConv + "</td></tr>";
+                + tableData[i].MinResultConv + unitConv + "</td><td>" + tableData[i].MaxResult + unit + "</br>" + tableData[i].MaxResultConv
+                + unitConv + "</td><td>" + tableData[i].AvgResult + unit + "</br>" + tableData[i].AvgResultConv + unitConv + "</td><td>"
+                + tableData[i].StdDev + unit + "</br>" + tableData[i].StdDevConv + unitConv + "</td></tr>";
         }
         else
         {
