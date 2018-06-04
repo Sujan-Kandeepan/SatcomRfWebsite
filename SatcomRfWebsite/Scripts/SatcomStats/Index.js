@@ -103,7 +103,7 @@ function buildTable(tableData) {
         else
         {
             result += "<tr><td>" + tableData[i].TestName + "</td><td>" + tableData[i].Channel + "</td><td>" + tableData[i].MinResult + unit + "</td><td>"
-                + tableData[i].MaxResult + unit + "</td><td>" + tableData[i].AvgResult + unit + "</td><td>" + tableData[i].StdDev + unit + "</td><td>" + "<input type=\"button\" class=\"btn btn-link\" name=\"graph\" onclick=\"showGraph(\'" + tableData[i].AllResults.toString() + "\', \'" + tableData[i].AllResultsConv.toString() + "\', \'" + tableData[i].Unit + "\', \'" + tableData[i].UnitConv + "\')\" value=\"View Graph\" />" + "</td></tr>";
+                + tableData[i].MaxResult + unit + "</td><td>" + tableData[i].AvgResult + unit + "</td><td>" + tableData[i].StdDev + unit + "</td><td>" + "<input type=\"button\" class=\"btn btn-link\" name=\"graph\" onclick=\"showGraph(\'" + tableData[i].AllResults.toString() + "\', \'N/A\', \'" + tableData[i].Unit + "\', \'N/A\')\" value=\"View Graph\" />" + "</td></tr>";
         }
     }
 
@@ -169,22 +169,24 @@ function showGraph(allResultsString, allResultsConvString, unit, unitConv) {
     }
     for (var i = 0; i < allResultsSerials.length - 1; i++) {
         for (var j = i; j < allResultsSerials.length - 1; j++) {
-            if (allResultsSerials[i] > allResultsSerials[i + 1]) {
-                var ser = allResultsSerials[i];
-                var val = allResultsValues[i];
-                var vc = allResultsConvValues[i];
-                allResultsSerials[i] = allResultsSerials[i + 1];
-                allResultsValues[i] = allResultsValues[i + 1];
-                allResultsConvValues[i] = allResultsConvValues[i + 1];
-                allResultsSerials[i + 1] = ser;
-                allResultsValues[i + 1] = val;
-                allResultsConvValues[i + 1  ] = vc;
+            if (allResultsSerials[j] > allResultsSerials[j + 1]) {
+                var ser = allResultsSerials[j];
+                var val = allResultsValues[j];
+                var vc = allResultsConvValues[j];
+                allResultsSerials[j] = allResultsSerials[j + 1];
+                allResultsValues[j] = allResultsValues[j + 1];
+                allResultsConvValues[j] = allResultsConvValues[j + 1];
+                allResultsSerials[j + 1] = ser;
+                allResultsValues[j + 1] = val;
+                allResultsConvValues[j + 1] = vc;
             }
         }
     }
     alert(allResultsSerials);
     alert(allResultsValues);
     alert(allResultsConvValues);
+    alert(unit);
+    alert(unitConv);
 }
 
 function showFail() {
