@@ -98,12 +98,17 @@ function buildTable(tableData) {
             result += "<tr><td>" + tableData[i].TestName + "</td><td>" + tableData[i].Channel + "</td><td>" + tableData[i].MinResult + unit + "</br>"
                 + tableData[i].MinResultConv + unitConv + "</td><td>" + tableData[i].MaxResult + unit + "</br>" + tableData[i].MaxResultConv
                 + unitConv + "</td><td>" + tableData[i].AvgResult + unit + "</br>" + tableData[i].AvgResultConv + unitConv + "</td><td>"
-                + tableData[i].StdDev + unit + "</br>" + tableData[i].StdDevConv + unitConv + "</td><td>" + "<input type=\"button\" class=\"btn btn-link\" name=\"graph\" onclick=\"showGraph(\'" + tableData[i].AllResults.toString() + "\', \'" + tableData[i].AllResultsConv.toString() + "\', \'" + tableData[i].Unit + "\', \'" + tableData[i].UnitConv + "\')\" value=\"View Graph\" />" + "</td></tr>";
+                + tableData[i].StdDev + unit + "</br>" + tableData[i].StdDevConv + unitConv + "</td><td>" +
+                "<input type=\"button\" class=\"btn btn-link\" name=\"graph\" onclick=\"showGraph(\'" + tableData[i].AllResults.toString() +
+                "\', \'" + tableData[i].AllResultsConv.toString() + "\', \'" + tableData[i].Unit + "\', \'" + tableData[i].UnitConv +
+                "\')\" value=\"View Graph\" />" + "</td></tr>";
         }
         else
         {
             result += "<tr><td>" + tableData[i].TestName + "</td><td>" + tableData[i].Channel + "</td><td>" + tableData[i].MinResult + unit + "</td><td>"
-                + tableData[i].MaxResult + unit + "</td><td>" + tableData[i].AvgResult + unit + "</td><td>" + tableData[i].StdDev + unit + "</td><td>" + "<input type=\"button\" class=\"btn btn-link\" name=\"graph\" onclick=\"showGraph(\'" + tableData[i].AllResults.toString() + "\', \'N/A\', \'" + tableData[i].Unit + "\', \'N/A\')\" value=\"View Graph\" />" + "</td></tr>";
+                + tableData[i].MaxResult + unit + "</td><td>" + tableData[i].AvgResult + unit + "</td><td>" + tableData[i].StdDev + unit + "</td><td>" +
+                "<input type=\"button\" class=\"btn btn-link\" name=\"graph\" onclick=\"showGraph(\'" + tableData[i].AllResults.toString() +
+                "\', \'N/A\', \'" + tableData[i].Unit + "\', \'N/A\')\" value=\"View Graph\" />" + "</td></tr>";
         }
     }
 
