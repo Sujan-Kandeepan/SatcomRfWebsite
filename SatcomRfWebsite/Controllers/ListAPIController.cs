@@ -182,12 +182,12 @@ namespace SatcomRfWebsite.Controllers
                     {
                         var tmp2 = (IDataRecord)sqlResult2;
                         var tinfo = new TestInfo(tmp2["TestName"].ToString(), tmp2["Channel"].ToString(),
-                            tmp2["Units"].ToString(), new List<Tuple<string, string>>() { new Tuple<string, string>(i, tmp2["Result"].ToString()) });
+                            tmp2["Units"].ToString(), new List<List<string>>() { new List<string>() { i, tmp2["Result"].ToString() } });
                         var key = tmp2["TestName"].ToString() + tmp2["Channel"].ToString();
 
                         if (raw.ContainsKey(key))
                         {
-                            raw[key].Results.Add(new Tuple<string, string>(i, tmp2["Result"].ToString()));
+                            raw[key].Results.Add(new List<string>() { i, tmp2["Result"].ToString() });
                         }
                         else
                         {
@@ -206,17 +206,17 @@ namespace SatcomRfWebsite.Controllers
                         System.Diagnostics.Debug.WriteLine(v.Item1 + " " + v.Item2);
                     }
                     System.Diagnostics.Debug.WriteLine("");*/
-                    var longest = raw.ElementAt(i).Value.Results.OrderByDescending(x => x.Item2.Length).First();
+                    var longest = raw.ElementAt(i).Value.Results.OrderByDescending(x => x[1].Length).First();
                     int rounding = 15;
-                    if (longest.Item2.IndexOf(".") != -1)
+                    if (longest[1].IndexOf(".") != -1)
                     {
-                        rounding = longest.Item2.Length - longest.Item2.IndexOf(".") - 1;
+                        rounding = longest[1].Length - longest[1].IndexOf(".") - 1;
                     }
                     var tmp = new TestData();
                     //foreach (String x in raw.ElementAt(i).Value.Results.OrderBy(x => Convert.ToDouble(x.Item2.Replace(":1", "").Replace("Below ", "").Replace("+/-", "").Replace("+", "")))) { System.Diagnostics.Debug.Write("<" + x + "> "); }
                     //System.Diagnostics.Debug.WriteLine("");
-                    var rawtmp = from val in raw.ElementAt(i).Value.Results select new Tuple<string, string>(val.Item1, val.Item2.Replace(":1", "").Replace("Below ", "").Replace("+/-", "").Replace("+", ""));
-                    var rawtmp2 = from val in rawtmp select Convert.ToDouble(val.Item2);
+                    var rawtmp = from val in raw.ElementAt(i).Value.Results select new List<string>() { val[0], val[1].Replace(":1", "").Replace("Below ", "").Replace("+/-", "").Replace("+", "") };
+                    var rawtmp2 = from val in rawtmp select Convert.ToDouble(val[1]);
                     tmp.TestName = raw.ElementAt(i).Value.TestName;
                     tmp.Unit = raw.ElementAt(i).Value.Units;
                     tmp.Channel = (string.IsNullOrEmpty(raw.ElementAt(i).Value.Channel) ? "N/A" : raw.ElementAt(i).Value.Channel);
@@ -231,8 +231,8 @@ namespace SatcomRfWebsite.Controllers
                     }
                     tmp.StdDev = Convert.ToString(Math.Round(Math.Sqrt(tempSum / rawtmp2.Count()), rounding));
 
-                    tmp.AllResults = (from val in rawtmp select new Tuple<string, string>(val.Item1, Convert.ToString(val.Item2))).ToList();
-                    tmp.AllResultsConv = new List<Tuple<string, string>>();
+                    tmp.AllResults = (from val in rawtmp select new List<string>() { val[0], Convert.ToString(val[1]) }).ToList();
+                    tmp.AllResultsConv = new List<List<string>>();
 
                     tmp.UnitConv = "---";
                     tmp.MinResultConv = "---";
@@ -258,9 +258,9 @@ namespace SatcomRfWebsite.Controllers
                             tempSum2 = 0.0;
                             foreach (var item in rawtmp)
                             {
-                                double c = Math.Pow(10, Convert.ToDouble(item.Item2) / 10);
+                                double c = Math.Pow(10, Convert.ToDouble(item[1]) / 10);
                                 tempSum2 += Math.Pow(c - tempAvg, 2);
-                                tmp.AllResultsConv.Add(new Tuple<string, string>(item.Item1, Convert.ToString(c)));
+                                tmp.AllResultsConv.Add(new List<string>() { item[0], Convert.ToString(c) });
                             }
                             tempStd = Math.Sqrt(tempSum2 / rawtmp.Count());
 
@@ -273,9 +273,9 @@ namespace SatcomRfWebsite.Controllers
                             tempSum2 = 0.0;
                             foreach (var item in rawtmp)
                             {
-                                double c = Math.Pow(10, (Convert.ToDouble(item.Item2) - 30) / 10);
+                                double c = Math.Pow(10, (Convert.ToDouble(item[1]) - 30) / 10);
                                 tempSum2 += Math.Pow(c - tempAvg, 2);
-                                tmp.AllResultsConv.Add(new Tuple<string, string>(item.Item1, Convert.ToString(c)));
+                                tmp.AllResultsConv.Add(new List<string>() { item[0], Convert.ToString(c) });
                             }
                             tempStd = Math.Sqrt(tempSum2 / rawtmp.Count());
 
@@ -289,9 +289,9 @@ namespace SatcomRfWebsite.Controllers
                             tempSum2 = 0.0;
                             foreach (var item in rawtmp)
                             {
-                                double c = 1 / Math.Pow(10, 1 / Convert.ToDouble(item.Item2) / 10);
+                                double c = 1 / Math.Pow(10, 1 / Convert.ToDouble(item[1]) / 10);
                                 tempSum2 += Math.Pow(c - tempAvg, 2);
-                                tmp.AllResultsConv.Add(new Tuple<string, string>(item.Item1, Convert.ToString(c)));
+                                tmp.AllResultsConv.Add(new List<string>() { item[0], Convert.ToString(c) });
                             }
                             tempStd = Math.Sqrt(tempSum2 / rawtmp.Count());
 
@@ -317,7 +317,7 @@ namespace SatcomRfWebsite.Controllers
                                 tempStd /= 1000;
                                 for (int z = 0; z < tmp.AllResultsConv.Count(); z++)
                                 {
-                                    tmp.AllResultsConv[z] = new Tuple<string, string>(tmp.AllResultsConv.ElementAt(z).Item1, Convert.ToString(Convert.ToDouble(tmp.AllResultsConv[z].Item2) / 1000));
+                                    tmp.AllResultsConv[z] = new List<string>() { tmp.AllResultsConv.ElementAt(z)[0], Convert.ToString(Convert.ToDouble(tmp.AllResultsConv[z][1]) / 1000) };
                                 }
                                 tmp.UnitConv = largeW[wIndex < 7 ? wIndex++ : wIndex];
                             }
@@ -329,7 +329,7 @@ namespace SatcomRfWebsite.Controllers
                                 tempStd *= 1000;
                                 for (int z = 0; z < tmp.AllResultsConv.Count(); z++)
                                 {
-                                    tmp.AllResultsConv[z] = new Tuple<string, string>(tmp.AllResultsConv.ElementAt(z).Item1, Convert.ToString(Convert.ToDouble(tmp.AllResultsConv[z].Item2) * 1000));
+                                    tmp.AllResultsConv[z] = new List<string>() { tmp.AllResultsConv.ElementAt(z)[0], Convert.ToString(Convert.ToDouble(tmp.AllResultsConv[z][1]) * 1000) };
                                 }
                                 tmp.UnitConv = smallW[wIndex < 7 ? wIndex++ : wIndex];
                             }
@@ -341,7 +341,7 @@ namespace SatcomRfWebsite.Controllers
 
                         for (int x = 0; x < tmp.AllResultsConv.Count(); x++)
                         {
-                            tmp.AllResultsConv[x] = new Tuple<string, string>(tmp.AllResultsConv[x].Item1, Convert.ToString(Math.Round(Convert.ToDouble(tmp.AllResultsConv[x].Item2), rounding)));
+                            tmp.AllResultsConv[x] = new List<string>() { tmp.AllResultsConv[x][0], Convert.ToString(Math.Round(Convert.ToDouble(tmp.AllResultsConv[x][1]), rounding)) };
                         }
 
                         tmp.MinResultConv = Convert.ToString(Math.Round(tempMin, rounding));
