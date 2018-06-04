@@ -182,11 +182,7 @@ function showGraph(allResultsString, allResultsConvString, unit, unitConv) {
             }
         }
     }
-    alert(allResultsSerials);
-    alert(allResultsValues);
-    alert(allResultsConvValues);
-    alert(unit);
-    alert(unitConv);
+    alert(allResultsSerials + "\n\n" + allResultsValues + "\n\n" + allResultsConvValues + "\n\n" + unit + "\n\n" + unitConv);
 }
 
 function showFail() {
