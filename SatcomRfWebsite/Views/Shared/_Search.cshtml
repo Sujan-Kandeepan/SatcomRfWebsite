@@ -26,6 +26,7 @@
     </div>
 
     <!-----------------------------  Search ------------------------------->
+    <div class="container hide" id="iframe-temp"></div>
     <div class="row">
         <div class="col-lg-2">
             <select id="selectProductType" class="demo-default" placeholder="Product types...">
@@ -174,7 +175,8 @@
                     document.getElementById("selection-failed").classList.remove("hide");
                 }
                 else {
-                    alert("¯\\_(ツ)_/¯");
+                    document.getElementById("iframe-temp").innerHTML = "<iframe style=\"display:none\" src=\"" + document.location.origin +
+                        "/api/ListAPI/GetTableFile?modelName=" + modelName + "&productType=" + productType + "\"></iframe>";
                 }
             }
         </script>
