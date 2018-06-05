@@ -202,7 +202,6 @@ function getxlsxfile(productType, modelName) {
     document.getElementById("excel-loading").classList.remove("hide");
 
     data.open("GET", src, true);
-    data.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     data.send();
 
     document.getElementById("iframe-temp").innerHTML = "<iframe style=\"display:none\" src=\"" + document.location.origin +
