@@ -400,16 +400,29 @@ namespace SatcomRfWebsite.Controllers
             {
                 List<TestData> data = InternalGetTableData(modelName, productType);
                 string[][] headers = new string[1][];
-                headers[0] = new string[] { "Testname", "Channel #", "Min", "Max", "Average", "Std. Deviation", "Unit", "Min (Conv)", "Max (Conv)", "Average (Conv)", "Std. Deviation (Conv)", "Unit (Conv)" };
+                headers[0] = new string[] { "Testname", "Channel #", "All Results", "Min", "Max", "Average", "Std. Deviation", "Unit", "All Results (Conv)", "Min (Conv)", "Max (Conv)", "Average (Conv)", "Std. Deviation (Conv)", "Unit (Conv)" };
                 var file = new MemoryStream();
                 var document = new XLWorkbook();
                 var worksheet = document.Worksheets.Add("Table Data");
                 worksheet.Cell(1, 1).InsertData(headers);
                 worksheet.Cell(2, 1).InsertData(data);
+                var allResults = from item in data select String.Join("\r\n", (from result in item.AllResults select result[0] + ": " + result[1]).ToArray()).Trim();
+                int row = 2, column = 3;
+                foreach (var item in allResults)
+                {
+                    worksheet.Cell(row++, column).SetValue(item != "" ? item : "---");
+                }
+                var allResultsConv = from item in data select String.Join("\r\n", (from result in item.AllResultsConv select result[0] + ": " + result[1]).ToArray()).Trim();
+                row = 2; column = 9;
+                foreach (var item in allResultsConv)
+                {
+                    worksheet.Cell(row++, column).SetValue(item != "" ? item : "---");
+                }
                 var style = document.Style;
                 style.Font.Bold = true;
-                worksheet.Range(1, 1, 1, 12).Style = style;
+                worksheet.Range(1, 1, 1, 14).Style = style;
                 worksheet.Columns().AdjustToContents();
+                worksheet.RangeUsed().Style.Alignment.SetVertical(XLAlignmentVerticalValues.Top);
                 document.SaveAs(file);
                 string filename = DateTime.Now.ToString("yyyy-MM-dd") + $" {productType} {modelName}.xlsx";
                 var resp = new ExcelFileResponse(file.ToArray(), Request, filename);
