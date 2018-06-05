@@ -430,6 +430,7 @@ namespace SatcomRfWebsite.Controllers
                 worksheet.Range(1, 1, 1, 14).Style = style;
                 worksheet.Columns().AdjustToContents();
                 worksheet.RangeUsed().Style.Alignment.SetVertical(XLAlignmentVerticalValues.Top);
+                worksheet.SheetView.FreezeRows(1);
                 document.SaveAs(file);
                 string filename = DateTime.Now.ToString("yyyy-MM-dd") + $" {productType} {modelName}.xlsx";
                 var resp = new ExcelFileResponse(file.ToArray(), Request, filename);
