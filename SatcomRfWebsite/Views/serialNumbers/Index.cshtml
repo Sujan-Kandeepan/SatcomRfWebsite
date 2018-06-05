@@ -11,27 +11,27 @@
 @*section featured {*@
     <div class="row-fluid">
         <div class="container">
-            <div class="row">
-                <h1>Serial Numbers</h1>
-            </div>
-                <table id="table_serialNums" class="display" width="100%">
-                    <thead>
-                        <tr>
-                            <th>@Html.DisplayNameFor(model => model.ModelSN)</th>
-                            <th>@Html.DisplayNameFor(model => model.ModelName)</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tfoot>
-                        <tr>
-                            <th>@Html.DisplayNameFor(model => model.ModelSN)</th>
-                            <th>@Html.DisplayNameFor(model => model.ModelName)</th>
-                            <th></th>
-                        </tr>
-                    </tfoot>
-                    <tbody>
+            <div class="page-header"><h1>Serial Numbers</h1></div>
+            <div class="display" style="margin-bottom: 20px"><h3>View complete list of serial numbers with corresponding model names.</h3></div>
+            <table id="table_serialNums" class="display" width="100%">
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.ModelSN)</th>
+                        <th>@Html.DisplayNameFor(model => model.ModelName)</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.ModelSN)</th>
+                        <th>@Html.DisplayNameFor(model => model.ModelName)</th>
+                        <th></th>
+                    </tr>
+                </tfoot>
+                <tbody>
 
-                    @foreach (var item in Model) {
+                    @foreach (var item in Model)
+                    {
 
                         <tr>
                             <td>
@@ -41,16 +41,17 @@
                                 @Html.DisplayFor(modelItem => item.ModelName)
                             </td>
                             <td>
+
                                 <!--@Html.ActionLink("Edit", "Edit", new { id=item.id }) |
                                 @Html.ActionLink("Details", "Details", new { id=item.id }) |-->
                                 @Html.ActionLink("Delete", "Delete", new { id=item.id })
                             </td>
                         </tr>
                     }
-                    </tbody>
-                </table>
+                </tbody>
+            </table>
 
-                <script>
+            <script>
                 $(document).ready(function () {
                     $('#table_serialNums').DataTable({
                         "scrollY": 650,
