@@ -193,7 +193,6 @@ function getxlsxfile(productType, modelName) {
     data.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
             document.getElementById("excel-loading").classList.add("hide");
-            alert(this.status);
         } else if (this.readyState == 4 && this.status !== 200) {
             document.getElementById("excel-loading").classList.add("hide");
             document.getElementById("excel-failed").classList.remove("hide");
