@@ -194,6 +194,13 @@ namespace SatcomRfWebsite.Controllers
                             raw.Add(key, tinfo);
                         }
                     }
+
+                    var keys = new List<string>(raw.Keys);
+                    foreach (string key in keys)
+                    {
+                        raw[key].Results = (raw[key].Results.OrderBy(x => x[0])).ToList();
+                    }
+
                     sqlResult2.Close();
                 }
 
