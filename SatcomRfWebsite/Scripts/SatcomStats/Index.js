@@ -99,7 +99,7 @@ function buildTable(tableData) {
                 + tableData[i].MinResultConv + unitConv + "</td><td>" + tableData[i].MaxResult + unit + "</br>" + tableData[i].MaxResultConv
                 + unitConv + "</td><td>" + tableData[i].AvgResult + unit + "</br>" + tableData[i].AvgResultConv + unitConv + "</td><td>"
                 + tableData[i].StdDev + unit + "</br>" + tableData[i].StdDevConv + unitConv + "</td><td>" +
-                "<input type=\"button\" class=\"btn btn-link\" name=\"graph\" onclick=\"showGraph(\'" + tableData[i].AllResults.toString() +
+                "<input type=\"button\" class=\"btn btn-link\" name=\"graph\" data-toggle=\"modal\" data-target=\"#exampleModal\" onclick=\"showGraph(\'" + tableData[i].AllResults.toString() +
                 "\', \'" + tableData[i].AllResultsConv.toString() + "\', \'" + tableData[i].Unit + "\', \'" + tableData[i].UnitConv +
                 "\')\" value=\"View Graph\" />" + "</td></tr>";
         }
@@ -107,7 +107,7 @@ function buildTable(tableData) {
         {
             result += "<tr><td>" + tableData[i].TestName + "</td><td>" + tableData[i].Channel + "</td><td>" + tableData[i].MinResult + unit + "</td><td>"
                 + tableData[i].MaxResult + unit + "</td><td>" + tableData[i].AvgResult + unit + "</td><td>" + tableData[i].StdDev + unit + "</td><td>" +
-                "<input type=\"button\" class=\"btn btn-link\" name=\"graph\" onclick=\"showGraph(\'" + tableData[i].AllResults.toString() +
+                "<input type=\"button\" class=\"btn btn-link\" name=\"graph\" data-toggle=\"modal\" data-target=\"#exampleModal\" onclick=\"showGraph(\'" + tableData[i].AllResults.toString() +
                 "\', \'N/A\', \'" + tableData[i].Unit + "\', \'N/A\')\" value=\"View Graph\" />" + "</td></tr>";
         }
     }
@@ -172,7 +172,7 @@ function showGraph(allResultsString, allResultsConvString, unit, unitConv) {
             allResultsConvValues.push(allResultsConvJoined[i]);
         }
     }
-    alert(allResultsSerials + "\n\n" + allResultsValues + "\n\n" + allResultsConvValues + "\n\n" + unit + "\n\n" + unitConv);
+    document.getElementById("graph-body").innerHTML = allResultsSerials + "\r\n" + allResultsValues + "\r\n" + allResultsConvValues + "\r\n" + unit + "\r\n" + unitConv;
 }
 
 function showFail() {
