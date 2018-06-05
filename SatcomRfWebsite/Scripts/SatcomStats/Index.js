@@ -172,21 +172,6 @@ function showGraph(allResultsString, allResultsConvString, unit, unitConv) {
             allResultsConvValues.push(allResultsConvJoined[i]);
         }
     }
-    for (var i = 0; i < allResultsSerials.length - 1; i++) {
-        for (var j = i; j < allResultsSerials.length - 1; j++) {
-            if (allResultsSerials[j] > allResultsSerials[j + 1]) {
-                var ser = allResultsSerials[j];
-                var val = allResultsValues[j];
-                var vc = allResultsConvValues[j];
-                allResultsSerials[j] = allResultsSerials[j + 1];
-                allResultsValues[j] = allResultsValues[j + 1];
-                allResultsConvValues[j] = allResultsConvValues[j + 1];
-                allResultsSerials[j + 1] = ser;
-                allResultsValues[j + 1] = val;
-                allResultsConvValues[j + 1] = vc;
-            }
-        }
-    }
     alert(allResultsSerials + "\n\n" + allResultsValues + "\n\n" + allResultsConvValues + "\n\n" + unit + "\n\n" + unitConv);
 }
 
