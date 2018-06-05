@@ -194,6 +194,20 @@ function getxlsxfile(productType, modelName) {
         return;
     }
 
+    var src = document.location.origin + "/api/ListAPI/GetTableFile?modelName=" + modelName + "&productType=" + productType + "\"";
+    var data = new XMLHttpRequest();
+    data.onreadystatechange = function () {
+        if (this.readyState === 4) {
+            document.getElementById("excel-loading").classList.add("hide");
+        }
+    };
+
+    document.getElementById("excel-loading").classList.remove("hide");
+
+    data.open("GET", src, true);
+    data.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    data.send();
+
     document.getElementById("iframe-temp").innerHTML = "<iframe style=\"display:none\" src=\"" + document.location.origin +
         "/api/ListAPI/GetTableFile?modelName=" + modelName + "&productType=" + productType + "\"></iframe>";
 }
