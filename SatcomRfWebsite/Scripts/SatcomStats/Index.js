@@ -188,17 +188,15 @@ function getxlsxfile(productType, modelName) {
         return;
     }
 
-    if (!document.getElementById("getdata-failed").classList.contains("hide")) {
-        document.getElementById("download-failed").classList.remove("hide");
-        document.getElementById("getdata-failed").classList.add("hide");
-        return;
-    }
-
-    var src = document.location.origin + "/api/ListAPI/GetTableFile?modelName=" + modelName + "&productType=" + productType + "\"";
+    var src = document.location.origin + "/api/ListAPI/GetTableFile?modelName=" + modelName + "&productType=" + productType;
     var data = new XMLHttpRequest();
     data.onreadystatechange = function () {
-        if (this.readyState === 4) {
+        if (this.readyState === 4 && this.status === 200) {
             document.getElementById("excel-loading").classList.add("hide");
+            alert(this.status);
+        } else if (this.readyState == 4 && this.status !== 200) {
+            document.getElementById("excel-loading").classList.add("hide");
+            document.getElementById("excel-failed").classList.remove("hide");
         }
     };
 

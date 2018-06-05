@@ -41,6 +41,10 @@
         <strong>Preparing Excel file...</strong>
     </div>
 
+    <div class="alert alert-danger hide fade in" id="excel-failed">
+        <strong>Error:</strong> Failed to generate Excel file.
+    </div>
+
     <form action="">
         <div class="col-sm-3">
             <select class="form-control" id="productTypes" name="productTypes" onchange="getModelNames(this.value);"></select>
