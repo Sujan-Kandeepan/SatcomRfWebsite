@@ -6,7 +6,7 @@
 
 <div class="container">
     <script>document.getElementById("rfdbpage").classList.add("active");</script>
-    <div class="row"><h1>Search Test Results</h1></div>
+    <div class="page-header"><h1>Search ATE Test Results</h1></div>
     <div>@Html.Partial("../Shared/_Search")</div>
 
      @{
@@ -63,7 +63,7 @@
                    tableOpen = new HtmlString(String.Format("<table id='table_id_{0}' class='display'>", counter));
                     <hr />
         
-                    <div class="row"><h2>@Html.Raw(item.TestName)</h2></div>
+                    <div class="display"><h2>@Html.Raw(item.TestName)</h2></div>
         
                     @divOpen
                     @tableOpen <!--<table id="table_id_" class="display">-->
