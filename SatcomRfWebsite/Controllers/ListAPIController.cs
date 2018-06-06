@@ -219,6 +219,10 @@ namespace SatcomRfWebsite.Controllers
                     {
                         rounding = longest[1].Length - longest[1].IndexOf(".") - 1;
                     }
+                    if (rounding > 5)
+                    {
+                        rounding = 5;
+                    }
                     var tmp = new TestData();
                     //foreach (String x in raw.ElementAt(i).Value.Results.OrderBy(x => Convert.ToDouble(x.Item2.Replace(":1", "").Replace("Below ", "").Replace("+/-", "").Replace("+", "")))) { System.Diagnostics.Debug.Write("<" + x + "> "); }
                     //System.Diagnostics.Debug.WriteLine("");
