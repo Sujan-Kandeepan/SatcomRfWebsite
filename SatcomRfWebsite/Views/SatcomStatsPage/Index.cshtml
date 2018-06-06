@@ -18,6 +18,12 @@
     .modal {
         background: none;
     }
+
+    .modal-dialog {
+            display: table; /* This is important */
+            width: auto;
+        max-width: 750px;
+    }
 </style>
 
 @Scripts.Render("~/bundles/js/SatcomStats")
@@ -79,20 +85,17 @@
     <table class="table table-striped hide" id="data-table"></table>
 </div>
 
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="allResultsModal" tabindex="-1" role="dialog" aria-labelledby="allResultsModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title" id="exampleModalLabel">Graph Of Results With Serial Numbers</h3>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <h3 style="display: inline-block">All Results</h3>
+                <button type="button" class="close" style="float: right" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body" id="graph-body">
+            <div class="modal-body text-center" id="graph-body">
                 ...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
