@@ -99,16 +99,16 @@ function buildTable(tableData) {
                 + tableData[i].MinResultConv + unitConv + "</td><td>" + tableData[i].MaxResult + unit + "</br>" + tableData[i].MaxResultConv
                 + unitConv + "</td><td>" + tableData[i].AvgResult + unit + "</br>" + tableData[i].AvgResultConv + unitConv + "</td><td>"
                 + tableData[i].StdDev + unit + "</br>" + tableData[i].StdDevConv + unitConv + "</td><td>" +
-                "<input type=\"button\" class=\"btn btn-link\" name=\"graph\" data-toggle=\"modal\" data-target=\"#exampleModal\" onclick=\"showGraph(\'" + tableData[i].AllResults.toString() +
+                "<input type=\"button\" class=\"btn btn-link\" name=\"graph\" data-toggle=\"modal\" data-target=\"#allResultsModal\" onclick=\"showGraph(\'" + tableData[i].AllResults.toString() +
                 "\', \'" + tableData[i].AllResultsConv.toString() + "\', \'" + tableData[i].Unit + "\', \'" + tableData[i].UnitConv +
-                "\')\" value=\"View Graph\" />" + "</td></tr>";
+                "\')\" value=\"View All Results\" />" + "</td></tr>";
         }
         else
         {
             result += "<tr><td>" + tableData[i].TestName + "</td><td>" + tableData[i].Channel + "</td><td>" + tableData[i].MinResult + unit + "</td><td>"
                 + tableData[i].MaxResult + unit + "</td><td>" + tableData[i].AvgResult + unit + "</td><td>" + tableData[i].StdDev + unit + "</td><td>" +
-                "<input type=\"button\" class=\"btn btn-link\" name=\"graph\" data-toggle=\"modal\" data-target=\"#exampleModal\" onclick=\"showGraph(\'" + tableData[i].AllResults.toString() +
-                "\', \'N/A\', \'" + tableData[i].Unit + "\', \'N/A\')\" value=\"View Graph\" />" + "</td></tr>";
+                "<input type=\"button\" class=\"btn btn-link\" name=\"graph\" data-toggle=\"modal\" data-target=\"#allResultsModal\" onclick=\"showGraph(\'" + tableData[i].AllResults.toString() +
+                "\', \'N/A\', \'" + tableData[i].Unit + "\', \'N/A\')\" value=\"View All Results\" />" + "</td></tr>";
         }
     }
 
@@ -164,6 +164,7 @@ function showGraph(allResultsString, allResultsConvString, unit, unitConv) {
     var allResultsJoined = allResultsString.split(",");
     var allResultsConvJoined = allResultsConvString.split(",");
     var allResultsSerials = [], allResultsValues = [], allResultsConvValues = [];
+
     for (var i = 0; i < allResultsJoined.length; i++) {
         if (i % 2 == 0) {
             allResultsSerials.push(allResultsJoined[i]);
@@ -172,7 +173,27 @@ function showGraph(allResultsString, allResultsConvString, unit, unitConv) {
             allResultsConvValues.push(allResultsConvJoined[i]);
         }
     }
-    document.getElementById("graph-body").innerHTML = allResultsSerials + "\r\n" + allResultsValues + "\r\n" + allResultsConvValues + "\r\n" + unit + "\r\n" + unitConv;
+
+    if (unit === "%") {
+        unit = "%";
+    }
+    else if (unit === "X:1") {
+        unit = ":1";
+    }
+    else {
+        unit = " " + unit;
+    }
+    unitConv = " " + unitConv;
+
+    var html = "";
+    for (var i = 0; i < allResultsSerials.length; i++) {
+        html += "<strong>" + allResultsSerials[i] + ":" + "</strong>" + " " + allResultsValues[i] + unit;
+        if (unitConv != " N/A") {
+            html += ", " + allResultsConvValues[i] + unitConv;
+        }
+        html +="</br>";
+    }
+    document.getElementById("graph-body").innerHTML = html;
 }
 
 function showFail() {
