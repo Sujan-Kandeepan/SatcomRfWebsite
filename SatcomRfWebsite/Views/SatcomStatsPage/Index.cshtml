@@ -20,6 +20,7 @@
     }
 
     .modal-dialog {
+        position: absolute;
         display: table; /* This is important */
         width: auto;
         max-width: 750px;
@@ -28,6 +29,18 @@
     .modal-body {
         padding: 25px;
         line-height: 25px;
+    }
+
+    .modal.right.fade .modal-dialog {
+        right: -320px;
+        -webkit-transition: opacity 0.3s linear, right 0.3s ease-out;
+        -moz-transition: opacity 0.3s linear, right 0.3s ease-out;
+        -o-transition: opacity 0.3s linear, right 0.3s ease-out;
+        transition: opacity 0.3s linear, right 0.3s ease-out;
+    }
+
+    .modal.right.fade.in .modal-dialog {
+        right: 30px;
     }
 </style>
 
@@ -90,7 +103,7 @@
     <table class="table table-striped hide" id="data-table"></table>
 </div>
 
-<div class="modal fade" id="allResultsModal" tabindex="-1" role="dialog" aria-labelledby="allResultsModalLabel" aria-hidden="true">
+<div class="modal right fade" id="allResultsModal" tabindex="-1" role="dialog" aria-labelledby="allResultsModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
