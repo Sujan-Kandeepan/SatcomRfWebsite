@@ -5,8 +5,44 @@
 }
 <div class="container">
 
-    <div class="page-header"><h1>ATE Test Output</h1></div>
-    <div class="display" style="margin-bottom: 20px"><h3>View complete data with the applied filters.</h3></div>
+    <div class="page-header"><h1>ATE Data Output</h1></div>
+    <div class="row">
+        <div class="col-lg-10">
+            <div class="display" style="margin-top: -20px; margin-bottom: 30px"><h3>View complete data with the applied filters.</h3></div>
+        </div>
+
+        <div class="col-lg-2">
+            <button id='filterReset' class="btn btn-primary btn-block"  type="button" onclick='resetFilter()'>Reset Filter</button>
+        </div>
+
+        <script>
+            $(document).ready(function () {
+                if (noSearchCriteria) {
+                    $('#filterReset').prop('disabled', false); //true);
+                    $('#filterApply').prop('disabled', false); //true);
+                } else {
+                    $('#filterReset').prop('disabled', false);
+                    $('#filterApply').prop('disabled', false);
+                }
+
+                $("button").click(function () {
+                    //$("#filterReset").html('Please Wait');
+                    $body = $("body");
+                    $body.addClass("loading");
+                });
+            });
+
+            $(document).on({
+                //ajaxStart: function () { $body.addClass("loading"); },
+                //ajaxStop: function () { $body.removeClass("loading"); }
+            });
+
+            function resetFilter() {
+                //location.href = document.location.origin + "/ateData/AteOutput";
+                location.href = document.URL.replace(/AteOutput\?[a-zA-Z0-9=+,-\\%]*/, "AteOutput");
+            }
+        </script>
+    </div>
 
     <script type="text/javascript">
 
@@ -32,53 +68,53 @@
 
     <div class="row">
         <div class="col-lg-2">
-			<select id="selectProductType" class="demo-default" placeholder="Product Types...">
-				<option value="">Product Types...</option>
-			@foreach (var itemProd in Model.ateOutputModel.prodList)
-            {
-                <option value="@itemProd" @(Model.ateOutputModel.productType == itemProd ? "selected" : "")>@itemProd</option>
-            }
-			</select>
-            
-		    <script>
+            <select id="selectProductType" class="demo-default" placeholder="Product Types...">
+                <option value="">Product Types...</option>
+                @foreach (var itemProd in Model.ateOutputModel.prodList)
+                {
+                    <option value="@itemProd" @(Model.ateOutputModel.productType == itemProd ? "selected" : "")>@itemProd</option>
+                }
+            </select>
 
-		        $(document).ready(function () {
+            <script>
 
-		            $('#selectProductType').selectize({
-		                sortField: {
-		                    field: 'text',
-		                    direction: 'asc'
-		                },
-		                dropdownParent: 'body',
-		                onChange: function (value) {
+                $(document).ready(function () {
 
-		                    if (value == "") { value = "na"; }
+                    $('#selectProductType').selectize({
+                        sortField: {
+                            field: 'text',
+                            direction: 'asc'
+                        },
+                        dropdownParent: 'body',
+                        onChange: function (value) {
 
-		                    //indexOf return num > -1 if it finds the string
-		                    if (document.URL.indexOf("pT=") > -1) {
-		                        filterToApply = document.URL;
-		                    }
-		                    filterToApply = filterToApply.replace(/pT=[a-zA-Z]*/, "pT=" + value);
-		                    filterToApply = filterToApply.replace(/mN=[a-zA-Z0-9-]*/, "mN=na");
-		                    filterToApply = filterToApply.replace(/ser=[a-zA-Z0-9_-]*/, "ser=na");
-		                    location.href = filterToApply;
-		                }
-		            });
-		        });
-                
-		    </script>
+                            if (value == "") { value = "na"; }
+
+                            //indexOf return num > -1 if it finds the string
+                            if (document.URL.indexOf("pT=") > -1) {
+                                filterToApply = document.URL;
+                            }
+                            filterToApply = filterToApply.replace(/pT=[a-zA-Z]*/, "pT=" + value);
+                            filterToApply = filterToApply.replace(/mN=[a-zA-Z0-9-]*/, "mN=na");
+                            filterToApply = filterToApply.replace(/ser=[a-zA-Z0-9_-]*/, "ser=na");
+                            location.href = filterToApply;
+                        }
+                    });
+                });
+
+            </script>
         </div>
 
         <div class="col-lg-2">
-			<select id="selectModelName" class="demo-default" placeholder="Model Names..." name="ModelName">
-				<option value="">Model Names...</option>
-			@foreach (var itemModel in Model.ateOutputModel.modelList)
-            {
-                <option value="@itemModel" @(Model.ateOutputModel.modelName == itemModel ? "selected" : "")>@itemModel</option>
-            }
-			</select>
+            <select id="selectModelName" class="demo-default" placeholder="Model Names..." name="ModelName">
+                <option value="">Model Names...</option>
+                @foreach (var itemModel in Model.ateOutputModel.modelList)
+                {
+                    <option value="@itemModel" @(Model.ateOutputModel.modelName == itemModel ? "selected" : "")>@itemModel</option>
+                }
+            </select>
 
-		    <script>
+            <script>
 
 		        $(document).ready(function () {
 
@@ -112,19 +148,19 @@
 		                }
 		            });
 		        });
-                
-		    </script>
+
+            </script>
         </div>
         <div class="col-lg-2">
-			<select id="selectSerialNum" class="demo-default" placeholder="Serial Nums..." name="SerialNum">
-				<option value="">Serial Nums...</option>
-			@foreach (var itemSN in Model.ateOutputModel.serList)
-            {
-                <option value="@itemSN" @(Model.ateOutputModel.serialNum == itemSN ? "selected" : "")>@itemSN</option>
-            }
-			</select>
+            <select id="selectSerialNum" class="demo-default" placeholder="Serial Nums..." name="SerialNum">
+                <option value="">Serial Nums...</option>
+                @foreach (var itemSN in Model.ateOutputModel.serList)
+                {
+                    <option value="@itemSN" @(Model.ateOutputModel.serialNum == itemSN ? "selected" : "")>@itemSN</option>
+                }
+            </select>
 
-		    <script>
+            <script>
 
 		        $(document).ready(function () {
 
@@ -160,27 +196,22 @@
 		                }
 		            });
 		        });
-                
-		    </script>
+
+            </script>
         </div>
         <div class="col-lg-6"></div>
-    </div>
 
-    <!-----------------------------  FILTER ------------------------------->
-
-    
-
-    <div class="row">
+        <!-----------------------------  FILTER ------------------------------->
 
         <div class="col-lg-2">
-			<select id="selectTestType" class="demo-default" placeholder="Test Type...">
+            <select id="selectTestType" class="demo-default" placeholder="Test Type...">
                 <option value="">Test Type ...</option>
-				<option value="ProdTest" @(Model.ateOutputModel.testType == "ProdTest" ? "selected" : "")>Production Test</option>
+                <option value="ProdTest" @(Model.ateOutputModel.testType == "ProdTest" ? "selected" : "")>Production Test</option>
                 <option value="EngTest" @(Model.ateOutputModel.testType == "EngTest" ? "selected" : "")>Engineering Test</option>
                 <option value="Debug" @(Model.ateOutputModel.testType == "Debug" ? "selected" : "")>Debugging</option>
-			</select>
+            </select>
 
-		    <script>
+            <script>
 
 		        $(document).ready(function () {
 
@@ -205,169 +236,133 @@
 		                }
 		            });
 		        });
-                
-		    </script>
+
+            </script>
         </div>
 
         <div class="col-lg-2">
-			<select id="selectTubeName" class="demo-default" placeholder="Tube Name...">
-				<option value="">Tube Name...</option>
-			@foreach (var tube in Model.ateOutputModel.tubeList)
-   {
-                <option value="@tube" @(Model.ateOutputModel.tubeName == tube ? "selected" : "")>@tube</option>
-   }
-			</select>
+            <select id="selectTubeName" class="demo-default" placeholder="Tube Name...">
+                <option value="">Tube Name...</option>
+                @foreach (var tube in Model.ateOutputModel.tubeList)
+                {
+                    <option value="@tube" @(Model.ateOutputModel.tubeName == tube ? "selected" : "")>@tube</option>
+                }
+            </select>
 
-		    <script>
+            <script>
 
-		        $(document).ready(function () {
+                $(document).ready(function () {
 
-		            //select by typing
-		            $('#selectTubeName').selectize({
-		                sortField: {
-		                    field: 'text',
-		                    direction: 'asc'
-		                },
-		                dropdownParent: 'body',
-		                onChange: function (value) {
-		                    if (document.URL.search("tubeName=") > -1) {
-		                        location.href = document.URL.replace(/tubeName=[a-zA-Z0-9-]*/, "tubeName=" + value);
+                    //select by typing
+                    $('#selectTubeName').selectize({
+                        sortField: {
+                            field: 'text',
+                            direction: 'asc'
+                        },
+                        dropdownParent: 'body',
+                        onChange: function (value) {
+                            if (document.URL.search("tubeName=") > -1) {
+                                location.href = document.URL.replace(/tubeName=[a-zA-Z0-9-]*/, "tubeName=" + value);
                             } else {
-		                        location.href = filterToApply.replace(/tubeName=[a-zA-Z0-9-]*/, "tubeName=" + value);
+                                location.href = filterToApply.replace(/tubeName=[a-zA-Z0-9-]*/, "tubeName=" + value);
                             }
-		                }
-		            });
-		        });
-                
-		    </script>
+                        }
+                    });
+                });
+
+            </script>
         </div>
 
         <div class="col-lg-2">
-			<select id="selectOptions" multiple class="demo-default" placeholder="Select Options...">
+            <select id="selectOptions" multiple class="demo-default" placeholder="Select Options...">
                 <option value="">Select Options...</option>
                 <option value="Audit" @(Model.ateOutputModel.options.Contains("Audit") ? "selected" : "")>Audit</option>
-				<option value="SsaSN" @(Model.ateOutputModel.options.Contains("SsaSN") ? "selected" : "")>SSA</option>
+                <option value="SsaSN" @(Model.ateOutputModel.options.Contains("SsaSN") ? "selected" : "")>SSA</option>
                 <option value="LinSN" @(Model.ateOutputModel.options.Contains("LinSN") ? "selected" : "")>LIN</option>
                 <option value="LipaSN" @(Model.ateOutputModel.options.Contains("LipaSN") ? "selected" : "")>LIPA</option>
                 <option value="BucSN" @(Model.ateOutputModel.options.Contains("BucSN") ? "selected" : "")>BUC</option>
                 <option value="BipaSN" @(Model.ateOutputModel.options.Contains("BipaSN") ? "selected" : "")>BIPA</option>
                 <option value="BlipaSN" @(Model.ateOutputModel.options.Contains("BlipaSN") ? "selected" : "")>BLIPA</option>
-			</select>
+            </select>
 
-		    <script>
+            <script>
 
-		        $(document).ready(function () {
+                $(document).ready(function () {
 
-		            //select by typing
-		            $('#selectOptions').selectize({
-		                plugins: ['remove_button'],
-		                delimiter: ',',
-		                persist: false,
-		                onChange: function (value) {
-		                    if (value == null) { value = "na"; }
-		                    if (document.URL.search("opt=") > -1) {
-		                        location.href = document.URL.replace(/opt=[a-zA-Z,]*/, "opt=" + value);
-		                    } else {
-		                        location.href = filterToApply.replace(/opt=[a-zA-Z,]*/, "opt=" + value);
-		                    }
-		                }
-		            });
-		        });
-                
-		    </script>
+                    //select by typing
+                    $('#selectOptions').selectize({
+                        plugins: ['remove_button'],
+                        delimiter: ',',
+                        persist: false,
+                        onChange: function (value) {
+                            if (value == null) { value = "na"; }
+                            if (document.URL.search("opt=") > -1) {
+                                location.href = document.URL.replace(/opt=[a-zA-Z,]*/, "opt=" + value);
+                            } else {
+                                location.href = filterToApply.replace(/opt=[a-zA-Z,]*/, "opt=" + value);
+                            }
+                        }
+                    });
+                });
+
+            </script>
         </div>
         <div class="col-lg-6"></div>
-    </div>
-
-    <div class="row">
-        <div class="col-lg-2">
-             <button id='filterReset' class="btn btn-primary btn-block" type="button" onclick='resetFilter()'>Reset Filter</button>
-        </div>
-
-        <script>
-            $(document).ready(function () {
-                if (noSearchCriteria) {
-                    $('#filterReset').prop('disabled', false); //true);
-                    $('#filterApply').prop('disabled', false); //true);
-                } else {
-                    $('#filterReset').prop('disabled', false);
-                    $('#filterApply').prop('disabled', false);
-                }
-
-                $("button").click(function () {
-                    //$("#filterReset").html('Please Wait');
-                    $body = $("body");
-                    $body.addClass("loading");
-                });
-            });
-
-            $(document).on({
-                //ajaxStart: function () { $body.addClass("loading"); },
-                //ajaxStop: function () { $body.removeClass("loading"); }
-            });
-
-            function resetFilter() {
-                //location.href = document.location.origin + "/ateData/AteOutput";
-                location.href = document.URL.replace(/AteOutput\?[a-zA-Z0-9=+,-\\%]*/, "AteOutput");
-            }
-        </script>
-
-        <div class="col-lg-10"></div>
     </div>
 
 
     <!---------------------------- FILTER END ------------------------------>
 
     <div class="row"><hr /></div>
-        <table id="table_id_1" class="display">
+    <table id="table_id_1" class="display">
 
-                <thead>
-                    <tr>
-                        <th>StartTime</th>
-                        <th>Serial#</th>
-                        <th>Audit</th>
-                        <th>Long Model Name</th>
-                        <th>Tube Name</th>
-                        <th>SsaSN</th>
-                        <th>LinSN</th>
-                        <th>LipaSN</th>
-                        <th>BucSN</th>
-                        <th>BipaSN</th>
-                        <th>BlipaSN</th>
-                    </tr>
-                </thead>
-                <tbody>
+        <thead>
+            <tr>
+                <th>StartTime</th>
+                <th>Serial#</th>
+                <th>Audit</th>
+                <th>Long Model Name</th>
+                <th>Tube Name</th>
+                <th>SsaSN</th>
+                <th>LinSN</th>
+                <th>LipaSN</th>
+                <th>BucSN</th>
+                <th>BipaSN</th>
+                <th>BlipaSN</th>
+            </tr>
+        </thead>
+        <tbody>
 
-        @{
-            var yscroll = 50;
-            var numAteTests = 0;
+            @{
+                var yscroll = 50;
+                var numAteTests = 0;
 
-            if (Model.ateOutputModel.ateOutputList.Count > 0)
-            {
-                foreach (var item in Model.ateOutputModel.ateOutputList)
+                if (Model.ateOutputModel.ateOutputList.Count > 0)
                 {
-                <tr>
-                    <td>@Html.DisplayFor(modelItem => item.startTime)</td>
-                    <td><a href='~/ateData/AteOutputDetail/?serNum=@item.serialNum'>@Html.DisplayFor(modelItem => item.serialNum)</a></td>
-                    <td>@Html.DisplayFor(modelItem => item.audit)</td>
-                    <td>@Html.DisplayFor(modelItem => item.longModelName)</td>
-                    <td>@Html.DisplayFor(modelItem => item.tubeName)</td>
-                    <td>@Html.DisplayFor(modelItem => item.ssaSN)</td>
-                    <td>@Html.DisplayFor(modelItem => item.linSN)</td>
-                    <td>@Html.DisplayFor(modelItem => item.lipaSN)</td>
-                    <td>@Html.DisplayFor(modelItem => item.bucSN)</td>
-                    <td>@Html.DisplayFor(modelItem => item.bipaSN)</td>
-                    <td>@Html.DisplayFor(modelItem => item.blipaSN)</td>
-                </tr>
-                    numAteTests++;
-                }
+                    foreach (var item in Model.ateOutputModel.ateOutputList)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.startTime)</td>
+                            <td><a href='~/ateData/AteOutputDetail/?serNum=@item.serialNum'>@Html.DisplayFor(modelItem => item.serialNum)</a></td>
+                            <td>@Html.DisplayFor(modelItem => item.audit)</td>
+                            <td>@Html.DisplayFor(modelItem => item.longModelName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.tubeName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.ssaSN)</td>
+                            <td>@Html.DisplayFor(modelItem => item.linSN)</td>
+                            <td>@Html.DisplayFor(modelItem => item.lipaSN)</td>
+                            <td>@Html.DisplayFor(modelItem => item.bucSN)</td>
+                            <td>@Html.DisplayFor(modelItem => item.bipaSN)</td>
+                            <td>@Html.DisplayFor(modelItem => item.blipaSN)</td>
+                        </tr>
+                        numAteTests++;
+                    }
 
-                if (numAteTests < 5) { yscroll = 250; }
-                else { yscroll = 500; }
+                    if (numAteTests < 5) { yscroll = 250; }
+                    else { yscroll = 500; }
+                }
             }
-        }
-                </tbody>
-        </table>
+        </tbody>
+    </table>
 
     <script>
         $(document).ready(function () {
