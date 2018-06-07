@@ -193,7 +193,7 @@ function showGraph(allResultsString, allResultsConvString, unit, unitConv) {
         }
         html +="</br>";
     }
-    document.getElementById("graph-body").innerHTML = html;
+    document.getElementById("content-all-results").innerHTML = html;
 }
 
 function showFail() {
