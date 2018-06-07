@@ -108,7 +108,7 @@ function buildTable(tableData) {
             result += "<tr><td>" + tableData[i].TestName + "</td><td>" + tableData[i].Channel + "</td><td>" + tableData[i].MinResult + unit + "</td><td>"
                 + tableData[i].MaxResult + unit + "</td><td>" + tableData[i].AvgResult + unit + "</td><td>" + tableData[i].StdDev + unit + "</td><td>" +
                 "<input type=\"button\" class=\"btn btn-link\" name=\"graph\" data-toggle=\"modal\" data-target=\"#allResultsModal\" onclick=\"fillModal(\'" + tableData[i].TestName + "\', \'" + tableData[i].Channel + "\', \'" + tableData[i].AllResults.toString() +
-                "\', \'N/A\', \'val\', \'" + tableData[i].Unit + "\', \'N/A\')\" value=\"View All Results\" />" + "</td></tr>";
+                "\', \'N/A\', \'" + tableData[i].Unit + "\', \'N/A\', \'val\')\" value=\"View All Results\" />" + "</td></tr>";
         }
     }
 
@@ -177,7 +177,7 @@ function fillModal(testName, channel, allResultsString, allResultsConvString, un
     if (sortMode == 'sn') {
         for (var i = 1; i < allResultsValues.length; i++) {
             for (var j = i; j > 0; j--) {
-                if (allResultsValues[j] < allResultsValues[j - 1]) {
+                if (parseFloat(allResultsValues[j]) < parseFloat(allResultsValues[j - 1])) {
                     var temp = allResultsSerials[j];
                     allResultsSerials[j] = allResultsSerials[j - 1];
                     allResultsSerials[j - 1] = temp;
@@ -214,7 +214,7 @@ function fillModal(testName, channel, allResultsString, allResultsConvString, un
 
     for (var i = 0; i < allResultsSerials.length; i++) {
         html += "<strong>" + allResultsSerials[i] + ":" + "</strong>" + " " + allResultsValues[i] + unit;
-        if (unitConv != " N/A") {
+        if (unitConv != " N/A" && unitConv != "undefined") {
             html += ", " + allResultsConvValues[i] + unitConv;
         }
         html +="</br>";
@@ -224,6 +224,8 @@ function fillModal(testName, channel, allResultsString, allResultsConvString, un
 }
 
 function sortMode(testName, channel, allResultsString, allResultsConvString, unit, unitConv, sortMode) {
+    unit = unit.replace(" ", "");
+    unitConv = unitConv.replace(" ", "");
     fillModal(testName, channel, allResultsString, allResultsConvString, unit, unitConv, (sortMode == 'val') ? 'sn' : 'val');
     $("#myModal").val(null).trigger("change");
 }
