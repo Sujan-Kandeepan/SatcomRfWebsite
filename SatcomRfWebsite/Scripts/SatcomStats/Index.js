@@ -185,8 +185,8 @@ function showGraph(testName, channel, allResultsString, allResultsConvString, un
     }
     unitConv = " " + unitConv;
 
-    var closeButton = "<button type=\"button\" class=\"close\" style=\"float: right\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>";
-    var html = "<h4 class=\"text-center\" style=\"margin-top: 5px\">" + testName + " (Channel " + channel + ")</h4>" + "<hr/>";
+    var closeButton = "<button type=\"button\" class=\"close\" style=\"float: right; margin-left: 10px\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>";
+    var html = "<h4 class=\"text-center\" style=\"margin-top: 5px\">" + testName + " (Channel " + channel + ") " + closeButton + "</h4>" + "<hr/>";
     for (var i = 0; i < allResultsSerials.length; i++) {
         html += "<strong>" + allResultsSerials[i] + ":" + "</strong>" + " " + allResultsValues[i] + unit;
         if (unitConv != " N/A") {
