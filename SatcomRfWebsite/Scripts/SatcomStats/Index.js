@@ -185,8 +185,12 @@ function fillModal(testName, channel, allResultsString, allResultsConvString, un
     }
     unitConv = " " + unitConv;
 
-    var closeButton = "<button type=\"button\" class=\"close\" style=\"float: right; margin-left: 10px\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>";
-    var html = "<h4 class=\"text-center\" style=\"margin-top: 5px\">" + testName + " (Channel " + channel + ") " + closeButton + "</h4>" + "<hr/>";
+    var closeButton = "<button type=\"button\" class=\"close\" style=\"float: right; margin-left: 10px\" data-dismiss=\"modal\" "
+        + "aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>";
+    var refreshButton = "<input type=\"button\" class=\"btn btn-link center-block\" name=\"graph\" onclick=\"sortMode(\'" + testName + "\', \'" + channel + "\', \'"
+        + allResultsString + "\', \'" + allResultsConvString + "\', \'" + unit + "\', \'" + unitConv + "\')\" value=\"Click to toggle sort mode.\" />";
+    var html = "<h4 class=\"text-center\" style=\"margin-top: 5px\">" + testName + " (Channel " + channel + ") "
+        + closeButton + "</h4>" + refreshButton + "<hr/>";
     for (var i = 0; i < allResultsSerials.length; i++) {
         html += "<strong>" + allResultsSerials[i] + ":" + "</strong>" + " " + allResultsValues[i] + unit;
         if (unitConv != " N/A") {
@@ -196,6 +200,11 @@ function fillModal(testName, channel, allResultsString, allResultsConvString, un
     }
 
     document.getElementById("content-all-results").innerHTML = html;
+}
+
+function sortMode(testName, channel, allResultsString, allResultsConvString, unit, unitConv) {
+    document.getElementById("content-all-results").innerHTML = "¯\\_(ツ)_/¯";
+    $("#myModal").val(null).trigger("change");
 }
 
 function showFail() {
