@@ -99,7 +99,7 @@ function buildTable(tableData) {
                 + tableData[i].MinResultConv + unitConv + "</td><td>" + tableData[i].MaxResult + unit + "</br>" + tableData[i].MaxResultConv
                 + unitConv + "</td><td>" + tableData[i].AvgResult + unit + "</br>" + tableData[i].AvgResultConv + unitConv + "</td><td>"
                 + tableData[i].StdDev + unit + "</br>" + tableData[i].StdDevConv + unitConv + "</td><td>" +
-                "<input type=\"button\" class=\"btn btn-link\" name=\"graph\" data-toggle=\"modal\" data-target=\"#allResultsModal\" onclick=\"showGraph(\'" + tableData[i].AllResults.toString() +
+                "<input type=\"button\" class=\"btn btn-link\" name=\"graph\" data-toggle=\"modal\" data-target=\"#allResultsModal\" onclick=\"showGraph(\'" + tableData[i].TestName + "\', \'" + tableData[i].Channel + "\', \'" + tableData[i].AllResults.toString() +
                 "\', \'" + tableData[i].AllResultsConv.toString() + "\', \'" + tableData[i].Unit + "\', \'" + tableData[i].UnitConv +
                 "\')\" value=\"View All Results\" />" + "</td></tr>";
         }
@@ -107,7 +107,7 @@ function buildTable(tableData) {
         {
             result += "<tr><td>" + tableData[i].TestName + "</td><td>" + tableData[i].Channel + "</td><td>" + tableData[i].MinResult + unit + "</td><td>"
                 + tableData[i].MaxResult + unit + "</td><td>" + tableData[i].AvgResult + unit + "</td><td>" + tableData[i].StdDev + unit + "</td><td>" +
-                "<input type=\"button\" class=\"btn btn-link\" name=\"graph\" data-toggle=\"modal\" data-target=\"#allResultsModal\" onclick=\"showGraph(\'" + tableData[i].AllResults.toString() +
+                "<input type=\"button\" class=\"btn btn-link\" name=\"graph\" data-toggle=\"modal\" data-target=\"#allResultsModal\" onclick=\"showGraph(\'" + tableData[i].TestName + "\', \'" + tableData[i].Channel + "\', \'" + tableData[i].AllResults.toString() +
                 "\', \'N/A\', \'" + tableData[i].Unit + "\', \'N/A\')\" value=\"View All Results\" />" + "</td></tr>";
         }
     }
@@ -160,7 +160,7 @@ function getTable(productType, modelName) {
     data.send();
 }
 
-function showGraph(allResultsString, allResultsConvString, unit, unitConv) {
+function showGraph(testName, channel, allResultsString, allResultsConvString, unit, unitConv) {
     var allResultsJoined = allResultsString.split(",");
     var allResultsConvJoined = allResultsConvString.split(",");
     var allResultsSerials = [], allResultsValues = [], allResultsConvValues = [];
@@ -185,7 +185,7 @@ function showGraph(allResultsString, allResultsConvString, unit, unitConv) {
     }
     unitConv = " " + unitConv;
 
-    var html = "";
+    var html = "<h4 class=\"text-center\" style=\"margin-top: 5px\">" + testName + " (Channel " + channel + ")</h4><hr/>";
     for (var i = 0; i < allResultsSerials.length; i++) {
         html += "<strong>" + allResultsSerials[i] + ":" + "</strong>" + " " + allResultsValues[i] + unit;
         if (unitConv != " N/A") {
@@ -193,6 +193,7 @@ function showGraph(allResultsString, allResultsConvString, unit, unitConv) {
         }
         html +="</br>";
     }
+
     document.getElementById("content-all-results").innerHTML = html;
 }
 
