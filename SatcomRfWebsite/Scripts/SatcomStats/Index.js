@@ -101,14 +101,14 @@ function buildTable(tableData) {
                 + tableData[i].StdDev + unit + "</br>" + tableData[i].StdDevConv + unitConv + "</td><td>" +
                 "<input type=\"button\" class=\"btn btn-link\" name=\"graph\" data-toggle=\"modal\" data-target=\"#allResultsModal\" onclick=\"fillModal(\'" + tableData[i].TestName + "\', \'" + tableData[i].Channel + "\', \'" + tableData[i].AllResults.toString() +
                 "\', \'" + tableData[i].AllResultsConv.toString() + "\', \'" + tableData[i].Unit + "\', \'" + tableData[i].UnitConv +
-                "\')\" value=\"View All Results\" />" + "</td></tr>";
+                "\', \'val\')\" value=\"View All Results\" />" + "</td></tr>";
         }
         else
         {
             result += "<tr><td>" + tableData[i].TestName + "</td><td>" + tableData[i].Channel + "</td><td>" + tableData[i].MinResult + unit + "</td><td>"
                 + tableData[i].MaxResult + unit + "</td><td>" + tableData[i].AvgResult + unit + "</td><td>" + tableData[i].StdDev + unit + "</td><td>" +
                 "<input type=\"button\" class=\"btn btn-link\" name=\"graph\" data-toggle=\"modal\" data-target=\"#allResultsModal\" onclick=\"fillModal(\'" + tableData[i].TestName + "\', \'" + tableData[i].Channel + "\', \'" + tableData[i].AllResults.toString() +
-                "\', \'N/A\', \'" + tableData[i].Unit + "\', \'N/A\')\" value=\"View All Results\" />" + "</td></tr>";
+                "\', \'N/A\', \'val\', \'" + tableData[i].Unit + "\', \'N/A\')\" value=\"View All Results\" />" + "</td></tr>";
         }
     }
 
@@ -160,7 +160,7 @@ function getTable(productType, modelName) {
     data.send();
 }
 
-function fillModal(testName, channel, allResultsString, allResultsConvString, unit, unitConv) {
+function fillModal(testName, channel, allResultsString, allResultsConvString, unit, unitConv, sortMode) {
     var allResultsJoined = allResultsString.split(",");
     var allResultsConvJoined = allResultsConvString.split(",");
     var allResultsSerials = [], allResultsValues = [], allResultsConvValues = [];
@@ -171,6 +171,26 @@ function fillModal(testName, channel, allResultsString, allResultsConvString, un
         } else {
             allResultsValues.push(allResultsJoined[i]);
             allResultsConvValues.push(allResultsConvJoined[i]);
+        }
+    }
+
+    if (sortMode == 'sn') {
+        for (var i = 1; i < allResultsValues.length; i++) {
+            for (var j = i; j > 0; j--) {
+                if (allResultsValues[j] < allResultsValues[j - 1]) {
+                    var temp = allResultsSerials[j];
+                    allResultsSerials[j] = allResultsSerials[j - 1];
+                    allResultsSerials[j - 1] = temp;
+
+                    temp = allResultsValues[j];
+                    allResultsValues[j] = allResultsValues[j - 1];
+                    allResultsValues[j - 1] = temp;
+
+                    temp = allResultsConvValues[j];
+                    allResultsConvValues[j] = allResultsConvValues[j - 1];
+                    allResultsConvValues[j - 1] = temp;
+                }
+            }
         }
     }
 
@@ -188,9 +208,10 @@ function fillModal(testName, channel, allResultsString, allResultsConvString, un
     var closeButton = "<button type=\"button\" class=\"close\" style=\"float: right; margin-left: 10px\" data-dismiss=\"modal\" "
         + "aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>";
     var refreshButton = "<input type=\"button\" class=\"btn btn-link center-block\" name=\"graph\" onclick=\"sortMode(\'" + testName + "\', \'" + channel + "\', \'"
-        + allResultsString + "\', \'" + allResultsConvString + "\', \'" + unit + "\', \'" + unitConv + "\')\" value=\"Click to toggle sort mode.\" />";
+        + allResultsString + "\', \'" + allResultsConvString + "\', \'" + unit + "\', \'" + unitConv + "\', \'" + sortMode + "\')\" value=\"Click to toggle sort mode.\" />";
     var html = "<h4 class=\"text-center\" style=\"margin-top: 5px\">" + testName + " (Channel " + channel + ") "
         + closeButton + "</h4>" + refreshButton + "<hr/>";
+
     for (var i = 0; i < allResultsSerials.length; i++) {
         html += "<strong>" + allResultsSerials[i] + ":" + "</strong>" + " " + allResultsValues[i] + unit;
         if (unitConv != " N/A") {
@@ -202,8 +223,8 @@ function fillModal(testName, channel, allResultsString, allResultsConvString, un
     document.getElementById("content-all-results").innerHTML = html;
 }
 
-function sortMode(testName, channel, allResultsString, allResultsConvString, unit, unitConv) {
-    document.getElementById("content-all-results").innerHTML = "¯\\_(ツ)_/¯";
+function sortMode(testName, channel, allResultsString, allResultsConvString, unit, unitConv, sortMode) {
+    fillModal(testName, channel, allResultsString, allResultsConvString, unit, unitConv, (sortMode == 'val') ? 'sn' : 'val');
     $("#myModal").val(null).trigger("change");
 }
 
