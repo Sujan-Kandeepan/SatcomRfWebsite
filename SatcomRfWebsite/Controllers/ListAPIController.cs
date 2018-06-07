@@ -243,7 +243,16 @@ namespace SatcomRfWebsite.Controllers
                     }
                     tmp.StdDev = Convert.ToString(Math.Round(Math.Sqrt(tempSum / rawtmp2.Count()), rounding));
 
-                    tmp.Cpk = "---";
+                    var cpu = Double.PositiveInfinity;
+                    var cpl = Double.PositiveInfinity;
+                    if (!raw.ElementAt(i).Value.UpLimit.Equals("NULL") && !raw.ElementAt(i).Value.UpLimit.Equals("")) {
+                        cpu = (Convert.ToDouble(raw.ElementAt(i).Value.UpLimit) - Convert.ToDouble(tmp.AvgResult)) / (3 * Convert.ToDouble(tmp.StdDev));
+                    }
+                    if (!raw.ElementAt(i).Value.LowLimit.Equals("NULL") && !raw.ElementAt(i).Value.LowLimit.Equals(""))
+                    {
+                        cpl = (Convert.ToDouble(tmp.AvgResult) - Convert.ToDouble(raw.ElementAt(i).Value.LowLimit)) / (3 * Convert.ToDouble(tmp.StdDev));
+                    }
+                    tmp.Cpk = Convert.ToString(Math.Round(Math.Min(cpu, cpl), rounding));
 
                     tmp.AllResults = (from val in rawtmp select new List<string>() { val[0], Convert.ToString(val[1]) }).ToList();
                     tmp.AllResultsConv = new List<List<string>>();
