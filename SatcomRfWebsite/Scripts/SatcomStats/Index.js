@@ -73,7 +73,7 @@ function getProductTypes(selected) {
 }
 
 function buildTable(tableData) {
-    var result = "<tr><th>Test Name</th><th>Channel</th><th>Minimum</th><th>Maximum</th><th>Average</th><th>Standard Deviation</th><th></th></tr>";
+    var result = "<tr><th>Test Name</th><th>Channel</th><th>Minimum</th><th>Maximum</th><th>Average</th><th>Standard Deviation</th><th>Cpk</th><th></th></tr>";
     for (var i = 0; i < tableData.length; i++) {
         var unit = "";
          
@@ -98,17 +98,18 @@ function buildTable(tableData) {
             result += "<tr><td>" + tableData[i].TestName + "</td><td>" + tableData[i].Channel + "</td><td>" + tableData[i].MinResult + unit + "</br>"
                 + tableData[i].MinResultConv + unitConv + "</td><td>" + tableData[i].MaxResult + unit + "</br>" + tableData[i].MaxResultConv
                 + unitConv + "</td><td>" + tableData[i].AvgResult + unit + "</br>" + tableData[i].AvgResultConv + unitConv + "</td><td>"
-                + tableData[i].StdDev + unit + "</br>" + tableData[i].StdDevConv + unitConv + "</td><td>" +
+                + tableData[i].StdDev + unit + "</br>" + tableData[i].StdDevConv + unitConv + "</td><td>"
+                + tableData[i].Cpk + unit + "</br>" + tableData[i].CpkConv + unitConv + "</td><td>" +
                 "<input type=\"button\" class=\"btn btn-link\" name=\"graph\" data-toggle=\"modal\" data-target=\"#allResultsModal\" onclick=\"fillModal(\'" + tableData[i].TestName + "\', \'" + tableData[i].Channel + "\', \'" + tableData[i].AllResults.toString() +
                 "\', \'" + tableData[i].AllResultsConv.toString() + "\', \'" + tableData[i].Unit + "\', \'" + tableData[i].UnitConv +
-                "\', \'val\')\" value=\"View All Results\" />" + "</td></tr>";
+                "\', \'sn\')\" value=\"View All Results\" />" + "</td></tr>";
         }
         else
         {
             result += "<tr><td>" + tableData[i].TestName + "</td><td>" + tableData[i].Channel + "</td><td>" + tableData[i].MinResult + unit + "</td><td>"
-                + tableData[i].MaxResult + unit + "</td><td>" + tableData[i].AvgResult + unit + "</td><td>" + tableData[i].StdDev + unit + "</td><td>" +
+                + tableData[i].MaxResult + unit + "</td><td>" + tableData[i].AvgResult + unit + "</td><td>" + tableData[i].StdDev + "</td><td>" + tableData[i].Cpk + unit + "</td><td>" +
                 "<input type=\"button\" class=\"btn btn-link\" name=\"graph\" data-toggle=\"modal\" data-target=\"#allResultsModal\" onclick=\"fillModal(\'" + tableData[i].TestName + "\', \'" + tableData[i].Channel + "\', \'" + tableData[i].AllResults.toString() +
-                "\', \'N/A\', \'" + tableData[i].Unit + "\', \'N/A\', \'val\')\" value=\"View All Results\" />" + "</td></tr>";
+                "\', \'N/A\', \'" + tableData[i].Unit + "\', \'N/A\', \'sn\')\" value=\"View All Results\" />" + "</td></tr>";
         }
     }
 
@@ -174,7 +175,7 @@ function fillModal(testName, channel, allResultsString, allResultsConvString, un
         }
     }
 
-    if (sortMode == 'sn') {
+    if (sortMode == 'val') {
         for (var i = 1; i < allResultsValues.length; i++) {
             for (var j = i; j > 0; j--) {
                 if (parseFloat(allResultsValues[j]) < parseFloat(allResultsValues[j - 1])) {
@@ -205,12 +206,13 @@ function fillModal(testName, channel, allResultsString, allResultsConvString, un
     }
     unitConv = " " + unitConv;
 
+    var toggleMessage = (sortMode == 'val') ? "Click to sort by serial number." : "Click to sort by value.";
     var closeButton = "<button type=\"button\" class=\"close\" style=\"float: right; margin-left: 10px\" data-dismiss=\"modal\" "
         + "aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>";
-    var refreshButton = "<input type=\"button\" class=\"btn btn-link center-block\" name=\"graph\" onclick=\"sortMode(\'" + testName + "\', \'" + channel + "\', \'"
-        + allResultsString + "\', \'" + allResultsConvString + "\', \'" + unit + "\', \'" + unitConv + "\', \'" + sortMode + "\')\" value=\"Click to toggle sort mode.\" />";
+    var toggleButton = "<input type=\"button\" class=\"btn btn-link center-block\" name=\"graph\" onclick=\"sortMode(\'" + testName + "\', \'" + channel + "\', \'"
+        + allResultsString + "\', \'" + allResultsConvString + "\', \'" + unit + "\', \'" + unitConv + "\', \'" + sortMode + "\')\" value=\"" + toggleMessage + "\" />";
     var html = "<h4 class=\"text-center\" style=\"margin-top: 5px\">" + testName + " (Channel " + channel + ") "
-        + closeButton + "</h4>" + refreshButton + "<hr/>";
+        + closeButton + "</h4>" + toggleButton + "<hr/>";
 
     for (var i = 0; i < allResultsSerials.length; i++) {
         html += "<strong>" + allResultsSerials[i] + ":" + "</strong>" + " " + allResultsValues[i] + unit;
