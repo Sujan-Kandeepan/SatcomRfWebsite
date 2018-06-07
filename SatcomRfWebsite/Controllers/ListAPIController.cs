@@ -161,11 +161,11 @@ namespace SatcomRfWebsite.Controllers
 
                 if (productType.ToUpper().Contains("GENIV"))
                 {
-                    cmd.CommandText = "SELECT TestName,Result,Units,Channel FROM dbo.tblKLYTestResults WHERE ModelSn = @sn AND NOT Result = 'PASS';";
+                    cmd.CommandText = "SELECT TestName,Result,Units,Channel,LowLimit,UpLimit FROM dbo.tblKLYTestResults WHERE ModelSn = @sn AND NOT Result = 'PASS';";
                 }
                 else
                 {
-                    cmd.CommandText = "SELECT TestName,Result,Units,Channel FROM dbo.tblTWTTestResults WHERE ModelSn = @sn AND NOT Result = 'PASS';";
+                    cmd.CommandText = "SELECT TestName,Result,Units,Channel,LowLimit,UpLimit FROM dbo.tblTWTTestResults WHERE ModelSn = @sn AND NOT Result = 'PASS';";
                 }
 
                 var snParam = new SqlParameter("@sn", SqlDbType.NVarChar, 25);
@@ -182,7 +182,8 @@ namespace SatcomRfWebsite.Controllers
                     {
                         var tmp2 = (IDataRecord)sqlResult2;
                         var tinfo = new TestInfo(tmp2["TestName"].ToString(), tmp2["Channel"].ToString(),
-                            tmp2["Units"].ToString(), new List<List<string>>() { new List<string>() { i, tmp2["Result"].ToString() } });
+                            tmp2["Units"].ToString(), new List<List<string>>() { new List<string>() { i, tmp2["Result"].ToString() } },
+                            tmp2["LowLimit"].ToString(), tmp2["UpLimit"].ToString());
                         var key = tmp2["TestName"].ToString() + tmp2["Channel"].ToString();
 
                         if (raw.ContainsKey(key))
@@ -242,6 +243,8 @@ namespace SatcomRfWebsite.Controllers
                     }
                     tmp.StdDev = Convert.ToString(Math.Round(Math.Sqrt(tempSum / rawtmp2.Count()), rounding));
 
+                    tmp.Cpk = "---";
+
                     tmp.AllResults = (from val in rawtmp select new List<string>() { val[0], Convert.ToString(val[1]) }).ToList();
                     tmp.AllResultsConv = new List<List<string>>();
 
@@ -250,6 +253,7 @@ namespace SatcomRfWebsite.Controllers
                     tmp.MaxResultConv = "---";
                     tmp.AvgResultConv = "---";
                     tmp.StdDevConv = "---";
+                    tmp.CpkConv = "---";
 
                     string[] largeW = { "kW", "MW", "GW", "TW", "PW", "EW", "ZW", "YW" };
                     string[] smallW = { "mW", "µW", "nW", "pW", "fW", "aW", "zW", "yW" };
