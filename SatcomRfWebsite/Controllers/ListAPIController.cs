@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -161,11 +162,11 @@ namespace SatcomRfWebsite.Controllers
 
                 if (productType.ToUpper().Contains("GENIV"))
                 {
-                    cmd.CommandText = "SELECT TestName,Result,Units,Channel,LowLimit,UpLimit FROM dbo.tblKLYTestResults WHERE ModelSn = @sn AND NOT Result = 'PASS';";
+                    cmd.CommandText = "SELECT TestName,Result,Units,Channel,LowLimit,UpLimit FROM dbo.tblKLYTestResults WHERE ModelSn = @sn AND NOT Result = 'PASS' AND NOT Result = 'FAIL';";
                 }
                 else
                 {
-                    cmd.CommandText = "SELECT TestName,Result,Units,Channel,LowLimit,UpLimit FROM dbo.tblTWTTestResults WHERE ModelSn = @sn AND NOT Result = 'PASS';";
+                    cmd.CommandText = "SELECT TestName,Result,Units,Channel,LowLimit,UpLimit FROM dbo.tblTWTTestResults WHERE ModelSn = @sn AND NOT Result = 'PASS' AND NOT Result = 'FAIL';";
                 }
 
                 var snParam = new SqlParameter("@sn", SqlDbType.NVarChar, 25);
@@ -225,9 +226,10 @@ namespace SatcomRfWebsite.Controllers
                         rounding = 5;
                     }
                     var tmp = new TestData();
-                    //foreach (String x in raw.ElementAt(i).Value.Results.OrderBy(x => Convert.ToDouble(x.Item2.Replace(":1", "").Replace("Below ", "").Replace("+/-", "").Replace("+", "")))) { System.Diagnostics.Debug.Write("<" + x + "> "); }
+                    //foreach (String x in raw.ElementAt(i).Value.Results.OrderBy(x => Convert.ToDouble(Regex.Replace(val[1].Replace("Below ", "").Replace("+/-", "").Replace("+", "").Replace(":1", ""), "[^0-9.-E]", "")))) { System.Diagnostics.Debug.Write("<" + x + "> "); }
                     //System.Diagnostics.Debug.WriteLine("");
-                    var rawtmp = from val in raw.ElementAt(i).Value.Results select new List<string>() { val[0], val[1].Replace(":1", "").Replace("Below ", "").Replace("+/-", "").Replace("+", "") };
+                    foreach (var item in raw.ElementAt(i).Value.Results) { System.Diagnostics.Debug.WriteLine(item[1]); }
+                    var rawtmp = from val in raw.ElementAt(i).Value.Results select new List<string>() { val[0], Regex.Replace(val[1].Replace("Below ", "").Replace("+/-", "").Replace("+", "").Replace(":1", ""), "[^0-9.-E]", "") };
                     var rawtmp2 = from val in rawtmp select Convert.ToDouble(val[1]);
                     tmp.TestName = raw.ElementAt(i).Value.TestName;
                     tmp.Unit = raw.ElementAt(i).Value.Units;
@@ -246,11 +248,13 @@ namespace SatcomRfWebsite.Controllers
                     var cpu = Double.PositiveInfinity;
                     var cpl = Double.PositiveInfinity;
                     if (!raw.ElementAt(i).Value.UpLimit.Equals("NULL") && !raw.ElementAt(i).Value.UpLimit.Equals("")) {
-                        cpu = (Convert.ToDouble(raw.ElementAt(i).Value.UpLimit) - Convert.ToDouble(tmp.AvgResult)) / (3 * Convert.ToDouble(tmp.StdDev));
+                        System.Diagnostics.Debug.WriteLine("UpLimit: " + raw.ElementAt(i).Value.UpLimit);
+                        cpu = (Convert.ToDouble(Regex.Replace(raw.ElementAt(i).Value.UpLimit.Replace("Below ", "").Replace("+/-", "").Replace("+", "").Replace(":1", ""), "[^0-9.-E]", "")) - Convert.ToDouble(tmp.AvgResult)) / (3 * Convert.ToDouble(tmp.StdDev));
                     }
                     if (!raw.ElementAt(i).Value.LowLimit.Equals("NULL") && !raw.ElementAt(i).Value.LowLimit.Equals(""))
                     {
-                        cpl = (Convert.ToDouble(tmp.AvgResult) - Convert.ToDouble(raw.ElementAt(i).Value.LowLimit)) / (3 * Convert.ToDouble(tmp.StdDev));
+                        System.Diagnostics.Debug.WriteLine("LowLimit: " + raw.ElementAt(i).Value.LowLimit);
+                        cpl = (Convert.ToDouble(tmp.AvgResult) - Convert.ToDouble(Regex.Replace(raw.ElementAt(i).Value.LowLimit.Replace("Below ", "").Replace("+/-", "").Replace("+", "").Replace(":1", ""), "[^0-9.-E]", ""))) / (3 * Convert.ToDouble(tmp.StdDev));
                     }
                     tmp.Cpk = Convert.ToString(Math.Round(Math.Min(cpu, cpl), rounding));
 
