@@ -267,13 +267,16 @@ function getxlsxfile(productType, modelName) {
 }
 
 function viewResults(productType, modelName) {
-    if (modelName === "default" || productType === "default") {
-        document.getElementById("selection-failed").classList.remove("hide");
-        document.getElementById("download-failed").classList.add("hide");
+    if (productType == "default") {
+        location.href = location.origin + "/testsData/TestResults/";
         return;
     }
-
-    location.href = location.origin + "/testsData/TestResults/" + productType + "/" + modelName;
+    else if (modelName == "default") {
+        location.href = location.origin + "/testsData/TestResults/" + productType;
+    }
+    else {
+        location.href = location.origin + "/testsData/TestResults/" + productType + "/" + modelName;
+    }
 }
 
 function setupIndex() {

@@ -27,15 +27,13 @@
 
                 if (document.URL.indexOf("pT") == -1) {
                     location.href = location.origin + "/testsData/TestResults/";
-                    return;
                 }
-
-                if (mN == "na") {
+                else if (mN == "na") {
                     location.href = location.origin + "/testsData/TestResults/" + pT;
-                    return;
                 }
-
-                location.href = location.origin + "/testsData/TestResults/" + pT + "/" + mN + "/testType=" + (testType == "na" ? "none" : testType) + "+tubeName=" + (tubeName == "na" ? "none" : tubeName) + "+opt=" + (opt == "na" ? "none" : opt);
+                else {
+                    location.href = location.origin + "/testsData/TestResults/" + pT + "/" + mN + "/testType=" + (testType == "na" ? "none" : testType) + "+tubeName=" + (tubeName == "na" ? "none" : tubeName) + "+opt=" + (opt == "na" ? "none" : opt);
+                }
             }
         </script>
 
