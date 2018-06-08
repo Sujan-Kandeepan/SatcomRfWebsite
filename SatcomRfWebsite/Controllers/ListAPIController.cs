@@ -235,10 +235,10 @@ namespace SatcomRfWebsite.Controllers
                         rounding = 5;
                     }
                     var tmp = new TestData();
-                    //foreach (String x in raw.ElementAt(i).Value.Results.OrderBy(x => Convert.ToDouble(Regex.Replace(val[1].Replace("Below ", "").Replace("+/-", "").Replace("+", "").Replace(":1", ""), "[^0-9.-E]", "")))) { System.Diagnostics.Debug.Write("<" + x + "> "); }
+                    //foreach (String x in raw.ElementAt(i).Value.Results.OrderBy(x => Convert.ToDouble(Regex.Replace(val[1].Replace("Below ", "").Replace("+/-", "").Replace(":1", ""), "[^0-9.E-]", "")))) { System.Diagnostics.Debug.Write("<" + x + "> "); }
                     //System.Diagnostics.Debug.WriteLine("");
                     foreach (var item in raw.ElementAt(i).Value.Results) { System.Diagnostics.Debug.WriteLine(item[1]); }
-                    var rawtmp = from val in raw.ElementAt(i).Value.Results select new List<string>() { val[0], Regex.Replace(val[1].Replace("Below ", "").Replace("+/-", "").Replace("+", "").Replace(":1", ""), "[^0-9.-E]", "") };
+                    var rawtmp = from val in raw.ElementAt(i).Value.Results select new List<string>() { val[0], Regex.Replace(val[1].Replace("Below ", "").Replace("+/-", "").Replace(":1", ""), "[^0-9.E-]", "") };
                     var rawtmp2 = from val in rawtmp select Convert.ToDouble(val[1]);
                     tmp.TestName = raw.ElementAt(i).Value.TestName;
                     tmp.Unit = raw.ElementAt(i).Value.Units;
@@ -259,12 +259,12 @@ namespace SatcomRfWebsite.Controllers
                     var cpl = Double.PositiveInfinity;
                     if (!raw.ElementAt(i).Value.UpLimit.Equals("NULL") && !raw.ElementAt(i).Value.UpLimit.Equals("") && !raw.ElementAt(i).Value.UpLimit.Equals("INCONSISTENT")) {
                         System.Diagnostics.Debug.WriteLine("UpLimit: " + raw.ElementAt(i).Value.UpLimit);
-                        cpu = (Convert.ToDouble(Regex.Replace(raw.ElementAt(i).Value.UpLimit.Replace("Below ", "").Replace("+/-", "").Replace("+", "").Replace(":1", ""), "[^0-9.-E]", "")) - Convert.ToDouble(tmp.AvgResult)) / (3 * tmpStd);
+                        cpu = (Convert.ToDouble(Regex.Replace(raw.ElementAt(i).Value.UpLimit.Replace("Below ", "").Replace("+/-", "").Replace(":1", ""), "[^0-9.E-]", "")) - Convert.ToDouble(tmp.AvgResult)) / (3 * tmpStd);
                     }
                     if (!raw.ElementAt(i).Value.LowLimit.Equals("NULL") && !raw.ElementAt(i).Value.LowLimit.Equals("") && !raw.ElementAt(i).Value.LowLimit.Equals("INCONSISTENT"))
                     {
                         System.Diagnostics.Debug.WriteLine("LowLimit: " + raw.ElementAt(i).Value.LowLimit);
-                        cpl = (Convert.ToDouble(tmp.AvgResult) - Convert.ToDouble(Regex.Replace(raw.ElementAt(i).Value.LowLimit.Replace("Below ", "").Replace("+/-", "").Replace("+", "").Replace(":1", ""), "[^0-9.-E]", ""))) / (3 * tmpStd);
+                        cpl = (Convert.ToDouble(tmp.AvgResult) - Convert.ToDouble(Regex.Replace(raw.ElementAt(i).Value.LowLimit.Replace("Below ", "").Replace("+/-", "").Replace(":1", ""), "[^0-9.E-]", ""))) / (3 * tmpStd);
                     }
                     tmp.Cpk = Math.Round(Math.Min(cpu, cpl), rounding).ToString("G4", CultureInfo.InvariantCulture);
                     if (raw.ElementAt(i).Value.UpLimit.Equals("INCONSISTENT") || raw.ElementAt(i).Value.LowLimit.Equals("INCONSISTENT"))
