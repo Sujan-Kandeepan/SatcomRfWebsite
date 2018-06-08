@@ -234,8 +234,8 @@ namespace SatcomRfWebsite.Controllers
                     tmp.TestName = raw.ElementAt(i).Value.TestName;
                     tmp.Unit = raw.ElementAt(i).Value.Units;
                     tmp.Channel = (string.IsNullOrEmpty(raw.ElementAt(i).Value.Channel) ? "N/A" : raw.ElementAt(i).Value.Channel);
-                    tmp.MinResult = Convert.ToString(rawtmp2.Min());
-                    tmp.MaxResult = Convert.ToString(rawtmp2.Max());
+                    tmp.MinResult = Convert.ToString(Math.Round(rawtmp2.Min(), rounding));
+                    tmp.MaxResult = Convert.ToString(Math.Round(rawtmp2.Max(), rounding));
                     tmp.AvgResult = Convert.ToString(Math.Round(rawtmp2.Average(), rounding));
 
                     var tempSum = 0.0;
