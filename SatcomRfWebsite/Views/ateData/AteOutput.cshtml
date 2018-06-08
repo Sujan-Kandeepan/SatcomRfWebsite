@@ -24,6 +24,17 @@
                 var testType = document.URL.substring(document.URL.indexOf("testType") + 9, document.URL.indexOf("tubeName") - 1);
                 var tubeName = document.URL.substring(document.URL.indexOf("tubeName") + 9, document.URL.indexOf("opt") - 1);
                 var opt = document.URL.substring(document.URL.indexOf("opt") + 4);
+
+                if (document.URL.indexOf("pT") == -1) {
+                    location.href = location.origin + "/testsData/TestResults/";
+                    return;
+                }
+
+                if (mN == "na") {
+                    location.href = location.origin + "/testsData/TestResults/" + pT;
+                    return;
+                }
+
                 location.href = location.origin + "/testsData/TestResults/" + pT + "/" + mN + "/testType=" + (testType == "na" ? "none" : testType) + "+tubeName=" + (tubeName == "na" ? "none" : tubeName) + "+opt=" + (opt == "na" ? "none" : opt);
             }
         </script>
