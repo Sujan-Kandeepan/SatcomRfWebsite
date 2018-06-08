@@ -7,12 +7,30 @@
 
     <div class="page-header"><h1>ATE Data Output</h1></div>
     <div class="row">
-        <div class="col-lg-10">
+        <div class="col-lg-8">
             <div class="display" style="margin-top: -20px; margin-bottom: 30px"><h3>View complete data with the applied filters.</h3></div>
         </div>
 
         <div class="col-lg-2">
-            <button id='filterReset' class="btn btn-primary btn-block"  type="button" onclick='resetFilter()'>Reset Filter</button>
+            <button id='testResults' class="btn btn-primary btn-block" type="button" onclick='testResults()'>View Test Results</button>
+        </div>
+
+        <script>
+            function testResults() {
+                //alert(filterToApply);
+                var pT = document.URL.substring(document.URL.indexOf("pT") + 3, document.URL.indexOf("mN") - 1);
+                var mN = document.URL.substring(document.URL.indexOf("mN") + 3, document.URL.indexOf("ser") - 1);
+                var ser = document.URL.substring(document.URL.indexOf("ser") + 4, document.URL.indexOf("testType") - 1);
+                var testType = document.URL.substring(document.URL.indexOf("testType") + 9, document.URL.indexOf("tubeName") - 1);
+                var tubeName = document.URL.substring(document.URL.indexOf("tubeName") + 9, document.URL.indexOf("opt") - 1);
+                var opt = document.URL.substring(document.URL.indexOf("opt") + 4);
+                location.href = location.origin + "/testsData/TestResults/" + pT + "/" + mN + "/testType=" + (testType == "na" ? "none" : testType) + "+tubeName=" + (tubeName == "na" ? "none" : tubeName) + "+opt=" + (opt == "na" ? "none" : opt);
+            }
+        </script>
+
+
+        <div class="col-lg-2">
+            <button id='filterReset' class="btn btn-block" type="button" onclick='resetFilter()'>Reset Filter</button>
         </div>
 
         <script>
