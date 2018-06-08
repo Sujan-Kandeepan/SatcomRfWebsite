@@ -280,7 +280,6 @@ namespace SatcomRfWebsite.Controllers
                     tmp.MaxResultConv = "---";
                     tmp.AvgResultConv = "---";
                     tmp.StdDevConv = "---";
-                    tmp.CpkConv = "---";
 
                     string[] largeW = { "kW", "MW", "GW", "TW", "PW", "EW", "ZW", "YW" };
                     string[] smallW = { "mW", "µW", "nW", "pW", "fW", "aW", "zW", "yW" };
@@ -442,7 +441,7 @@ namespace SatcomRfWebsite.Controllers
             {
                 List<TestData> data = InternalGetTableData(modelName, productType);
                 string[][] headers = new string[1][];
-                headers[0] = new string[] { "Testname", "Channel #", "All Results", "Min", "Max", "Average", "Std. Deviation", "Unit", "All Results (Conv)", "Min (Conv)", "Max (Conv)", "Average (Conv)", "Std. Deviation (Conv)", "Unit (Conv)" };
+                headers[0] = new string[] { "Testname", "Channel #", "All Results", "Min", "Max", "Average", "Std. Deviation", "Unit", "All Results (Conv)", "Min (Conv)", "Max (Conv)", "Average (Conv)", "Std. Deviation (Conv)", "Unit (Conv)", "Cpk" };
                 var file = new MemoryStream();
                 var document = new XLWorkbook();
                 var worksheet = document.Worksheets.Add("Table Data");
@@ -462,7 +461,7 @@ namespace SatcomRfWebsite.Controllers
                 }
                 var style = document.Style;
                 style.Font.Bold = true;
-                worksheet.Range(1, 1, 1, 14).Style = style;
+                worksheet.Range(1, 1, 1, 15).Style = style;
                 worksheet.Columns().AdjustToContents();
                 worksheet.RangeUsed().Style.Alignment.SetVertical(XLAlignmentVerticalValues.Top);
                 worksheet.SheetView.FreezeRows(1);
