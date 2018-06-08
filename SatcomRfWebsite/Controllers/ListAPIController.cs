@@ -191,6 +191,14 @@ namespace SatcomRfWebsite.Controllers
                         if (raw.ContainsKey(key))
                         {
                             raw[key].Results.Add(new List<string>() { i, tmp2["Result"].ToString() });
+                            if (!raw[key].UpLimit.Equals(tmp2["UpLimit"].ToString()))
+                            {
+                                raw[key].UpLimit = "INCONSISTENT";
+                            }
+                            if (!raw[key].LowLimit.Equals(tmp2["LowLimit"].ToString()))
+                            {
+                                raw[key].LowLimit = "INCONSISTENT";
+                            }
                         }
                         else
                         {
@@ -244,20 +252,25 @@ namespace SatcomRfWebsite.Controllers
                     {
                         tempSum += Math.Pow(item - rawtmp2.Average(), 2);
                     }
-                    tmp.StdDev = Math.Round(Math.Sqrt(tempSum / rawtmp2.Count()), rounding).ToString("G3", CultureInfo.InvariantCulture);
+                    var tmpStd = Math.Sqrt(tempSum / rawtmp2.Count());
+                    tmp.StdDev = Math.Round(tmpStd, rounding).ToString("G3", CultureInfo.InvariantCulture);
 
                     var cpu = Double.PositiveInfinity;
                     var cpl = Double.PositiveInfinity;
-                    if (!raw.ElementAt(i).Value.UpLimit.Equals("NULL") && !raw.ElementAt(i).Value.UpLimit.Equals("")) {
+                    if (!raw.ElementAt(i).Value.UpLimit.Equals("NULL") && !raw.ElementAt(i).Value.UpLimit.Equals("") && !raw.ElementAt(i).Value.UpLimit.Equals("INCONSISTENT")) {
                         System.Diagnostics.Debug.WriteLine("UpLimit: " + raw.ElementAt(i).Value.UpLimit);
-                        cpu = (Convert.ToDouble(Regex.Replace(raw.ElementAt(i).Value.UpLimit.Replace("Below ", "").Replace("+/-", "").Replace("+", "").Replace(":1", ""), "[^0-9.-E]", "")) - Convert.ToDouble(tmp.AvgResult)) / (3 * Convert.ToDouble(tmp.StdDev));
+                        cpu = (Convert.ToDouble(Regex.Replace(raw.ElementAt(i).Value.UpLimit.Replace("Below ", "").Replace("+/-", "").Replace("+", "").Replace(":1", ""), "[^0-9.-E]", "")) - Convert.ToDouble(tmp.AvgResult)) / (3 * tmpStd);
                     }
-                    if (!raw.ElementAt(i).Value.LowLimit.Equals("NULL") && !raw.ElementAt(i).Value.LowLimit.Equals(""))
+                    if (!raw.ElementAt(i).Value.LowLimit.Equals("NULL") && !raw.ElementAt(i).Value.LowLimit.Equals("") && !raw.ElementAt(i).Value.LowLimit.Equals("INCONSISTENT"))
                     {
                         System.Diagnostics.Debug.WriteLine("LowLimit: " + raw.ElementAt(i).Value.LowLimit);
-                        cpl = (Convert.ToDouble(tmp.AvgResult) - Convert.ToDouble(Regex.Replace(raw.ElementAt(i).Value.LowLimit.Replace("Below ", "").Replace("+/-", "").Replace("+", "").Replace(":1", ""), "[^0-9.-E]", ""))) / (3 * Convert.ToDouble(tmp.StdDev));
+                        cpl = (Convert.ToDouble(tmp.AvgResult) - Convert.ToDouble(Regex.Replace(raw.ElementAt(i).Value.LowLimit.Replace("Below ", "").Replace("+/-", "").Replace("+", "").Replace(":1", ""), "[^0-9.-E]", ""))) / (3 * tmpStd);
                     }
                     tmp.Cpk = Math.Round(Math.Min(cpu, cpl), rounding).ToString("G3", CultureInfo.InvariantCulture);
+                    if (raw.ElementAt(i).Value.UpLimit.Equals("INCONSISTENT") || raw.ElementAt(i).Value.LowLimit.Equals("INCONSISTENT"))
+                    {
+                        tmp.Cpk = "---";
+                    }
 
                     tmp.AllResults = (from val in rawtmp select new List<string>() { val[0], Convert.ToDouble(val[1]).ToString("G3", CultureInfo.InvariantCulture) }).ToList();
                     tmp.AllResultsConv = new List<List<string>>();
