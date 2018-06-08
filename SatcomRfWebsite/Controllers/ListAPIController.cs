@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -234,16 +235,16 @@ namespace SatcomRfWebsite.Controllers
                     tmp.TestName = raw.ElementAt(i).Value.TestName;
                     tmp.Unit = raw.ElementAt(i).Value.Units;
                     tmp.Channel = (string.IsNullOrEmpty(raw.ElementAt(i).Value.Channel) ? "N/A" : raw.ElementAt(i).Value.Channel);
-                    tmp.MinResult = Convert.ToString(Math.Round(rawtmp2.Min(), rounding));
-                    tmp.MaxResult = Convert.ToString(Math.Round(rawtmp2.Max(), rounding));
-                    tmp.AvgResult = Convert.ToString(Math.Round(rawtmp2.Average(), rounding));
+                    tmp.MinResult = Math.Round(rawtmp2.Min(), rounding).ToString("G3", CultureInfo.InvariantCulture);
+                    tmp.MaxResult = Math.Round(rawtmp2.Max(), rounding).ToString("G3", CultureInfo.InvariantCulture);
+                    tmp.AvgResult = Math.Round(rawtmp2.Average(), rounding).ToString("G3", CultureInfo.InvariantCulture);
 
                     var tempSum = 0.0;
                     foreach (var item in rawtmp2)
                     {
                         tempSum += Math.Pow(item - rawtmp2.Average(), 2);
                     }
-                    tmp.StdDev = Convert.ToString(Math.Round(Math.Sqrt(tempSum / rawtmp2.Count()), rounding));
+                    tmp.StdDev = Math.Round(Math.Sqrt(tempSum / rawtmp2.Count()), rounding).ToString("G3", CultureInfo.InvariantCulture);
 
                     var cpu = Double.PositiveInfinity;
                     var cpl = Double.PositiveInfinity;
@@ -256,9 +257,9 @@ namespace SatcomRfWebsite.Controllers
                         System.Diagnostics.Debug.WriteLine("LowLimit: " + raw.ElementAt(i).Value.LowLimit);
                         cpl = (Convert.ToDouble(tmp.AvgResult) - Convert.ToDouble(Regex.Replace(raw.ElementAt(i).Value.LowLimit.Replace("Below ", "").Replace("+/-", "").Replace("+", "").Replace(":1", ""), "[^0-9.-E]", ""))) / (3 * Convert.ToDouble(tmp.StdDev));
                     }
-                    tmp.Cpk = Convert.ToString(Math.Round(Math.Min(cpu, cpl), rounding));
+                    tmp.Cpk = Math.Round(Math.Min(cpu, cpl), rounding).ToString("G3", CultureInfo.InvariantCulture);
 
-                    tmp.AllResults = (from val in rawtmp select new List<string>() { val[0], Convert.ToString(val[1]) }).ToList();
+                    tmp.AllResults = (from val in rawtmp select new List<string>() { val[0], Convert.ToDouble(val[1]).ToString("G3", CultureInfo.InvariantCulture) }).ToList();
                     tmp.AllResultsConv = new List<List<string>>();
 
                     tmp.UnitConv = "---";
@@ -288,7 +289,7 @@ namespace SatcomRfWebsite.Controllers
                             {
                                 double c = Math.Pow(10, Convert.ToDouble(item[1]) / 10);
                                 tempSum2 += Math.Pow(c - tempAvg, 2);
-                                tmp.AllResultsConv.Add(new List<string>() { item[0], Convert.ToString(c) });
+                                tmp.AllResultsConv.Add(new List<string>() { item[0], c.ToString("G3", CultureInfo.InvariantCulture) });
                             }
                             tempStd = Math.Sqrt(tempSum2 / rawtmp.Count());
 
@@ -303,7 +304,7 @@ namespace SatcomRfWebsite.Controllers
                             {
                                 double c = Math.Pow(10, (Convert.ToDouble(item[1]) - 30) / 10);
                                 tempSum2 += Math.Pow(c - tempAvg, 2);
-                                tmp.AllResultsConv.Add(new List<string>() { item[0], Convert.ToString(c) });
+                                tmp.AllResultsConv.Add(new List<string>() { item[0], c.ToString("G3", CultureInfo.InvariantCulture) });
                             }
                             tempStd = Math.Sqrt(tempSum2 / rawtmp.Count());
 
@@ -319,7 +320,7 @@ namespace SatcomRfWebsite.Controllers
                             {
                                 double c = 1 / Math.Pow(10, 1 / Convert.ToDouble(item[1]) / 10);
                                 tempSum2 += Math.Pow(c - tempAvg, 2);
-                                tmp.AllResultsConv.Add(new List<string>() { item[0], Convert.ToString(c) });
+                                tmp.AllResultsConv.Add(new List<string>() { item[0], c.ToString("G3", CultureInfo.InvariantCulture) });
                             }
                             tempStd = Math.Sqrt(tempSum2 / rawtmp.Count());
 
@@ -345,7 +346,7 @@ namespace SatcomRfWebsite.Controllers
                                 tempStd /= 1000;
                                 for (int z = 0; z < tmp.AllResultsConv.Count(); z++)
                                 {
-                                    tmp.AllResultsConv[z] = new List<string>() { tmp.AllResultsConv.ElementAt(z)[0], Convert.ToString(Convert.ToDouble(tmp.AllResultsConv[z][1]) / 1000) };
+                                    tmp.AllResultsConv[z] = new List<string>() { tmp.AllResultsConv.ElementAt(z)[0], (Convert.ToDouble(tmp.AllResultsConv[z][1]) / 1000).ToString("G3", CultureInfo.InvariantCulture) };
                                 }
                                 tmp.UnitConv = largeW[wIndex < 7 ? wIndex++ : wIndex];
                             }
@@ -357,7 +358,7 @@ namespace SatcomRfWebsite.Controllers
                                 tempStd *= 1000;
                                 for (int z = 0; z < tmp.AllResultsConv.Count(); z++)
                                 {
-                                    tmp.AllResultsConv[z] = new List<string>() { tmp.AllResultsConv.ElementAt(z)[0], Convert.ToString(Convert.ToDouble(tmp.AllResultsConv[z][1]) * 1000) };
+                                    tmp.AllResultsConv[z] = new List<string>() { tmp.AllResultsConv.ElementAt(z)[0], (Convert.ToDouble(tmp.AllResultsConv[z][1]) * 1000).ToString("G3", CultureInfo.InvariantCulture) };
                                 }
                                 tmp.UnitConv = smallW[wIndex < 7 ? wIndex++ : wIndex];
                             }
@@ -369,13 +370,13 @@ namespace SatcomRfWebsite.Controllers
 
                         for (int x = 0; x < tmp.AllResultsConv.Count(); x++)
                         {
-                            tmp.AllResultsConv[x] = new List<string>() { tmp.AllResultsConv[x][0], Convert.ToString(Math.Round(Convert.ToDouble(tmp.AllResultsConv[x][1]), rounding)) };
+                            tmp.AllResultsConv[x] = new List<string>() { tmp.AllResultsConv[x][0], (Math.Round(Convert.ToDouble(tmp.AllResultsConv[x][1]), rounding)).ToString("G3", CultureInfo.InvariantCulture) };
                         }
 
-                        tmp.MinResultConv = Convert.ToString(Math.Round(tempMin, rounding));
-                        tmp.MaxResultConv = Convert.ToString(Math.Round(tempMax, rounding));
-                        tmp.AvgResultConv = Convert.ToString(Math.Round(tempAvg, rounding));
-                        tmp.StdDevConv = Convert.ToString(Math.Round(tempStd, rounding));
+                        tmp.MinResultConv = Math.Round(tempMin, rounding).ToString("G3", CultureInfo.InvariantCulture);
+                        tmp.MaxResultConv = Math.Round(tempMax, rounding).ToString("G3", CultureInfo.InvariantCulture);
+                        tmp.AvgResultConv = Math.Round(tempAvg, rounding).ToString("G3", CultureInfo.InvariantCulture);
+                        tmp.StdDevConv = Math.Round(tempStd, rounding).ToString("G3", CultureInfo.InvariantCulture);
                     }
 
                     switch (tmp.Unit)
