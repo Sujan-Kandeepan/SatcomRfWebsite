@@ -287,7 +287,8 @@ function setupIndex() {
     if (document.URL.indexOf("SatcomStatsPage") == document.URL.length - 15) {
         getProductTypes();
     }
-    else if (document.URL.indexOf("SatcomStatsPage/Index") == document.URL.length - 21) {
+    else if (document.URL.indexOf("SatcomStatsPage/") == document.URL.length - 16
+        || document.URL.indexOf("SatcomStatsPage/Index") == document.URL.length - 21) {
         location.replace(location.origin + "/SatcomStatsPage");
     }
     else {
