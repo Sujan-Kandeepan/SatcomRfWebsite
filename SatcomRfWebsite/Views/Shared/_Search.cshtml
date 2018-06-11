@@ -4,8 +4,45 @@
     ViewBag.Title = "Search";
 }
 
+<div class="page-header"><h1>ATE Test Results</h1></div><div class="row">
+    <div class="col-lg-9" style="margin-top: -20px; margin-bottom: 10px">
+        <div class="display" style="margin-bottom: 20px"><h3>View complete test results for a specific product.</h3></div>
+    </div>
 
-    <script type="text/javascript">
+    <div class="col-lg-3">
+        <input type="button" class="form-control btn btn-success" id="dlxlsx" name="dlbtn" onclick="getxlsxfile(selectProductType.value, selectModelName.value)" value="Download as Excel file (.xlsx)" />
+    </div> <!--Another button can go here, possibly-->
+
+    <script>
+        function getxlsxfile(productType, modelName) {
+            if (selectModelName.value == "") {
+                document.getElementById("selection-failed").classList.remove("hide");
+            }
+            else {
+                var src = document.location.origin + "/api/ListAPI/GetTableFile?modelName=" + modelName + "&productType=" + productType;
+                var data = new XMLHttpRequest();
+                data.onreadystatechange = function () {
+                    if (this.readyState === 4 && this.status === 200) {
+                        document.getElementById("excel-loading").classList.add("hide");
+                    } else if (this.readyState == 4 && this.status !== 200) {
+                        document.getElementById("excel-loading").classList.add("hide");
+                        document.getElementById("excel-failed").classList.remove("hide");
+                    }
+                };
+
+                document.getElementById("excel-loading").classList.remove("hide");
+
+                data.open("GET", src, true);
+                data.send();
+
+                document.getElementById("iframe-temp").innerHTML = "<iframe style=\"display:none\" src=\"" + document.location.origin +
+                    "/api/ListAPI/GetTableFile?modelName=" + modelName + "&productType=" + productType + "\"></iframe>";
+            }
+        }
+    </script>
+</div>
+
+<script type="text/javascript">
 
         var arrProdType         = [@Html.Raw(Model.searchModel.prodTypeStr)];
         var arrModelName        = [@Html.Raw(Model.searchModel.modelNamesStr)];
@@ -21,29 +58,29 @@
         //Set navbar button as active
         document.getElementById("navBarTests").classList.add("active");
 
-    </script>
+</script>
 
-    <div class="alert alert-danger hide fade in" id="selection-failed">
-        <strong>Error:</strong> Select a product type and model name first.
-    </div>
+<div class="alert alert-danger hide fade in" id="selection-failed">
+    <strong>Error:</strong> Select a product type and model name first.
+</div>
 
-    <div class="alert alert-info hide fade in" id="excel-loading">
-        <strong>Preparing Excel file...</strong>
-    </div>
+<div class="alert alert-info hide fade in" id="excel-loading">
+    <strong>Preparing Excel file...</strong>
+</div>
 
-    <!-----------------------------  Search ------------------------------->
-    <div class="container hide" id="iframe-temp"></div>
-    <div class="row">
-        <div class="col-lg-2">
-            <select id="selectProductType" class="demo-default" placeholder="Product types...">
-                <option value="">Product types...</option>
-                @foreach (var item in Model.searchModel.productTypeList)
-                {
-                    <option value="@item.ProductType">@item.ProductType</option>
-                }
-            </select>
+<!-----------------------------  Search ------------------------------->
+<div class="container hide" id="iframe-temp"></div>
+<div class="row">
+    <div class="col-lg-2">
+        <select id="selectProductType" class="demo-default" placeholder="Product types...">
+            <option value="">Product types...</option>
+            @foreach (var item in Model.searchModel.productTypeList)
+            {
+                <option value="@item.ProductType">@item.ProductType</option>
+            }
+        </select>
 
-            <script>
+        <script>
 
 		        $(document).ready(function () {
 
@@ -76,19 +113,19 @@
 		            //$("#selectProductType").val("CHPA");
 		        });
 
-            </script>
-        </div>
-        <div class="col-lg-2">
-            <select id="selectModelName" class="demo-default" placeholder="Model names..." name="ModelName">
-                <option value="">Model names...</option>
-                @foreach (var item in Model.searchModel.modelNameList)
-                {
-                    //if (Model.tools.isModelNameItar(item.ModelName)) { continue; }
-                    <option value="@item.ModelName">@item.ModelName</option>
-                }
-            </select>
+        </script>
+    </div>
+    <div class="col-lg-2">
+        <select id="selectModelName" class="demo-default" placeholder="Model names..." name="ModelName">
+            <option value="">Model names...</option>
+            @foreach (var item in Model.searchModel.modelNameList)
+            {
+                //if (Model.tools.isModelNameItar(item.ModelName)) { continue; }
+                <option value="@item.ModelName">@item.ModelName</option>
+            }
+        </select>
 
-            <script>
+        <script>
 
 		        $(document).ready(function () {
 
@@ -142,83 +179,77 @@
 		            });
 		        });
 
-            </script>
-        </div>
-
-        <div class="col-lg-2">
-            <button id='searchReset' class="btn btn-block" type="button" onclick='resetSearch()'>Reset Search</button>
-        </div>
-
-        <script>
-            function resetSearch() {
-                location.href = document.location.origin + "/testsData/TestResults";
-                //location.href = document.URL.replace(/TestResults\?[a-zA-Z0-9=+,-\\%]*/, "TestResults");
-            }
-        </script>
-
-        <div class="col-lg-2 col-lg-offset-1">
-            <button id='viewStats' class="btn btn-primary btn-block" type="button" onclick='viewStats()'>View statistics</button>
-        </div>
-
-        <script>
-            function viewStats() {
-                if (selectModelName.value == "") {
-                    document.getElementById("selection-failed").classList.remove("hide");
-                }
-                else {
-                    location.href = location.origin + "/SatcomStatsPage/Index/" + selectProductType.value + "/" + selectModelName.value;
-                }
-            }
-        </script>
-
-        <div class="col-lg-3">
-            <input type="button" class="form-control btn btn-success" id="dlxlsx" name="dlbtn" onclick="getxlsxfile(selectProductType.value, selectModelName.value)" value="Download as Excel file (.xlsx)" />
-        </div> <!--Another button can go here, possibly-->
-
-        <script>
-            function getxlsxfile(productType, modelName) {
-                if (selectModelName.value == "") {
-                    document.getElementById("selection-failed").classList.remove("hide");
-                }
-                else {
-                    var src = document.location.origin + "/api/ListAPI/GetTableFile?modelName=" + modelName + "&productType=" + productType;
-                    var data = new XMLHttpRequest();
-                    data.onreadystatechange = function () {
-                        if (this.readyState === 4 && this.status === 200) {
-                            document.getElementById("excel-loading").classList.add("hide");
-                        } else if (this.readyState == 4 && this.status !== 200) {
-                            document.getElementById("excel-loading").classList.add("hide");
-                            document.getElementById("excel-failed").classList.remove("hide");
-                        }
-                    };
-
-                    document.getElementById("excel-loading").classList.remove("hide");
-
-                    data.open("GET", src, true);
-                    data.send();
-
-                    document.getElementById("iframe-temp").innerHTML = "<iframe style=\"display:none\" src=\"" + document.location.origin +
-                        "/api/ListAPI/GetTableFile?modelName=" + modelName + "&productType=" + productType + "\"></iframe>";
-                }
-            }
         </script>
     </div>
 
-    <!-----------------------------  FILTER ------------------------------->
+    <div class="col-lg-2">
+        <button id='searchReset' class="btn btn-block" type="button" onclick='resetSearch()'>Reset Search</button>
+    </div>
 
-    <div class="form-group row" style="margin-top: 30px">
+    <script>
+        function resetSearch() {
+            location.href = document.location.origin + "/testsData/TestResults";
+            //location.href = document.URL.replace(/TestResults\?[a-zA-Z0-9=+,-\\%]*/, "TestResults");
+        }
+    </script>
 
-        <label class="col-lg-2" style="font-size: 16px; text-align: right; font-weight: normal"><big>Filters & Options:</big></label>
+    <div class="col-lg-3">
+        <button id='viewStats' class="btn btn-primary btn-block" type="button" onclick='viewStats()'>View complete test statistics</button>
+    </div>
 
-        <div class="col-lg-2">
-            <select id="selectTestType" class="demo-default" placeholder="Test Type...">
-                <option value="">Test Type ...</option>
-                <option value="ProdTest" @(Model.searchModel.testType == "ProdTest" ? "selected" : "")>Production Test</option>
-                <option value="EngTest" @(Model.searchModel.testType == "EngTest" ? "selected" : "")>Engineering Test</option>
-                <option value="Debug" @(Model.searchModel.testType == "Debug" ? "selected" : "")>Debugging</option>
-            </select>
+    <script>
+        function viewStats() {
+            if (selectProductType.value == "") {
+                location.href = location.origin + "/SatcomStatsPage";
+            }
+            else if (selectModelName.value == "") {
+                location.href = location.origin + "/SatcomStatsPage/Index/" + selectProductType.value;
+            }
+            else {
+                location.href = location.origin + "/SatcomStatsPage/Index/" + selectProductType.value + "/" + selectModelName.value;
+            }
+        }
+    </script>
 
-            <script>
+    <div class="col-lg-3">
+        <button id='viewOutput' class="btn btn-primary btn-block" type="button" onclick='viewOutput()'>View complete ATE output data</button>
+    </div>
+
+    <script>
+        function viewOutput() {
+            //alert("¯\\_(ツ)_/¯");
+
+            var pT = selectProductType.value != "" ? selectProductType.value : "na";
+            var mN = selectModelName.value != "" ? selectModelName.value : "na";
+            var testType = "na";
+            var tubeName = "na";
+            var opt = "na";
+
+            if (document.URL.indexOf("TestResults") == document.URL.length - 11) {
+                location.href = location.origin + "/ateData/AteOutput";
+            }
+            else {
+                location.href = location.origin + "/ateData/AteOutput?filter=pT=" + pT + "%mN=" + mN + "%ser=na%testType=" + testType + "%tubeName=" + tubeName + "%opt=" + opt + "";
+            }
+        }
+    </script>
+</div>
+
+<!-----------------------------  FILTER ------------------------------->
+
+<div class="form-group row" style="margin-top: 20px">
+
+    <label class="col-lg-2" style="font-size: 16px; text-align: right; font-weight: normal"><big>Filters & Options:</big></label>
+
+    <div class="col-lg-2">
+        <select id="selectTestType" class="demo-default" placeholder="Test Type...">
+            <option value="">Test Type ...</option>
+            <option value="ProdTest" @(Model.searchModel.testType == "ProdTest" ? "selected" : "")>Production Test</option>
+            <option value="EngTest" @(Model.searchModel.testType == "EngTest" ? "selected" : "")>Engineering Test</option>
+            <option value="Debug" @(Model.searchModel.testType == "Debug" ? "selected" : "")>Debugging</option>
+        </select>
+
+        <script>
 
 		        $(document).ready(function () {
 
@@ -252,19 +283,19 @@
 		            });
 		        });
 
-            </script>
-        </div>
+        </script>
+    </div>
 
-        <div class="col-lg-2">
-            <select id="selectTubeName" class="demo-default" placeholder="Tube Name...">
-                <option value="">Tube Name...</option>
-                @foreach (var tube in Model.searchModel.tubeList)
-                {
-                    <option value="@tube" @(Model.searchModel.tubeName == tube ? "selected" : "")>@tube</option>
-                }
-            </select>
+    <div class="col-lg-2">
+        <select id="selectTubeName" class="demo-default" placeholder="Tube Name...">
+            <option value="">Tube Name...</option>
+            @foreach (var tube in Model.searchModel.tubeList)
+            {
+                <option value="@tube" @(Model.searchModel.tubeName == tube ? "selected" : "")>@tube</option>
+            }
+        </select>
 
-            <script>
+        <script>
 
 		        $(document).ready(function () {
 
@@ -296,93 +327,93 @@
 		            });
 		        });
 
-            </script>
-        </div>
-
-        <div class="col-lg-2">
-            <select id="selectOptions" multiple class="demo-default" placeholder="Select Options...">
-                <option value="">Select Options...</option>
-                <option value="SsaSN" @(Model.searchModel.options.Contains("SsaSN") ? "selected" : "")>SSA</option>
-                <option value="LinSN" @(Model.searchModel.options.Contains("LinSN") ? "selected" : "")>LIN</option>
-                <option value="LipaSN" @(Model.searchModel.options.Contains("LipaSN") ? "selected" : "")>LIPA</option>
-                <option value="BucSN" @(Model.searchModel.options.Contains("BucSN") ? "selected" : "")>BUC</option>
-                <option value="BipaSN" @(Model.searchModel.options.Contains("BipaSN") ? "selected" : "")>BIPA</option>
-                <option value="BlipaSN" @(Model.searchModel.options.Contains("BlipaSN") ? "selected" : "")>BLIPA</option>
-            </select>
-
-            <script>
-
-                $(document).ready(function () {
-
-                    if (noSearchCriteria) {
-                        var $select = $("#selectOptions").selectize();
-                        var selectizeObj = $select[0].selectize;
-                        selectizeObj.disable();
-                    }
-
-
-                    //select by typing
-                    $('#selectOptions').selectize({
-                        plugins: ['remove_button'],
-                        delimiter: ',',
-                        persist: false,
-                        onChange: function (value) {
-
-                            var strPos = filterToApply.search("opt=")
-
-                            if (strPos == -1) {
-                                filterToApply += "+opt=" + value;
-                            } else {
-                                filterToApply = filterToApply.replace(/opt=[a-zA-Z,]*/, "opt=" + value);
-                            }
-                        }
-                    });
-                });
-
-            </script>
-        </div>
-
-        <div class="col-lg-2">
-            <button id='filterReset' class="btn btn-block" type="button" onclick='resetFilter()'>Reset Filter</button>
-        </div>
-
-        <div class="col-lg-2">
-            <button id='filterApply' class="btn btn-info btn-block" type="button" onclick='applyFilter()'>Apply Filter</button>
-
-            <script>
-                $(document).ready(function () {
-                    if (noSearchCriteria) {
-                        $('#filterReset').prop('disabled', true);
-                        $('#filterApply').prop('disabled', true);
-                    } else {
-                        $('#filterReset').prop('disabled', false);
-                        $('#filterApply').prop('disabled', false);
-                    }
-
-                    $("#filterReset").click(function () {
-                        //$("#filterReset").html('Please Wait');
-                        $body = $("body");
-                        $body.addClass("loading");
-                    });
-
-                    $("#filterApply").click(function () {
-                        //$("#filterReset").html('Please Wait');
-                        $body = $("body");
-                        $body.addClass("loading");
-                    });
-                });
-
-                function resetFilter() {
-                    location.href = document.URL.replace(/\/testType=[a-zA-Z0-9=+,-]*/, "");
-                }
-
-                function applyFilter() {
-                    if (document.URL.search("testType=") == -1) {
-                        location.href = document.URL + "/" + filterToApply;
-                    } else {
-                        location.href = document.URL.replace(/\/testType=[a-zA-Z0-9=+,-]*/, "/" + filterToApply);
-                    }
-                }
-            </script>
-        </div>
+        </script>
     </div>
+
+    <div class="col-lg-2">
+        <select id="selectOptions" multiple class="demo-default" placeholder="Select Options...">
+            <option value="">Select Options...</option>
+            <option value="SsaSN" @(Model.searchModel.options.Contains("SsaSN") ? "selected" : "")>SSA</option>
+            <option value="LinSN" @(Model.searchModel.options.Contains("LinSN") ? "selected" : "")>LIN</option>
+            <option value="LipaSN" @(Model.searchModel.options.Contains("LipaSN") ? "selected" : "")>LIPA</option>
+            <option value="BucSN" @(Model.searchModel.options.Contains("BucSN") ? "selected" : "")>BUC</option>
+            <option value="BipaSN" @(Model.searchModel.options.Contains("BipaSN") ? "selected" : "")>BIPA</option>
+            <option value="BlipaSN" @(Model.searchModel.options.Contains("BlipaSN") ? "selected" : "")>BLIPA</option>
+        </select>
+
+        <script>
+
+            $(document).ready(function () {
+
+                if (noSearchCriteria) {
+                    var $select = $("#selectOptions").selectize();
+                    var selectizeObj = $select[0].selectize;
+                    selectizeObj.disable();
+                }
+
+
+                //select by typing
+                $('#selectOptions').selectize({
+                    plugins: ['remove_button'],
+                    delimiter: ',',
+                    persist: false,
+                    onChange: function (value) {
+
+                        var strPos = filterToApply.search("opt=")
+
+                        if (strPos == -1) {
+                            filterToApply += "+opt=" + value;
+                        } else {
+                            filterToApply = filterToApply.replace(/opt=[a-zA-Z,]*/, "opt=" + value);
+                        }
+                    }
+                });
+            });
+
+        </script>
+    </div>
+
+    <div class="col-lg-2">
+        <button id='filterReset' class="btn btn-block" type="button" onclick='resetFilter()'>Reset Filter</button>
+    </div>
+
+    <div class="col-lg-2">
+        <button id='filterApply' class="btn btn-info btn-block" type="button" onclick='applyFilter()'>Apply Filter</button>
+
+        <script>
+            $(document).ready(function () {
+                if (noSearchCriteria) {
+                    $('#filterReset').prop('disabled', true);
+                    $('#filterApply').prop('disabled', true);
+                } else {
+                    $('#filterReset').prop('disabled', false);
+                    $('#filterApply').prop('disabled', false);
+                }
+
+                $("#filterReset").click(function () {
+                    //$("#filterReset").html('Please Wait');
+                    $body = $("body");
+                    $body.addClass("loading");
+                });
+
+                $("#filterApply").click(function () {
+                    //$("#filterReset").html('Please Wait');
+                    $body = $("body");
+                    $body.addClass("loading");
+                });
+            });
+
+            function resetFilter() {
+                location.href = document.URL.replace(/\/testType=[a-zA-Z0-9=+,-]*/, "");
+            }
+
+            function applyFilter() {
+                if (document.URL.search("testType=") == -1) {
+                    location.href = document.URL + "/" + filterToApply;
+                } else {
+                    location.href = document.URL.replace(/\/testType=[a-zA-Z0-9=+,-]*/, "/" + filterToApply);
+                }
+            }
+        </script>
+    </div>
+</div>

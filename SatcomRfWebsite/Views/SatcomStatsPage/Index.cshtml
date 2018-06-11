@@ -53,8 +53,16 @@
 
 <div class="container hide" id="iframe-temp"></div>
 <div class="page-header"><h1>ATE Test Statistics</h1></div>
-<div class="display" style="margin-bottom: 20px"><h3>View overall test stats for a specific product.</h3></div>
-<div class="container row" id="main-data">
+<div class="row">
+    <div class="col-sm-9" style="margin-top: -20px; margin-bottom: 10px">
+        <div class="display" style="margin-bottom: 20px"><h3>View overall test stats for a specific product.</h3></div>
+    </div>
+
+    <div class="col-sm-3">
+        <input type="button" class="form-control btn btn-success" id="dlxlsx" name="dlbtn" onclick="getxlsxfile(productTypes.value, models.value)" value="Download as Excel file (.xlsx)" />
+    </div>
+</div>
+<div class="row" id="main-data">
     <div class="alert alert-danger hide fade in" id="selection-failed">
         <strong>Error:</strong> Select a product type and model name first.
     </div>
@@ -85,16 +93,16 @@
         </div>
 
         <div class="col-sm-3">
-            <input type="button" class="form-control btn btn-primary" id="results" name="resultsbtn" onclick="viewResults(productTypes.value, models.value)" value="View full record of test results" />
+            <input type="button" class="form-control btn btn-primary" id="output" name="outputbtn" onclick="viewOutput(productTypes.value, models.value)" value="View complete ATE output data" />
         </div>
 
         <div class="col-sm-3">
-            <input type="button" class="form-control btn btn-success" id="dlxlsx" name="dlbtn" onclick="getxlsxfile(productTypes.value, models.value)" value="Download as Excel file (.xlsx)" />
+            <input type="button" class="form-control btn btn-primary" id="results" name="resultsbtn" onclick="viewResults(productTypes.value, models.value)" value="View full record of test results" />
         </div>
     </form>
 </div>
 
-<div class="container row hide" id="data-display">
+<div class=row hide" id="data-display">
     <hr />
 
     <div class="alert alert-danger hide fade in" id="getdata-failed">

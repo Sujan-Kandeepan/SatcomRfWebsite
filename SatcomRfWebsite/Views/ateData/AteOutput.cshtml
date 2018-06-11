@@ -7,66 +7,49 @@
 
     <div class="page-header"><h1>ATE Data Output</h1></div>
     <div class="row">
-        <div class="col-lg-6">
-            <div class="display" style="margin-top: -20px; margin-bottom: 30px"><h3>View complete data with the applied filters.</h3></div>
+        <div class="col-lg-9" style="margin-top: -20px; margin-bottom: 20px">
+            <div class="display"><h3>View complete data with the applied filters.</h3></div>
         </div>
 
-        <div class="col-lg-2">
-            <button id='stats' class="btn btn-primary btn-block" type="button" onclick='stats()'>View Test Stats</button>
-        </div>
+        <div class="col-lg-3">
+            <input type="button" class="form-control btn btn-success" id="dlxlsx" name="dlbtn" onclick="getxlsxfile(selectProductType.value, selectModelName.value)" value="Download as Excel file (.xlsx)" />
+        </div> <!--Another button can go here, possibly-->
 
         <script>
-            function stats() {
-                //alert(filterToApply);
-                var pT = document.URL.substring(document.URL.indexOf("pT") + 3, document.URL.indexOf("mN") - 1);
-                var mN = document.URL.substring(document.URL.indexOf("mN") + 3, document.URL.indexOf("ser") - 1);
-                var ser = document.URL.substring(document.URL.indexOf("ser") + 4, document.URL.indexOf("testType") - 1);
-                var testType = document.URL.substring(document.URL.indexOf("testType") + 9, document.URL.indexOf("tubeName") - 1);
-                var tubeName = document.URL.substring(document.URL.indexOf("tubeName") + 9, document.URL.indexOf("opt") - 1);
-                var opt = document.URL.substring(document.URL.indexOf("opt") + 4);
-
-                if (document.URL.indexOf("pT") == -1) {
-                    location.href = location.origin + "/SatcomStatsPage";
-                }
-                else if (mN == "na") {
-                    location.href = location.origin + "/SatcomStatsPage/Index/" + pT;
+            function getxlsxfile(productType, modelName) {
+                if (modelName == "") {
+                    document.getElementById("selection-failed").classList.remove("hide");
                 }
                 else {
-                    location.href = location.origin + "/SatcomStatsPage/Index/" + pT + "/" + mN;
+                    var src = document.location.origin + "/api/ListAPI/GetTableFile?modelName=" + modelName + "&productType=" + productType;
+                    var data = new XMLHttpRequest();
+                    data.onreadystatechange = function () {
+                        if (this.readyState === 4 && this.status === 200) {
+                            document.getElementById("excel-loading").classList.add("hide");
+                        } else if (this.readyState == 4 && this.status !== 200) {
+                            document.getElementById("excel-loading").classList.add("hide");
+                            document.getElementById("excel-failed").classList.remove("hide");
+                        }
+                    };
+
+                    document.getElementById("excel-loading").classList.remove("hide");
+
+                    data.open("GET", src, true);
+                    data.send();
+
+                    document.getElementById("iframe-temp").innerHTML = "<iframe style=\"display:none\" src=\"" + document.location.origin +
+                        "/api/ListAPI/GetTableFile?modelName=" + modelName + "&productType=" + productType + "\"></iframe>";
                 }
             }
         </script>
+    </div>
 
-        <div class="col-lg-2">
-            <button id='testResults' class="btn btn-primary btn-block" type="button" onclick='testResults()'>View Test Results</button>
-        </div>
-
-        <script>
-            function testResults() {
-                //alert(filterToApply);
-                var pT = document.URL.substring(document.URL.indexOf("pT") + 3, document.URL.indexOf("mN") - 1);
-                var mN = document.URL.substring(document.URL.indexOf("mN") + 3, document.URL.indexOf("ser") - 1);
-                var ser = document.URL.substring(document.URL.indexOf("ser") + 4, document.URL.indexOf("testType") - 1);
-                var testType = document.URL.substring(document.URL.indexOf("testType") + 9, document.URL.indexOf("tubeName") - 1);
-                var tubeName = document.URL.substring(document.URL.indexOf("tubeName") + 9, document.URL.indexOf("opt") - 1);
-                var opt = document.URL.substring(document.URL.indexOf("opt") + 4);
-
-                if (document.URL.indexOf("pT") == -1) {
-                    location.href = location.origin + "/testsData/TestResults/";
-                }
-                else if (mN == "na") {
-                    location.href = location.origin + "/testsData/TestResults/" + pT;
-                }
-                else {
-                    location.href = location.origin + "/testsData/TestResults/" + pT + "/" + mN + "/testType=" + (testType == "na" ? "none" : testType) + "+tubeName=" + (tubeName == "na" ? "none" : tubeName) + "+opt=" + (opt == "na" ? "none" : opt);
-                }
-            }
-        </script>
-
-
+    <div class="row" style="margin-bottom: 20px">
         <div class="col-lg-2">
             <button id='filterReset' class="btn btn-block" type="button" onclick='resetFilter()'>Reset Filter</button>
         </div>
+
+        <div class="col-lg-4"></div>
 
         <script>
             $(document).ready(function () {
@@ -93,6 +76,53 @@
             function resetFilter() {
                 //location.href = document.location.origin + "/ateData/AteOutput";
                 location.href = document.URL.replace(/AteOutput\?[a-zA-Z0-9=+,-\\%]*/, "AteOutput");
+            }
+        </script>
+
+        <div class="col-lg-3">
+            <button id='stats' class="btn btn-primary btn-block" type="button" onclick='stats()'>View complete test statistics</button>
+        </div>
+
+        <script>
+            function stats() {
+                if (selectProductType.value == "") {
+                    location.href = location.origin + "/SatcomStatsPage";
+                }
+                else if (selectModelName.value == "") {
+                    location.href = location.origin + "/SatcomStatsPage/Index/" + selectProductType.value;
+                }
+                else {
+                    location.href = location.origin + "/SatcomStatsPage/Index/" + selectProductType.value + "/" + selectModelName.value;
+                }
+            }
+        </script>
+
+        <div class="col-lg-3">
+            <button id='testResults' class="btn btn-primary btn-block" type="button" onclick='testResults()'>View full record of test results</button>
+        </div>
+
+        <script>
+            function testResults() {
+                //alert(filterToApply);
+                var pT = selectProductType.value;
+                var mN = selectModelName.value;
+                var ser = selectSerialNum.value;
+                var testType = selectTestType.value;
+                var tubeName = selectTubeName.value;
+                var opt = selectOptions.value;
+
+                if (pT == "") {
+                    location.href = location.origin + "/testsData/TestResults";
+                }
+                else if (mN == "") {
+                    location.href = location.origin + "/testsData/TestResults/" + pT;
+                }
+                else if (testType == "" && tubeName == "" && opt == "") {
+                    location.href = location.origin + "/testsData/TestResults/" + pT + "/" + mN;
+                }
+                else {
+                    location.href = location.origin + "/testsData/TestResults/" + pT + "/" + mN + "/testType=" + (testType == "" ? "none" : testType) + "+tubeName=" + (tubeName == "" ? "none" : tubeName) + "+opt=" + (opt == "" ? "none" : opt);
+                }
             }
         </script>
     </div>
