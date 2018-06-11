@@ -5,8 +5,29 @@
 }
 <div class="container">
 
+    <div class="container hide" id="iframe-temp"></div>
     <div class="page-header"><h1>ATE Data Output</h1></div>
     <div class="row">
+        <div class="alert alert-danger hide fade in" id="selection-failed">
+            <strong>Error:</strong> Select a product type and model name first.
+        </div>
+
+        <div class="alert alert-danger hide fade in" id="download-failed">
+            <strong>Error:</strong> Cannot generate report when data not found.
+        </div>
+
+        <div class="alert alert-danger hide fade in" id="invalid-url">
+            <strong>Error:</strong> Invalid URL, you are being redirected.
+        </div>
+
+        <div class="alert alert-info hide fade in" id="excel-loading">
+            <strong>Preparing Excel file...</strong>
+        </div>
+
+        <div class="alert alert-danger hide fade in" id="excel-failed">
+            <strong>Error:</strong> Failed to generate Excel file.
+        </div>
+
         <div class="col-lg-9" style="margin-top: -20px; margin-bottom: 20px">
             <div class="display"><h3>View complete data with the applied filters.</h3></div>
         </div>
