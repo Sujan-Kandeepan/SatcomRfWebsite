@@ -5,13 +5,6 @@
 }
 
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
-<script>
-    if (Cookies.get('results') != undefined) {
-        var outputURL = Cookies.get('results');
-        Cookies.remove('results');
-        location.replace(outputURL);
-    }
-</script>
 <div class="container hide" id="iframe-temp"></div>
 <div class="page-header"><h1>ATE Test Results</h1></div>
 <div class="row">
@@ -125,6 +118,10 @@
 		                onChange: function (value) {
 
                             location.href = document.URL + "/" + value;
+
+                            sendStats();
+                            sendOutput();
+                            sendResults();
 		                }
 		            });
 
@@ -189,6 +186,10 @@
                             } else {
 		                        location.href = document.URL + "/" + prod + "/" + value;
                             }
+
+                            sendStats();
+                            sendOutput();
+                            sendResults();
 		                }
 		            });
 
@@ -211,6 +212,10 @@
         function resetSearch() {
             location.href = document.location.origin + "/testsData/TestResults";
             //location.href = document.URL.replace(/TestResults\?[a-zA-Z0-9=+,-\\%]*/, "TestResults");
+
+            sendStats();
+            sendOutput();
+            sendResults();
         }
     </script>
 
@@ -228,18 +233,6 @@
             }
             else {
                 location.href = location.origin + "/SatcomStatsPage/Index/" + selectProductType.value + "/" + selectModelName.value;
-            }
-        }
-
-        function sendStats() {
-            if (selectProductType.value == "") {
-                document.cookies = "";
-            }
-            else if (selectModelName.value == "") {
-                Cookies.set('stats', location.origin + "/SatcomStatsPage/Index/" + selectProductType.value);
-            }
-            else {
-                Cookies.set('stats', location.origin + "/SatcomStatsPage/Index/" + selectProductType.value + "/" + selectModelName.value);
             }
         }
     </script>
@@ -263,23 +256,6 @@
             }
             else {
                 location.href = location.origin + "/ateData/AteOutput?filter=pT=" + pT + "%mN=" + mN + "%ser=na%testType=" + testType + "%tubeName=" + tubeName + "%opt=" + opt + "";
-            }
-        }
-
-        function sendOutput() {
-            //alert("¯\\_(ツ)_/¯");
-
-            var pT = selectProductType.value != "" ? selectProductType.value : "na";
-            var mN = selectModelName.value != "" ? selectModelName.value : "na";
-            var testType = selectTestType.value != "" ? selectTestType.value : "na";
-            var tubeName = selectTubeName.value != "" ? selectTubeName.value : "na";
-            var opt = selectOptions.value != "" ? selectOptions.value : "na";
-
-            if (document.URL.indexOf("TestResults") == document.URL.length - 11) {
-                document.cookies = "";
-            }
-            else {
-                Cookies.set('output', location.origin + "/ateData/AteOutput?filter=pT=" + pT + "%mN=" + mN + "%ser=na%testType=" + testType + "%tubeName=" + tubeName + "%opt=" + opt + "");
             }
         }
     </script>
@@ -455,6 +431,10 @@
 
             function resetFilter() {
                 location.href = document.URL.replace(/\/testType=[a-zA-Z0-9=+,-]*/, "");
+
+                sendStats();
+                sendOutput();
+                sendResults();
             }
 
             function applyFilter() {
@@ -463,7 +443,57 @@
                 } else {
                     location.href = document.URL.replace(/\/testType=[a-zA-Z0-9=+,-]*/, "/" + filterToApply);
                 }
+
+                sendStats();
+                sendOutput();
+                sendResults();
             }
         </script>
     </div>
 </div>
+
+<script>
+    function sendStats() {
+        var productType = selectproductType.value;
+        var modelName = selectModelName.value;
+
+        var newurl;
+        if (productType == "") {
+            newurl = location.origin + "/SatcomStatsPage";
+        }
+        else if (modelName == "") {
+            newurl = location.origin + "/SatcomStatsPage/Index/" + productType;
+        }
+        else {
+            newurl = location.origin + "/SatcomStatsPage/Index/" + productType + "/" + modelName;
+        }
+        document.getElementById("statspage").innerHTML = "<a href=\"" + document.URL + "\">Statistics</a>";
+    }
+
+    function sendOutput() {
+        //alert("¯\\_(ツ)_/¯");
+
+        var pT = selectProductType.value != "" ? selectProductType.value : "na";
+        var mN = selectModelName.value != "" ? selectModelName.value : "na";
+        var testType = selectTestType.value != "" ? selectTestType.value : "na";
+        var tubeName = selectTubeName.value != "" ? selectTubeName.value : "na";
+        var opt = selectOptions.value != "" ? selectOptions.value : "na";
+
+        var newurl;
+        if (document.URL.indexOf("TestResults") == document.URL.length - 11) {
+            newurl = location.origin + "/ateData/AteOutput";
+        }
+        else {
+            newurl = location.origin + "/ateData/AteOutput?filter=pT=" + pT + "%mN=" + mN + "%ser=na%testType=" + testType + "%tubeName=" + tubeName + "%opt=" + opt + "";
+        }
+        document.getElementById("navBarTests").innerHTML = "<a href=\"" + newurl + "\">Test Results</a>";
+    }
+
+    function sendResults() {
+        document.getElementById("navBarTests").innerHTML = "<a href=\"" + document.URL + "\">Test Results</a>";
+    }
+
+    sendStats();
+    sendOutput();
+    sendResults();
+</script>

@@ -5,6 +5,52 @@
 }
 <div class="container">
 
+    <script>
+        function sendStats() {
+            var newurl;
+            if (selectProductType.value == "") {
+                newurl = location.origin + "/SatcomStatsPage";
+            }
+            else if (selectModelName.value == "") {
+                newurl = location.origin + "/SatcomStatsPage/Index/" + selectProductType.value;
+            }
+            else {
+                newurl = location.origin + "/SatcomStatsPage/Index/" + selectProductType.value + "/" + selectModelName.value;
+            }
+            document.getElementById("statspage").innerHTML = "<a href=\"" + newurl + "\">Statistics</a>";
+        }
+
+        function sendOutput() {
+            document.getElementById("navBarAteOutput").innerHTML = "<a href=\"" + document.URL + "\">ATE Output</a>";
+        }
+
+        function sendResults() {
+            //alert(filterToApply);
+            var pT = selectProductType.value;
+            var mN = selectModelName.value;
+            var ser = selectSerialNum.value;
+            var testType = selectTestType.value;
+            var tubeName = selectTubeName.value;
+            var opt = selectOptions.value;
+
+            var newurl;
+            if (pT == "") {
+                newurl = location.origin + "/testsData/TestResults";
+            }
+            else if (mN == "") {
+                newurl = location.origin + "/testsData/TestResults/" + pT;
+            }
+            else if (testType == "" && tubeName == "" && opt == "") {
+                newurl = location.origin + "/testsData/TestResults/" + pT + "/" + mN;
+            }
+            else {
+                newurl = location.origin + "/testsData/TestResults/" + pT + "/" + mN + "/testType=" + (testType == "" ? "none" : testType) + "+tubeName=" + (tubeName == "" ? "none" : tubeName) + "+opt=" + (opt == "" ? "none" : opt);
+            }
+            document.getElementById("navBarTests").innerHTML = "<a href=\"" + newurl + "\">Test Results</a>";
+
+        }
+    </script>
+
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
     <div class="container hide" id="iframe-temp"></div>
     <div class="page-header"><h1>ATE Data Output</h1></div>
@@ -99,7 +145,9 @@
                 //location.href = document.location.origin + "/ateData/AteOutput";
                 location.href = location.origin + "/ateData/AteOutput";
 
-                document.cookie = "";
+                sendStats();
+                sendOutput();
+                sendResults();
             }
         </script>
 
@@ -117,18 +165,6 @@
                 }
                 else {
                     location.href = location.origin + "/SatcomStatsPage/Index/" + selectProductType.value + "/" + selectModelName.value;
-                }
-            }
-
-            function sendStats() {
-                if (selectProductType.value == "") {
-                    document.cookies = "";
-                }
-                else if (selectModelName.value == "") {
-                    Cookies.set('stats', location.origin + "/SatcomStatsPage/Index/" + selectProductType.value);
-                }
-                else {
-                    Cookies.set('stats', location.origin + "/SatcomStatsPage/Index/" + selectProductType.value + "/" + selectModelName.value);
                 }
             }
         </script>
@@ -158,29 +194,6 @@
                 }
                 else {
                     location.href = location.origin + "/testsData/TestResults/" + pT + "/" + mN + "/testType=" + (testType == "" ? "none" : testType) + "+tubeName=" + (tubeName == "" ? "none" : tubeName) + "+opt=" + (opt == "" ? "none" : opt);
-                }
-            }
-
-            function sendResults() {
-                //alert(filterToApply);
-                var pT = selectProductType.value;
-                var mN = selectModelName.value;
-                var ser = selectSerialNum.value;
-                var testType = selectTestType.value;
-                var tubeName = selectTubeName.value;
-                var opt = selectOptions.value;
-
-                if (pT == "") {
-                    document.cookies = "";
-                }
-                else if (mN == "") {
-                    Cookies.set('results', location.origin + "/testsData/TestResults/" + pT);
-                }
-                else if (testType == "" && tubeName == "" && opt == "") {
-                    Cookies.set('results', location.origin + "/testsData/TestResults/" + pT + "/" + mN);
-                }
-                else {
-                    Cookies.set('results', location.origin + "/testsData/TestResults/" + pT + "/" + mN + "/testType=" + (testType == "" ? "none" : testType) + "+tubeName=" + (tubeName == "" ? "none" : tubeName) + "+opt=" + (opt == "" ? "none" : opt));
                 }
             }
         </script>
@@ -240,6 +253,10 @@
                             filterToApply = filterToApply.replace(/mN=[a-zA-Z0-9-]*/, "mN=na");
                             filterToApply = filterToApply.replace(/ser=[a-zA-Z0-9_-]*/, "ser=na");
                             location.href = filterToApply;
+
+                            sendStats();
+                            sendOutput();
+                            sendResults();
                         }
                     });
                 });
@@ -287,6 +304,10 @@
 		                    filterToApply = filterToApply.replace(/mN=[a-zA-Z0-9-]*/, "mN=" + value);
 		                    filterToApply = filterToApply.replace(/ser=[a-zA-Z0-9_-]*/, "ser=na");
                             location.href = filterToApply;
+
+                            sendStats();
+                            sendOutput();
+                            sendResults();
 		                }
 		            });
 		        });
@@ -335,6 +356,10 @@
 		                    filterToApply = filterToApply.replace(/mN=[a-zA-Z0-9-]*/, "mN=" + model);
 		                    filterToApply = filterToApply.replace(/ser=[a-zA-Z0-9_-]*/, "ser=" + value);
                             location.href = filterToApply;
+
+                            sendStats();
+                            sendOutput();
+                            sendResults();
 		                }
 		            });
 		        });
@@ -375,6 +400,10 @@
                             } else {
 		                        location.href = filterToApply.replace(/testType=[a-zA-Z]*/, "testType=" + value);
                             }
+
+                            sendStats();
+                            sendOutput();
+                            sendResults();
 		                }
 		            });
 		        });
@@ -408,6 +437,10 @@
                             } else {
                                 location.href = filterToApply.replace(/tubeName=[a-zA-Z0-9-]*/, "tubeName=" + value);
                             }
+
+                            sendStats();
+                            sendOutput();
+                            sendResults();
                         }
                     });
                 });
@@ -443,6 +476,10 @@
                             } else {
                                 location.href = filterToApply.replace(/opt=[a-zA-Z,]*/, "opt=" + value);
                             }
+
+                            sendStats();
+                            sendOutput();
+                            sendResults();
                         }
                     });
                 });
@@ -514,11 +551,9 @@
             });
         });
 
-        if (Cookies.get('output') != undefined) {
-            var outputURL = Cookies.get('output');
-            Cookies.remove('output');
-            location.replace(outputURL);
-        }
+        sendStats();
+        sendOutput();
+        sendResults();
 
         //Set navbar button as active
         document.getElementById("navBarAteOutput").classList.add("active");
