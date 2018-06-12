@@ -274,7 +274,7 @@ function viewOutput(productType, modelName) {
         location.href = location.origin + "/ateData/AteOutput/?filter=pT=" + productType + "%mN=na%ser=na%testType=na%tubeName=na%opt=na";
     }
     else {
-        location.href = location.origin + "/ateData/AteOutput/?filter=pT=" + productType + "%mN=" + modelName + "%ser=na%testType=na%tubeName=na%opt=na"
+        location.href = location.origin + "/ateData/AteOutput/?filter=pT=" + productType + "%mN=" + modelName + "%ser=na%testType=na%tubeName=na%opt=na";
     }
 }
 
