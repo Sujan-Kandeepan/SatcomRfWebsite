@@ -96,11 +96,10 @@
             });
 
             function resetFilter() {
-                //location.href = document.location.origin + "/ateData/AteOutput";
-                location.href = document.URL.replace(/AteOutput\?[a-zA-Z0-9=+,-\\%]*/, "AteOutput");
+                document.cookie = "";
 
-                sendStats();
-                sendResults();
+                //location.href = document.location.origin + "/ateData/AteOutput";
+                location.href = location.origin + "/ateData/AteOutput";
             }
         </script>
 
