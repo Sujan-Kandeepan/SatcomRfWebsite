@@ -127,6 +127,7 @@ function getTable(productType, modelName) {
     if (modelName === "default") {
         document.getElementById("data-display").classList.add("hide");
         document.getElementById("data-table").innerHTML = "";
+        location.href = location.origin + "/SatcomStatsPage/Index/" + productType;
         return;
     }
 
