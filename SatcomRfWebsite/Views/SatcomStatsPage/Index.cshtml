@@ -51,6 +51,7 @@
 
 @Scripts.Render("~/bundles/js/SatcomStats")
 
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 <div class="container hide" id="iframe-temp"></div>
 <div class="page-header"><h1>ATE Test Statistics</h1></div>
 <div class="row">
@@ -128,6 +129,12 @@
 
 <script>
     setupIndex();
+
+    if (Cookies.get('stats') != undefined) {
+        var statsURL = Cookies.get('stats');
+        Cookies.remove('stats')
+        location.replace(statsURL);
+    }
 
     //Set navbar button as active
     document.getElementById("statspage").classList.add("active");

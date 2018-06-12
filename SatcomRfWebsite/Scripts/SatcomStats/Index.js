@@ -39,6 +39,9 @@
         }
     };
 
+    sendOutput(productType, selected);
+    sendResults(productType, selected);
+
     data.open("GET", src, true);
     data.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     data.send();
@@ -66,6 +69,9 @@ function getProductTypes(selected) {
             }
         }
     };
+
+    sendOutput(selected, "na");
+    sendResults(selected, "");
 
     data.open("GET", src, true);
     data.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -156,6 +162,9 @@ function getTable(productType, modelName) {
     document.getElementById("getdata-failed").classList.add("hide");
     document.getElementById("selection-failed").classList.add("hide");
     document.getElementById("download-failed").classList.add("hide");
+
+    sendOutput(productType, modelName);
+    sendResults(productType, modelName);
 
     data.open("GET", src, true);
     data.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -280,13 +289,37 @@ function viewOutput(productType, modelName) {
 
 function viewResults(productType, modelName) {
     if (productType == "default") {
-        location.href = location.origin + "/testsData/TestResults/";
+        location.href = location.origin + "/testsData/TestResults";
     }
     else if (modelName == "default") {
         location.href = location.origin + "/testsData/TestResults/" + productType;
     }
     else {
         location.href = location.origin + "/testsData/TestResults/" + productType + "/" + modelName;
+    }
+}
+
+function sendOutput(productType, modelName) {
+    if (productType == "default") {
+        Cookies.remove('output');
+    }
+    else if (modelName == "default") {
+        Cookies.set('output', location.origin + "/ateData/AteOutput/?filter=pT=" + productType + "%mN=na%ser=na%testType=na%tubeName=na%opt=na");
+    }
+    else {
+        Cookies.set('output', location.origin + "/ateData/AteOutput/?filter=pT=" + productType + "%mN=" + modelName + "%ser=na%testType=na%tubeName=na%opt=na");
+    }
+}
+
+function sendResults(productType, modelName) {
+    if (productType == "default") {
+        Cookies.remove('results');
+    }
+    else if (modelName == "default") {
+        Cookies.set('results', location.origin + "/testsData/TestResults/" + productType);
+    }
+    else {
+        Cookies.set('results', location.origin + "/testsData/TestResults/" + productType + "/" + modelName);
     }
 }
 
