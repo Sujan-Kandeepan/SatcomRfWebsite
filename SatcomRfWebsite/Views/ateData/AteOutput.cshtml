@@ -5,6 +5,7 @@
 }
 <div class="container">
 
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
     <div class="container hide" id="iframe-temp"></div>
     <div class="page-header"><h1>ATE Data Output</h1></div>
     <div class="row">
@@ -97,15 +98,18 @@
             function resetFilter() {
                 //location.href = document.location.origin + "/ateData/AteOutput";
                 location.href = document.URL.replace(/AteOutput\?[a-zA-Z0-9=+,-\\%]*/, "AteOutput");
+
+                sendStats();
+                sendResults();
             }
         </script>
 
         <div class="col-lg-3">
-            <button id='stats' class="btn btn-primary btn-block" type="button" onclick='stats()'>View complete test statistics</button>
+            <button id='stats' class="btn btn-primary btn-block" type="button" onclick='viewStats()'>View complete test statistics</button>
         </div>
 
         <script>
-            function stats() {
+            function viewStats() {
                 if (selectProductType.value == "") {
                     location.href = location.origin + "/SatcomStatsPage";
                 }
@@ -116,14 +120,26 @@
                     location.href = location.origin + "/SatcomStatsPage/Index/" + selectProductType.value + "/" + selectModelName.value;
                 }
             }
+
+            function sendStats() {
+                if (selectProductType.value == "") {
+                    Cookies.remove('stats');
+                }
+                else if (selectModelName.value == "") {
+                    Cookies.set('stats', location.origin + "/SatcomStatsPage/Index/" + selectProductType.value);
+                }
+                else {
+                    Cookies.set('stats', location.origin + "/SatcomStatsPage/Index/" + selectProductType.value + "/" + selectModelName.value);
+                }
+            }
         </script>
 
         <div class="col-lg-3">
-            <button id='testResults' class="btn btn-primary btn-block" type="button" onclick='testResults()'>View full record of test results</button>
+            <button id='testResults' class="btn btn-primary btn-block" type="button" onclick='viewResults()'>View full record of test results</button>
         </div>
 
         <script>
-            function testResults() {
+            function viewResults() {
                 //alert(filterToApply);
                 var pT = selectProductType.value;
                 var mN = selectModelName.value;
@@ -143,6 +159,29 @@
                 }
                 else {
                     location.href = location.origin + "/testsData/TestResults/" + pT + "/" + mN + "/testType=" + (testType == "" ? "none" : testType) + "+tubeName=" + (tubeName == "" ? "none" : tubeName) + "+opt=" + (opt == "" ? "none" : opt);
+                }
+            }
+
+            function sendResults() {
+                //alert(filterToApply);
+                var pT = selectProductType.value;
+                var mN = selectModelName.value;
+                var ser = selectSerialNum.value;
+                var testType = selectTestType.value;
+                var tubeName = selectTubeName.value;
+                var opt = selectOptions.value;
+
+                if (pT == "") {
+                    Cookies.remove('results');
+                }
+                else if (mN == "") {
+                    Cookies.set('results', location.origin + "/testsData/TestResults/" + pT);
+                }
+                else if (testType == "" && tubeName == "" && opt == "") {
+                    Cookies.set('results', location.origin + "/testsData/TestResults/" + pT + "/" + mN);
+                }
+                else {
+                    Cookies.set('results', location.origin + "/testsData/TestResults/" + pT + "/" + mN + "/testType=" + (testType == "" ? "none" : testType) + "+tubeName=" + (tubeName == "" ? "none" : tubeName) + "+opt=" + (opt == "" ? "none" : opt));
                 }
             }
         </script>
@@ -202,6 +241,9 @@
                             filterToApply = filterToApply.replace(/mN=[a-zA-Z0-9-]*/, "mN=na");
                             filterToApply = filterToApply.replace(/ser=[a-zA-Z0-9_-]*/, "ser=na");
                             location.href = filterToApply;
+
+                            sendStats();
+                            sendResults();
                         }
                     });
                 });
@@ -248,7 +290,10 @@
 		                    if (value != "") { filterToApply = filterToApply.replace(/pT=[a-zA-Z]*/, "pT=" + prod); }
 		                    filterToApply = filterToApply.replace(/mN=[a-zA-Z0-9-]*/, "mN=" + value);
 		                    filterToApply = filterToApply.replace(/ser=[a-zA-Z0-9_-]*/, "ser=na");
-		                    location.href = filterToApply;
+                            location.href = filterToApply;
+
+                            sendStats();
+                            sendResults();
 		                }
 		            });
 		        });
@@ -296,7 +341,10 @@
 		                    filterToApply = filterToApply.replace(/pT=[a-zA-Z]*/, "pT=" + prod);
 		                    filterToApply = filterToApply.replace(/mN=[a-zA-Z0-9-]*/, "mN=" + model);
 		                    filterToApply = filterToApply.replace(/ser=[a-zA-Z0-9_-]*/, "ser=" + value);
-		                    location.href = filterToApply;
+                            location.href = filterToApply;
+
+                            sendStats();
+                            sendResults();
 		                }
 		            });
 		        });
@@ -337,6 +385,9 @@
                             } else {
 		                        location.href = filterToApply.replace(/testType=[a-zA-Z]*/, "testType=" + value);
                             }
+
+                            sendStats();
+                            sendResults();
 		                }
 		            });
 		        });
@@ -370,6 +421,9 @@
                             } else {
                                 location.href = filterToApply.replace(/tubeName=[a-zA-Z0-9-]*/, "tubeName=" + value);
                             }
+
+                            sendStats();
+                            sendResults();
                         }
                     });
                 });
@@ -405,6 +459,9 @@
                             } else {
                                 location.href = filterToApply.replace(/opt=[a-zA-Z,]*/, "opt=" + value);
                             }
+
+                            sendStats();
+                            sendResults();
                         }
                     });
                 });
@@ -475,6 +532,12 @@
                 "scrollY": @yscroll
             });
         });
+
+        if (Cookies.get('output') != undefined) {
+            var outputURL = Cookies.get('output');
+            Cookies.remove('output');
+            location.replace(outputURL);
+        }
 
         //Set navbar button as active
         document.getElementById("navBarAteOutput").classList.add("active");
