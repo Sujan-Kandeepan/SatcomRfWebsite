@@ -125,9 +125,6 @@
 		                onChange: function (value) {
 
                             location.href = document.URL + "/" + value;
-
-                            sendStats();
-                            sendOutput();
 		                }
 		            });
 
@@ -192,9 +189,6 @@
                             } else {
 		                        location.href = document.URL + "/" + prod + "/" + value;
                             }
-
-                            sendStats();
-                            sendOutput();
 		                }
 		            });
 
@@ -217,9 +211,6 @@
         function resetSearch() {
             location.href = document.location.origin + "/testsData/TestResults";
             //location.href = document.URL.replace(/TestResults\?[a-zA-Z0-9=+,-\\%]*/, "TestResults");
-
-            sendStats();
-            sendOutput();
         }
     </script>
 
@@ -464,9 +455,6 @@
 
             function resetFilter() {
                 location.href = document.URL.replace(/\/testType=[a-zA-Z0-9=+,-]*/, "");
-
-                sendStats();
-                sendOutput();
             }
 
             function applyFilter() {
@@ -475,9 +463,6 @@
                 } else {
                     location.href = document.URL.replace(/\/testType=[a-zA-Z0-9=+,-]*/, "/" + filterToApply);
                 }
-
-                sendStats();
-                sendOutput();
             }
         </script>
     </div>

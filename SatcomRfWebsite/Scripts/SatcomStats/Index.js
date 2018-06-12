@@ -39,9 +39,6 @@
         }
     };
 
-    sendOutput(productType, selected);
-    sendResults(productType, selected);
-
     data.open("GET", src, true);
     data.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     data.send();
@@ -69,9 +66,6 @@ function getProductTypes(selected) {
             }
         }
     };
-
-    sendOutput(selected, "na");
-    sendResults(selected, "");
 
     data.open("GET", src, true);
     data.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -163,9 +157,6 @@ function getTable(productType, modelName) {
     document.getElementById("getdata-failed").classList.add("hide");
     document.getElementById("selection-failed").classList.add("hide");
     document.getElementById("download-failed").classList.add("hide");
-
-    sendOutput(productType, modelName);
-    sendResults(productType, modelName);
 
     data.open("GET", src, true);
     data.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
