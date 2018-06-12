@@ -310,7 +310,7 @@ function sendOutput(productType, modelName) {
     else {
         newurl = location.origin + "/ateData/AteOutput/?filter=pT=" + productType + "%mN=" + modelName + "%ser=na%testType=na%tubeName=na%opt=na";
     }
-    document.getElementById("navBarAteOutput").innerHTML = "<a href=\"" + newurl + "\">ATE Output</a>"
+    document.getElementById("navBarAteOutput").innerHTML = "<a href=\"" + newurl + "\">ATE Output</a>";
 }
 
 function sendResults(productType, modelName) {
