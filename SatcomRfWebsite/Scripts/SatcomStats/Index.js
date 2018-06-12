@@ -36,6 +36,9 @@
             document.getElementById("selection-failed").classList.add("hide");
             document.getElementById("download-failed").classList.add("hide");
             document.getElementById("data-table").innerHTML = "";
+
+            sendOutput(productType, selected);
+            sendResults(productType, selected);
         }
     };
 
@@ -65,6 +68,8 @@ function getProductTypes(selected) {
                 setTimeout(function () { location.replace(location.origin + "/SatcomStatsPage"); }, 1000);
             }
         }
+        sendOutput(selected, "na");
+        sendResults(selected, "");
     };
 
     data.open("GET", src, true);
@@ -150,6 +155,9 @@ function getTable(productType, modelName) {
         else if (this.readyState === 4 && this.status !== 200) {
             showFail();
         }
+
+        sendOutput(productType, modelName);
+        sendResults(productType, modelName);
     };
 
     document.getElementById("data-display").classList.remove("hide");
@@ -292,27 +300,31 @@ function viewResults(productType, modelName) {
 }
 
 function sendOutput(productType, modelName) {
+    var newurl;
     if (productType == "default") {
-        document.cookies = "";
+        newurl = location.origin + "/ateData/AteOutput";
     }
     else if (modelName == "default") {
-        Cookies.set('output', location.origin + "/ateData/AteOutput/?filter=pT=" + productType + "%mN=na%ser=na%testType=na%tubeName=na%opt=na");
+        newurl = location.origin + "/ateData/AteOutput/?filter=pT=" + productType + "%mN=na%ser=na%testType=na%tubeName=na%opt=na";
     }
     else {
-        Cookies.set('output', location.origin + "/ateData/AteOutput/?filter=pT=" + productType + "%mN=" + modelName + "%ser=na%testType=na%tubeName=na%opt=na");
+        newurl = location.origin + "/ateData/AteOutput/?filter=pT=" + productType + "%mN=" + modelName + "%ser=na%testType=na%tubeName=na%opt=na";
     }
+    document.getElementById("navBarAteOutput").innerHTML = "<a href=\"" + newurl + "\">ATE Output</a>"
 }
 
 function sendResults(productType, modelName) {
+    var newurl;
     if (productType == "default") {
-        document.cookies = "";
+        newurl = location.origin + "/testsData/TestResults";
     }
     else if (modelName == "default") {
-        Cookies.set('results', location.origin + "/testsData/TestResults/" + productType);
+        newurl = location.origin + "/testsData/TestResults/" + productType;
     }
     else {
-        Cookies.set('results', location.origin + "/testsData/TestResults/" + productType + "/" + modelName);
+        newurl = location.origin + "/testsData/TestResults/" + productType + "/" + modelName;
     }
+    document.getElementById("navBarTests").innerHTML = "<a href=\"" + newurl + "\">Test Results</a>";
 }
 
 function setupIndex() {
