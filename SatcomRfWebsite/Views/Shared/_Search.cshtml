@@ -242,7 +242,7 @@
 
         function sendStats() {
             if (selectProductType.value == "") {
-                Cookies.remove('stats');
+                document.cookies = "";
             }
             else if (selectModelName.value == "") {
                 Cookies.set('stats', location.origin + "/SatcomStatsPage/Index/" + selectProductType.value);
@@ -285,7 +285,7 @@
             var opt = selectOptions.value != "" ? selectOptions.value : "na";
 
             if (document.URL.indexOf("TestResults") == document.URL.length - 11) {
-                Cookies.remove('output');
+                document.cookies = "";
             }
             else {
                 Cookies.set('output', location.origin + "/ateData/AteOutput?filter=pT=" + pT + "%mN=" + mN + "%ser=na%testType=" + testType + "%tubeName=" + tubeName + "%opt=" + opt + "");

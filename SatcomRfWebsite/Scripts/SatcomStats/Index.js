@@ -302,7 +302,7 @@ function viewResults(productType, modelName) {
 
 function sendOutput(productType, modelName) {
     if (productType == "default") {
-        Cookies.remove('output');
+        document.cookies = "";
     }
     else if (modelName == "default") {
         Cookies.set('output', location.origin + "/ateData/AteOutput/?filter=pT=" + productType + "%mN=na%ser=na%testType=na%tubeName=na%opt=na");
@@ -314,7 +314,7 @@ function sendOutput(productType, modelName) {
 
 function sendResults(productType, modelName) {
     if (productType == "default") {
-        Cookies.remove('results');
+        document.cookies = "";
     }
     else if (modelName == "default") {
         Cookies.set('results', location.origin + "/testsData/TestResults/" + productType);

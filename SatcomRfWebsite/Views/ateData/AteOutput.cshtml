@@ -123,7 +123,7 @@
 
             function sendStats() {
                 if (selectProductType.value == "") {
-                    Cookies.remove('stats');
+                    document.cookies = "";
                 }
                 else if (selectModelName.value == "") {
                     Cookies.set('stats', location.origin + "/SatcomStatsPage/Index/" + selectProductType.value);
@@ -172,7 +172,7 @@
                 var opt = selectOptions.value;
 
                 if (pT == "") {
-                    Cookies.remove('results');
+                    document.cookies = "";
                 }
                 else if (mN == "") {
                     Cookies.set('results', location.origin + "/testsData/TestResults/" + pT);
