@@ -96,10 +96,10 @@
             });
 
             function resetFilter() {
-                document.cookie = "";
-
                 //location.href = document.location.origin + "/ateData/AteOutput";
                 location.href = location.origin + "/ateData/AteOutput";
+
+                document.cookie = "";
             }
         </script>
 
@@ -240,9 +240,6 @@
                             filterToApply = filterToApply.replace(/mN=[a-zA-Z0-9-]*/, "mN=na");
                             filterToApply = filterToApply.replace(/ser=[a-zA-Z0-9_-]*/, "ser=na");
                             location.href = filterToApply;
-
-                            sendStats();
-                            sendResults();
                         }
                     });
                 });
@@ -290,9 +287,6 @@
 		                    filterToApply = filterToApply.replace(/mN=[a-zA-Z0-9-]*/, "mN=" + value);
 		                    filterToApply = filterToApply.replace(/ser=[a-zA-Z0-9_-]*/, "ser=na");
                             location.href = filterToApply;
-
-                            sendStats();
-                            sendResults();
 		                }
 		            });
 		        });
@@ -341,9 +335,6 @@
 		                    filterToApply = filterToApply.replace(/mN=[a-zA-Z0-9-]*/, "mN=" + model);
 		                    filterToApply = filterToApply.replace(/ser=[a-zA-Z0-9_-]*/, "ser=" + value);
                             location.href = filterToApply;
-
-                            sendStats();
-                            sendResults();
 		                }
 		            });
 		        });
@@ -384,9 +375,6 @@
                             } else {
 		                        location.href = filterToApply.replace(/testType=[a-zA-Z]*/, "testType=" + value);
                             }
-
-                            sendStats();
-                            sendResults();
 		                }
 		            });
 		        });
@@ -420,9 +408,6 @@
                             } else {
                                 location.href = filterToApply.replace(/tubeName=[a-zA-Z0-9-]*/, "tubeName=" + value);
                             }
-
-                            sendStats();
-                            sendResults();
                         }
                     });
                 });
@@ -458,9 +443,6 @@
                             } else {
                                 location.href = filterToApply.replace(/opt=[a-zA-Z,]*/, "opt=" + value);
                             }
-
-                            sendStats();
-                            sendResults();
                         }
                     });
                 });
