@@ -37,6 +37,7 @@
             document.getElementById("download-failed").classList.add("hide");
             document.getElementById("data-table").innerHTML = "";
 
+            sendStats();
             sendOutput(productType, selected);
             sendResults(productType, selected);
         }
@@ -68,6 +69,7 @@ function getProductTypes(selected) {
                 setTimeout(function () { location.replace(location.origin + "/SatcomStatsPage"); }, 1000);
             }
         }
+        sendStats();
         sendOutput(selected, "na");
         sendResults(selected, "");
     };
@@ -156,6 +158,7 @@ function getTable(productType, modelName) {
             showFail();
         }
 
+        sendStats();
         sendOutput(productType, modelName);
         sendResults(productType, modelName);
     };
@@ -297,6 +300,10 @@ function viewResults(productType, modelName) {
     else {
         location.href = location.origin + "/testsData/TestResults/" + productType + "/" + modelName;
     }
+}
+
+function sendStats() {
+    document.getElementById("statspage").innerHTML = "<a href=\"" + document.URL + "\">Statistics</a>"
 }
 
 function sendOutput(productType, modelName) {
