@@ -278,30 +278,6 @@ function getxlsxfile(productType, modelName) {
         "/api/ListAPI/GetTableFile?modelName=" + modelName + "&productType=" + productType + "\"></iframe>";
 }
 
-function viewOutput(productType, modelName) {
-    if (productType == "default") {
-        location.href = location.origin + "/ateData/AteOutput";
-    }
-    else if (modelName == "default") {
-        location.href = location.origin + "/ateData/AteOutput/?filter=pT=" + productType + "%mN=na%ser=na%testType=na%tubeName=na%opt=na";
-    }
-    else {
-        location.href = location.origin + "/ateData/AteOutput/?filter=pT=" + productType + "%mN=" + modelName + "%ser=na%testType=na%tubeName=na%opt=na";
-    }
-}
-
-function viewResults(productType, modelName) {
-    if (productType == "default") {
-        location.href = location.origin + "/testsData/TestResults";
-    }
-    else if (modelName == "default") {
-        location.href = location.origin + "/testsData/TestResults/" + productType;
-    }
-    else {
-        location.href = location.origin + "/testsData/TestResults/" + productType + "/" + modelName;
-    }
-}
-
 function sendStats() {
     document.getElementById("statspage").innerHTML = "<a href=\"" + document.URL + "\">Statistics</a>"
 }
