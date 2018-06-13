@@ -9,6 +9,7 @@ namespace SatcomRfWebsite.Models
         public string Channel { get; set; }
         public string Power { get; set; }
         public List<List<string>> AllResults { get; set; }
+        public string ExcelPlaceholder { get; set; }
         public string MinResult { get; set; }
         public string MaxResult { get; set; }
         public string AvgResult { get; set; }
