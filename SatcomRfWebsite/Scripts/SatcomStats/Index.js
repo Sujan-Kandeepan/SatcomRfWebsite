@@ -195,7 +195,8 @@ function fillModal(testName, channel, allResultsString, allResultsConvString, un
     if (sortMode == 'val') {
         for (var i = 1; i < allResultsValues.length; i++) {
             for (var j = i; j > 0; j--) {
-                if (parseFloat(allResultsValues[j]) < parseFloat(allResultsValues[j - 1])) {
+                if (parseFloat(allResultsValues[j]) < parseFloat(allResultsValues[j - 1])
+                    || parseFloat(allResultsConvValues[j]) < parseFloat(allResultsConvValues[j - 1])) {
                     var temp = allResultsSerials[j];
                     allResultsSerials[j] = allResultsSerials[j - 1];
                     allResultsSerials[j - 1] = temp;
