@@ -20,6 +20,8 @@ namespace SatcomRfWebsite.Models
         public string AvgResultConv { get; set; }
         public string StdDevConv { get; set; }
         public string UnitConv { get; set; }
+        public string LowLimit { get; set; }
+        public string UpLimit { get; set; }
         public string Cpk { get; set; }
 
         public TestData() { }

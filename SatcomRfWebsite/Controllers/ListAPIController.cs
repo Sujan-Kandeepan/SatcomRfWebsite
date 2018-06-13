@@ -263,6 +263,18 @@ namespace SatcomRfWebsite.Controllers
                     var tmpStd = Math.Sqrt(tempSum / rawtmp2.Count());
                     tmp.StdDev = Math.Round(tmpStd, rounding).ToString("G4", CultureInfo.InvariantCulture);
 
+                    tmp.UpLimit = raw.ElementAt(i).Value.UpLimit;
+                    if (tmp.UpLimit.Equals(""))
+                    {
+                        tmp.UpLimit = "---";
+                    }
+
+                    tmp.LowLimit = raw.ElementAt(i).Value.LowLimit;
+                    if (tmp.LowLimit.Equals(""))
+                    {
+                        tmp.LowLimit = "---";
+                    }
+
                     var cpu = Double.PositiveInfinity;
                     var cpl = Double.PositiveInfinity;
                     if (!raw.ElementAt(i).Value.UpLimit.Equals("NULL") && !raw.ElementAt(i).Value.UpLimit.Equals("") && !raw.ElementAt(i).Value.UpLimit.Equals("INCONSISTENT")) {
@@ -447,27 +459,27 @@ namespace SatcomRfWebsite.Controllers
             {
                 List<TestData> data = InternalGetTableData(modelName, productType);
                 string[][] headers = new string[1][];
-                headers[0] = new string[] { "Testname", "Channel #", "All Results", "Min", "Max", "Average", "Std. Deviation", "Unit", "All Results (Conv)", "Min (Conv)", "Max (Conv)", "Average (Conv)", "Std. Deviation (Conv)", "Unit (Conv)", "Cpk" };
+                headers[0] = new string[] { "Testname", "Channel", "Power", "All Results", "Min", "Max", "Average", "Std. Deviation", "Unit", "All Results (Conv)", "Min (Conv)", "Max (Conv)", "Average (Conv)", "Std. Deviation (Conv)", "Unit (Conv)", "LowLimit", "UpLimit", "Cpk" };
                 var file = new MemoryStream();
                 var document = new XLWorkbook();
                 var worksheet = document.Worksheets.Add("Table Data");
                 worksheet.Cell(1, 1).InsertData(headers);
                 worksheet.Cell(2, 1).InsertData(data);
                 var allResults = from item in data select String.Join("\r\n", (from result in item.AllResults select result[0] + ": " + result[1]).ToArray()).Trim();
-                int row = 2, column = 3;
+                int row = 2, column = 4;
                 foreach (var item in allResults)
                 {
                     worksheet.Cell(row++, column).SetValue(item != "" ? item : "---");
                 }
                 var allResultsConv = from item in data select String.Join("\r\n", (from result in item.AllResultsConv select result[0] + ": " + result[1]).ToArray()).Trim();
-                row = 2; column = 9;
+                row = 2; column = 10;
                 foreach (var item in allResultsConv)
                 {
                     worksheet.Cell(row++, column).SetValue(item != "" ? item : "---");
                 }
                 var style = document.Style;
                 style.Font.Bold = true;
-                worksheet.Range(1, 1, 1, 15).Style = style;
+                worksheet.Row(1).Style = style;
                 worksheet.Columns().AdjustToContents();
                 worksheet.RangeUsed().Style.Alignment.SetVertical(XLAlignmentVerticalValues.Top);
                 worksheet.SheetView.FreezeRows(1);
