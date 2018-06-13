@@ -8,14 +8,14 @@ namespace SatcomRfWebsite.Models
         public string TestName { get; set; }
         public string Channel { get; set; }
         public string Power { get; set; }
-        public List<List<string>> AllResults { get; set; }
+        public List<List<string>> AllResults { get; set; } // SN, Result, StartTime
         public string ExcelPlaceholder { get; set; }
         public string MinResult { get; set; }
         public string MaxResult { get; set; }
         public string AvgResult { get; set; }
         public string StdDev { get; set; }
         public string Unit { get; set; }
-        public List<List<string>> AllResultsConv { get; set; }
+        public List<List<string>> AllResultsConv { get; set; } // SN, ResultConv
         public string MinResultConv { get; set; }
         public string MaxResultConv { get; set; }
         public string AvgResultConv { get; set; }
