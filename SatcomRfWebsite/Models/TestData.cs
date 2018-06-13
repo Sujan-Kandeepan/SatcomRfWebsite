@@ -9,7 +9,8 @@ namespace SatcomRfWebsite.Models
         public string Channel { get; set; }
         public string Power { get; set; }
         public List<List<string>> AllResults { get; set; } // SN, Result, StartTime
-        public string ExcelPlaceholder { get; set; }
+        public string StartTimePlaceHolder { get; set; }
+        public string ResultsPlaceHolder { get; set; }
         public string MinResult { get; set; }
         public string MaxResult { get; set; }
         public string AvgResult { get; set; }

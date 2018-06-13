@@ -293,8 +293,6 @@ namespace SatcomRfWebsite.Controllers
                     tmp.AllResults = (from val in rawtmp select new List<string>() { val[0], Convert.ToDouble(val[1]).ToString("G4", CultureInfo.InvariantCulture), val[2] }).ToList();
                     tmp.AllResultsConv = new List<List<string>>();
 
-                    tmp.ExcelPlaceholder = "---";
-
                     tmp.UnitConv = "---";
                     tmp.MinResultConv = "---";
                     tmp.MaxResultConv = "---";
@@ -434,6 +432,9 @@ namespace SatcomRfWebsite.Controllers
                             break;
                     }
 
+                    tmp.StartTimePlaceHolder = "---";
+                    tmp.ResultsPlaceHolder = "---";
+
                     data.Add(tmp);
                 }
 
@@ -468,7 +469,7 @@ namespace SatcomRfWebsite.Controllers
             {
                 List<TestData> data = InternalGetTableData(modelName, productType);
                 string[][] headers = new string[1][];
-                headers[0] = new string[] { "Testname", "Channel", "Power", "All Results", "Start Times", "Min", "Max", "Average", "Std. Deviation", "Unit", "All Results (Conv)", "Min (Conv)", "Max (Conv)", "Average (Conv)", "Std. Deviation (Conv)", "Unit (Conv)", "LowLimit", "UpLimit", "Cpk" };
+                headers[0] = new string[] { "Testname", "Channel", "Power", "Serial Number", "Start Time", "Result", "Min", "Max", "Average", "Std. Deviation", "Unit", "Result (Conv)", "Min (Conv)", "Max (Conv)", "Average (Conv)", "Std. Deviation (Conv)", "Unit (Conv)", "LowLimit", "UpLimit", "Cpk" };
                 var file = new MemoryStream();
                 var document = new XLWorkbook();
                 var worksheet = document.Worksheets.Add("Table Data");
@@ -481,13 +482,15 @@ namespace SatcomRfWebsite.Controllers
                     {
                         worksheet.Cell(insertionIndex, 1).InsertData(new List<TestData>() { test });
 
-                        var result = test.AllResults[i][0] + ": " + test.AllResults[i][1];
-                        var resultConv = test.AllResultsConv[i][1].Equals("") ? "" : test.AllResultsConv[i][0] + ": " + test.AllResultsConv[i][1];
+                        var serial = test.AllResults[i][0];
+                        var result = test.AllResults[i][1];
+                        var resultConv = test.AllResultsConv[i][1];
                         var startTime = test.AllResults[i][2];
 
-                        worksheet.Cell(insertionIndex, 4).SetValue(result != "" ? result : "---");
-                        worksheet.Cell(insertionIndex, 11).SetValue(resultConv != "" ? resultConv : "---");
+                        worksheet.Cell(insertionIndex, 4).SetValue(serial != "" ? serial : "---");
                         worksheet.Cell(insertionIndex, 5).SetValue(startTime != "" ? startTime : "---");
+                        worksheet.Cell(insertionIndex, 6).SetValue(result != "" ? result : "---");
+                        worksheet.Cell(insertionIndex, 12).SetValue(resultConv != "" ? resultConv : "---");
 
                         insertionIndex++;
                     }
