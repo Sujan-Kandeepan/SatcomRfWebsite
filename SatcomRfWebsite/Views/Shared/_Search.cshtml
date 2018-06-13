@@ -454,20 +454,20 @@
 
 <script>
     function sendStats() {
-        var productType = selectProductType.value;
-        var modelName = selectModelName.value;
+        var pT = selectProductType.value;
+        var mN = selectModelName.value;
 
         var newurl;
-        if (productType == "") {
-            newurl = location.origin + "/SatcomStatsPage";
+        if (pT == "") {
+            newurl = "/SatcomStatsPage";
         }
-        else if (modelName == "") {
-            newurl = location.origin + "/SatcomStatsPage/Index/" + productType;
+        else if (mN == "") {
+            newurl = "/SatcomStatsPage/Index/" + pT;
         }
         else {
-            newurl = location.origin + "/SatcomStatsPage/Index/" + productType + "/" + modelName;
+            newurl = "/SatcomStatsPage/Index/" + pT + "/" + mN;
         }
-        document.getElementById("navBarStats").innerHTML = "<a href=\"" + document.URL + "\">Statistics</a>";
+        document.getElementById("navBarStats").innerHTML = "<a href=\"" + newurl + "\">Statistics</a>";
     }
 
     function sendOutput() {
@@ -481,16 +481,16 @@
 
         var newurl;
         if (document.URL.indexOf("TestResults") == document.URL.length - 11) {
-            newurl = location.origin + "/ateData/AteOutput";
+            newurl = "/ateData/AteOutput";
         }
         else {
-            newurl = location.origin + "/ateData/AteOutput?filter=pT=" + pT + "%mN=" + mN + "%ser=na%testType=" + testType + "%tubeName=" + tubeName + "%opt=" + opt + "";
+            newurl = "/ateData/AteOutput?filter=pT=" + pT + "%mN=" + mN + "%ser=na%testType=" + testType + "%tubeName=" + tubeName + "%opt=" + opt + "";
         }
         document.getElementById("navBarAteOutput").innerHTML = "<a href=\"" + newurl + "\">ATE Output</a>";
     }
 
     function sendResults() {
-        document.getElementById("navBarTests").innerHTML = "<a href=\"" + document.URL + "\">Test Results</a>";
+        document.getElementById("navBarTests").innerHTML = "<a href=\"" + location.pathname + "\">Test Results</a>";
     }
 
     sendStats();

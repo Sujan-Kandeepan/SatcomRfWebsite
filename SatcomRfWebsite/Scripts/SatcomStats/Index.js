@@ -279,19 +279,19 @@ function getxlsxfile(productType, modelName) {
 }
 
 function sendStats() {
-    document.getElementById("navBarStats").innerHTML = "<a href=\"" + document.URL + "\">Statistics</a>";
+    document.getElementById("navBarStats").innerHTML = "<a href=\"" + location.pathname + "\">Statistics</a>";
 }
 
 function sendOutput(productType, modelName) {
     var newurl;
     if (productType == "default") {
-        newurl = location.origin + "/ateData/AteOutput";
+        newurl = "/ateData/AteOutput";
     }
     else if (modelName == "default") {
-        newurl = location.origin + "/ateData/AteOutput/?filter=pT=" + productType + "%mN=na%ser=na%testType=na%tubeName=na%opt=na";
+        newurl = "/ateData/AteOutput/?filter=pT=" + productType + "%mN=na%ser=na%testType=na%tubeName=na%opt=na";
     }
     else {
-        newurl = location.origin + "/ateData/AteOutput/?filter=pT=" + productType + "%mN=" + modelName + "%ser=na%testType=na%tubeName=na%opt=na";
+        newurl = "/ateData/AteOutput/?filter=pT=" + productType + "%mN=" + modelName + "%ser=na%testType=na%tubeName=na%opt=na";
     }
     document.getElementById("navBarAteOutput").innerHTML = "<a href=\"" + newurl + "\">ATE Output</a>";
 }
@@ -299,13 +299,13 @@ function sendOutput(productType, modelName) {
 function sendResults(productType, modelName) {
     var newurl;
     if (productType == "default") {
-        newurl = location.origin + "/testsData/TestResults";
+        newurl = "/testsData/TestResults";
     }
     else if (modelName == "default") {
-        newurl = location.origin + "/testsData/TestResults/" + productType;
+        newurl = "/testsData/TestResults/" + productType;
     }
     else {
-        newurl = location.origin + "/testsData/TestResults/" + productType + "/" + modelName;
+        newurl = "/testsData/TestResults/" + productType + "/" + modelName;
     }
     document.getElementById("navBarTests").innerHTML = "<a href=\"" + newurl + "\">Test Results</a>";
 }

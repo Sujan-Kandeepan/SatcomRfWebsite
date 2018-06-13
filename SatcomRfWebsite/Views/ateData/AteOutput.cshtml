@@ -9,19 +9,19 @@
         function sendStats() {
             var newurl;
             if (selectProductType.value == "") {
-                newurl = location.origin + "/SatcomStatsPage";
+                newurl = "/SatcomStatsPage";
             }
             else if (selectModelName.value == "") {
-                newurl = location.origin + "/SatcomStatsPage/Index/" + selectProductType.value;
+                newurl = "/SatcomStatsPage/Index/" + selectProductType.value;
             }
             else {
-                newurl = location.origin + "/SatcomStatsPage/Index/" + selectProductType.value + "/" + selectModelName.value;
+                newurl = "/SatcomStatsPage/Index/" + selectProductType.value + "/" + selectModelName.value;
             }
             document.getElementById("navBarStats").innerHTML = "<a href=\"" + newurl + "\">Statistics</a>";
         }
 
         function sendOutput() {
-            document.getElementById("navBarAteOutput").innerHTML = "<a href=\"" + document.URL + "\">ATE Output</a>";
+            document.getElementById("navBarAteOutput").innerHTML = "<a href=\"" + location.pathname + "\">ATE Output</a>";
         }
 
         function sendResults() {
@@ -35,16 +35,16 @@
 
             var newurl;
             if (pT == "") {
-                newurl = location.origin + "/testsData/TestResults";
+                newurl = "/testsData/TestResults";
             }
             else if (mN == "") {
-                newurl = location.origin + "/testsData/TestResults/" + pT;
+                newurl = "/testsData/TestResults/" + pT;
             }
             else if (testType == "" && tubeName == "" && opt == "") {
-                newurl = location.origin + "/testsData/TestResults/" + pT + "/" + mN;
+                newurl = "/testsData/TestResults/" + pT + "/" + mN;
             }
             else {
-                newurl = location.origin + "/testsData/TestResults/" + pT + "/" + mN + "/testType=" + (testType == "" ? "none" : testType) + "+tubeName=" + (tubeName == "" ? "none" : tubeName) + "+opt=" + (opt == "" ? "none" : opt);
+                newurl = "/testsData/TestResults/" + pT + "/" + mN + "/testType=" + (testType == "" ? "none" : testType) + "+tubeName=" + (tubeName == "" ? "none" : tubeName) + "+opt=" + (opt == "" ? "none" : opt);
             }
             document.getElementById("navBarTests").innerHTML = "<a href=\"" + newurl + "\">Test Results</a>";
 
