@@ -478,10 +478,10 @@ namespace SatcomRfWebsite.Controllers
                 var insertionIndex = 2;
                 foreach (TestData test in data)
                 {
+                    worksheet.Cell(insertionIndex, 1).InsertData(new List<TestData>() { test });
+
                     for (int i = 0; i < test.AllResults.Count(); i++)
                     {
-                        worksheet.Cell(insertionIndex, 1).InsertData(new List<TestData>() { test });
-
                         var serial = test.AllResults[i][0];
                         var result = test.AllResults[i][1];
                         var resultConv = test.AllResultsConv[i][1];
@@ -522,6 +522,7 @@ namespace SatcomRfWebsite.Controllers
                 worksheet.Columns().AdjustToContents();
                 worksheet.RangeUsed().Style.Alignment.SetVertical(XLAlignmentVerticalValues.Top);
                 worksheet.SheetView.FreezeRows(1);
+                worksheet.SheetView.FreezeColumns(1);
                 document.SaveAs(file);
                 string filename = DateTime.Now.ToString("yyyy-MM-dd") + $" {productType} {modelName}.xlsx";
                 var resp = new ExcelFileResponse(file.ToArray(), Request, filename);
