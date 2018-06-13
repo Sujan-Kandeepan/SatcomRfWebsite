@@ -121,46 +121,6 @@
                         "scrollY": @yscroll
                     });
 
-                    function sendStats() {
-                        var pT = selectProductType.value;
-                        var mN = selectModelName.value;
-
-                        var newurl;
-                        if (pT == "") {
-                            newurl = "/SatcomStatsPage";
-                        }
-                        else if (mN == "") {
-                            newurl = "/SatcomStatsPage/Index/" + pT;
-                        }
-                        else {
-                            newurl = "/SatcomStatsPage/Index/" + pT + "/" + mN;
-                        }
-                        document.getElementById("navBarStats").innerHTML = "<a href=\"" + newurl + "\">Statistics</a>";
-                    }
-
-                    function sendOutput() {
-                        //alert("¯\\_(ツ)_/¯");
-
-                        var pT = selectProductType.value != "" ? selectProductType.value : "na";
-                        var mN = selectModelName.value != "" ? selectModelName.value : "na";
-                        var testType = selectTestType.value != "" ? selectTestType.value : "na";
-                        var tubeName = selectTubeName.value != "" ? selectTubeName.value : "na";
-                        var opt = selectOptions.value != "" ? selectOptions.value : "na";
-
-                        var newurl;
-                        if (document.URL.indexOf("TestResults") == document.URL.length - 11) {
-                            newurl = "/ateData/AteOutput";
-                        }
-                        else {
-                            newurl = "/ateData/AteOutput?filter=pT=" + pT + "%mN=" + mN + "%ser=na%testType=" + testType + "%tubeName=" + tubeName + "%opt=" + opt + "";
-                        }
-                        document.getElementById("navBarAteOutput").innerHTML = "<a href=\"" + newurl + "\">ATE Output</a>";
-                    }
-
-                    function sendResults() {
-                        document.getElementById("navBarTests").innerHTML = "<a href=\"" + location.pathname + "\">Test Results</a>";
-                    }
-
                     sendStats();
                     sendOutput();
                     sendResults();
