@@ -59,7 +59,8 @@ namespace SatcomRfWebsite.Controllers
         [NonAction]
         private int Compare(TestData lhs, TestData rhs)
         {
-            if (lhs.TestName == rhs.TestName && lhs.Channel != "" && rhs.Channel != "")
+            if (lhs.TestName == rhs.TestName && !string.IsNullOrEmpty(lhs.Channel) && !string.IsNullOrEmpty(rhs.Channel) 
+                && !string.IsNullOrEmpty(lhs.Power) && !string.IsNullOrEmpty(rhs.Power))
             {
                 int numlhs, numrhs;
                 bool trylhs = int.TryParse(lhs.Channel, out numlhs);
@@ -71,7 +72,14 @@ namespace SatcomRfWebsite.Controllers
                 }
                 else
                 {
-                    return lhs.Channel.CompareTo(rhs.Channel);
+                    if (lhs.Channel.CompareTo(rhs.Channel) != 0)
+                    {
+                        return lhs.Channel.CompareTo(rhs.Channel);
+                    }
+                    else
+                    {
+                        return lhs.Power.CompareTo(rhs.Power);
+                    }
                 }
             }
 
