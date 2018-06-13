@@ -181,10 +181,13 @@ function fillModal(testName, channel, allResultsString, allResultsConvString, un
     var allResultsSerials = [], allResultsValues = [], allResultsConvValues = [];
 
     for (var i = 0; i < allResultsJoined.length; i++) {
-        if (i % 2 == 0) {
+        if (i % 3 == 0) {
             allResultsSerials.push(allResultsJoined[i]);
-        } else {
+        } else if (i % 3 == 1){
             allResultsValues.push(allResultsJoined[i]);
+        }
+
+        if (i % 2 == 1) {
             allResultsConvValues.push(allResultsConvJoined[i]);
         }
     }
