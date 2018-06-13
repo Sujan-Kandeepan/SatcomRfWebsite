@@ -361,6 +361,13 @@ namespace SatcomRfWebsite.Controllers
                             smallW = temp;
 
                             break;
+                        default:
+                            foreach (var item in rawtmp)
+                            {
+                                tmp.AllResultsConv.Add(new List<string>() { item[0], "" });
+                            }
+
+                            break;
                     }
 
                     if (tmp.Unit.Contains("dB"))
@@ -466,7 +473,27 @@ namespace SatcomRfWebsite.Controllers
                 var document = new XLWorkbook();
                 var worksheet = document.Worksheets.Add("Table Data");
                 worksheet.Cell(1, 1).InsertData(headers);
-                worksheet.Cell(2, 1).InsertData(data);
+                //worksheet.Cell(2, 1).InsertData(data);
+                var insertionIndex = 2;
+                foreach (TestData test in data)
+                {
+                    for (int i = 0; i < test.AllResults.Count(); i++)
+                    {
+                        worksheet.Cell(insertionIndex, 1).InsertData(new List<TestData>() { test });
+
+                        var result = test.AllResults[i][0] + ": " + test.AllResults[i][1];
+                        var resultConv = test.AllResultsConv[i][1].Equals("") ? "" : test.AllResultsConv[i][0] + ": " + test.AllResultsConv[i][1];
+                        var startTime = test.AllResults[i][2];
+
+                        worksheet.Cell(insertionIndex, 4).SetValue(result != "" ? result : "---");
+                        worksheet.Cell(insertionIndex, 11).SetValue(resultConv != "" ? resultConv : "---");
+                        worksheet.Cell(insertionIndex, 5).SetValue(startTime != "" ? startTime : "---");
+
+                        insertionIndex++;
+                    }
+                    worksheet.Cell(insertionIndex++, 1).InsertData(new string[] { });
+                }
+                /*
                 var allResults = from item in data select String.Join("\r\n", (from result in item.AllResults select result[0] + ": " + result[1]).ToArray()).Trim();
                 int row = 2, column = 4;
                 foreach (var item in allResults)
@@ -485,6 +512,7 @@ namespace SatcomRfWebsite.Controllers
                 {
                     worksheet.Cell(row++, column).SetValue(item != "" ? item : "---");
                 }
+                */
                 var style = document.Style;
                 style.Font.Bold = true;
                 worksheet.Row(1).Style = style;
