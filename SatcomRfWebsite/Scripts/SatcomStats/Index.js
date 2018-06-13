@@ -80,7 +80,7 @@ function getProductTypes(selected) {
 }
 
 function buildTable(tableData) {
-    var result = "<tr><th>Test Name</th><th>Channel</th><th>Minimum</th><th>Maximum</th><th>Average</th><th>Standard Deviation</th><th>Cpk</th><th></th></tr>";
+    var result = "<tr><th>Test Name</th><th>Channel</th><th>Power</th><th>Minimum</th><th>Maximum</th><th>Average</th><th>Standard Deviation</th><th>Cpk</th><th></th></tr>";
     for (var i = 0; i < tableData.length; i++) {
         var unit = "";
          
@@ -102,10 +102,10 @@ function buildTable(tableData) {
 
         if (unit.indexOf("dB") !== -1)
         {
-            result += "<tr><td>" + tableData[i].TestName + "</td><td>" + tableData[i].Channel + "</td><td>" + tableData[i].MinResult + unit + "</br>"
-                + tableData[i].MinResultConv + unitConv + "</td><td>" + tableData[i].MaxResult + unit + "</br>" + tableData[i].MaxResultConv
-                + unitConv + "</td><td>" + tableData[i].AvgResult + unit + "</br>" + tableData[i].AvgResultConv + unitConv + "</td><td>"
-                + tableData[i].StdDev + unit + "</br>" + tableData[i].StdDevConv + unitConv + "</td><td>" + tableData[i].Cpk + "</td><td>" +
+            result += "<tr><td>" + tableData[i].TestName + "</td><td>" + tableData[i].Channel + "</td><td>" + tableData[i].Power + "</td><td>"
+                + tableData[i].MinResult + unit + "</br>" + tableData[i].MinResultConv + unitConv + "</td><td>" + tableData[i].MaxResult + unit + "</br>"
+                + tableData[i].MaxResultConv + unitConv + "</td><td>" + tableData[i].AvgResult + unit + "</br>" + tableData[i].AvgResultConv + unitConv
+                + "</td><td>" + tableData[i].StdDev + unit + "</br>" + tableData[i].StdDevConv + unitConv + "</td><td>" + tableData[i].Cpk + "</td><td>" +
                 "<input type=\"button\" class=\"btn btn-link\" name=\"graph\" data-toggle=\"modal\" data-target=\"#allResultsModal\" onclick=\"fillModal(\'"
                 + tableData[i].TestName + "\', \'" + tableData[i].Channel + "\', \'" + tableData[i].AllResults.toString() +
                 "\', \'" + tableData[i].AllResultsConv.toString() + "\', \'" + tableData[i].Unit + "\', \'" + tableData[i].UnitConv +
@@ -113,8 +113,9 @@ function buildTable(tableData) {
         }
         else
         {
-            result += "<tr><td>" + tableData[i].TestName + "</td><td>" + tableData[i].Channel + "</td><td>" + tableData[i].MinResult + unit + "</td><td>"
-                + tableData[i].MaxResult + unit + "</td><td>" + tableData[i].AvgResult + unit + "</td><td>" + tableData[i].StdDev + unit + "</td><td>" + tableData[i].Cpk + "</td><td>" +
+            result += "<tr><td>" + tableData[i].TestName + "</td><td>" + tableData[i].Channel + "</td><td>" + tableData[i].Power + "</td><td>"
+                + tableData[i].MinResult + unit + "</td><td>" + tableData[i].MaxResult + unit + "</td><td>" + tableData[i].AvgResult + unit + "</td><td>"
+                + tableData[i].StdDev + unit + "</td><td>" + tableData[i].Cpk + "</td><td>" +
                 "<input type=\"button\" class=\"btn btn-link\" name=\"graph\" data-toggle=\"modal\" data-target=\"#allResultsModal\" onclick=\"fillModal(\'"
                 + tableData[i].TestName + "\', \'" + tableData[i].Channel + "\', \'" + tableData[i].AllResults.toString() +
                 "\', \'N/A\', \'" + tableData[i].Unit + "\', \'N/A\', \'sn\')\" value=\"View All Results\" />" + "</td></tr>";

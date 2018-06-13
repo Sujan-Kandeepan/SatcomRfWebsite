@@ -7,6 +7,7 @@ namespace SatcomRfWebsite.Models
     {
         public string TestName { get; set; }
         public string Channel { get; set; }
+        public string Power { get; set; }
         public List<List<string>> AllResults { get; set; }
         public string MinResult { get; set; }
         public string MaxResult { get; set; }
@@ -28,15 +29,17 @@ namespace SatcomRfWebsite.Models
     {
         public string TestName { get; set; }
         public string Channel { get; set; }
+        public string Power { get; set; }
         public string Units { get; set; }
         public List<List<string>> Results { get; set; }
         public string LowLimit { get; set; }
         public string UpLimit { get; set; }
 
-        public TestInfo(string inTestName, string inChannel, string inUnits, List<List<string>> inResults, string inLowLimit, string inUpLimit)
+        public TestInfo(string inTestName, string inChannel, string inPower, string inUnits, List<List<string>> inResults, string inLowLimit, string inUpLimit)
         {
             TestName = inTestName;
             Channel = inChannel;
+            Power = inPower;
             Units = inUnits;
             Results = inResults;
             LowLimit = inLowLimit;
