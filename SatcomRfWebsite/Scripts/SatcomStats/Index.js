@@ -279,7 +279,7 @@ function getxlsxfile(productType, modelName) {
 }
 
 function sendStats() {
-    document.getElementById("statspage").innerHTML = "<a href=\"" + document.URL + "\">Statistics</a>";
+    document.getElementById("navBarStats").innerHTML = "<a href=\"" + document.URL + "\">Statistics</a>";
 }
 
 function sendOutput(productType, modelName) {
