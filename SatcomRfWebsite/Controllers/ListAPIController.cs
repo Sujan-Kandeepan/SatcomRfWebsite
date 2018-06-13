@@ -163,11 +163,11 @@ namespace SatcomRfWebsite.Controllers
 
                 if (productType.ToUpper().Contains("GENIV"))
                 {
-                    cmd.CommandText = "SELECT TestName,Result,Units,Channel,LowLimit,UpLimit FROM dbo.tblKLYTestResults WHERE ModelSn = @sn AND NOT Result = 'PASS' AND NOT Result = 'FAIL';";
+                    cmd.CommandText = "SELECT TestName,Result,Units,Channel,LowLimit,UpLimit,P2 FROM dbo.tblKLYTestResults WHERE ModelSn = @sn AND NOT Result = 'PASS' AND NOT Result = 'FAIL';";
                 }
                 else
                 {
-                    cmd.CommandText = "SELECT TestName,Result,Units,Channel,LowLimit,UpLimit FROM dbo.tblTWTTestResults WHERE ModelSn = @sn AND NOT Result = 'PASS' AND NOT Result = 'FAIL';";
+                    cmd.CommandText = "SELECT TestName,Result,Units,Channel,LowLimit,UpLimit,P2 FROM dbo.tblTWTTestResults WHERE ModelSn = @sn AND NOT Result = 'PASS' AND NOT Result = 'FAIL';";
                 }
 
                 var snParam = new SqlParameter("@sn", SqlDbType.NVarChar, 25);
@@ -183,10 +183,10 @@ namespace SatcomRfWebsite.Controllers
                     while (sqlResult2.Read())
                     {
                         var tmp2 = (IDataRecord)sqlResult2;
-                        var tinfo = new TestInfo(tmp2["TestName"].ToString(), tmp2["Channel"].ToString(),
+                        var tinfo = new TestInfo(tmp2["TestName"].ToString(), tmp2["Channel"].ToString(), tmp2["P2"].ToString(),
                             tmp2["Units"].ToString(), new List<List<string>>() { new List<string>() { i, tmp2["Result"].ToString() } },
                             tmp2["LowLimit"].ToString(), tmp2["UpLimit"].ToString());
-                        var key = tmp2["TestName"].ToString() + tmp2["Channel"].ToString();
+                        var key = tmp2["TestName"].ToString() + tmp2["Channel"].ToString() + tmp2["P2"].ToString();
 
                         if (raw.ContainsKey(key))
                         {
@@ -242,6 +242,7 @@ namespace SatcomRfWebsite.Controllers
                     tmp.TestName = raw.ElementAt(i).Value.TestName;
                     tmp.Unit = raw.ElementAt(i).Value.Units;
                     tmp.Channel = (string.IsNullOrEmpty(raw.ElementAt(i).Value.Channel) ? "N/A" : raw.ElementAt(i).Value.Channel);
+                    tmp.Power = (string.IsNullOrEmpty(raw.ElementAt(i).Value.Power) ? "N/A" : raw.ElementAt(i).Value.Power);
                     tmp.MinResult = Math.Round(rawtmp2.Min(), rounding).ToString("G4", CultureInfo.InvariantCulture);
                     tmp.MaxResult = Math.Round(rawtmp2.Max(), rounding).ToString("G4", CultureInfo.InvariantCulture);
                     tmp.AvgResult = Math.Round(rawtmp2.Average(), rounding).ToString("G4", CultureInfo.InvariantCulture);
