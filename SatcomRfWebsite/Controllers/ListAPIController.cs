@@ -171,11 +171,11 @@ namespace SatcomRfWebsite.Controllers
 
                 if (productType.ToUpper().Contains("GENIV"))
                 {
-                    cmd.CommandText = "SELECT TestName,Result,Units,Channel,LowLimit,UpLimit,P2 FROM dbo.tblKLYTestResults WHERE ModelSn = @sn AND NOT Result = 'PASS' AND NOT Result = 'FAIL';";
+                    cmd.CommandText = "SELECT TestName,StartTime,Result,Units,Channel,LowLimit,UpLimit,P2 FROM dbo.tblKLYTestResults WHERE ModelSn = @sn AND NOT Result = 'PASS' AND NOT Result = 'FAIL';";
                 }
                 else
                 {
-                    cmd.CommandText = "SELECT TestName,Result,Units,Channel,LowLimit,UpLimit,P2 FROM dbo.tblTWTTestResults WHERE ModelSn = @sn AND NOT Result = 'PASS' AND NOT Result = 'FAIL';";
+                    cmd.CommandText = "SELECT TestName,StartTime,Result,Units,Channel,LowLimit,UpLimit,P2 FROM dbo.tblTWTTestResults WHERE ModelSn = @sn AND NOT Result = 'PASS' AND NOT Result = 'FAIL';";
                 }
 
                 var snParam = new SqlParameter("@sn", SqlDbType.NVarChar, 25);
@@ -192,13 +192,13 @@ namespace SatcomRfWebsite.Controllers
                     {
                         var tmp2 = (IDataRecord)sqlResult2;
                         var tinfo = new TestInfo(tmp2["TestName"].ToString(), tmp2["Channel"].ToString(), tmp2["P2"].ToString(),
-                            tmp2["Units"].ToString(), new List<List<string>>() { new List<string>() { i, tmp2["Result"].ToString() } },
+                            tmp2["Units"].ToString(), new List<List<string>>() { new List<string>() { i, tmp2["Result"].ToString(), tmp2["StartTime"].ToString() } },
                             tmp2["LowLimit"].ToString(), tmp2["UpLimit"].ToString());
                         var key = tmp2["TestName"].ToString() + tmp2["Channel"].ToString() + tmp2["P2"].ToString();
 
                         if (raw.ContainsKey(key))
                         {
-                            raw[key].Results.Add(new List<string>() { i, tmp2["Result"].ToString() });
+                            raw[key].Results.Add(new List<string>() { i, tmp2["Result"].ToString(), tmp2["StartTime"].ToString() });
                             if (!raw[key].UpLimit.Equals(tmp2["UpLimit"].ToString()))
                             {
                                 raw[key].UpLimit = "Variable (spec)";
@@ -245,7 +245,7 @@ namespace SatcomRfWebsite.Controllers
                     var tmp = new TestData();
                     //foreach (String x in raw.ElementAt(i).Value.Results.OrderBy(x => Convert.ToDouble(Regex.Replace(val[1].Replace("Below ", "").Replace("+/-", "").Replace(":1", ""), "[^0-9.E-]", "")))) { System.Diagnostics.Debug.Write("<" + x + "> "); }
                     //System.Diagnostics.Debug.WriteLine("");
-                    var rawtmp = from val in raw.ElementAt(i).Value.Results select new List<string>() { val[0], Regex.Replace(val[1].Replace("Below ", "").Replace("+/-", "").Replace(":1", ""), "[^0-9.E-]", "") };
+                    var rawtmp = from val in raw.ElementAt(i).Value.Results select new List<string>() { val[0], Regex.Replace(val[1].Replace("Below ", "").Replace("+/-", "").Replace(":1", ""), "[^0-9.E-]", ""), val[2] };
                     var rawtmp2 = from val in rawtmp select Convert.ToDouble(val[1]);
                     tmp.TestName = raw.ElementAt(i).Value.TestName;
                     tmp.Unit = raw.ElementAt(i).Value.Units;
@@ -290,8 +290,10 @@ namespace SatcomRfWebsite.Controllers
                         tmp.Cpk = "---";
                     }
 
-                    tmp.AllResults = (from val in rawtmp select new List<string>() { val[0], Convert.ToDouble(val[1]).ToString("G4", CultureInfo.InvariantCulture) }).ToList();
+                    tmp.AllResults = (from val in rawtmp select new List<string>() { val[0], Convert.ToDouble(val[1]).ToString("G4", CultureInfo.InvariantCulture), val[2] }).ToList();
                     tmp.AllResultsConv = new List<List<string>>();
+
+                    tmp.ExcelPlaceholder = "---";
 
                     tmp.UnitConv = "---";
                     tmp.MinResultConv = "---";
@@ -459,7 +461,7 @@ namespace SatcomRfWebsite.Controllers
             {
                 List<TestData> data = InternalGetTableData(modelName, productType);
                 string[][] headers = new string[1][];
-                headers[0] = new string[] { "Testname", "Channel", "Power", "All Results", "Min", "Max", "Average", "Std. Deviation", "Unit", "All Results (Conv)", "Min (Conv)", "Max (Conv)", "Average (Conv)", "Std. Deviation (Conv)", "Unit (Conv)", "LowLimit", "UpLimit", "Cpk" };
+                headers[0] = new string[] { "Testname", "Channel", "Power", "All Results", "StartTimes", "Min", "Max", "Average", "Std. Deviation", "Unit", "All Results (Conv)", "Min (Conv)", "Max (Conv)", "Average (Conv)", "Std. Deviation (Conv)", "Unit (Conv)", "LowLimit", "UpLimit", "Cpk" };
                 var file = new MemoryStream();
                 var document = new XLWorkbook();
                 var worksheet = document.Worksheets.Add("Table Data");
@@ -472,8 +474,14 @@ namespace SatcomRfWebsite.Controllers
                     worksheet.Cell(row++, column).SetValue(item != "" ? item : "---");
                 }
                 var allResultsConv = from item in data select String.Join("\r\n", (from result in item.AllResultsConv select result[0] + ": " + result[1]).ToArray()).Trim();
-                row = 2; column = 10;
+                row = 2; column = 11;
                 foreach (var item in allResultsConv)
+                {
+                    worksheet.Cell(row++, column).SetValue(item != "" ? item : "---");
+                }
+                var startTimes = from item in data select String.Join("\r\n", (from result in item.AllResults select result[2]).ToArray()).Trim();
+                row = 2; column = 5;
+                foreach (var item in startTimes)
                 {
                     worksheet.Cell(row++, column).SetValue(item != "" ? item : "---");
                 }
