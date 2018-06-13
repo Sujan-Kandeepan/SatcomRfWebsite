@@ -201,11 +201,11 @@ namespace SatcomRfWebsite.Controllers
                             raw[key].Results.Add(new List<string>() { i, tmp2["Result"].ToString() });
                             if (!raw[key].UpLimit.Equals(tmp2["UpLimit"].ToString()))
                             {
-                                raw[key].UpLimit = "INCONSISTENT";
+                                raw[key].UpLimit = "Variable (spec)";
                             }
                             if (!raw[key].LowLimit.Equals(tmp2["LowLimit"].ToString()))
                             {
-                                raw[key].LowLimit = "INCONSISTENT";
+                                raw[key].LowLimit = "Variable (spec)";
                             }
                         }
                         else
@@ -277,15 +277,15 @@ namespace SatcomRfWebsite.Controllers
 
                     var cpu = Double.PositiveInfinity;
                     var cpl = Double.PositiveInfinity;
-                    if (!raw.ElementAt(i).Value.UpLimit.Equals("NULL") && !raw.ElementAt(i).Value.UpLimit.Equals("") && !raw.ElementAt(i).Value.UpLimit.Equals("INCONSISTENT")) {
+                    if (!raw.ElementAt(i).Value.UpLimit.Equals("NULL") && !raw.ElementAt(i).Value.UpLimit.Equals("") && !raw.ElementAt(i).Value.UpLimit.Equals("Variable (spec)")) {
                         cpu = (Convert.ToDouble(Regex.Replace(raw.ElementAt(i).Value.UpLimit.Replace("Below ", "").Replace("+/-", "").Replace(":1", ""), "[^0-9.E-]", "")) - Convert.ToDouble(tmp.AvgResult)) / (3 * tmpStd);
                     }
-                    if (!raw.ElementAt(i).Value.LowLimit.Equals("NULL") && !raw.ElementAt(i).Value.LowLimit.Equals("") && !raw.ElementAt(i).Value.LowLimit.Equals("INCONSISTENT"))
+                    if (!raw.ElementAt(i).Value.LowLimit.Equals("NULL") && !raw.ElementAt(i).Value.LowLimit.Equals("") && !raw.ElementAt(i).Value.LowLimit.Equals("Variable (spec)"))
                     {
                         cpl = (Convert.ToDouble(tmp.AvgResult) - Convert.ToDouble(Regex.Replace(raw.ElementAt(i).Value.LowLimit.Replace("Below ", "").Replace("+/-", "").Replace(":1", ""), "[^0-9.E-]", ""))) / (3 * tmpStd);
                     }
                     tmp.Cpk = Math.Round(Math.Min(cpu, cpl), rounding).ToString("G4", CultureInfo.InvariantCulture);
-                    if (raw.ElementAt(i).Value.UpLimit.Equals("INCONSISTENT") || raw.ElementAt(i).Value.LowLimit.Equals("INCONSISTENT"))
+                    if (raw.ElementAt(i).Value.UpLimit.Equals("Variable (spec)") || raw.ElementAt(i).Value.LowLimit.Equals("Variable (spec)"))
                     {
                         tmp.Cpk = "---";
                     }
