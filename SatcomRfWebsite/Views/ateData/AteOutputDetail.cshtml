@@ -151,7 +151,7 @@
                            tableOpen = new HtmlString(String.Format("<table id='table_id_{0}' class='display'>", counter));
                             <hr />
         
-                            <div class="row"><h2>@Html.Raw(item.TestNameNoDigit)</h2></div>
+                            <div class="row"><h2 id="@Html.Raw(item.TestName)">@Html.Raw(item.TestName)</h2></div>
         
                             @divOpen
                             @tableOpen <!--<table id="table_id_" class="display">-->
