@@ -75,49 +75,13 @@
             <strong>Error:</strong> Failed to generate Excel file.
         </div>
 
-        <div class="col-lg-9" style="margin-top: -20px; margin-bottom: 20px">
+        <div class="col-lg-6" style="margin-top: -20px; margin-bottom: 20px">
             <div class="display"><h3>View complete data with the applied filters.</h3></div>
         </div>
 
-        <div class="col-lg-3">
-            <input type="button" class="form-control btn btn-success" id="dlxlsx" name="dlbtn" onclick="getxlsxfile(selectProductType.value, selectModelName.value)" value="Download as Excel file (.xlsx)" />
-        </div> <!--Another button can go here, possibly-->
-
-        <script>
-            function getxlsxfile(productType, modelName) {
-                if (modelName == "") {
-                    document.getElementById("selection-failed").classList.remove("hide");
-                }
-                else {
-                    var src = document.location.origin + "/api/ListAPI/GetTableFile?modelName=" + modelName + "&productType=" + productType;
-                    var data = new XMLHttpRequest();
-                    data.onreadystatechange = function () {
-                        if (this.readyState === 4 && this.status === 200) {
-                            document.getElementById("excel-loading").classList.add("hide");
-                        } else if (this.readyState == 4 && this.status !== 200) {
-                            document.getElementById("excel-loading").classList.add("hide");
-                            document.getElementById("excel-failed").classList.remove("hide");
-                        }
-                    };
-
-                    document.getElementById("excel-loading").classList.remove("hide");
-
-                    data.open("GET", src, true);
-                    data.send();
-
-                    document.getElementById("iframe-temp").innerHTML = "<iframe style=\"display:none\" src=\"" + document.location.origin +
-                        "/api/ListAPI/GetTableFile?modelName=" + modelName + "&productType=" + productType + "\"></iframe>";
-                }
-            }
-        </script>
-    </div>
-
-    <div class="row" style="margin-bottom: 20px">
         <div class="col-lg-2">
             <button id='filterReset' class="btn btn-block" type="button" onclick='resetFilter()'>Reset Filter</button>
         </div>
-
-        <div class="col-lg-4"></div>
 
         <script>
             $(document).ready(function () {
@@ -151,49 +115,34 @@
             }
         </script>
 
-        <div class="col-lg-3">
-            <button id='stats' class="btn btn-primary btn-block" type="button" onclick='viewStats()'>View complete test statistics</button>
-        </div>
+        <div class="col-lg-4">
+            <input type="button" class="form-control btn btn-success" id="dlxlsx" name="dlbtn" onclick="getxlsxfile(selectProductType.value, selectModelName.value)" value="Download as Excel file (.xlsx)" />
+        </div> <!--Another button can go here, possibly-->
 
         <script>
-            function viewStats() {
-                if (selectProductType.value == "") {
-                    location.href = location.origin + "/SatcomStatsPage";
-                }
-                else if (selectModelName.value == "") {
-                    location.href = location.origin + "/SatcomStatsPage/Index/" + selectProductType.value;
+            function getxlsxfile(productType, modelName) {
+                if (modelName == "") {
+                    document.getElementById("selection-failed").classList.remove("hide");
                 }
                 else {
-                    location.href = location.origin + "/SatcomStatsPage/Index/" + selectProductType.value + "/" + selectModelName.value;
-                }
-            }
-        </script>
+                    var src = document.location.origin + "/api/ListAPI/GetTableFile?modelName=" + modelName + "&productType=" + productType;
+                    var data = new XMLHttpRequest();
+                    data.onreadystatechange = function () {
+                        if (this.readyState === 4 && this.status === 200) {
+                            document.getElementById("excel-loading").classList.add("hide");
+                        } else if (this.readyState == 4 && this.status !== 200) {
+                            document.getElementById("excel-loading").classList.add("hide");
+                            document.getElementById("excel-failed").classList.remove("hide");
+                        }
+                    };
 
-        <div class="col-lg-3">
-            <button id='testResults' class="btn btn-primary btn-block" type="button" onclick='viewResults()'>View full record of test results</button>
-        </div>
+                    document.getElementById("excel-loading").classList.remove("hide");
 
-        <script>
-            function viewResults() {
-                //alert(filterToApply);
-                var pT = selectProductType.value;
-                var mN = selectModelName.value;
-                var ser = selectSerialNum.value;
-                var testType = selectTestType.value;
-                var tubeName = selectTubeName.value;
-                var opt = selectOptions.value;
+                    data.open("GET", src, true);
+                    data.send();
 
-                if (pT == "") {
-                    location.href = location.origin + "/testsData/TestResults";
-                }
-                else if (mN == "") {
-                    location.href = location.origin + "/testsData/TestResults/" + pT;
-                }
-                else if (testType == "" && tubeName == "" && opt == "") {
-                    location.href = location.origin + "/testsData/TestResults/" + pT + "/" + mN;
-                }
-                else {
-                    location.href = location.origin + "/testsData/TestResults/" + pT + "/" + mN + "/testType=" + (testType == "" ? "none" : testType) + "+tubeName=" + (tubeName == "" ? "none" : tubeName) + "+opt=" + (opt == "" ? "none" : opt);
+                    document.getElementById("iframe-temp").innerHTML = "<iframe style=\"display:none\" src=\"" + document.location.origin +
+                        "/api/ListAPI/GetTableFile?modelName=" + modelName + "&productType=" + productType + "\"></iframe>";
                 }
             }
         </script>
