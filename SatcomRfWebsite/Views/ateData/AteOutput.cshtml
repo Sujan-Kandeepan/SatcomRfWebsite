@@ -21,7 +21,7 @@
         }
 
         function sendOutput() {
-            document.getElementById("navBarAteOutput").innerHTML = "<a href=\"" + location.pathname + "\">ATE Output</a>";
+            //document.getElementById("navBarAteOutput").innerHTML = "<a href=\"" + location.pathname + "\">ATE Output</a>";
         }
 
         function sendResults() {
@@ -498,11 +498,11 @@
                 "scrollX": true,
                 "scrollY": @yscroll
             });
-        });
 
-        sendStats();
-        sendOutput();
-        sendResults();
+            sendStats();
+            sendOutput();
+            sendResults();
+        });
 
         //Set navbar button as active
         document.getElementById("navBarAteOutput").classList.add("active");
