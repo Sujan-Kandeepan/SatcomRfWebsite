@@ -286,12 +286,12 @@ function fillModal(testName, channel, allResultsString, unit, unitConv, sortMode
         html += "</br><div style=\"margin-top: -5px\">";
         html += "Audit: " + (allResultsAudit[i] == " True" ? "<input type=\"checkbox\" checked disabled>" : "<input type=\"checkbox\" disabled>");
         html += "&ensp;Itar: " + (allResultsItar[i] == " True" ? "<input type=\"checkbox\" checked disabled>" : "<input type=\"checkbox\" disabled>");
-        html += allResultsSsaSN[i] != " " ? "&ensp;SsaSN:   " + allResultsSsaSN[i] : "";
-        html += allResultsLinSN[i] != " " ? "&ensp;LinSN:   " + allResultsLinSN[i] : "";
-        html += allResultsLipaSN[i] != " " ? "&ensp;LipaSN:   " + allResultsLipaSN[i] : "";
-        html += allResultsBucSN[i] != " " ? "&ensp;BucSN:   " + allResultsBucSN[i] : "";
-        html += allResultsBipaSN[i] != " " ? "&ensp;BipaSN:   " + allResultsBipaSN[i] : "";
-        html += allResultsBlipaSN[i] != " " ? "&ensp;BlipaSN:   " + allResultsBlipaSN[i] : "";
+        html += allResultsSsaSN[i] != " " ? "&ensp;SsaSN: " + allResultsSsaSN[i] : "";
+        html += allResultsLinSN[i] != " " ? "&ensp;LinSN: " + allResultsLinSN[i] : "";
+        html += allResultsLipaSN[i] != " " ? "&ensp;LipaSN: " + allResultsLipaSN[i] : "";
+        html += allResultsBucSN[i] != " " ? "&ensp;BucSN: " + allResultsBucSN[i] : "";
+        html += allResultsBipaSN[i] != " " ? "&ensp;BipaSN: " + allResultsBipaSN[i] : "";
+        html += allResultsBlipaSN[i] != " " ? "&ensp;BlipaSN: " + allResultsBlipaSN[i] : "";
         html += "</div>";
     }
 
