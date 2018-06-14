@@ -189,22 +189,13 @@ namespace SatcomRfWebsite.Controllers
                     while (sqlResult2.Read())
                     {
                         var tmp2 = (IDataRecord)sqlResult2;
-                        var tinfo = new TestInfo(tmp2["TestName"].ToString(), tmp2["Channel"].ToString(), tmp2["P2"].ToString(),
-                            tmp2["Units"].ToString(), new List<List<string>>() { new List<string>() { i, tmp2["Result"].ToString(), tmp2["StartTime"].ToString() } },
-                            tmp2["LowLimit"].ToString(), tmp2["UpLimit"].ToString());
+                        var tinfo = new TestInfo(tmp2["TestName"].ToString(), tmp2["Channel"].ToString(), tmp2["P2"].ToString(), tmp2["Units"].ToString(), 
+                            new List<List<string>>() { new List<string>() { i, tmp2["Result"].ToString(), tmp2["StartTime"].ToString(), tmp2["LowLimit"].ToString(), tmp2["UpLimit"].ToString() } });
                         var key = tmp2["TestName"].ToString() + tmp2["Channel"].ToString() + tmp2["P2"].ToString();
 
                         if (raw.ContainsKey(key))
                         {
-                            raw[key].Results.Add(new List<string>() { i, tmp2["Result"].ToString(), tmp2["StartTime"].ToString() });
-                            if (!raw[key].UpLimit.Equals(tmp2["UpLimit"].ToString()))
-                            {
-                                raw[key].UpLimit = "Variable (spec)";
-                            }
-                            if (!raw[key].LowLimit.Equals(tmp2["LowLimit"].ToString()))
-                            {
-                                raw[key].LowLimit = "Variable (spec)";
-                            }
+                            raw[key].Results.Add(new List<string>() { i, tmp2["Result"].ToString(), tmp2["StartTime"].ToString(), tmp2["LowLimit"].ToString(), tmp2["UpLimit"].ToString() });
                         }
                         else
                         {
@@ -224,12 +215,12 @@ namespace SatcomRfWebsite.Controllers
                 cmd.Dispose();
                 for (var i = 0; i < raw.Count(); i++)
                 {
-                    /* --- Serial numbers now associated with individual result records ---
+                    /* --- Listing all fields associated with individual test records ---*/
                     foreach (var v in raw.ElementAt(i).Value.Results)
                     {
-                        System.Diagnostics.Debug.WriteLine(v.Item1 + " " + v.Item2);
+                        System.Diagnostics.Debug.WriteLine(v[0] + " " + v[1] + " " + v[2] + " " + v[3] + " " + v[4]);
                     }
-                    System.Diagnostics.Debug.WriteLine("");*/
+                    System.Diagnostics.Debug.WriteLine("");
                     var longest = raw.ElementAt(i).Value.Results.OrderByDescending(x => x[1].Length).First();
                     int rounding = 15;
                     if (longest[1].IndexOf(".") != -1)
@@ -243,7 +234,7 @@ namespace SatcomRfWebsite.Controllers
                     var tmp = new TestData();
                     //foreach (String x in raw.ElementAt(i).Value.Results.OrderBy(x => Convert.ToDouble(Regex.Replace(val[1].Replace("Below ", "").Replace("+/-", "").Replace(":1", ""), "[^0-9.E-]", "")))) { System.Diagnostics.Debug.Write("<" + x + "> "); }
                     //System.Diagnostics.Debug.WriteLine("");
-                    var rawtmp = from val in raw.ElementAt(i).Value.Results select new List<string>() { val[0], Regex.Replace(val[1].Replace("Below ", "").Replace("+/-", "").Replace(":1", ""), "[^0-9.E-]", ""), val[2] };
+                    var rawtmp = from val in raw.ElementAt(i).Value.Results select new List<string>() { val[0], Regex.Replace(val[1].Replace("Below ", "").Replace("+/-", "").Replace(":1", ""), "[^0-9.E-]", ""), val[2], val[3], val[4] };
                     var rawtmp2 = from val in rawtmp select Convert.ToDouble(val[1]);
                     tmp.TestName = raw.ElementAt(i).Value.TestName;
                     tmp.Unit = raw.ElementAt(i).Value.Units;
@@ -261,34 +252,44 @@ namespace SatcomRfWebsite.Controllers
                     var tmpStd = Math.Sqrt(tempSum / rawtmp2.Count());
                     tmp.StdDev = Math.Round(tmpStd, rounding).ToString("G4", CultureInfo.InvariantCulture);
 
-                    tmp.UpLimit = raw.ElementAt(i).Value.UpLimit;
-                    if (tmp.UpLimit.Equals(""))
+                    bool emptyLowLimit = false, variableLowLimit = false, emptyUpLimit = false, variableUpLimit = false;
+                    for (int r = 0; r < raw.ElementAt(i).Value.Results.Count(); r++)
                     {
-                        tmp.UpLimit = "---";
+                        if (string.IsNullOrEmpty(raw.ElementAt(i).Value.Results[r][3]))
+                        {
+                            emptyLowLimit = true;
+                        }
+                        else if (raw.ElementAt(i).Value.Results[r][3] != raw.ElementAt(i).Value.Results[0][3])
+                        {
+                            variableLowLimit = true;
+                        }
+
+                        if (string.IsNullOrEmpty(raw.ElementAt(i).Value.Results[r][4]))
+                        {
+                            emptyUpLimit = true;
+                        }
+                        else if (raw.ElementAt(i).Value.Results[r][4] != raw.ElementAt(i).Value.Results[0][4])
+                        {
+                            variableUpLimit = true;
+                        }
                     }
 
-                    tmp.LowLimit = raw.ElementAt(i).Value.LowLimit;
-                    if (tmp.LowLimit.Equals(""))
-                    {
-                        tmp.LowLimit = "---";
-                    }
-
-                    var cpu = Double.PositiveInfinity;
                     var cpl = Double.PositiveInfinity;
-                    if (!raw.ElementAt(i).Value.UpLimit.Equals("NULL") && !raw.ElementAt(i).Value.UpLimit.Equals("") && !raw.ElementAt(i).Value.UpLimit.Equals("Variable (spec)")) {
-                        cpu = (Convert.ToDouble(Regex.Replace(raw.ElementAt(i).Value.UpLimit.Replace("Below ", "").Replace("+/-", "").Replace(":1", ""), "[^0-9.E-]", "")) - Convert.ToDouble(tmp.AvgResult)) / (3 * tmpStd);
-                    }
-                    if (!raw.ElementAt(i).Value.LowLimit.Equals("NULL") && !raw.ElementAt(i).Value.LowLimit.Equals("") && !raw.ElementAt(i).Value.LowLimit.Equals("Variable (spec)"))
+                    var cpu = Double.PositiveInfinity;
+                    if (!emptyLowLimit && !variableLowLimit)
                     {
-                        cpl = (Convert.ToDouble(tmp.AvgResult) - Convert.ToDouble(Regex.Replace(raw.ElementAt(i).Value.LowLimit.Replace("Below ", "").Replace("+/-", "").Replace(":1", ""), "[^0-9.E-]", ""))) / (3 * tmpStd);
+                        cpl = (Convert.ToDouble(tmp.AvgResult) - Convert.ToDouble(Regex.Replace(raw.ElementAt(i).Value.Results[0][3].Replace("Below ", "").Replace("+/-", "").Replace(":1", ""), "[^0-9.E-]", ""))) / (3 * tmpStd);
+                    }
+                    if (!emptyUpLimit && !variableUpLimit) {
+                        cpu = (Convert.ToDouble(Regex.Replace(raw.ElementAt(i).Value.Results[0][4].Replace("Below ", "").Replace("+/-", "").Replace(":1", ""), "[^0-9.E-]", "")) - Convert.ToDouble(tmp.AvgResult)) / (3 * tmpStd);
                     }
                     tmp.Cpk = Math.Round(Math.Min(cpu, cpl), rounding).ToString("G4", CultureInfo.InvariantCulture);
-                    if (raw.ElementAt(i).Value.UpLimit.Equals("Variable (spec)") || raw.ElementAt(i).Value.LowLimit.Equals("Variable (spec)"))
+                    if (Convert.ToDouble(tmp.Cpk) == Double.PositiveInfinity)
                     {
                         tmp.Cpk = "---";
                     }
 
-                    tmp.AllResults = (from val in rawtmp select new List<string>() { val[0], Convert.ToDouble(val[1]).ToString("G4", CultureInfo.InvariantCulture), val[2] }).ToList();
+                    tmp.AllResults = (from val in rawtmp select new List<string>() { val[0], Convert.ToDouble(val[1]).ToString("G4", CultureInfo.InvariantCulture), val[2], val[3], val[4] }).ToList();
                     tmp.AllResultsConv = new List<List<string>>();
 
                     tmp.UnitConv = "---";
@@ -484,11 +485,15 @@ namespace SatcomRfWebsite.Controllers
                         var result = test.AllResults[i][1];
                         var resultConv = test.AllResultsConv[i][1];
                         var startTime = test.AllResults[i][2];
+                        var lowLimit = test.AllResults[i][3];
+                        var upLimit = test.AllResults[i][4];
 
                         worksheet.Cell(insertionIndex, 4).SetValue(serial != "" ? serial : "---");
                         worksheet.Cell(insertionIndex, 5).SetValue(startTime != "" ? startTime : "---");
                         worksheet.Cell(insertionIndex, 6).SetValue(result != "" ? result : "---");
                         worksheet.Cell(insertionIndex, 12).SetValue(resultConv != "" ? resultConv : "---");
+                        worksheet.Cell(insertionIndex, 18).SetValue(lowLimit != "" ? lowLimit : "---");
+                        worksheet.Cell(insertionIndex, 19).SetValue(upLimit != "" ? upLimit : "---");
 
                         insertionIndex++;
                     }
