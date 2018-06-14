@@ -107,9 +107,8 @@ function buildTable(tableData) {
                 + tableData[i].MaxResultConv + unitConv + "</td><td>" + tableData[i].AvgResult + unit + "</br>" + tableData[i].AvgResultConv + unitConv
                 + "</td><td>" + tableData[i].StdDev + unit + "</br>" + tableData[i].StdDevConv + unitConv + "</td><td>" + tableData[i].Cpk + "</td><td>" +
                 "<input type=\"button\" class=\"btn btn-link\" name=\"graph\" data-toggle=\"modal\" data-target=\"#allResultsModal\" onclick=\"fillModal(\'"
-                + tableData[i].TestName + "\', \'" + tableData[i].Channel + "\', \'" + tableData[i].AllResults.toString() +
-                "\', \'" + tableData[i].AllResultsConv.toString() + "\', \'" + tableData[i].Unit + "\', \'" + tableData[i].UnitConv +
-                "\', \'sn\')\" value=\"View All Results\" />" + "</td></tr>";
+                + tableData[i].TestName + "\', \'" + tableData[i].Channel + "\', \'" + tableData[i].ParsableResults.toString() + "\', \'" + tableData[i].Unit
+                + "\', \'" + tableData[i].UnitConv + "\', \'sn\')\" value=\"View All Results\" />" + "</td></tr>";
         }
         else
         {
@@ -117,8 +116,8 @@ function buildTable(tableData) {
                 + tableData[i].MinResult + unit + "</td><td>" + tableData[i].MaxResult + unit + "</td><td>" + tableData[i].AvgResult + unit + "</td><td>"
                 + tableData[i].StdDev + unit + "</td><td>" + tableData[i].Cpk + "</td><td>" +
                 "<input type=\"button\" class=\"btn btn-link\" name=\"graph\" data-toggle=\"modal\" data-target=\"#allResultsModal\" onclick=\"fillModal(\'"
-                + tableData[i].TestName + "\', \'" + tableData[i].Channel + "\', \'" + tableData[i].AllResults.toString() +
-                "\', \'N/A\', \'" + tableData[i].Unit + "\', \'N/A\', \'sn\')\" value=\"View All Results\" />" + "</td></tr>";
+                + tableData[i].TestName + "\', \'" + tableData[i].Channel + "\', \'" + tableData[i].ParsableResults.toString() +
+                "\', \'N/A\', \'" + tableData[i].Unit + "\', \'sn\')\" value=\"View All Results\" />" + "</td></tr>";
         }
     }
 
@@ -175,20 +174,17 @@ function getTable(productType, modelName) {
     data.send();
 }
 
-function fillModal(testName, channel, allResultsString, allResultsConvString, unit, unitConv, sortMode) {
+function fillModal(testName, channel, allResultsString, unit, unitConv, sortMode) {
     var allResultsJoined = allResultsString.split(",");
-    var allResultsConvJoined = allResultsConvString.split(",");
     var allResultsSerials = [], allResultsValues = [], allResultsConvValues = [];
 
     for (var i = 0; i < allResultsJoined.length; i++) {
-        if (i % 5 == 0) {
+        if (i % 6 == 0) {
             allResultsSerials.push(allResultsJoined[i]);
-        } else if (i % 5 == 1){
+        } else if (i % 6 == 2){
             allResultsValues.push(allResultsJoined[i]);
-        }
-
-        if (i % 2 == 1) {
-            allResultsConvValues.push(allResultsConvJoined[i]);
+        } else if (i % 6 == 3) {
+            allResultsConvValues.push(allResultsJoined[i]);
         }
     }
 
@@ -228,7 +224,7 @@ function fillModal(testName, channel, allResultsString, allResultsConvString, un
     var closeButton = "<button type=\"button\" class=\"close\" style=\"float: right; margin-left: 10px\" data-dismiss=\"modal\" "
         + "aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>";
     var toggleButton = "<input type=\"button\" class=\"btn btn-link center-block\" name=\"graph\" onclick=\"sortMode(\'" + testName + "\', \'" + channel + "\', \'"
-        + allResultsString + "\', \'" + allResultsConvString + "\', \'" + unit + "\', \'" + unitConv + "\', \'" + sortMode + "\')\" value=\"" + toggleMessage + "\" />";
+        + allResultsString + "\', \'" + unit + "\', \'" + unitConv + "\', \'" + sortMode + "\')\" value=\"" + toggleMessage + "\" />";
     var html = "<h4 class=\"text-center\" style=\"margin-top: 5px\">" + testName + " (Channel " + channel + ") "
         + closeButton + "</h4>" + toggleButton + "<hr/>";
 
@@ -243,10 +239,10 @@ function fillModal(testName, channel, allResultsString, allResultsConvString, un
     document.getElementById("content-all-results").innerHTML = html;
 }
 
-function sortMode(testName, channel, allResultsString, allResultsConvString, unit, unitConv, sortMode) {
+function sortMode(testName, channel, allResultsString, unit, unitConv, sortMode) {
     unit = unit.replace(" ", "");
     unitConv = unitConv.replace(" ", "");
-    fillModal(testName, channel, allResultsString, allResultsConvString, unit, unitConv, (sortMode == 'val') ? 'sn' : 'val');
+    fillModal(testName, channel, allResultsString, unit, unitConv, (sortMode == 'val') ? 'sn' : 'val');
     $("#myModal").val(null).trigger("change");
 }
 
