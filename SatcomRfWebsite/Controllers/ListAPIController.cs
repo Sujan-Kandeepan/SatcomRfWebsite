@@ -190,12 +190,16 @@ namespace SatcomRfWebsite.Controllers
                     {
                         var tmp2 = (IDataRecord)sqlResult2;
                         var tinfo = new TestInfo(tmp2["TestName"].ToString(), tmp2["Channel"].ToString(), tmp2["P2"].ToString(), tmp2["Units"].ToString(), 
-                            new List<ResultData>() { new ResultData(i, tmp2["StartTime"].ToString(), tmp2["Result"].ToString(), "---", tmp2["LowLimit"].ToString(), tmp2["UpLimit"].ToString()) });
+                            new List<ResultData>() { new ResultData(i, tmp2["StartTime"].ToString(), tmp2["Result"].ToString(), "---", tmp2["LowLimit"].ToString(), 
+                            tmp2["UpLimit"].ToString(), tmp2["Audit"].ToString(), tmp2["Itar"].ToString(), tmp2["SsaSN"].ToString(), tmp2["LinSN"].ToString(), 
+                            tmp2["LipaSN"].ToString(), tmp2["BucSN"].ToString(), tmp2["BipaSN"].ToString(), tmp2["BlipaSN"].ToString())});
                         var key = tmp2["TestName"].ToString() + tmp2["Channel"].ToString() + tmp2["P2"].ToString();
 
                         if (raw.ContainsKey(key))
                         {
-                            raw[key].Results.Add(new ResultData(i, tmp2["StartTime"].ToString(), tmp2["Result"].ToString(), "---", tmp2["LowLimit"].ToString(), tmp2["UpLimit"].ToString()));
+                            raw[key].Results.Add(new ResultData(i, tmp2["StartTime"].ToString(), tmp2["Result"].ToString(), "---", tmp2["LowLimit"].ToString(), 
+                            tmp2["UpLimit"].ToString(), tmp2["Audit"].ToString(), tmp2["Itar"].ToString(), tmp2["SsaSN"].ToString(), tmp2["LinSN"].ToString(),
+                            tmp2["LipaSN"].ToString(), tmp2["BucSN"].ToString(), tmp2["BipaSN"].ToString(), tmp2["BlipaSN"].ToString()));
                         }
                         else
                         {
@@ -460,7 +464,7 @@ namespace SatcomRfWebsite.Controllers
             {
                 List<TestData> data = InternalGetTableData(modelName, productType);
                 string[][] headers = new string[1][];
-                headers[0] = new string[] { "Testname", "Channel", "Power", "Serial Number", "Start Time", "Result", "Min", "Max", "Average", "Std. Deviation", "Unit", "Result (Conv)", "Min (Conv)", "Max (Conv)", "Average (Conv)", "Std. Deviation (Conv)", "Unit (Conv)", "LowLimit", "UpLimit", "Cpk" };
+                headers[0] = new string[] { "Testname", "Channel", "Power", "Serial Number", "Start Time", "Audit", "Itar", "SsaSN", "LinSN", "LipaSN", "BucSN", "BipaSN", "BlipaSN", "Result", "Min", "Max", "Average", "Std. Deviation", "Unit", "Result (Conv)", "Min (Conv)", "Max (Conv)", "Average (Conv)", "Std. Deviation (Conv)", "Unit (Conv)", "LowLimit", "UpLimit", "Cpk" };
                 var file = new MemoryStream();
                 var document = new XLWorkbook();
                 var worksheet = document.Worksheets.Add("Table Data");
@@ -474,19 +478,35 @@ namespace SatcomRfWebsite.Controllers
                     for (int i = 0; i < test.AllResults.Count(); i++)
                     {
                         var serial = test.AllResults[i].SerialNumber;
+                        var startTime = test.AllResults[i].StartTime;
+                        var audit = test.AllResults[i].Audit;
+                        var itar = test.AllResults[i].Itar;
+                        var ssaSN = test.AllResults[i].SsaSN;
+                        var linSN = test.AllResults[i].LinSN;
+                        var lipaSN = test.AllResults[i].LipaSN;
+                        var bucSN = test.AllResults[i].BucSN;
+                        var bipaSN = test.AllResults[i].BipaSN;
+                        var blipaSN = test.AllResults[i].BlipaSN;
                         var result = test.AllResults[i].Result;
                         var resultConv = test.AllResults[i].ResultConv;
-                        var startTime = test.AllResults[i].StartTime;
                         var lowLimit = test.AllResults[i].LowLimit;
                         var upLimit = test.AllResults[i].UpLimit;
 
                         worksheet.Cell(insertionIndex, 4).SetValue(serial != "" ? serial : "---");
                         worksheet.Cell(insertionIndex, 5).SetValue(startTime != "" ? startTime : "---");
-                        worksheet.Cell(insertionIndex, 6).SetValue(result != "" ? result : "---");
-                        worksheet.Cell(insertionIndex, 12).SetValue(resultConv != "" ? resultConv : "---");
-                        worksheet.Cell(insertionIndex, 18).SetValue(lowLimit != "" ? lowLimit : "---");
-                        worksheet.Cell(insertionIndex, 19).SetValue(upLimit != "" ? upLimit : "---");
-                        worksheet.Cell(insertionIndex, 21).SetValue("");
+                        worksheet.Cell(insertionIndex, 6).SetValue(audit != "" ? audit : "---");
+                        worksheet.Cell(insertionIndex, 7).SetValue(itar != "" ? itar : "---");
+                        worksheet.Cell(insertionIndex, 8).SetValue(ssaSN != "" ? ssaSN : "---");
+                        worksheet.Cell(insertionIndex, 9).SetValue(linSN != "" ? linSN : "---");
+                        worksheet.Cell(insertionIndex, 10).SetValue(lipaSN != "" ? lipaSN : "---");
+                        worksheet.Cell(insertionIndex, 11).SetValue(bucSN != "" ? bucSN : "---");
+                        worksheet.Cell(insertionIndex, 12).SetValue(bipaSN != "" ? bipaSN : "---");
+                        worksheet.Cell(insertionIndex, 13).SetValue(blipaSN != "" ? blipaSN : "---");
+                        worksheet.Cell(insertionIndex, 14).SetValue(result != "" ? result : "---");
+                        worksheet.Cell(insertionIndex, 20).SetValue(resultConv != "" ? resultConv : "---");
+                        worksheet.Cell(insertionIndex, 26).SetValue(lowLimit != "" ? lowLimit : "---");
+                        worksheet.Cell(insertionIndex, 27).SetValue(upLimit != "" ? upLimit : "---");
+                        worksheet.Cell(insertionIndex, 29).SetValue("");
 
                         insertionIndex++;
                     }
