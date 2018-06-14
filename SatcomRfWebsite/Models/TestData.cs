@@ -46,4 +46,24 @@ namespace SatcomRfWebsite.Models
             Results = inResults;
         }
     }
+
+    public class ResultData
+    {
+        public string SerialNumber { get; set; }
+        public string StartTime { get; set; }
+        public string Result { get; set; }
+        public string ResultConv { get; set; }
+        public string LowLimit { get; set; }
+        public string UpLimit { get; set; }
+
+        public ResultData(string inSerialNumber, string inStartTime, string inResult, string inResultConv, string inLowLimit, string inUpLimit)
+        {
+            SerialNumber = inSerialNumber;
+            StartTime = inStartTime;
+            Result = inResult;
+            ResultConv = inResultConv;
+            LowLimit = inLowLimit;
+            UpLimit = inUpLimit;
+        }
+    }
 }
