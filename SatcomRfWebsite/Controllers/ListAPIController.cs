@@ -215,12 +215,12 @@ namespace SatcomRfWebsite.Controllers
                 cmd.Dispose();
                 for (var i = 0; i < raw.Count(); i++)
                 {
-                    /* --- Listing all fields associated with individual test records ---
+                    /* --- Listing all fields associated with individual test records ---*/
                     foreach (var v in raw.ElementAt(i).Value.Results)
                     {
                         System.Diagnostics.Debug.WriteLine(v[0] + " " + v[1] + " " + v[2] + " " + v[3] + " " + v[4]);
                     }
-                    System.Diagnostics.Debug.WriteLine("");*/
+                    System.Diagnostics.Debug.WriteLine("");
                     var longest = raw.ElementAt(i).Value.Results.OrderByDescending(x => x[1].Length).First();
                     int rounding = 15;
                     if (longest[1].IndexOf(".") != -1)
