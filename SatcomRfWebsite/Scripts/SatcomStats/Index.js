@@ -176,15 +176,33 @@ function getTable(productType, modelName) {
 
 function fillModal(testName, channel, allResultsString, unit, unitConv, sortMode) {
     var allResultsJoined = allResultsString.split(",");
-    var allResultsSerials = [], allResultsValues = [], allResultsConvValues = [];
+    var allResultsSerials = [], allResultsValues = [], allResultsConvValues = [],
+        allResultsAudit = [], allResultsItar = [], allResultsSsaSN = [], allResultsLinSN = [],
+        allResultsLipaSN = [], allResultsBucSN = [], allResultsBipaSN = [], allResultsBlipaSN = [];
 
     for (var i = 0; i < allResultsJoined.length; i++) {
         if (i % 14 == 0) {
             allResultsSerials.push(allResultsJoined[i]);
-        } else if (i % 14 == 2){
+        } else if (i % 14 == 2) {
             allResultsValues.push(allResultsJoined[i]);
         } else if (i % 14 == 3) {
             allResultsConvValues.push(allResultsJoined[i]);
+        } else if (i % 14 == 6) {
+            allResultsAudit.push(allResultsJoined[i]);
+        } else if (i % 14 == 7) {
+            allResultsItar.push(allResultsJoined[i]);
+        } else if (i % 14 == 8) {
+            allResultsSsaSN.push(allResultsJoined[i]);
+        } else if (i % 14 == 9) {
+            allResultsLinSN.push(allResultsJoined[i]);
+        } else if (i % 14 == 10) {
+            allResultsLipaSN.push(allResultsJoined[i]);
+        } else if (i % 14 == 11) {
+            allResultsBucSN.push(allResultsJoined[i]);
+        } else if (i % 14 == 12) {
+            allResultsBipaSN.push(allResultsJoined[i]);
+        } else if (i % 14 == 13) {
+            allResultsBlipaSN.push(allResultsJoined[i]);
         }
     }
 
@@ -204,6 +222,38 @@ function fillModal(testName, channel, allResultsString, unit, unitConv, sortMode
                     temp = allResultsConvValues[j];
                     allResultsConvValues[j] = allResultsConvValues[j - 1];
                     allResultsConvValues[j - 1] = temp;
+
+                    temp = allResultsAudit[j];
+                    allResultsAudit[j] = allResultsAudit[j - 1];
+                    allResultsAudit[j - 1] = temp;
+
+                    temp = allResultsItar[j];
+                    allResultsItar[j] = allResultsItar[j - 1];
+                    allResultsItar[j - 1] = temp;
+
+                    temp = allResultsSsaSN[j];
+                    allResultsSsaSN[j] = allResultsSsaSN[j - 1];
+                    allResultsSsaSN[j - 1] = temp;
+
+                    temp = allResultsLinSN[j];
+                    allResultsLinSN[j] = allResultsLinSN[j - 1];
+                    allResultsLinSN[j - 1] = temp;
+
+                    temp = allResultsLipaSN[j];
+                    allResultsLipaSN[j] = allResultsLipaSN[j - 1];
+                    allResultsLipaSN[j - 1] = temp;
+
+                    temp = allResultsBucSN[j];
+                    allResultsBucSN[j] = allResultsBucSN[j - 1];
+                    allResultsBucSN[j - 1] = temp;
+
+                    temp = allResultsBipaSN[j];
+                    allResultsBipaSN[j] = allResultsBipaSN[j - 1];
+                    allResultsBipaSN[j - 1] = temp;
+
+                    temp = allResultsBlipaSN[j];
+                    allResultsBlipaSN[j] = allResultsBlipaSN[j - 1];
+                    allResultsBlipaSN[j - 1] = temp;
                 }
             }
         }
@@ -233,7 +283,16 @@ function fillModal(testName, channel, allResultsString, unit, unitConv, sortMode
         if (unitConv != " N/A" && unitConv != "undefined") {
             html += ", " + allResultsConvValues[i] + unitConv;
         }
-        html +="</br>";
+        html += "</br><div style=\"margin-top: -5px\">";
+        html += "Audit: " + (allResultsAudit[i] == " True" ? "<input type=\"checkbox\" checked disabled>" : "<input type=\"checkbox\" disabled>");
+        html += "&ensp;Itar: " + (allResultsItar[i] == " True" ? "<input type=\"checkbox\" checked disabled>" : "<input type=\"checkbox\" disabled>");
+        html += allResultsSsaSN[i] != " " ? "&ensp;SsaSN:   " + allResultsSsaSN[i] : "";
+        html += allResultsLinSN[i] != " " ? "&ensp;LinSN:   " + allResultsLinSN[i] : "";
+        html += allResultsLipaSN[i] != " " ? "&ensp;LipaSN:   " + allResultsLipaSN[i] : "";
+        html += allResultsBucSN[i] != " " ? "&ensp;BucSN:   " + allResultsBucSN[i] : "";
+        html += allResultsBipaSN[i] != " " ? "&ensp;BipaSN:   " + allResultsBipaSN[i] : "";
+        html += allResultsBlipaSN[i] != " " ? "&ensp;BlipaSN:   " + allResultsBlipaSN[i] : "";
+        html += "</div>";
     }
 
     document.getElementById("content-all-results").innerHTML = html;
