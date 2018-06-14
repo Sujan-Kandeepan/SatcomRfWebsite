@@ -169,11 +169,11 @@ namespace SatcomRfWebsite.Controllers
 
                 if (productType.ToUpper().Contains("GENIV"))
                 {
-                    cmd.CommandText = "SELECT TestName,StartTime,Result,Units,Channel,LowLimit,UpLimit,P2 FROM dbo.tblKLYTestResults WHERE ModelSn = @sn AND NOT Result = 'PASS' AND NOT Result = 'FAIL';";
+                    cmd.CommandText = "SELECT TestName,dbo.tblKLYTestResults.StartTime,Result,Units,Channel,LowLimit,UpLimit,P2,Audit,Itar,SsaSN,LinSN,LipaSN,BucSN,BipaSN,BlipaSN FROM dbo.tblKLYTestResults JOIN dbo.tblATEOutput ON dbo.tblKLYTestResults.ModelSN = dbo.tblATEOutput.ModelSN WHERE dbo.tblKLYTestResults.ModelSn = @sn AND NOT Result = 'PASS' AND NOT Result = 'FAIL';";
                 }
                 else
                 {
-                    cmd.CommandText = "SELECT TestName,StartTime,Result,Units,Channel,LowLimit,UpLimit,P2 FROM dbo.tblTWTTestResults WHERE ModelSn = @sn AND NOT Result = 'PASS' AND NOT Result = 'FAIL';";
+                    cmd.CommandText = "SELECT TestName,dbo.tblTWTTestResults.StartTime,Result,Units,Channel,LowLimit,UpLimit,P2,Audit,Itar,SsaSN,LinSN,LipaSN,BucSN,BipaSN,BlipaSN FROM dbo.tblTWTTestResults JOIN dbo.tblATEOutput ON dbo.tblTWTTestResults.ModelSN = dbo.tblATEOutput.ModelSN WHERE dbo.tblTWTTestResults.ModelSn = @sn AND NOT Result = 'PASS' AND NOT Result = 'FAIL';";
                 }
 
                 var snParam = new SqlParameter("@sn", SqlDbType.NVarChar, 25);
