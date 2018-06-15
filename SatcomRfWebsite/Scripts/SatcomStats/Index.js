@@ -214,7 +214,10 @@ function fillModal(testName, channel, allResultsString, unit, unitConv, sortMode
     else {
         unit = " " + unit;
     }
-    unitConv = " " + unitConv;
+
+    if (unitConv != "N/A") {
+        unitConv = " " + unitConv;
+    }
 
     var toggleMessage = (sortMode == 'val') ? "Click to sort by serial number." : "Click to sort by value.";
     var closeButton = "<button type=\"button\" class=\"close\" style=\"float: right; margin-left: 10px\" data-dismiss=\"modal\" "
@@ -226,7 +229,7 @@ function fillModal(testName, channel, allResultsString, unit, unitConv, sortMode
 
     for (var i = 0; i < allResults.length; i++) {
         html += "<strong>" + allResults[i][0] + ":" + "</strong>" + " " + allResults[i][2] + unit;
-        if (unitConv != " N/A") {
+        if (unitConv != "N/A") {
             html += ", " + allResults[i][3] + unitConv;
         }
         html += "</br><div style=\"margin-top: -5px\">";
