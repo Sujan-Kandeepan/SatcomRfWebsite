@@ -219,218 +219,225 @@ namespace SatcomRfWebsite.Controllers
                 cmd.Dispose();
                 for (var i = 0; i < raw.Count(); i++)
                 {
-                    /* --- Listing all fields associated with individual test records ---
-                    foreach (var v in raw.ElementAt(i).Value.Results)
+                    try
                     {
-                        System.Diagnostics.Debug.WriteLine(v[0] + " " + v[1] + " " + v[2] + " " + v[3] + " " + v[4]);
-                    }
-                    System.Diagnostics.Debug.WriteLine("");*/
-                    var longest = raw.ElementAt(i).Value.Results.OrderByDescending(x => x.Result.Length).First();
-                    int rounding = 15;
-                    if (longest.Result.IndexOf(".") != -1)
-                    {
-                        rounding = longest.Result.Length - longest.Result.IndexOf(".") - 1;
-                    }
-                    if (rounding > 5)
-                    {
-                        rounding = 5;
-                    }
-                    var tmp = new TestData();
-                    //foreach (String x in raw.ElementAt(i).Value.Results.OrderBy(x => Convert.ToDouble(Regex.Replace(val[1].Replace("Below ", "").Replace("+/-", "").Replace(":1", ""), "[^0-9.E-]", "")))) { System.Diagnostics.Debug.Write("<" + x + "> "); }
-                    //System.Diagnostics.Debug.WriteLine("");
-                    var //rawtmp = from val in raw.ElementAt(i).Value.Results select new ResultData(val.SerialNumber, val.StartTime, Convert.ToDouble(Regex.Replace(val.Result.Replace("Below ", "").Replace("+/-", "").Replace(":1", ""), "[^0-9.E-]", "")).ToString("G4", CultureInfo.InvariantCulture), val.ResultConv, val.LowLimit, val.UpLimit);
-                    rawtmp = raw.ElementAt(i).Value.Results.Select(val => { val.Result = Convert.ToDouble(Regex.Replace(val.Result.Replace("Below ", "").Replace("+/-", "").Replace(":1", ""), "[^0-9.E-]", "")).ToString("G4", CultureInfo.InvariantCulture); return val; });
-                    var rawtmp2 = from val in rawtmp select Convert.ToDouble(val.Result);
-                    tmp.TestName = raw.ElementAt(i).Value.TestName;
-                    tmp.Unit = raw.ElementAt(i).Value.Units;
-                    tmp.Channel = (string.IsNullOrEmpty(raw.ElementAt(i).Value.Channel) ? "N/A" : raw.ElementAt(i).Value.Channel);
-                    tmp.Power = (string.IsNullOrEmpty(raw.ElementAt(i).Value.Power) ? "N/A" : raw.ElementAt(i).Value.Power);
-                    tmp.MinResult = Math.Round(rawtmp2.Min(), rounding).ToString("G4", CultureInfo.InvariantCulture);
-                    tmp.MaxResult = Math.Round(rawtmp2.Max(), rounding).ToString("G4", CultureInfo.InvariantCulture);
-                    tmp.AvgResult = Math.Round(rawtmp2.Average(), rounding).ToString("G4", CultureInfo.InvariantCulture);
-
-                    var tempSum = 0.0;
-                    foreach (var item in rawtmp2)
-                    {
-                        tempSum += Math.Pow(item - rawtmp2.Average(), 2);
-                    }
-                    var tmpStd = Math.Sqrt(tempSum / rawtmp2.Count());
-                    tmp.StdDev = Math.Round(tmpStd, rounding).ToString("G4", CultureInfo.InvariantCulture);
-
-                    bool emptyLowLimit = false, variableLowLimit = false, emptyUpLimit = false, variableUpLimit = false;
-                    for (int r = 0; r < raw.ElementAt(i).Value.Results.Count(); r++)
-                    {
-                        if (string.IsNullOrEmpty(raw.ElementAt(i).Value.Results[r].LowLimit))
+                        /* --- Listing all fields associated with individual test records ---
+                        foreach (var v in raw.ElementAt(i).Value.Results)
                         {
-                            emptyLowLimit = true;
+                            System.Diagnostics.Debug.WriteLine(v[0] + " " + v[1] + " " + v[2] + " " + v[3] + " " + v[4]);
                         }
-                        else if (raw.ElementAt(i).Value.Results[r].LowLimit != raw.ElementAt(i).Value.Results[0].LowLimit)
+                        System.Diagnostics.Debug.WriteLine("");*/
+                        var longest = raw.ElementAt(i).Value.Results.OrderByDescending(x => x.Result.Length).First();
+                        int rounding = 15;
+                        if (longest.Result.IndexOf(".") != -1)
                         {
-                            variableLowLimit = true;
+                            rounding = longest.Result.Length - longest.Result.IndexOf(".") - 1;
                         }
-
-                        if (string.IsNullOrEmpty(raw.ElementAt(i).Value.Results[r].UpLimit))
+                        if (rounding > 5)
                         {
-                            emptyUpLimit = true;
+                            rounding = 5;
                         }
-                        else if (raw.ElementAt(i).Value.Results[r].UpLimit != raw.ElementAt(i).Value.Results[0].UpLimit)
+                        var tmp = new TestData();
+                        //foreach (String x in raw.ElementAt(i).Value.Results.OrderBy(x => Convert.ToDouble(Regex.Replace(val[1].Replace("Below ", "").Replace("+/-", "").Replace(":1", ""), "[^0-9.E-]", "")))) { System.Diagnostics.Debug.Write("<" + x + "> "); }
+                        //System.Diagnostics.Debug.WriteLine("");
+                        var //rawtmp = from val in raw.ElementAt(i).Value.Results select new ResultData(val.SerialNumber, val.StartTime, Convert.ToDouble(Regex.Replace(val.Result.Replace("Below ", "").Replace("+/-", "").Replace(":1", ""), "[^0-9.E-]", "")).ToString("G4", CultureInfo.InvariantCulture), val.ResultConv, val.LowLimit, val.UpLimit);
+                        rawtmp = raw.ElementAt(i).Value.Results.Select(val => { val.Result = Convert.ToDouble(Regex.Replace(val.Result.Replace("Below ", "").Replace("+/-", "").Replace(":1", ""), "[^0-9.E-]", "")).ToString("G4", CultureInfo.InvariantCulture); return val; });
+                        var rawtmp2 = from val in rawtmp select Convert.ToDouble(val.Result);
+                        tmp.TestName = raw.ElementAt(i).Value.TestName;
+                        tmp.Unit = raw.ElementAt(i).Value.Units;
+                        tmp.Channel = (string.IsNullOrEmpty(raw.ElementAt(i).Value.Channel) ? "N/A" : raw.ElementAt(i).Value.Channel);
+                        tmp.Power = (string.IsNullOrEmpty(raw.ElementAt(i).Value.Power) ? "N/A" : raw.ElementAt(i).Value.Power);
+                        tmp.MinResult = Math.Round(rawtmp2.Min(), rounding).ToString("G4", CultureInfo.InvariantCulture);
+                        tmp.MaxResult = Math.Round(rawtmp2.Max(), rounding).ToString("G4", CultureInfo.InvariantCulture);
+                        tmp.AvgResult = Math.Round(rawtmp2.Average(), rounding).ToString("G4", CultureInfo.InvariantCulture);
+
+                        var tempSum = 0.0;
+                        foreach (var item in rawtmp2)
                         {
-                            variableUpLimit = true;
+                            tempSum += Math.Pow(item - rawtmp2.Average(), 2);
                         }
-                    }
+                        var tmpStd = Math.Sqrt(tempSum / rawtmp2.Count());
+                        tmp.StdDev = Math.Round(tmpStd, rounding).ToString("G4", CultureInfo.InvariantCulture);
 
-                    var cpl = Double.PositiveInfinity;
-                    var cpu = Double.PositiveInfinity;
-                    if (!emptyLowLimit && !variableLowLimit)
-                    {
-                        cpl = (Convert.ToDouble(tmp.AvgResult) - Convert.ToDouble(Regex.Replace(raw.ElementAt(i).Value.Results[0].LowLimit.Replace("Below ", "").Replace("+/-", "").Replace(":1", ""), "[^0-9.E-]", ""))) / (3 * tmpStd);
-                    }
-                    if (!emptyUpLimit && !variableUpLimit) {
-                        cpu = (Convert.ToDouble(Regex.Replace(raw.ElementAt(i).Value.Results[0].UpLimit.Replace("Below ", "").Replace("+/-", "").Replace(":1", ""), "[^0-9.E-]", "")) - Convert.ToDouble(tmp.AvgResult)) / (3 * tmpStd);
-                    }
-                    tmp.Cpk = Math.Round(Math.Min(cpu, cpl), rounding).ToString("G4", CultureInfo.InvariantCulture);
-                    if (Convert.ToDouble(tmp.Cpk) == Double.PositiveInfinity)
-                    {
-                        tmp.Cpk = "---";
-                    }
-
-                    tmp.AllResults = rawtmp.ToList();
-
-                    tmp.UnitConv = "---";
-                    tmp.MinResultConv = "---";
-                    tmp.MaxResultConv = "---";
-                    tmp.AvgResultConv = "---";
-                    tmp.StdDevConv = "---";
-
-                    string[] largeW = { "kW", "MW", "GW", "TW", "PW", "EW", "ZW", "YW" };
-                    string[] smallW = { "mW", "µW", "nW", "pW", "fW", "aW", "zW", "yW" };
-                    double tempMin = 0, tempMax = 0, tempAvg = 0, tempStd = 0, tempSum2;
-                    int wIndex;
-
-                    switch (tmp.Unit)
-                    {
-                        case "dB":
-                        case "dBc":
-                        case "dB/MHz":
-                        case "dBW/4KHz":
-                            tempMin = Math.Pow(10, rawtmp2.Min() / 10);
-                            tempMax = Math.Pow(10, rawtmp2.Max() / 10);
-                            tempAvg = Math.Pow(10, rawtmp2.Average() / 10);
-
-                            tempSum2 = 0.0;
-                            for (int z = 0; z < rawtmp.Count(); z++)
+                        bool emptyLowLimit = false, variableLowLimit = false, emptyUpLimit = false, variableUpLimit = false;
+                        for (int r = 0; r < raw.ElementAt(i).Value.Results.Count(); r++)
+                        {
+                            if (string.IsNullOrEmpty(raw.ElementAt(i).Value.Results[r].LowLimit))
                             {
-                                double c = Math.Pow(10, Convert.ToDouble((rawtmp.ToList())[z].Result) / 10);
-                                tempSum2 += Math.Pow(c - tempAvg, 2);
-                                tmp.AllResults[z].ResultConv = c.ToString("G4", CultureInfo.InvariantCulture);
+                                emptyLowLimit = true;
                             }
-                            tempStd = Math.Sqrt(tempSum2 / rawtmp.Count());
-
-                            break;
-                        case "dBm":
-                            tempMin = Math.Pow(10, (rawtmp2.Min() - 30) / 10);
-                            tempMax = Math.Pow(10, (rawtmp2.Max() - 30) / 10);
-                            tempAvg = Math.Pow(10, (rawtmp2.Average() - 30) / 10);
-
-                            tempSum2 = 0.0;
-                            for (int z = 0; z < rawtmp.Count(); z++)
+                            else if (raw.ElementAt(i).Value.Results[r].LowLimit != raw.ElementAt(i).Value.Results[0].LowLimit)
                             {
-                                double c = Math.Pow(10, (Convert.ToDouble((rawtmp.ToList())[z].Result) - 30) / 10);
-                                tempSum2 += Math.Pow(c - tempAvg, 2);
-                                tmp.AllResults[z].ResultConv = c.ToString("G4", CultureInfo.InvariantCulture);
+                                variableLowLimit = true;
                             }
-                            tempStd = Math.Sqrt(tempSum2 / rawtmp.Count());
 
-                            break;
-                        case "deg/dB":
-                        case "o/dB":
-                            tempMin = 1 / Math.Pow(10, 1 / rawtmp2.Min() / 10);
-                            tempMax = 1 / Math.Pow(10, 1 / rawtmp2.Max() / 10);
-                            tempAvg = 1 / Math.Pow(10, 1 / rawtmp2.Average() / 10);
-
-                            tempSum2 = 0.0;
-                            for (int z = 0; z < rawtmp.Count(); z++)
+                            if (string.IsNullOrEmpty(raw.ElementAt(i).Value.Results[r].UpLimit))
                             {
-                                double c = 1 / Math.Pow(10, 1 / Convert.ToDouble((rawtmp.ToList())[z].Result) / 10);
-                                tempSum2 += Math.Pow(c - tempAvg, 2);
-                                tmp.AllResults[z].ResultConv = c.ToString("G4", CultureInfo.InvariantCulture);
+                                emptyUpLimit = true;
                             }
-                            tempStd = Math.Sqrt(tempSum2 / rawtmp.Count());
+                            else if (raw.ElementAt(i).Value.Results[r].UpLimit != raw.ElementAt(i).Value.Results[0].UpLimit)
+                            {
+                                variableUpLimit = true;
+                            }
+                        }
 
-                            string[] temp = largeW;
-                            largeW = smallW;
-                            smallW = temp;
-
-                            break;
-                    }
-
-                    if (tmp.Unit.Contains("dB"))
-                    {
-                        tmp.UnitConv = "W";
-
-                        wIndex = 0;
-                        for (int x = 0; x < 8; x++)
+                        var cpl = Double.PositiveInfinity;
+                        var cpu = Double.PositiveInfinity;
+                        if (!emptyLowLimit && !variableLowLimit)
                         {
-                            if (tempAvg > 1000)
-                            {
-                                tempMin /= 1000;
-                                tempMax /= 1000;
-                                tempAvg /= 1000;
-                                tempStd /= 1000;
-                                for (int z = 0; z < tmp.AllResults.Count(); z++)
+                            cpl = (Convert.ToDouble(tmp.AvgResult) - Convert.ToDouble(Regex.Replace(raw.ElementAt(i).Value.Results[0].LowLimit.Replace("Below ", "").Replace("+/-", "").Replace(":1", ""), "[^0-9.E-]", ""))) / (3 * tmpStd);
+                        }
+                        if (!emptyUpLimit && !variableUpLimit) {
+                            cpu = (Convert.ToDouble(Regex.Replace(raw.ElementAt(i).Value.Results[0].UpLimit.Replace("Below ", "").Replace("+/-", "").Replace(":1", ""), "[^0-9.E-]", "")) - Convert.ToDouble(tmp.AvgResult)) / (3 * tmpStd);
+                        }
+                        tmp.Cpk = Math.Round(Math.Min(cpu, cpl), rounding).ToString("G4", CultureInfo.InvariantCulture);
+                        if (Convert.ToDouble(tmp.Cpk) == Double.PositiveInfinity)
+                        {
+                            tmp.Cpk = "---";
+                        }
+
+                        tmp.AllResults = rawtmp.ToList();
+
+                        tmp.UnitConv = "---";
+                        tmp.MinResultConv = "---";
+                        tmp.MaxResultConv = "---";
+                        tmp.AvgResultConv = "---";
+                        tmp.StdDevConv = "---";
+
+                        string[] largeW = { "kW", "MW", "GW", "TW", "PW", "EW", "ZW", "YW" };
+                        string[] smallW = { "mW", "µW", "nW", "pW", "fW", "aW", "zW", "yW" };
+                        double tempMin = 0, tempMax = 0, tempAvg = 0, tempStd = 0, tempSum2;
+                        int wIndex;
+
+                        switch (tmp.Unit)
+                        {
+                            case "dB":
+                            case "dBc":
+                            case "dB/MHz":
+                            case "dBW/4KHz":
+                                tempMin = Math.Pow(10, rawtmp2.Min() / 10);
+                                tempMax = Math.Pow(10, rawtmp2.Max() / 10);
+                                tempAvg = Math.Pow(10, rawtmp2.Average() / 10);
+
+                                tempSum2 = 0.0;
+                                for (int z = 0; z < rawtmp.Count(); z++)
                                 {
-                                    tmp.AllResults[z].ResultConv = (Convert.ToDouble(tmp.AllResults[z].ResultConv) / 1000).ToString("G4", CultureInfo.InvariantCulture);
+                                    double c = Math.Pow(10, Convert.ToDouble((rawtmp.ToList())[z].Result) / 10);
+                                    tempSum2 += Math.Pow(c - tempAvg, 2);
+                                    tmp.AllResults[z].ResultConv = c.ToString("G4", CultureInfo.InvariantCulture);
                                 }
-                                tmp.UnitConv = largeW[wIndex < 7 ? wIndex++ : wIndex];
-                            }
-                            else if (tempAvg != 0 && tempAvg < 1 || Math.Round(tempStd, rounding) == 0 && tempMin != tempMax && tempAvg < 1)
-                            {
-                                tempMin *= 1000;
-                                tempMax *= 1000;
-                                tempAvg *= 1000;
-                                tempStd *= 1000;
-                                for (int z = 0; z < tmp.AllResults.Count(); z++)
+                                tempStd = Math.Sqrt(tempSum2 / rawtmp.Count());
+
+                                break;
+                            case "dBm":
+                                tempMin = Math.Pow(10, (rawtmp2.Min() - 30) / 10);
+                                tempMax = Math.Pow(10, (rawtmp2.Max() - 30) / 10);
+                                tempAvg = Math.Pow(10, (rawtmp2.Average() - 30) / 10);
+
+                                tempSum2 = 0.0;
+                                for (int z = 0; z < rawtmp.Count(); z++)
                                 {
-                                    tmp.AllResults[z].ResultConv = (Convert.ToDouble(tmp.AllResults[z].ResultConv) * 1000).ToString("G4", CultureInfo.InvariantCulture);
+                                    double c = Math.Pow(10, (Convert.ToDouble((rawtmp.ToList())[z].Result) - 30) / 10);
+                                    tempSum2 += Math.Pow(c - tempAvg, 2);
+                                    tmp.AllResults[z].ResultConv = c.ToString("G4", CultureInfo.InvariantCulture);
                                 }
-                                tmp.UnitConv = smallW[wIndex < 7 ? wIndex++ : wIndex];
-                            }
-                            else
-                            {
-                                x = 8;
-                            }
+                                tempStd = Math.Sqrt(tempSum2 / rawtmp.Count());
+
+                                break;
+                            case "deg/dB":
+                            case "o/dB":
+                                tempMin = 1 / Math.Pow(10, 1 / rawtmp2.Min() / 10);
+                                tempMax = 1 / Math.Pow(10, 1 / rawtmp2.Max() / 10);
+                                tempAvg = 1 / Math.Pow(10, 1 / rawtmp2.Average() / 10);
+
+                                tempSum2 = 0.0;
+                                for (int z = 0; z < rawtmp.Count(); z++)
+                                {
+                                    double c = 1 / Math.Pow(10, 1 / Convert.ToDouble((rawtmp.ToList())[z].Result) / 10);
+                                    tempSum2 += Math.Pow(c - tempAvg, 2);
+                                    tmp.AllResults[z].ResultConv = c.ToString("G4", CultureInfo.InvariantCulture);
+                                }
+                                tempStd = Math.Sqrt(tempSum2 / rawtmp.Count());
+
+                                string[] temp = largeW;
+                                largeW = smallW;
+                                smallW = temp;
+
+                                break;
                         }
 
-                        for (int x = 0; x < tmp.AllResults.Count(); x++)
+                        if (tmp.Unit.Contains("dB"))
                         {
-                            tmp.AllResults[x].ResultConv = (Math.Round(Convert.ToDouble(tmp.AllResults[x].ResultConv), rounding)).ToString("G4", CultureInfo.InvariantCulture);
+                            tmp.UnitConv = "W";
+
+                            wIndex = 0;
+                            for (int x = 0; x < 8; x++)
+                            {
+                                if (tempAvg > 1000)
+                                {
+                                    tempMin /= 1000;
+                                    tempMax /= 1000;
+                                    tempAvg /= 1000;
+                                    tempStd /= 1000;
+                                    for (int z = 0; z < tmp.AllResults.Count(); z++)
+                                    {
+                                        tmp.AllResults[z].ResultConv = (Convert.ToDouble(tmp.AllResults[z].ResultConv) / 1000).ToString("G4", CultureInfo.InvariantCulture);
+                                    }
+                                    tmp.UnitConv = largeW[wIndex < 7 ? wIndex++ : wIndex];
+                                }
+                                else if (tempAvg != 0 && tempAvg < 1 || Math.Round(tempStd, rounding) == 0 && tempMin != tempMax && tempAvg < 1)
+                                {
+                                    tempMin *= 1000;
+                                    tempMax *= 1000;
+                                    tempAvg *= 1000;
+                                    tempStd *= 1000;
+                                    for (int z = 0; z < tmp.AllResults.Count(); z++)
+                                    {
+                                        tmp.AllResults[z].ResultConv = (Convert.ToDouble(tmp.AllResults[z].ResultConv) * 1000).ToString("G4", CultureInfo.InvariantCulture);
+                                    }
+                                    tmp.UnitConv = smallW[wIndex < 7 ? wIndex++ : wIndex];
+                                }
+                                else
+                                {
+                                    x = 8;
+                                }
+                            }
+
+                            for (int x = 0; x < tmp.AllResults.Count(); x++)
+                            {
+                                tmp.AllResults[x].ResultConv = (Math.Round(Convert.ToDouble(tmp.AllResults[x].ResultConv), rounding)).ToString("G4", CultureInfo.InvariantCulture);
+                            }
+
+                            tmp.MinResultConv = Math.Round(tempMin, rounding).ToString("G4", CultureInfo.InvariantCulture);
+                            tmp.MaxResultConv = Math.Round(tempMax, rounding).ToString("G4", CultureInfo.InvariantCulture);
+                            tmp.AvgResultConv = Math.Round(tempAvg, rounding).ToString("G4", CultureInfo.InvariantCulture);
+                            tmp.StdDevConv = Math.Round(tempStd, rounding).ToString("G4", CultureInfo.InvariantCulture);
                         }
 
-                        tmp.MinResultConv = Math.Round(tempMin, rounding).ToString("G4", CultureInfo.InvariantCulture);
-                        tmp.MaxResultConv = Math.Round(tempMax, rounding).ToString("G4", CultureInfo.InvariantCulture);
-                        tmp.AvgResultConv = Math.Round(tempAvg, rounding).ToString("G4", CultureInfo.InvariantCulture);
-                        tmp.StdDevConv = Math.Round(tempStd, rounding).ToString("G4", CultureInfo.InvariantCulture);
-                    }
+                        switch (tmp.Unit)
+                        {
+                            case "dB/MHz":
+                                tmp.UnitConv += "/MHz";
+                                break;
+                            case "dBW/4KHz":
+                                tmp.UnitConv += "/4KHz";
+                                break;
+                            case "deg/dB":
+                                tmp.UnitConv = "deg/" + tmp.UnitConv;
+                                break;
+                            case "o/dB":
+                                tmp.UnitConv = "o/" + tmp.UnitConv;
+                                break;
+                        }
 
-                    switch (tmp.Unit)
+                        tmp.ParsableResults = String.Join(",", tmp.AllResults);
+
+                        data.Add(tmp);
+                    }
+                    catch (Exception e)
                     {
-                        case "dB/MHz":
-                            tmp.UnitConv += "/MHz";
-                            break;
-                        case "dBW/4KHz":
-                            tmp.UnitConv += "/4KHz";
-                            break;
-                        case "deg/dB":
-                            tmp.UnitConv = "deg/" + tmp.UnitConv;
-                            break;
-                        case "o/dB":
-                            tmp.UnitConv = "o/" + tmp.UnitConv;
-                            break;
+                        System.Diagnostics.Debug.Write(e.ToString());
                     }
-
-                    tmp.ParsableResults = String.Join(",", tmp.AllResults);
-
-                    data.Add(tmp);
                 }
 
                 conn.Close();
