@@ -487,6 +487,21 @@ namespace SatcomRfWebsite.Controllers
                     worksheet.Cell(insertionIndex, 27).SetValue(test.UnitConv);
                     worksheet.Cell(insertionIndex, 30).SetValue(test.Cpk);
 
+                    worksheet.Range(worksheet.Cell(insertionIndex, 1), worksheet.Cell(insertionIndex + test.AllResults.Count() - 1, 1)).Merge();
+                    worksheet.Range(worksheet.Cell(insertionIndex, 2), worksheet.Cell(insertionIndex + test.AllResults.Count() - 1, 2)).Merge();
+                    worksheet.Range(worksheet.Cell(insertionIndex, 3), worksheet.Cell(insertionIndex + test.AllResults.Count() - 1, 3)).Merge();
+                    worksheet.Range(worksheet.Cell(insertionIndex, 17), worksheet.Cell(insertionIndex + test.AllResults.Count() - 1, 17)).Merge();
+                    worksheet.Range(worksheet.Cell(insertionIndex, 18), worksheet.Cell(insertionIndex + test.AllResults.Count() - 1, 18)).Merge();
+                    worksheet.Range(worksheet.Cell(insertionIndex, 19), worksheet.Cell(insertionIndex + test.AllResults.Count() - 1, 19)).Merge();
+                    worksheet.Range(worksheet.Cell(insertionIndex, 20), worksheet.Cell(insertionIndex + test.AllResults.Count() - 1, 20)).Merge();
+                    worksheet.Range(worksheet.Cell(insertionIndex, 21), worksheet.Cell(insertionIndex + test.AllResults.Count() - 1, 21)).Merge();
+                    worksheet.Range(worksheet.Cell(insertionIndex, 23), worksheet.Cell(insertionIndex + test.AllResults.Count() - 1, 23)).Merge();
+                    worksheet.Range(worksheet.Cell(insertionIndex, 24), worksheet.Cell(insertionIndex + test.AllResults.Count() - 1, 24)).Merge();
+                    worksheet.Range(worksheet.Cell(insertionIndex, 25), worksheet.Cell(insertionIndex + test.AllResults.Count() - 1, 25)).Merge();
+                    worksheet.Range(worksheet.Cell(insertionIndex, 26), worksheet.Cell(insertionIndex + test.AllResults.Count() - 1, 26)).Merge();
+                    worksheet.Range(worksheet.Cell(insertionIndex, 27), worksheet.Cell(insertionIndex + test.AllResults.Count() - 1, 27)).Merge();
+                    worksheet.Range(worksheet.Cell(insertionIndex, 30), worksheet.Cell(insertionIndex + test.AllResults.Count() - 1, 30)).Merge();
+
                     for (int i = 0; i < test.AllResults.Count(); i++)
                     {
                         var serial = test.AllResults[i].SerialNumber;
@@ -535,6 +550,10 @@ namespace SatcomRfWebsite.Controllers
                 worksheet.RangeUsed().Style.Alignment.SetVertical(XLAlignmentVerticalValues.Top);
                 worksheet.SheetView.FreezeRows(1);
                 worksheet.SheetView.FreezeColumns(1);
+                worksheet.SheetView.FreezeColumns(2);
+                worksheet.SheetView.FreezeColumns(3);
+                worksheet.Column(1).Width = 20;
+                worksheet.Column(21).Width = 10;
                 document.SaveAs(file);
                 string filename = DateTime.Now.ToString("yyyy-MM-dd") + $" {productType} {modelName}.xlsx";
                 var resp = new ExcelFileResponse(file.ToArray(), Request, filename);
