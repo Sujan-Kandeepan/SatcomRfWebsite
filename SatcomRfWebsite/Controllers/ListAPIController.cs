@@ -472,8 +472,6 @@ namespace SatcomRfWebsite.Controllers
                 var insertionIndex = 2;
                 foreach (TestData test in data)
                 {
-                    //worksheet.Cell(insertionIndex, 1).InsertData(new List<TestData>() { test });
-
                     worksheet.Cell(insertionIndex, 1).SetValue(test.TestName);
                     worksheet.Cell(insertionIndex, 2).SetValue(test.Channel);
                     worksheet.Cell(insertionIndex, 3).SetValue(test.Power);
@@ -529,6 +527,7 @@ namespace SatcomRfWebsite.Controllers
                     }
                     worksheet.Cell(insertionIndex++, 1).InsertData(new string[] { });
                 }
+
                 var style = document.Style;
                 style.Font.Bold = true;
                 worksheet.Row(1).Style = style;
