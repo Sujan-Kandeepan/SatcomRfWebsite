@@ -232,7 +232,7 @@ function fillModal(testName, channel, allResultsString, unit, unitConv, sortMode
         if (unitConv != "N/A") {
             html += ", " + allResults[i][3] + unitConv;
         }
-        html += "</br><div style=\"margin-top: -5px\">";
+        html += "</br><div style=\"margin-top: -5px; color: rgb(128, 128, 128)\">";
         html += "Audit: " + (allResults[i][6] == "True" ? "<input type=\"checkbox\" checked disabled>" : "<input type=\"checkbox\" disabled>");
         html += "&ensp;Itar: " + (allResults[i][7] == "True" ? "<input type=\"checkbox\" checked disabled>" : "<input type=\"checkbox\" disabled>");
         html += allResults[i][10] != "" ? "&ensp;SsaSN: " + allResults[i][10] : "";
