@@ -242,8 +242,8 @@ function fillModal(testName, channel, allResultsString, unit, unitConv, sortMode
         html += allResults[i][14] != "" ? "&ensp;BipaSN: " + allResults[i][14] : "";
         html += allResults[i][15] != "" ? "&ensp;BlipaSN: " + allResults[i][15] : "";
         html += "</div><div style=\"margin-top: -5px; color: rgb(128, 128, 128)\">";
-        html += "LowLimit: " + (allResults[i][4] != "" ? allResults[i][4] : "-");
-        html += "&ensp;UpLimit: " + (allResults[i][5] != "" ? allResults[i][5] : "-");
+        html += "LowLimit: " + (allResults[i][4] != "" ? allResults[i][4] : "None");
+        html += "&ensp;UpLimit: " + (allResults[i][5] != "" ? allResults[i][5] : "None");
         html += "</div>"
     }
 
