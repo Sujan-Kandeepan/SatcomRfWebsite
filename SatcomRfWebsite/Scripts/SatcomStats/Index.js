@@ -176,84 +176,30 @@ function getTable(productType, modelName) {
 
 function fillModal(testName, channel, allResultsString, unit, unitConv, sortMode) {
     var allResultsJoined = allResultsString.split(",");
-    var allResultsSerials = [], allResultsValues = [], allResultsConvValues = [],
-        allResultsAudit = [], allResultsItar = [], allResultsSsaSN = [], allResultsLinSN = [],
-        allResultsLipaSN = [], allResultsBucSN = [], allResultsBipaSN = [], allResultsBlipaSN = [];
+    var allResults = [];
 
+    var arrayTemp = [];
     for (var i = 0; i < allResultsJoined.length; i++) {
         if (i % 14 == 0) {
-            allResultsSerials.push(allResultsJoined[i]);
-        } else if (i % 14 == 2) {
-            allResultsValues.push(allResultsJoined[i]);
-        } else if (i % 14 == 3) {
-            allResultsConvValues.push(allResultsJoined[i]);
-        } else if (i % 14 == 6) {
-            allResultsAudit.push(allResultsJoined[i]);
-        } else if (i % 14 == 7) {
-            allResultsItar.push(allResultsJoined[i]);
-        } else if (i % 14 == 8) {
-            allResultsSsaSN.push(allResultsJoined[i]);
-        } else if (i % 14 == 9) {
-            allResultsLinSN.push(allResultsJoined[i]);
-        } else if (i % 14 == 10) {
-            allResultsLipaSN.push(allResultsJoined[i]);
-        } else if (i % 14 == 11) {
-            allResultsBucSN.push(allResultsJoined[i]);
-        } else if (i % 14 == 12) {
-            allResultsBipaSN.push(allResultsJoined[i]);
-        } else if (i % 14 == 13) {
-            allResultsBlipaSN.push(allResultsJoined[i]);
+            arrayTemp = [allResultsJoined[i]];
+        }
+        else {
+            arrayTemp.push(allResultsJoined[i]);
+        }
+
+        if (i % 14 == 13) {
+            allResults.push(arrayTemp);
         }
     }
 
     if (sortMode == 'val') {
-        for (var i = 1; i < allResultsValues.length; i++) {
+        for (var i = 1; i < allResults.length; i++) {
             for (var j = i; j > 0; j--) {
-                if (parseFloat(allResultsValues[j]) < parseFloat(allResultsValues[j - 1])
-                    || parseFloat(allResultsConvValues[j]) < parseFloat(allResultsConvValues[j - 1])) {
-                    var temp = allResultsSerials[j];
-                    allResultsSerials[j] = allResultsSerials[j - 1];
-                    allResultsSerials[j - 1] = temp;
-
-                    temp = allResultsValues[j];
-                    allResultsValues[j] = allResultsValues[j - 1];
-                    allResultsValues[j - 1] = temp;
-
-                    temp = allResultsConvValues[j];
-                    allResultsConvValues[j] = allResultsConvValues[j - 1];
-                    allResultsConvValues[j - 1] = temp;
-
-                    temp = allResultsAudit[j];
-                    allResultsAudit[j] = allResultsAudit[j - 1];
-                    allResultsAudit[j - 1] = temp;
-
-                    temp = allResultsItar[j];
-                    allResultsItar[j] = allResultsItar[j - 1];
-                    allResultsItar[j - 1] = temp;
-
-                    temp = allResultsSsaSN[j];
-                    allResultsSsaSN[j] = allResultsSsaSN[j - 1];
-                    allResultsSsaSN[j - 1] = temp;
-
-                    temp = allResultsLinSN[j];
-                    allResultsLinSN[j] = allResultsLinSN[j - 1];
-                    allResultsLinSN[j - 1] = temp;
-
-                    temp = allResultsLipaSN[j];
-                    allResultsLipaSN[j] = allResultsLipaSN[j - 1];
-                    allResultsLipaSN[j - 1] = temp;
-
-                    temp = allResultsBucSN[j];
-                    allResultsBucSN[j] = allResultsBucSN[j - 1];
-                    allResultsBucSN[j - 1] = temp;
-
-                    temp = allResultsBipaSN[j];
-                    allResultsBipaSN[j] = allResultsBipaSN[j - 1];
-                    allResultsBipaSN[j - 1] = temp;
-
-                    temp = allResultsBlipaSN[j];
-                    allResultsBlipaSN[j] = allResultsBlipaSN[j - 1];
-                    allResultsBlipaSN[j - 1] = temp;
+                if (parseFloat(allResults[j][2]) < parseFloat(allResults[j - 1][2])
+                    || parseFloat(allResults[j][3]) < parseFloat(allResults[j - 1][3])) {
+                    var temp = allResults[j];
+                    allResults[j] = allResults[j - 1];
+                    allResults[j - 1] = temp;
                 }
             }
         }
@@ -278,20 +224,20 @@ function fillModal(testName, channel, allResultsString, unit, unitConv, sortMode
     var html = "<h4 class=\"text-center\" style=\"margin-top: 5px\">" + testName + " (Channel " + channel + ") "
         + closeButton + "</h4>" + toggleButton + "<hr/>";
 
-    for (var i = 0; i < allResultsSerials.length; i++) {
-        html += "<strong>" + allResultsSerials[i] + ":" + "</strong>" + " " + allResultsValues[i] + unit;
+    for (var i = 0; i < allResults.length; i++) {
+        html += "<strong>" + allResults[i][0] + ":" + "</strong>" + " " + allResults[i][2] + unit;
         if (unitConv != " N/A" && unitConv != "undefined") {
-            html += ", " + allResultsConvValues[i] + unitConv;
+            html += ", " + allResults[i][3] + unitConv;
         }
         html += "</br><div style=\"margin-top: -5px\">";
-        html += "Audit: " + (allResultsAudit[i] == " True" ? "<input type=\"checkbox\" checked disabled>" : "<input type=\"checkbox\" disabled>");
-        html += "&ensp;Itar: " + (allResultsItar[i] == " True" ? "<input type=\"checkbox\" checked disabled>" : "<input type=\"checkbox\" disabled>");
-        html += allResultsSsaSN[i] != " " ? "&ensp;SsaSN: " + allResultsSsaSN[i] : "";
-        html += allResultsLinSN[i] != " " ? "&ensp;LinSN: " + allResultsLinSN[i] : "";
-        html += allResultsLipaSN[i] != " " ? "&ensp;LipaSN: " + allResultsLipaSN[i] : "";
-        html += allResultsBucSN[i] != " " ? "&ensp;BucSN: " + allResultsBucSN[i] : "";
-        html += allResultsBipaSN[i] != " " ? "&ensp;BipaSN: " + allResultsBipaSN[i] : "";
-        html += allResultsBlipaSN[i] != " " ? "&ensp;BlipaSN: " + allResultsBlipaSN[i] : "";
+        html += "Audit: " + (allResults[i][6] == " True" ? "<input type=\"checkbox\" checked disabled>" : "<input type=\"checkbox\" disabled>");
+        html += "&ensp;Itar: " + (allResults[i][7] == " True" ? "<input type=\"checkbox\" checked disabled>" : "<input type=\"checkbox\" disabled>");
+        html += allResults[i][8] != " " ? "&ensp;SsaSN: " + allResults[i][8] : "";
+        html += allResults[i][9] != " " ? "&ensp;LinSN: " + allResults[i][19] : "";
+        html += allResults[i][10] != " " ? "&ensp;LipaSN: " + allResults[i][10] : "";
+        html += allResults[i][11] != " " ? "&ensp;BucSN: " + allResults[i][11] : "";
+        html += allResults[i][12] != " " ? "&ensp;BipaSN: " + allResults[i][12] : "";
+        html += allResults[i][13] != " " ? "&ensp;BlipaSN: " + allResults[i][13] : "";
         html += "</div>";
     }
 
