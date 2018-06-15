@@ -116,8 +116,8 @@ function buildTable(tableData) {
                 + tableData[i].MinResult + unit + "</td><td>" + tableData[i].MaxResult + unit + "</td><td>" + tableData[i].AvgResult + unit + "</td><td>"
                 + tableData[i].StdDev + unit + "</td><td>" + tableData[i].Cpk + "</td><td>" +
                 "<input type=\"button\" class=\"btn btn-link\" name=\"graph\" data-toggle=\"modal\" data-target=\"#allResultsModal\" onclick=\"fillModal(\'"
-                + tableData[i].TestName + "\', \'" + tableData[i].Channel + "\', \'" + tableData[i].ParsableResults.toString() +
-                "\', \'N/A\', \'" + tableData[i].Unit + "\', \'sn\')\" value=\"View All Results\" />" + "</td></tr>";
+                + tableData[i].TestName + "\', \'" + tableData[i].Channel + "\', \'" + tableData[i].ParsableResults.toString() + "\', \'" + tableData[i].Unit
+                + "\', \'" + "N/A" + "\', \'sn\')\" value=\"View All Results\" />" + "</td></tr>";
         }
     }
 
@@ -226,7 +226,7 @@ function fillModal(testName, channel, allResultsString, unit, unitConv, sortMode
 
     for (var i = 0; i < allResults.length; i++) {
         html += "<strong>" + allResults[i][0] + ":" + "</strong>" + " " + allResults[i][2] + unit;
-        if (unit.indexOf("dB") != -1) {
+        if (unitConv != " N/A") {
             html += ", " + allResults[i][3] + unitConv;
         }
         html += "</br><div style=\"margin-top: -5px\">";
