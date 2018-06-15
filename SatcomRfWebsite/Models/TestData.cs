@@ -9,31 +9,16 @@ namespace SatcomRfWebsite.Models
         public string Channel { get; set; }
         public string Power { get; set; }
         public List<ResultData> AllResults { get; set; }
-        public string StartTimePlaceHolder { get; set; }
-        public string AuditPlaceHolder { get; set; }
-        public string ItarPlaceHolder { get; set; }
-        public string LongModelNamePlaceHolder { get; set; }
-        public string TubeSNPlaceHolder { get; set; }
-        public string SsaSNPlaceHolder { get; set; }
-        public string LinSNPlaceHolder { get; set; }
-        public string LipaSNPlaceHolder { get; set; }
-        public string BucSNPlaceHolder { get; set; }
-        public string BipaSNPlaceHolder { get; set; }
-        public string BlipaSNPlaceHolder { get; set; }
-        public string ResultsPlaceHolder { get; set; }
         public string MinResult { get; set; }
         public string MaxResult { get; set; }
         public string AvgResult { get; set; }
         public string StdDev { get; set; }
         public string Unit { get; set; }
-        public string ResultConvPlaceholder { get; set; }
         public string MinResultConv { get; set; }
         public string MaxResultConv { get; set; }
         public string AvgResultConv { get; set; }
         public string StdDevConv { get; set; }
         public string UnitConv { get; set; }
-        public string LowLimitPlaceHolder { get; set; }
-        public string UpLimitPlaceHolder { get; set; }
         public string Cpk { get; set; }
         public string ParsableResults { get; set; }
 

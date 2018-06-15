@@ -469,11 +469,25 @@ namespace SatcomRfWebsite.Controllers
                 var document = new XLWorkbook();
                 var worksheet = document.Worksheets.Add("Table Data");
                 worksheet.Cell(1, 1).InsertData(headers);
-                //worksheet.Cell(2, 1).InsertData(data);
                 var insertionIndex = 2;
                 foreach (TestData test in data)
                 {
-                    worksheet.Cell(insertionIndex, 1).InsertData(new List<TestData>() { test });
+                    //worksheet.Cell(insertionIndex, 1).InsertData(new List<TestData>() { test });
+
+                    worksheet.Cell(insertionIndex, 1).SetValue(test.TestName);
+                    worksheet.Cell(insertionIndex, 2).SetValue(test.Channel);
+                    worksheet.Cell(insertionIndex, 3).SetValue(test.Power);
+                    worksheet.Cell(insertionIndex, 17).SetValue(test.MinResult);
+                    worksheet.Cell(insertionIndex, 18).SetValue(test.MaxResult);
+                    worksheet.Cell(insertionIndex, 19).SetValue(test.AvgResult);
+                    worksheet.Cell(insertionIndex, 20).SetValue(test.StdDev);
+                    worksheet.Cell(insertionIndex, 21).SetValue(test.Unit);
+                    worksheet.Cell(insertionIndex, 23).SetValue(test.MinResultConv);
+                    worksheet.Cell(insertionIndex, 24).SetValue(test.MaxResultConv);
+                    worksheet.Cell(insertionIndex, 25).SetValue(test.AvgResultConv);
+                    worksheet.Cell(insertionIndex, 26).SetValue(test.StdDevConv);
+                    worksheet.Cell(insertionIndex, 27).SetValue(test.UnitConv);
+                    worksheet.Cell(insertionIndex, 30).SetValue(test.Cpk);
 
                     for (int i = 0; i < test.AllResults.Count(); i++)
                     {
@@ -507,11 +521,9 @@ namespace SatcomRfWebsite.Controllers
                         worksheet.Cell(insertionIndex, 14).SetValue(bipaSN != "" ? bipaSN : "---");
                         worksheet.Cell(insertionIndex, 15).SetValue(blipaSN != "" ? blipaSN : "---");
                         worksheet.Cell(insertionIndex, 16).SetValue(result != "" ? result : "---");
-                        worksheet.Cell(insertionIndex, 21).SetValue(resultConv != "" ? resultConv : "---");
+                        worksheet.Cell(insertionIndex, 22).SetValue(resultConv != "" ? resultConv : "---");
                         worksheet.Cell(insertionIndex, 28).SetValue(lowLimit != "" ? lowLimit : "---");
                         worksheet.Cell(insertionIndex, 29).SetValue(upLimit != "" ? upLimit : "---");
-                        worksheet.Cell(insertionIndex, 30).SetValue("");
-                        worksheet.Cell(insertionIndex, 31).Clear();
 
                         insertionIndex++;
                     }
