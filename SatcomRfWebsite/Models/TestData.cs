@@ -94,8 +94,8 @@ namespace SatcomRfWebsite.Models
 
         public override string ToString()
         {
-            return SerialNumber + ", " + StartTime + ", " + Result + ", " + ResultConv + ", " + LowLimit + ", " + UpLimit + ", " + Audit
-                + ", " + Itar + ", " + SsaSN + ", " + LinSN + ", " + LipaSN + ", " + BucSN + ", " + BipaSN + ", " + BlipaSN;
+            return String.Join(",", new List<string>() { SerialNumber, StartTime, Result, ResultConv, LowLimit, UpLimit,
+                Audit, Itar, SsaSN, LinSN, LipaSN, BucSN, BipaSN, BlipaSN } );
         }
     }
 }
