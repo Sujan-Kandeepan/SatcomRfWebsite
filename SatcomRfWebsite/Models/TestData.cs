@@ -12,6 +12,8 @@ namespace SatcomRfWebsite.Models
         public string StartTimePlaceHolder { get; set; }
         public string AuditPlaceHolder { get; set; }
         public string ItarPlaceHolder { get; set; }
+        public string LongModelNamePlaceHolder { get; set; }
+        public string TubeSNPlaceHolder { get; set; }
         public string SsaSNPlaceHolder { get; set; }
         public string LinSNPlaceHolder { get; set; }
         public string LipaSNPlaceHolder { get; set; }
@@ -66,6 +68,8 @@ namespace SatcomRfWebsite.Models
         public string UpLimit { get; set; }
         public string Audit { get; set; }
         public string Itar { get; set; }
+        public string LongModelName { get; set; }
+        public string TubeSN { get; set; }
         public string SsaSN { get; set; }
         public string LinSN { get; set; }
         public string LipaSN { get; set; }
@@ -73,8 +77,9 @@ namespace SatcomRfWebsite.Models
         public string BipaSN { get; set; }
         public string BlipaSN { get; set; }
 
-        public ResultData(string inSerialNumber, string inStartTime, string inResult, string inResultConv, string inLowLimit, string inUpLimit,
-            string inAudit, string inItar, string inSsaSN, string inLinSN, string inLipaSN, string inBucSN, string inBipaSN, string inBlipaSN)
+        public ResultData(string inSerialNumber, string inStartTime, string inResult, string inResultConv, 
+            string inLowLimit, string inUpLimit, string inAudit, string inItar, string inLongModelname, string inTubeSN, 
+            string inSsaSN, string inLinSN, string inLipaSN, string inBucSN, string inBipaSN, string inBlipaSN)
         {
             SerialNumber = inSerialNumber;
             StartTime = inStartTime;
@@ -84,6 +89,8 @@ namespace SatcomRfWebsite.Models
             UpLimit = inUpLimit;
             Audit = inAudit;
             Itar = inItar;
+            LongModelName = inLongModelname;
+            TubeSN = inTubeSN;
             SsaSN = inSsaSN;
             LinSN = inLinSN;
             LipaSN = inLipaSN;
@@ -95,7 +102,7 @@ namespace SatcomRfWebsite.Models
         public override string ToString()
         {
             return String.Join(",", new List<string>() { SerialNumber, StartTime, Result, ResultConv, LowLimit, UpLimit,
-                Audit, Itar, SsaSN, LinSN, LipaSN, BucSN, BipaSN, BlipaSN } );
+                Audit, Itar, LongModelName, TubeSN, SsaSN, LinSN, LipaSN, BucSN, BipaSN, BlipaSN } );
         }
     }
 }
