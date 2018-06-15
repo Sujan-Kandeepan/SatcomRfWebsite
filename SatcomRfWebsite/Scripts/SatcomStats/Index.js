@@ -180,14 +180,14 @@ function fillModal(testName, channel, allResultsString, unit, unitConv, sortMode
 
     var arrayTemp = [];
     for (var i = 0; i < allResultsJoined.length; i++) {
-        if (i % 14 == 0) {
+        if (i % 16 == 0) {
             arrayTemp = [allResultsJoined[i]];
         }
         else {
             arrayTemp.push(allResultsJoined[i]);
         }
 
-        if (i % 14 == 13) {
+        if (i % 16 == 15) {
             allResults.push(arrayTemp);
         }
     }
@@ -226,18 +226,18 @@ function fillModal(testName, channel, allResultsString, unit, unitConv, sortMode
 
     for (var i = 0; i < allResults.length; i++) {
         html += "<strong>" + allResults[i][0] + ":" + "</strong>" + " " + allResults[i][2] + unit;
-        if (unitConv != " N/A" && unitConv != "undefined") {
+        if (unit.indexOf("dB") != -1) {
             html += ", " + allResults[i][3] + unitConv;
         }
         html += "</br><div style=\"margin-top: -5px\">";
-        html += "Audit: " + (allResults[i][6] == " True" ? "<input type=\"checkbox\" checked disabled>" : "<input type=\"checkbox\" disabled>");
-        html += "&ensp;Itar: " + (allResults[i][7] == " True" ? "<input type=\"checkbox\" checked disabled>" : "<input type=\"checkbox\" disabled>");
-        html += allResults[i][8] != " " ? "&ensp;SsaSN: " + allResults[i][8] : "";
-        html += allResults[i][9] != " " ? "&ensp;LinSN: " + allResults[i][19] : "";
-        html += allResults[i][10] != " " ? "&ensp;LipaSN: " + allResults[i][10] : "";
-        html += allResults[i][11] != " " ? "&ensp;BucSN: " + allResults[i][11] : "";
-        html += allResults[i][12] != " " ? "&ensp;BipaSN: " + allResults[i][12] : "";
-        html += allResults[i][13] != " " ? "&ensp;BlipaSN: " + allResults[i][13] : "";
+        html += "Audit: " + (allResults[i][6] == "True" ? "<input type=\"checkbox\" checked disabled>" : "<input type=\"checkbox\" disabled>");
+        html += "&ensp;Itar: " + (allResults[i][7] == "True" ? "<input type=\"checkbox\" checked disabled>" : "<input type=\"checkbox\" disabled>");
+        html += allResults[i][10] != "" ? "&ensp;SsaSN: " + allResults[i][10] : "";
+        html += allResults[i][11] != "" ? "&ensp;LinSN: " + allResults[i][11] : "";
+        html += allResults[i][12] != "" ? "&ensp;LipaSN: " + allResults[i][12] : "";
+        html += allResults[i][13] != "" ? "&ensp;BucSN: " + allResults[i][13] : "";
+        html += allResults[i][14] != "" ? "&ensp;BipaSN: " + allResults[i][14] : "";
+        html += allResults[i][15] != "" ? "&ensp;BlipaSN: " + allResults[i][15] : "";
         html += "</div>";
     }
 
