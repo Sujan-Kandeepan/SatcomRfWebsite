@@ -196,10 +196,12 @@ namespace SatcomRfWebsite.Controllers
                         var key = tmp2["TestName"].ToString() + tmp2["Channel"].ToString() + tmp2["P2"].ToString();
 
 
-                        string[] flagList = flags != null ? flags.Split(',') : new string[0];
+                        string[] flagList = !(flags == null || flags == "") ? flags.Split(',') : new string[0];
 
-                        if (testType != null && !testType.Equals("undefined") && !tmp2["TestType"].Equals(testType)
-                            || tubeName != null && !tubeName.Equals("undefined") && !tmp2["TubeName"].Equals(tubeName)
+                        System.Diagnostics.Debug.WriteLine(testType);
+
+                        if (testType != null && !testType.Equals("null") && !testType.Equals("undefined") && !tmp2["TestType"].Equals(testType)
+                            || tubeName != null && !tubeName.Equals("null") && !tubeName.Equals("undefined") && !tmp2["TubeName"].Equals(tubeName)
                             || flagList.Contains("Audit") && tmp2["Audit"].ToString().Equals("False")
                             || flagList.Contains("Itar") && tmp2["Itar"].ToString().Equals("False")
                             || flagList.Contains("SsaSN") && tmp2["SsaSN"].ToString().Equals("")
