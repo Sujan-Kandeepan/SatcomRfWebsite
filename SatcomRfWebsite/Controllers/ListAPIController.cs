@@ -169,11 +169,11 @@ namespace SatcomRfWebsite.Controllers
 
                 if (productType.ToUpper().Contains("GENIV"))
                 {
-                    cmd.CommandText = "SELECT TestName,dbo.tblKLYTestResults.StartTime,Result,Units,Channel,LowLimit,UpLimit,P2,Audit,Itar,LongModelName,TubeSN,SsaSN,LinSN,LipaSN,BucSN,BipaSN,BlipaSN FROM dbo.tblKLYTestResults JOIN dbo.tblATEOutput ON dbo.tblKLYTestResults.ModelSN = dbo.tblATEOutput.ModelSN WHERE dbo.tblKLYTestResults.ModelSn = @sn AND NOT Result = 'PASS' AND NOT Result = 'FAIL';";
+                    cmd.CommandText = "SELECT TestName,dbo.tblKLYTestResults.StartTime,Result,Units,Channel,LowLimit,UpLimit,P2,TestType,Audit,Itar,LongModelName,TubeSN,TubeName,SsaSN,LinSN,LipaSN,BucSN,BipaSN,BlipaSN FROM dbo.tblKLYTestResults JOIN dbo.tblATEOutput ON dbo.tblKLYTestResults.ModelSN = dbo.tblATEOutput.ModelSN WHERE dbo.tblKLYTestResults.ModelSn = @sn AND NOT Result = 'PASS' AND NOT Result = 'FAIL';";
                 }
                 else
                 {
-                    cmd.CommandText = "SELECT TestName,dbo.tblTWTTestResults.StartTime,Result,Units,Channel,LowLimit,UpLimit,P2,Audit,Itar,LongModelName,TubeSN,SsaSN,LinSN,LipaSN,BucSN,BipaSN,BlipaSN FROM dbo.tblTWTTestResults JOIN dbo.tblATEOutput ON dbo.tblTWTTestResults.ModelSN = dbo.tblATEOutput.ModelSN WHERE dbo.tblTWTTestResults.ModelSn = @sn AND NOT Result = 'PASS' AND NOT Result = 'FAIL';";
+                    cmd.CommandText = "SELECT TestName,dbo.tblTWTTestResults.StartTime,Result,Units,Channel,LowLimit,UpLimit,P2,TestType,Audit,Itar,LongModelName,TubeSN,TubeName,SsaSN,LinSN,LipaSN,BucSN,BipaSN,BlipaSN FROM dbo.tblTWTTestResults JOIN dbo.tblATEOutput ON dbo.tblTWTTestResults.ModelSN = dbo.tblATEOutput.ModelSN WHERE dbo.tblTWTTestResults.ModelSn = @sn AND NOT Result = 'PASS' AND NOT Result = 'FAIL';";
                 }
 
                 var snParam = new SqlParameter("@sn", SqlDbType.NVarChar, 25);
@@ -190,8 +190,8 @@ namespace SatcomRfWebsite.Controllers
                     {
                         var tmp2 = (IDataRecord)sqlResult2;
                         var tinfo = new TestInfo(tmp2["TestName"].ToString(), tmp2["Channel"].ToString(), tmp2["P2"].ToString(), tmp2["Units"].ToString(),
-                            new List<ResultData>() { new ResultData(i, tmp2["StartTime"].ToString(), tmp2["Result"].ToString(), "---", tmp2["LowLimit"].ToString(),
-                            tmp2["UpLimit"].ToString(), tmp2["Audit"].ToString(), tmp2["Itar"].ToString(), tmp2["LongModelName"].ToString(), tmp2["TubeSN"].ToString(),
+                            new List<ResultData>() { new ResultData(i, tmp2["TestType"].ToString(), tmp2["StartTime"].ToString(), tmp2["Result"].ToString(), "---", tmp2["LowLimit"].ToString(),
+                            tmp2["UpLimit"].ToString(), tmp2["Audit"].ToString(), tmp2["Itar"].ToString(), tmp2["LongModelName"].ToString(), tmp2["TubeSN"].ToString(), tmp2["TubeName"].ToString(),
                             tmp2["SsaSN"].ToString(), tmp2["LinSN"].ToString(), tmp2["LipaSN"].ToString(), tmp2["BucSN"].ToString(), tmp2["BipaSN"].ToString(), tmp2["BlipaSN"].ToString())});
                         var key = tmp2["TestName"].ToString() + tmp2["Channel"].ToString() + tmp2["P2"].ToString();
                         var flagList = !flags.Equals("None") ? flags.Split(',') : new string[0];
@@ -209,8 +209,8 @@ namespace SatcomRfWebsite.Controllers
                         }
                         else if (raw.ContainsKey(key))
                         {
-                            raw[key].Results.Add(new ResultData(i, tmp2["StartTime"].ToString(), tmp2["Result"].ToString(), "---", tmp2["LowLimit"].ToString(), 
-                            tmp2["UpLimit"].ToString(), tmp2["Audit"].ToString(), tmp2["Itar"].ToString(), tmp2["LongModelName"].ToString(), tmp2["TubeSN"].ToString(), 
+                            raw[key].Results.Add(new ResultData(i, tmp2["TestType"].ToString(), tmp2["StartTime"].ToString(), tmp2["Result"].ToString(), "---", tmp2["LowLimit"].ToString(), 
+                            tmp2["UpLimit"].ToString(), tmp2["Audit"].ToString(), tmp2["Itar"].ToString(), tmp2["LongModelName"].ToString(), tmp2["TubeSN"].ToString(), tmp2["TubeName"].ToString(),
                             tmp2["SsaSN"].ToString(), tmp2["LinSN"].ToString(), tmp2["LipaSN"].ToString(), tmp2["BucSN"].ToString(), tmp2["BipaSN"].ToString(), tmp2["BlipaSN"].ToString()));
                         }
                         else
@@ -486,7 +486,7 @@ namespace SatcomRfWebsite.Controllers
             {
                 List<TestData> data = InternalGetTableData(modelName, productType, flags);
                 string[][] headers = new string[1][];
-                headers[0] = new string[] { "Testname", "Channel", "Power", "Serial Number", "Start Time", "Audit", "Itar", "Long Model Name", "TubeSN", "SsaSN", "LinSN", "LipaSN", "BucSN", "BipaSN", "BlipaSN", "Result", "Min", "Max", "Average", "Std. Deviation", "Unit", "Result (Conv)", "Min (Conv)", "Max (Conv)", "Average (Conv)", "Std. Deviation (Conv)", "Unit (Conv)", "LowLimit", "UpLimit", "Cpk" };
+                headers[0] = new string[] { "Testname", "Channel", "Power", "Serial Number", "Test Type", "Start Time", "Audit", "Itar", "Long Model Name", "TubeSN", "Tube Name", "SsaSN", "LinSN", "LipaSN", "BucSN", "BipaSN", "BlipaSN", "Result", "Min", "Max", "Average", "Std. Deviation", "Unit", "Result (Conv)", "Min (Conv)", "Max (Conv)", "Average (Conv)", "Std. Deviation (Conv)", "Unit (Conv)", "LowLimit", "UpLimit", "Cpk" };
                 var file = new MemoryStream();
                 var document = new XLWorkbook();
                 var worksheet = document.Worksheets.Add("Table Data");
@@ -497,41 +497,43 @@ namespace SatcomRfWebsite.Controllers
                     worksheet.Cell(insertionIndex, 1).SetValue(test.TestName);
                     worksheet.Cell(insertionIndex, 2).SetValue(test.Channel);
                     worksheet.Cell(insertionIndex, 3).SetValue(test.Power);
-                    worksheet.Cell(insertionIndex, 17).SetValue(test.MinResult);
-                    worksheet.Cell(insertionIndex, 18).SetValue(test.MaxResult);
-                    worksheet.Cell(insertionIndex, 19).SetValue(test.AvgResult);
-                    worksheet.Cell(insertionIndex, 20).SetValue(test.StdDev);
-                    worksheet.Cell(insertionIndex, 21).SetValue(test.Unit);
-                    worksheet.Cell(insertionIndex, 23).SetValue(test.MinResultConv);
-                    worksheet.Cell(insertionIndex, 24).SetValue(test.MaxResultConv);
-                    worksheet.Cell(insertionIndex, 25).SetValue(test.AvgResultConv);
-                    worksheet.Cell(insertionIndex, 26).SetValue(test.StdDevConv);
-                    worksheet.Cell(insertionIndex, 27).SetValue(test.UnitConv);
-                    worksheet.Cell(insertionIndex, 30).SetValue(test.Cpk);
+                    worksheet.Cell(insertionIndex, 19).SetValue(test.MinResult);
+                    worksheet.Cell(insertionIndex, 20).SetValue(test.MaxResult);
+                    worksheet.Cell(insertionIndex, 21).SetValue(test.AvgResult);
+                    worksheet.Cell(insertionIndex, 22).SetValue(test.StdDev);
+                    worksheet.Cell(insertionIndex, 23).SetValue(test.Unit);
+                    worksheet.Cell(insertionIndex, 25).SetValue(test.MinResultConv);
+                    worksheet.Cell(insertionIndex, 26).SetValue(test.MaxResultConv);
+                    worksheet.Cell(insertionIndex, 27).SetValue(test.AvgResultConv);
+                    worksheet.Cell(insertionIndex, 28).SetValue(test.StdDevConv);
+                    worksheet.Cell(insertionIndex, 29).SetValue(test.UnitConv);
+                    worksheet.Cell(insertionIndex, 32).SetValue(test.Cpk);
 
                     worksheet.Range(worksheet.Cell(insertionIndex, 1), worksheet.Cell(insertionIndex + test.AllResults.Count() - 1, 1)).Merge();
                     worksheet.Range(worksheet.Cell(insertionIndex, 2), worksheet.Cell(insertionIndex + test.AllResults.Count() - 1, 2)).Merge();
                     worksheet.Range(worksheet.Cell(insertionIndex, 3), worksheet.Cell(insertionIndex + test.AllResults.Count() - 1, 3)).Merge();
-                    worksheet.Range(worksheet.Cell(insertionIndex, 17), worksheet.Cell(insertionIndex + test.AllResults.Count() - 1, 17)).Merge();
-                    worksheet.Range(worksheet.Cell(insertionIndex, 18), worksheet.Cell(insertionIndex + test.AllResults.Count() - 1, 18)).Merge();
-                    worksheet.Range(worksheet.Cell(insertionIndex, 19), worksheet.Cell(insertionIndex + test.AllResults.Count() - 1, 19)).Merge();
-                    worksheet.Range(worksheet.Cell(insertionIndex, 20), worksheet.Cell(insertionIndex + test.AllResults.Count() - 1, 20)).Merge();
-                    worksheet.Range(worksheet.Cell(insertionIndex, 21), worksheet.Cell(insertionIndex + test.AllResults.Count() - 1, 21)).Merge();
-                    worksheet.Range(worksheet.Cell(insertionIndex, 23), worksheet.Cell(insertionIndex + test.AllResults.Count() - 1, 23)).Merge();
-                    worksheet.Range(worksheet.Cell(insertionIndex, 24), worksheet.Cell(insertionIndex + test.AllResults.Count() - 1, 24)).Merge();
-                    worksheet.Range(worksheet.Cell(insertionIndex, 25), worksheet.Cell(insertionIndex + test.AllResults.Count() - 1, 25)).Merge();
-                    worksheet.Range(worksheet.Cell(insertionIndex, 26), worksheet.Cell(insertionIndex + test.AllResults.Count() - 1, 26)).Merge();
-                    worksheet.Range(worksheet.Cell(insertionIndex, 27), worksheet.Cell(insertionIndex + test.AllResults.Count() - 1, 27)).Merge();
-                    worksheet.Range(worksheet.Cell(insertionIndex, 30), worksheet.Cell(insertionIndex + test.AllResults.Count() - 1, 30)).Merge();
+                    worksheet.Range(worksheet.Cell(insertionIndex, 19), worksheet.Cell(insertionIndex + test.AllResults.Count() - 1, 17)).Merge();
+                    worksheet.Range(worksheet.Cell(insertionIndex, 20), worksheet.Cell(insertionIndex + test.AllResults.Count() - 1, 18)).Merge();
+                    worksheet.Range(worksheet.Cell(insertionIndex, 21), worksheet.Cell(insertionIndex + test.AllResults.Count() - 1, 19)).Merge();
+                    worksheet.Range(worksheet.Cell(insertionIndex, 22), worksheet.Cell(insertionIndex + test.AllResults.Count() - 1, 20)).Merge();
+                    worksheet.Range(worksheet.Cell(insertionIndex, 23), worksheet.Cell(insertionIndex + test.AllResults.Count() - 1, 21)).Merge();
+                    worksheet.Range(worksheet.Cell(insertionIndex, 25), worksheet.Cell(insertionIndex + test.AllResults.Count() - 1, 23)).Merge();
+                    worksheet.Range(worksheet.Cell(insertionIndex, 26), worksheet.Cell(insertionIndex + test.AllResults.Count() - 1, 24)).Merge();
+                    worksheet.Range(worksheet.Cell(insertionIndex, 27), worksheet.Cell(insertionIndex + test.AllResults.Count() - 1, 25)).Merge();
+                    worksheet.Range(worksheet.Cell(insertionIndex, 28), worksheet.Cell(insertionIndex + test.AllResults.Count() - 1, 26)).Merge();
+                    worksheet.Range(worksheet.Cell(insertionIndex, 29), worksheet.Cell(insertionIndex + test.AllResults.Count() - 1, 27)).Merge();
+                    worksheet.Range(worksheet.Cell(insertionIndex, 32), worksheet.Cell(insertionIndex + test.AllResults.Count() - 1, 30)).Merge();
 
                     for (int i = 0; i < test.AllResults.Count(); i++)
                     {
                         var serial = test.AllResults[i].SerialNumber;
+                        var testType = test.AllResults[i].TestType;
                         var startTime = test.AllResults[i].StartTime;
                         var audit = test.AllResults[i].Audit;
                         var itar = test.AllResults[i].Itar;
                         var longModelName = test.AllResults[i].LongModelName;
                         var tubeSN = test.AllResults[i].TubeSN;
+                        var tubeName = test.AllResults[i].TubeName;
                         var ssaSN = test.AllResults[i].SsaSN;
                         var linSN = test.AllResults[i].LinSN;
                         var lipaSN = test.AllResults[i].LipaSN;
@@ -544,21 +546,23 @@ namespace SatcomRfWebsite.Controllers
                         var upLimit = test.AllResults[i].UpLimit;
 
                         worksheet.Cell(insertionIndex, 4).SetValue(serial != "" ? serial : "---");
-                        worksheet.Cell(insertionIndex, 5).SetValue(startTime != "" ? startTime : "---");
-                        worksheet.Cell(insertionIndex, 6).SetValue(audit != "" ? audit : "---");
-                        worksheet.Cell(insertionIndex, 7).SetValue(itar != "" ? itar : "---");
-                        worksheet.Cell(insertionIndex, 8).SetValue(longModelName != "" ? longModelName : "---");
-                        worksheet.Cell(insertionIndex, 9).SetValue(tubeSN != "" ? tubeSN : "---");
-                        worksheet.Cell(insertionIndex, 10).SetValue(ssaSN != "" ? ssaSN : "---");
-                        worksheet.Cell(insertionIndex, 11).SetValue(linSN != "" ? linSN : "---");
-                        worksheet.Cell(insertionIndex, 12).SetValue(lipaSN != "" ? lipaSN : "---");
-                        worksheet.Cell(insertionIndex, 13).SetValue(bucSN != "" ? bucSN : "---");
-                        worksheet.Cell(insertionIndex, 14).SetValue(bipaSN != "" ? bipaSN : "---");
-                        worksheet.Cell(insertionIndex, 15).SetValue(blipaSN != "" ? blipaSN : "---");
-                        worksheet.Cell(insertionIndex, 16).SetValue(result != "" ? result : "---");
-                        worksheet.Cell(insertionIndex, 22).SetValue(resultConv != "" ? resultConv : "---");
-                        worksheet.Cell(insertionIndex, 28).SetValue(lowLimit != "" ? lowLimit : "---");
-                        worksheet.Cell(insertionIndex, 29).SetValue(upLimit != "" ? upLimit : "---");
+                        worksheet.Cell(insertionIndex, 5).SetValue(testType != "" ? testType : "---");
+                        worksheet.Cell(insertionIndex, 6).SetValue(startTime != "" ? startTime : "---");
+                        worksheet.Cell(insertionIndex, 7).SetValue(audit != "" ? audit : "---");
+                        worksheet.Cell(insertionIndex, 8).SetValue(itar != "" ? itar : "---");
+                        worksheet.Cell(insertionIndex, 9).SetValue(longModelName != "" ? longModelName : "---");
+                        worksheet.Cell(insertionIndex, 10).SetValue(tubeSN != "" ? tubeSN : "---");
+                        worksheet.Cell(insertionIndex, 11).SetValue(tubeName != "" ? tubeName : "---");
+                        worksheet.Cell(insertionIndex, 12).SetValue(ssaSN != "" ? ssaSN : "---");
+                        worksheet.Cell(insertionIndex, 13).SetValue(linSN != "" ? linSN : "---");
+                        worksheet.Cell(insertionIndex, 14).SetValue(lipaSN != "" ? lipaSN : "---");
+                        worksheet.Cell(insertionIndex, 15).SetValue(bucSN != "" ? bucSN : "---");
+                        worksheet.Cell(insertionIndex, 16).SetValue(bipaSN != "" ? bipaSN : "---");
+                        worksheet.Cell(insertionIndex, 17).SetValue(blipaSN != "" ? blipaSN : "---");
+                        worksheet.Cell(insertionIndex, 18).SetValue(result != "" ? result : "---");
+                        worksheet.Cell(insertionIndex, 24).SetValue(resultConv != "" ? resultConv : "---");
+                        worksheet.Cell(insertionIndex, 30).SetValue(lowLimit != "" ? lowLimit : "---");
+                        worksheet.Cell(insertionIndex, 31).SetValue(upLimit != "" ? upLimit : "---");
 
                         insertionIndex++;
                     }
