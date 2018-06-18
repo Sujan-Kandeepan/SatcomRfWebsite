@@ -238,9 +238,9 @@ namespace SatcomRfWebsite.Controllers
                             rounding = 5;
                         }
                         var tmp = new TestData();
-                        //foreach (String x in raw.ElementAt(i).Value.Results.OrderBy(x => Convert.ToDouble(Regex.Replace(val[1].Replace("Below ", "").Replace("+/-", "").Replace(":1", ""), "[^0-9.E-]", "")))) { System.Diagnostics.Debug.Write("<" + x + "> "); }
+                        //foreach (ResultData x in raw.ElementAt(i).Value.Results.OrderBy(x => Convert.ToDouble(Regex.Replace(x.Result.Replace("Below ", "").Replace("+/-", "").Replace(":1", ""), "[^0-9.E-]", "")))) { System.Diagnostics.Debug.Write("<" + x.Result + "> "); }
                         //System.Diagnostics.Debug.WriteLine("");
-                        var rawtmp = raw.ElementAt(i).Value.Results.Select(val => { val.Result = Convert.ToDouble(Regex.Replace(val.Result.Replace("Below ", "").Replace("+/-", "").Replace(":1", ""), "[^0-9.E-]", "")).ToString("G4", CultureInfo.InvariantCulture); return val; });
+                        var rawtmp = raw.ElementAt(i).Value.Results.Select(val => { val.Result = Convert.ToString(Convert.ToDouble(Regex.Replace(val.Result.Replace("Below ", "").Replace("+/-", "").Replace(":1", ""), "[^0-9.E-]", ""))); return val; });
                         var rawtmp2 = from val in rawtmp select Convert.ToDouble(val.Result);
                         tmp.TestName = raw.ElementAt(i).Value.TestName;
                         tmp.Unit = raw.ElementAt(i).Value.Units;
@@ -323,7 +323,7 @@ namespace SatcomRfWebsite.Controllers
                                 {
                                     double c = Math.Pow(10, Convert.ToDouble((rawtmp.ToList())[z].Result) / 10);
                                     tempSum2 += Math.Pow(c - tempAvg, 2);
-                                    tmp.AllResults[z].ResultConv = c.ToString("G4", CultureInfo.InvariantCulture);
+                                    tmp.AllResults[z].ResultConv = Convert.ToString(c);
                                 }
                                 tempStd = Math.Sqrt(tempSum2 / rawtmp.Count());
 
@@ -338,8 +338,8 @@ namespace SatcomRfWebsite.Controllers
                                 {
                                     double c = Math.Pow(10, (Convert.ToDouble((rawtmp.ToList())[z].Result) - 30) / 10);
                                     tempSum2 += Math.Pow(c - tempAvg, 2);
-                                    tmp.AllResults[z].ResultConv = c.ToString("G4", CultureInfo.InvariantCulture);
-                                }
+                                    tmp.AllResults[z].ResultConv = Convert.ToString(c);
+                            }
                                 tempStd = Math.Sqrt(tempSum2 / rawtmp.Count());
 
                                 break;
@@ -354,8 +354,8 @@ namespace SatcomRfWebsite.Controllers
                                 {
                                     double c = 1 / Math.Pow(10, 1 / Convert.ToDouble((rawtmp.ToList())[z].Result) / 10);
                                     tempSum2 += Math.Pow(c - tempAvg, 2);
-                                    tmp.AllResults[z].ResultConv = c.ToString("G4", CultureInfo.InvariantCulture);
-                                }
+                                    tmp.AllResults[z].ResultConv = Convert.ToString(c);
+                            }
                                 tempStd = Math.Sqrt(tempSum2 / rawtmp.Count());
 
                                 string[] temp = largeW;
@@ -380,7 +380,7 @@ namespace SatcomRfWebsite.Controllers
                                     tempStd /= 1000;
                                     for (int z = 0; z < tmp.AllResults.Count(); z++)
                                     {
-                                        tmp.AllResults[z].ResultConv = (Convert.ToDouble(tmp.AllResults[z].ResultConv) / 1000).ToString("G4", CultureInfo.InvariantCulture);
+                                        tmp.AllResults[z].ResultConv = Convert.ToString(Convert.ToDouble(tmp.AllResults[z].ResultConv) / 1000);
                                     }
                                     tmp.UnitConv = largeW[wIndex < 7 ? wIndex++ : wIndex];
                                 }
@@ -392,8 +392,8 @@ namespace SatcomRfWebsite.Controllers
                                     tempStd *= 1000;
                                     for (int z = 0; z < tmp.AllResults.Count(); z++)
                                     {
-                                        tmp.AllResults[z].ResultConv = (Convert.ToDouble(tmp.AllResults[z].ResultConv) * 1000).ToString("G4", CultureInfo.InvariantCulture);
-                                    }
+                                        tmp.AllResults[z].ResultConv = Convert.ToString(Convert.ToDouble(tmp.AllResults[z].ResultConv) * 1000);
+                                }
                                     tmp.UnitConv = smallW[wIndex < 7 ? wIndex++ : wIndex];
                                 }
                                 else
@@ -402,18 +402,22 @@ namespace SatcomRfWebsite.Controllers
                                 }
                             }
 
-                            for (int x = 0; x < tmp.AllResults.Count(); x++)
-                            {
-                                tmp.AllResults[x].ResultConv = (Math.Round(Convert.ToDouble(tmp.AllResults[x].ResultConv), rounding)).ToString("G4", CultureInfo.InvariantCulture);
-                            }
-
                             tmp.MinResultConv = Math.Round(tempMin, rounding).ToString("G4", CultureInfo.InvariantCulture);
                             tmp.MaxResultConv = Math.Round(tempMax, rounding).ToString("G4", CultureInfo.InvariantCulture);
                             tmp.AvgResultConv = Math.Round(tempAvg, rounding).ToString("G4", CultureInfo.InvariantCulture);
                             tmp.StdDevConv = Math.Round(tempStd, rounding).ToString("G4", CultureInfo.InvariantCulture);
                         }
 
-                        switch (tmp.Unit)
+                    for (int x = 0; x < tmp.AllResults.Count(); x++)
+                    {
+                        tmp.AllResults[x].Result = (Math.Round(Convert.ToDouble(tmp.AllResults[x].Result), rounding)).ToString("G4", CultureInfo.InvariantCulture);
+                        if (tmp.Unit.Contains("dB"))
+                        {
+                            tmp.AllResults[x].ResultConv = (Math.Round(Convert.ToDouble(tmp.AllResults[x].ResultConv), rounding)).ToString("G4", CultureInfo.InvariantCulture);
+                        }
+                    }
+
+                    switch (tmp.Unit)
                         {
                             case "dB/MHz":
                                 tmp.UnitConv += "/MHz";
