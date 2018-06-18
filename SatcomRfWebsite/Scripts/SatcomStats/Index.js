@@ -124,7 +124,7 @@ function buildTable(tableData) {
     return result;
 }
 
-function getTable(productType, modelName) {
+function getTable(productType, modelName, testType, tubeName, options) {
     if (modelName === "default") {
         document.getElementById("data-display").classList.add("hide");
         document.getElementById("data-table").innerHTML = "";
@@ -137,7 +137,7 @@ function getTable(productType, modelName) {
         return;
     }
 
-    var src = document.location.origin + "/api/ListAPI/GetTableData?modelName=" + modelName + "&productType=" + productType + "&flags=" + "null";
+    var src = document.location.origin + "/api/ListAPI/GetTableData?modelName=" + modelName + "&productType=" + productType + "&testType=" + testType + "&tubeName=" + tubeName + "&flags=" + options;
     var data = new XMLHttpRequest();
     data.onreadystatechange = function () {
         document.getElementById("data-table").innerHTML = "";
@@ -267,14 +267,14 @@ function showFail() {
     document.getElementById("data-table").innerHTML = "";
 }
 
-function getxlsxfile(productType, modelName) {
+function getxlsxfile(productType, modelName, testType, tubeName, options) {
     if (modelName === "default" || productType === "default") {
         document.getElementById("selection-failed").classList.remove("hide");
         document.getElementById("download-failed").classList.add("hide");
         return;
     }
 
-    var src = document.location.origin + "/api/ListAPI/GetTableFile?modelName=" + modelName + "&productType=" + productType + productType + "&flags=" + "null";
+    var src = document.location.origin + "/api/ListAPI/GetTableFile?modelName=" + modelName + "&productType=" + productType + "&testType=" + testType + "&tubeName=" + tubeName + "&flags=" + options;
     var data = new XMLHttpRequest();
     data.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
@@ -291,7 +291,7 @@ function getxlsxfile(productType, modelName) {
     data.send();
 
     document.getElementById("iframe-temp").innerHTML = "<iframe style=\"display:none\" src=\"" + document.location.origin +
-        "/api/ListAPI/GetTableFile?modelName=" + modelName + "&productType=" + productType + "&flags=" + "None" + "\"></iframe>";
+        "/api/ListAPI/GetTableFile?modelName=" + modelName + "&productType=" + productType + "&testType=" + testType + "&tubeName=" + tubeName + "&flags=" + options + "\"></iframe>";
 }
 
 function sendStats() {

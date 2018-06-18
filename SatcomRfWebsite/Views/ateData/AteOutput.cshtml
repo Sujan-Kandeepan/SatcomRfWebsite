@@ -116,16 +116,31 @@
         </script>
 
         <div class="col-lg-4">
-            <input type="button" class="form-control btn btn-success" id="dlxlsx" name="dlbtn" onclick="getxlsxfile(selectProductType.value, selectModelName.value)" value="Download as Excel file (.xlsx)" />
+            <input type="button" class="form-control btn btn-success" id="dlxlsx" name="dlbtn" onclick="getxlsxfile(selectProductType.value, selectModelName.value, $('#selectTestType').val(), $('#selectTubeName').val(), $('#selectOptions').val())" value="Download as Excel file (.xlsx)" />
         </div> <!--Another button can go here, possibly-->
 
         <script>
-            function getxlsxfile(productType, modelName) {
+            function getxlsxfile(productType, modelName, testType, tubeName, options) {
                 if (modelName == "") {
                     document.getElementById("selection-failed").classList.remove("hide");
                 }
                 else {
-                    var src = document.location.origin + "/api/ListAPI/GetTableFile?modelName=" + modelName + "&productType=" + productType + "&flags=" + $('#selectOptions').val();
+                    switch ($('#selectTestType').val()) {
+                        case "ProdTest":
+                            testType = "Production Test";
+                            break;
+                        case "EngTest":
+                            testType = "Engineering Test";
+                            break;
+                        case "Debug":
+                            testType = "Debugging";
+                            break;
+                        default:
+                            testType = "null";
+                            break;
+                    }
+
+                    var src = document.location.origin + "/api/ListAPI/GetTableFile?modelName=" + modelName + "&productType=" + productType + "&testType=" + testType + "&tubeName=" + tubeName + "&flags=" + options;
                     var data = new XMLHttpRequest();
                     data.onreadystatechange = function () {
                         if (this.readyState === 4 && this.status === 200) {
@@ -139,10 +154,10 @@
                     document.getElementById("excel-loading").classList.remove("hide");
 
                     data.open("GET", src, true);
-                    data.send();
+                    data.send();    
 
                     document.getElementById("iframe-temp").innerHTML = "<iframe style=\"display:none\" src=\"" + document.location.origin +
-                        "/api/ListAPI/GetTableFile?modelName=" + modelName + "&productType=" + productType + "&flags=" + $('#selectOptions').val() + "\"></iframe>";
+                        "/api/ListAPI/GetTableFile?modelName=" + modelName + "&productType=" + productType + "&testType=" + testType + "&tubeName=" + tubeName + "&flags=" + options + "\"></iframe>";
                 }
             }
         </script>
