@@ -240,8 +240,7 @@ namespace SatcomRfWebsite.Controllers
                         var tmp = new TestData();
                         //foreach (String x in raw.ElementAt(i).Value.Results.OrderBy(x => Convert.ToDouble(Regex.Replace(val[1].Replace("Below ", "").Replace("+/-", "").Replace(":1", ""), "[^0-9.E-]", "")))) { System.Diagnostics.Debug.Write("<" + x + "> "); }
                         //System.Diagnostics.Debug.WriteLine("");
-                        var //rawtmp = from val in raw.ElementAt(i).Value.Results select new ResultData(val.SerialNumber, val.StartTime, Convert.ToDouble(Regex.Replace(val.Result.Replace("Below ", "").Replace("+/-", "").Replace(":1", ""), "[^0-9.E-]", "")).ToString("G4", CultureInfo.InvariantCulture), val.ResultConv, val.LowLimit, val.UpLimit);
-                        rawtmp = raw.ElementAt(i).Value.Results.Select(val => { val.Result = Convert.ToDouble(Regex.Replace(val.Result.Replace("Below ", "").Replace("+/-", "").Replace(":1", ""), "[^0-9.E-]", "")).ToString("G4", CultureInfo.InvariantCulture); return val; });
+                        var rawtmp = raw.ElementAt(i).Value.Results.Select(val => { val.Result = Convert.ToDouble(Regex.Replace(val.Result.Replace("Below ", "").Replace("+/-", "").Replace(":1", ""), "[^0-9.E-]", "")).ToString("G4", CultureInfo.InvariantCulture); return val; });
                         var rawtmp2 = from val in rawtmp select Convert.ToDouble(val.Result);
                         tmp.TestName = raw.ElementAt(i).Value.TestName;
                         tmp.Unit = raw.ElementAt(i).Value.Units;
