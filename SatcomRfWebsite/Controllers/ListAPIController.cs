@@ -198,8 +198,6 @@ namespace SatcomRfWebsite.Controllers
 
                         string[] flagList = !(flags == null || flags == "") ? flags.Split(',') : new string[0];
 
-                        System.Diagnostics.Debug.WriteLine(testType);
-
                         if (testType != null && !testType.Equals("null") && !testType.Equals("undefined") && !tmp2["TestType"].Equals(testType)
                             || tubeName != null && !tubeName.Equals("null") && !tubeName.Equals("undefined") && !tmp2["TubeName"].Equals(tubeName)
                             || flagList.Contains("Audit") && tmp2["Audit"].ToString().Equals("False")
