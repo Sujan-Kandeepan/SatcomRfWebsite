@@ -46,6 +46,7 @@ namespace SatcomRfWebsite.Models
     public class ResultData
     {
         public string SerialNumber { get; set; }
+        public string TestType { get; set; }
         public string StartTime { get; set; }
         public string Result { get; set; }
         public string ResultConv { get; set; }
@@ -55,6 +56,7 @@ namespace SatcomRfWebsite.Models
         public string Itar { get; set; }
         public string LongModelName { get; set; }
         public string TubeSN { get; set; }
+        public string TubeName { get; set; }
         public string SsaSN { get; set; }
         public string LinSN { get; set; }
         public string LipaSN { get; set; }
@@ -62,11 +64,12 @@ namespace SatcomRfWebsite.Models
         public string BipaSN { get; set; }
         public string BlipaSN { get; set; }
 
-        public ResultData(string inSerialNumber, string inStartTime, string inResult, string inResultConv, 
-            string inLowLimit, string inUpLimit, string inAudit, string inItar, string inLongModelname, string inTubeSN, 
+        public ResultData(string inSerialNumber, string inTestType, string inStartTime, string inResult, string inResultConv, 
+            string inLowLimit, string inUpLimit, string inAudit, string inItar, string inLongModelname, string inTubeSN, string inTubeName,
             string inSsaSN, string inLinSN, string inLipaSN, string inBucSN, string inBipaSN, string inBlipaSN)
         {
             SerialNumber = inSerialNumber;
+            TestType = inTestType;
             StartTime = inStartTime;
             Result = inResult;
             ResultConv = inResultConv;
@@ -76,6 +79,7 @@ namespace SatcomRfWebsite.Models
             Itar = inItar;
             LongModelName = inLongModelname;
             TubeSN = inTubeSN;
+            TubeName = inTubeName;
             SsaSN = inSsaSN;
             LinSN = inLinSN;
             LipaSN = inLipaSN;
@@ -86,8 +90,8 @@ namespace SatcomRfWebsite.Models
 
         public override string ToString()
         {
-            return String.Join(",", new List<string>() { SerialNumber, StartTime, Result, ResultConv, LowLimit, UpLimit,
-                Audit, Itar, LongModelName, TubeSN, SsaSN, LinSN, LipaSN, BucSN, BipaSN, BlipaSN } );
+            return String.Join(",", new List<string>() { SerialNumber, TestType, StartTime, Result, ResultConv, LowLimit, UpLimit,
+                Audit, Itar, LongModelName, TubeSN, TubeName, SsaSN, LinSN, LipaSN, BucSN, BipaSN, BlipaSN } );
         }
     }
 }

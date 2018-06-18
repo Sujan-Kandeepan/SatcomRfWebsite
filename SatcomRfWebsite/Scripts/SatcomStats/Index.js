@@ -180,14 +180,14 @@ function fillModal(testName, channel, allResultsString, unit, unitConv, sortMode
 
     var arrayTemp = [];
     for (var i = 0; i < allResultsJoined.length; i++) {
-        if (i % 16 == 0) {
+        if (i % 18 == 0) {
             arrayTemp = [allResultsJoined[i]];
         }
         else {
             arrayTemp.push(allResultsJoined[i]);
         }
 
-        if (i % 16 == 15) {
+        if (i % 18 == 17) {
             allResults.push(arrayTemp);
         }
     }
@@ -228,23 +228,27 @@ function fillModal(testName, channel, allResultsString, unit, unitConv, sortMode
         + closeButton + "</h4>" + toggleButton + "<hr/>";
 
     for (var i = 0; i < allResults.length; i++) {
-        html += "<strong>" + allResults[i][0] + ":" + "</strong>" + " " + allResults[i][2] + unit;
+        html += "<strong>" + allResults[i][0] + ":" + "</strong>" + " " + allResults[i][3] + unit;
         if (unitConv != "N/A") {
-            html += ", " + allResults[i][3] + unitConv;
+            html += ", " + allResults[i][4] + unitConv;
         }
         html += "</br><div style=\"margin-top: -5px; color: rgb(128, 128, 128)\">";
-        html += "Audit: " + (allResults[i][6] == "True" ? "<input type=\"checkbox\" checked disabled>" : "<input type=\"checkbox\" disabled>");
-        html += "&ensp;Itar: " + (allResults[i][7] == "True" ? "<input type=\"checkbox\" checked disabled>" : "<input type=\"checkbox\" disabled>");
-        html += allResults[i][10] != "" ? "&ensp;SsaSN: " + allResults[i][10] : "";
-        html += allResults[i][11] != "" ? "&ensp;LinSN: " + allResults[i][11] : "";
-        html += allResults[i][12] != "" ? "&ensp;LipaSN: " + allResults[i][12] : "";
-        html += allResults[i][13] != "" ? "&ensp;BucSN: " + allResults[i][13] : "";
-        html += allResults[i][14] != "" ? "&ensp;BipaSN: " + allResults[i][14] : "";
-        html += allResults[i][15] != "" ? "&ensp;BlipaSN: " + allResults[i][15] : "";
+        html += "TestType: " + (allResults[i][1] != "" ? allResults[i][1] : "None");
+        html += "</div><div style=\"margin-top: -5px; color: rgb(128, 128, 128)\">";
+        html += "TubeName: " + (allResults[i][11] != "" ? allResults[i][11] : "None");
+        html += "</div><div style=\"margin-top: -5px; color: rgb(128, 128, 128)\">";
+        html += "Audit: " + (allResults[i][7] == "True" ? "<input type=\"checkbox\" checked disabled>" : "<input type=\"checkbox\" disabled>");
+        html += "&ensp;Itar: " + (allResults[i][8] == "True" ? "<input type=\"checkbox\" checked disabled>" : "<input type=\"checkbox\" disabled>");
+        html += allResults[i][12] != "" ? "&ensp;SsaSN: " + allResults[i][12] : "";
+        html += allResults[i][13] != "" ? "&ensp;LinSN: " + allResults[i][13] : "";
+        html += allResults[i][14] != "" ? "&ensp;LipaSN: " + allResults[i][14] : "";
+        html += allResults[i][15] != "" ? "&ensp;BucSN: " + allResults[i][15] : "";
+        html += allResults[i][16] != "" ? "&ensp;BipaSN: " + allResults[i][16] : "";
+        html += allResults[i][17] != "" ? "&ensp;BlipaSN: " + allResults[i][17] : "";
         html += "</div><div style=\"margin-top: -5px; color: rgb(128, 128, 128)\">";
         html += "LowLimit: " + (allResults[i][4] != "" ? allResults[i][4] : "None");
         html += "&ensp;UpLimit: " + (allResults[i][5] != "" ? allResults[i][5] : "None");
-        html += "</div>"
+        html += "</div>";
     }
 
     document.getElementById("content-all-results").innerHTML = html;
