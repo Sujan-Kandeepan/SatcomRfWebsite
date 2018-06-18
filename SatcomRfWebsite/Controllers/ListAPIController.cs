@@ -198,7 +198,8 @@ namespace SatcomRfWebsite.Controllers
 
                         string[] flagList = flags != null ? flags.Split(',') : new string[0];
 
-                        if (false //!tmp2["TestType"].Equals(testType) || !tmp2["TubeName"].Equals(tubeName)
+                        if (testType != null && !testType.Equals("undefined") && !tmp2["TestType"].Equals(testType)
+                            || tubeName != null && !tubeName.Equals("undefined") && !tmp2["TubeName"].Equals(tubeName)
                             || flagList.Contains("Audit") && tmp2["Audit"].ToString().Equals("False")
                             || flagList.Contains("Itar") && tmp2["Itar"].ToString().Equals("False")
                             || flagList.Contains("SsaSN") && tmp2["SsaSN"].ToString().Equals("")
@@ -586,15 +587,15 @@ namespace SatcomRfWebsite.Controllers
                 worksheet.Column(21).Width = 10;
                 document.SaveAs(file);
                 string filename = DateTime.Now.ToString("yyyy-MM-dd") + $" {productType} {modelName}.xlsx";
-                if (testType != null)
+                if (testType != null && !testType.Equals("null"))
                 {
                     filename = filename.Replace(".xlsx", $" {testType}.xlsx");
                 }
-                if (tubeName != null)
+                if (tubeName != null && !tubeName.Equals("null"))
                 {
                     filename = filename.Replace(".xlsx", $" {tubeName}.xlsx");
                 }
-                if (flags != null)
+                if (flags != null && !flags.Equals("null"))
                 {
                     filename = filename.Replace(".xlsx", $" {flags}.xlsx");
                 }
