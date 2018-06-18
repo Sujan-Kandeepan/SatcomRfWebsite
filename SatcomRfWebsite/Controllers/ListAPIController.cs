@@ -411,7 +411,7 @@ namespace SatcomRfWebsite.Controllers
                     for (int x = 0; x < tmp.AllResults.Count(); x++)
                     {
                         tmp.AllResults[x].Result = (Math.Round(Convert.ToDouble(tmp.AllResults[x].Result), rounding)).ToString("G4", CultureInfo.InvariantCulture);
-                        if (tmp.Unit.Contains("dB"))
+                        if (!tmp.AllResults[x].ResultConv.Equals("---"))
                         {
                             tmp.AllResults[x].ResultConv = (Math.Round(Convert.ToDouble(tmp.AllResults[x].ResultConv), rounding)).ToString("G4", CultureInfo.InvariantCulture);
                         }
