@@ -103,7 +103,7 @@ namespace SatcomRfWebsite.Controllers
         }
 
         [NonAction]
-        public List<TestData> InternalGetTableData(string modelName, string productType)
+        public List<TestData> InternalGetTableData(string modelName, string productType, string flags)
         {
             var data = new List<TestData>();
             using (var conn = new SqlConnection(GetSqlConnectString()))
@@ -189,13 +189,25 @@ namespace SatcomRfWebsite.Controllers
                     while (sqlResult2.Read())
                     {
                         var tmp2 = (IDataRecord)sqlResult2;
-                        var tinfo = new TestInfo(tmp2["TestName"].ToString(), tmp2["Channel"].ToString(), tmp2["P2"].ToString(), tmp2["Units"].ToString(), 
-                            new List<ResultData>() { new ResultData(i, tmp2["StartTime"].ToString(), tmp2["Result"].ToString(), "---", tmp2["LowLimit"].ToString(), 
-                            tmp2["UpLimit"].ToString(), tmp2["Audit"].ToString(), tmp2["Itar"].ToString(), tmp2["LongModelName"].ToString(), tmp2["TubeSN"].ToString(), 
+                        var tinfo = new TestInfo(tmp2["TestName"].ToString(), tmp2["Channel"].ToString(), tmp2["P2"].ToString(), tmp2["Units"].ToString(),
+                            new List<ResultData>() { new ResultData(i, tmp2["StartTime"].ToString(), tmp2["Result"].ToString(), "---", tmp2["LowLimit"].ToString(),
+                            tmp2["UpLimit"].ToString(), tmp2["Audit"].ToString(), tmp2["Itar"].ToString(), tmp2["LongModelName"].ToString(), tmp2["TubeSN"].ToString(),
                             tmp2["SsaSN"].ToString(), tmp2["LinSN"].ToString(), tmp2["LipaSN"].ToString(), tmp2["BucSN"].ToString(), tmp2["BipaSN"].ToString(), tmp2["BlipaSN"].ToString())});
                         var key = tmp2["TestName"].ToString() + tmp2["Channel"].ToString() + tmp2["P2"].ToString();
+                        var flagList = !flags.Equals("None") ? flags.Split(',') : new string[0];
 
-                        if (raw.ContainsKey(key))
+                        if (flagList.Contains("Audit") && tmp2["Audit"].ToString().Equals("False")
+                            || flagList.Contains("Itar") && tmp2["Itar"].ToString().Equals("False")
+                            || flagList.Contains("SsaSN") && tmp2["SsaSN"].ToString().Equals("")
+                            || flagList.Contains("LinSN") && tmp2["LinSN"].ToString().Equals("")
+                            || flagList.Contains("LipaSN") && tmp2["LipaSN"].ToString().Equals("")
+                            || flagList.Contains("BucSN") && tmp2["BucSN"].ToString().Equals("")
+                            || flagList.Contains("BipaSN") && tmp2["BipaSN"].ToString().Equals("")
+                            || flagList.Contains("BlipaSN") && tmp2["BlipaSN"].ToString().Equals(""))
+                        {
+                            continue;
+                        }
+                        else if (raw.ContainsKey(key))
                         {
                             raw[key].Results.Add(new ResultData(i, tmp2["StartTime"].ToString(), tmp2["Result"].ToString(), "---", tmp2["LowLimit"].ToString(), 
                             tmp2["UpLimit"].ToString(), tmp2["Audit"].ToString(), tmp2["Itar"].ToString(), tmp2["LongModelName"].ToString(), tmp2["TubeSN"].ToString(), 
@@ -224,7 +236,7 @@ namespace SatcomRfWebsite.Controllers
                         /* --- Listing all fields associated with individual test records ---
                         foreach (var v in raw.ElementAt(i).Value.Results)
                         {
-                            System.Diagnostics.Debug.WriteLine(v[0] + " " + v[1] + " " + v[2] + " " + v[3] + " " + v[4]);
+                            System.Diagnostics.Debug.WriteLine(v);
                         }
                         System.Diagnostics.Debug.WriteLine("");*/
                         var longest = raw.ElementAt(i).Value.Results.OrderByDescending(x => x.Result.Length).First();
@@ -450,11 +462,11 @@ namespace SatcomRfWebsite.Controllers
             return data;
         }
 
-        public IHttpActionResult GetTableData(string modelName, string productType)
+        public IHttpActionResult GetTableData(string modelName, string productType, string flags)
         {
             try
             {
-                List<TestData> data = InternalGetTableData(modelName, productType);
+                List<TestData> data = InternalGetTableData(modelName, productType, flags);
                 return Ok(data);
             }
             catch (DataNotFoundException)
@@ -468,11 +480,11 @@ namespace SatcomRfWebsite.Controllers
             }
         }
 
-        public IHttpActionResult GetTableFile(string modelName, string productType)
+        public IHttpActionResult GetTableFile(string modelName, string productType, string flags)
         {
             try
             {
-                List<TestData> data = InternalGetTableData(modelName, productType);
+                List<TestData> data = InternalGetTableData(modelName, productType, flags);
                 string[][] headers = new string[1][];
                 headers[0] = new string[] { "Testname", "Channel", "Power", "Serial Number", "Start Time", "Audit", "Itar", "Long Model Name", "TubeSN", "SsaSN", "LinSN", "LipaSN", "BucSN", "BipaSN", "BlipaSN", "Result", "Min", "Max", "Average", "Std. Deviation", "Unit", "Result (Conv)", "Min (Conv)", "Max (Conv)", "Average (Conv)", "Std. Deviation (Conv)", "Unit (Conv)", "LowLimit", "UpLimit", "Cpk" };
                 var file = new MemoryStream();
@@ -567,6 +579,10 @@ namespace SatcomRfWebsite.Controllers
                 worksheet.Column(21).Width = 10;
                 document.SaveAs(file);
                 string filename = DateTime.Now.ToString("yyyy-MM-dd") + $" {productType} {modelName}.xlsx";
+                if (!flags.Equals("None"))
+                {
+                    filename = filename.Replace(".xlsx", $" {flags}.xlsx");
+                }
                 var resp = new ExcelFileResponse(file.ToArray(), Request, filename);
                 file.Dispose();
                 return resp;

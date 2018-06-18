@@ -194,7 +194,7 @@
                 document.getElementById("selection-failed").classList.remove("hide");
             }
             else {
-                var src = document.location.origin + "/api/ListAPI/GetTableFile?modelName=" + modelName + "&productType=" + productType;
+                var src = document.location.origin + "/api/ListAPI/GetTableFile?modelName=" + modelName + "&productType=" + productType + "&flags=" + "None";
                 var data = new XMLHttpRequest();
                 data.onreadystatechange = function () {
                     if (this.readyState === 4 && this.status === 200) {
@@ -211,7 +211,7 @@
                 data.send();
 
                 document.getElementById("iframe-temp").innerHTML = "<iframe style=\"display:none\" src=\"" + document.location.origin +
-                    "/api/ListAPI/GetTableFile?modelName=" + modelName + "&productType=" + productType + "\"></iframe>";
+                    "/api/ListAPI/GetTableFile?modelName=" + modelName + "&productType=" + productType + "&flags=" + "None" + "\"></iframe>";
             }
         }
     </script>
