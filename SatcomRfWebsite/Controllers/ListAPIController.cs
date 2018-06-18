@@ -579,7 +579,7 @@ namespace SatcomRfWebsite.Controllers
                 worksheet.Column(21).Width = 10;
                 document.SaveAs(file);
                 string filename = DateTime.Now.ToString("yyyy-MM-dd") + $" {productType} {modelName}.xlsx";
-                if (!flags.Equals("None"))
+                if (!flags.Equals("null"))
                 {
                     filename = filename.Replace(".xlsx", $" {flags}.xlsx");
                 }
