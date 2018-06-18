@@ -339,7 +339,7 @@ namespace SatcomRfWebsite.Controllers
                                     double c = Math.Pow(10, (Convert.ToDouble((rawtmp.ToList())[z].Result) - 30) / 10);
                                     tempSum2 += Math.Pow(c - tempAvg, 2);
                                     tmp.AllResults[z].ResultConv = Convert.ToString(c);
-                            }
+                                }
                                 tempStd = Math.Sqrt(tempSum2 / rawtmp.Count());
 
                                 break;
@@ -355,7 +355,7 @@ namespace SatcomRfWebsite.Controllers
                                     double c = 1 / Math.Pow(10, 1 / Convert.ToDouble((rawtmp.ToList())[z].Result) / 10);
                                     tempSum2 += Math.Pow(c - tempAvg, 2);
                                     tmp.AllResults[z].ResultConv = Convert.ToString(c);
-                            }
+                                }
                                 tempStd = Math.Sqrt(tempSum2 / rawtmp.Count());
 
                                 string[] temp = largeW;
