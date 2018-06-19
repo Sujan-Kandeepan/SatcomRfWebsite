@@ -306,9 +306,9 @@ namespace SatcomRfWebsite.Controllers
                             cpu = (Convert.ToDouble(Regex.Replace(raw.ElementAt(i).Value.Results[0].UpLimit.Replace("Below ", "").Replace("+/-", "").Replace(":1", ""), "[^0-9.E-]", "")) - Convert.ToDouble(tmp.AvgResult)) / (3 * tmpStd);
                         }
                         tmp.Cpk = Math.Round(Math.Min(cpu, cpl), rounding).ToString("G4", CultureInfo.InvariantCulture);
-                        if (Convert.ToDouble(tmp.Cpk) == Double.PositiveInfinity)
+                        if (Double.IsInfinity(Convert.ToDouble(tmp.Cpk)))
                         {
-                            tmp.Cpk = "---";
+                            tmp.Cpk = "N/A";
                         }
 
                         tmp.AllResults = rawtmp.ToList();
