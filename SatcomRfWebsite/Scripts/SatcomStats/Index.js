@@ -79,6 +79,14 @@ function getProductTypes(selected) {
     data.send();
 }
 
+function resetFilter() {
+
+}
+
+function applyFilter() {
+
+}
+
 function buildTable(tableData) {
     var result = "<tr><th>Test Name</th><th>Channel</th><th>Power</th><th>Minimum</th><th>Maximum</th><th>Average</th><th>Standard Deviation</th><th>Cpk</th><th></th></tr>";
     for (var i = 0; i < tableData.length; i++) {
