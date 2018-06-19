@@ -227,8 +227,8 @@ function fillModal(testName, channel, allResultsString, unit, unitConv, sortMode
     if (sortMode == 'val') {
         for (var i = 1; i < allResults.length; i++) {
             for (var j = i; j > 0; j--) {
-                if (parseFloat(allResults[j][2]) < parseFloat(allResults[j - 1][2])
-                    || parseFloat(allResults[j][3]) < parseFloat(allResults[j - 1][3])) {
+                if (parseFloat(allResults[j][3]) < parseFloat(allResults[j - 1][3])
+                    || parseFloat(allResults[j][4]) < parseFloat(allResults[j - 1][4])) {
                     var temp = allResults[j];
                     allResults[j] = allResults[j - 1];
                     allResults[j - 1] = temp;
