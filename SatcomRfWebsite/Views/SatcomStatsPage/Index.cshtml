@@ -97,9 +97,9 @@
     <div class="col-lg-2">
         <select id="selectTestType" class="demo-default" placeholder="Test Type...">
             <option value="">Test Type...</option>
-            <option value="ProdTest" @("testType" == "ProdTest" ? "selected" : "" )>Production Test</option>
-            <option value="EngTest" @("testType" == "EngTest" ? "selected" : "" )>Engineering Test</option>
-            <option value="Debug" @("testType" == "Debug" ? "selected" : "" )>Debugging</option>
+            <option value="ProdTest" @(Request.Url.ToString().Contains("ProdTest") ? "selected" : "" )>Production Test</option>
+            <option value="EngTest" @(Request.Url.ToString().Contains("EngTest") ? "selected" : "" )>Engineering Test</option>
+            <option value="Debug" @(Request.Url.ToString().Contains("Debug") ? "selected" : "" )>Debugging</option>
         </select>
 
         <script>
@@ -119,9 +119,9 @@
     <div class="col-lg-2">
         <select id="selectTubeName" class="demo-default" placeholder="Tube Name...">
             <option value="">Tube Name...</option>
-            @foreach (var tube in new List<string>())
+            @foreach (var tube in new List<string>() { "something" })
             {
-                <option value="@tube" @("tubeName" == "@tube" ? "selected" : "")>@tube</option>
+                <option value="@tube" @(Request.Url.ToString().Contains(@tube) ? "selected" : "")>@tube</option>
             }
         </select>
 
@@ -142,14 +142,14 @@
     <div class="col-lg-2">
         <select id="selectOptions" multiple class="demo-default" placeholder="Select Options...">
             <option value="">Select Options...</option>
-            <option value="Audit" @("options".Contains("Audit") ? "selected" : "" )>Audit</option>
-            <option value="Itar" @("options".Contains("Itar") ? "selected" : "" )>Itar</option>
-            <option value="SsaSN" @("options".Contains("SsaSN") ? "selected" : "" )>SSA</option>
-            <option value="LinSN" @("options".Contains("LinSN") ? "selected" : "" )>LIN</option>
-            <option value="LipaSN" @("options".Contains("LipaSN") ? "selected" : "" )>LIPA</option>
-            <option value="BucSN" @("options".Contains("BucSN") ? "selected" : "" )>BUC</option>
-            <option value="BipaSN" @("options".Contains("BipaSN") ? "selected" : "" )>BIPA</option>
-            <option value="BlipaSN" @("options".Contains("BlipaSN") ? "selected" : "" )>BLIPA</option>
+            <option value="Audit" @(Request.Url.ToString().Contains("Audit") ? "selected" : "" )>Audit</option>
+            <option value="Itar" @(Request.Url.ToString().Contains("Itar") ? "selected" : "" )>Itar</option>
+            <option value="SsaSN" @(Request.Url.ToString().Contains("SsaSN") ? "selected" : "" )>SSA</option>
+            <option value="LinSN" @(Request.Url.ToString().Contains("LinSN") ? "selected" : "" )>LIN</option>
+            <option value="LipaSN" @(Request.Url.ToString().Contains("LipaSN") ? "selected" : "" )>LIPA</option>
+            <option value="BucSN" @(Request.Url.ToString().Contains("BucSN") ? "selected" : "" )>BUC</option>
+            <option value="BipaSN" @(Request.Url.ToString().Contains("BipaSN") ? "selected" : "" )>BIPA</option>
+            <option value="BlipaSN" @(Request.Url.ToString().Contains("BlipaSN") ? "selected" : "" )>BLIPA</option>
         </select>
 
         <script>
