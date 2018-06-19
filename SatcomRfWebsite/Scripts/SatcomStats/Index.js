@@ -1,4 +1,8 @@
-﻿function getModelNames(productType, selected) {
+﻿var testType = "";
+var tubeName = "";
+var opt = "";
+
+function getModelNames(productType, selected) {
     selected = selected || "default";
     if (productType === "default") {
         document.getElementById("models").innerHTML = "";
@@ -80,11 +84,29 @@ function getProductTypes(selected) {
 }
 
 function resetFilter() {
+    location.href = document.URL.replace(/\/testType=[a-zA-Z0-9=+,-]*/, "");
 
+    sendStats();
+    sendOutput();
+    sendResults();
 }
 
 function applyFilter() {
+    testType = document.getElementById("selectTestType").value;
+    tubeName = document.getElementById("selectTubeName").value;
+    opt = document.getElementById("selectOptions").value;
 
+    testType = testType == "" ? "none" : testType;
+    tubeName = tubeName == "" ? "none" : tubeName;
+    opt = (opt == "" || opt == null) ? "none" : opt;
+
+    var filterToApply = "testType=" + testType + "+tubeName=" + tubeName + "+opt=" + opt;
+
+    if (document.URL.search("testType=") == -1) {
+        location.href = document.URL + "/" + filterToApply;
+    } else {
+        location.href = document.URL.replace(/\/testType=[a-zA-Z0-9=+,-]*/, "/" + filterToApply);
+    }
 }
 
 function buildTable(tableData) {
@@ -340,6 +362,16 @@ function setupIndex() {
     var filter = document.URL.substring(document.URL.indexOf("Index") + 6);
     var productType = filter.indexOf("/") != -1 ? filter.substring(0, filter.indexOf("/")) : filter;
     var modelName = filter.indexOf("/") != -1 ? filter.substring(filter.indexOf("/") + 1) : "";
+    var testType = "", tubeName = "", opt = "";
+    if (modelName != "") {
+        var params = modelName.indexOf("/") != -1 ? modelName.substring(modelName.indexOf("/") + 1) : "";
+        modelName = modelName.indexOf("/") != -1 ? modelName.substring(0, modelName.indexOf("/")) : modelName;
+        if (params != "") {
+            testType = params.substring(params.indexOf("testType=") + 9, params.indexOf("tubeName=") - 1);
+            tubeName = params.substring(params.indexOf("tubeName=") + 9, params.indexOf("opt=") - 1);
+            testType = params.substring(params.indexOf("opt=") + 4);
+        }
+    }   
 
     if (document.URL.indexOf("SatcomStatsPage") == document.URL.length - 15) {
         getProductTypes();
@@ -352,7 +384,7 @@ function setupIndex() {
         getProductTypes(productType);
         if (modelName != "") {
             getModelNames(productType, modelName);
-            getTable(productType, modelName);
+            getTable(productType, modelName, testType, tubeName, opt);
         }
         else {
             getModelNames(productType);
