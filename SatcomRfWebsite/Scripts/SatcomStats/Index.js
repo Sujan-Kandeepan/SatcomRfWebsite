@@ -135,6 +135,7 @@ function buildTable(tableData) {
 function getTable(productType, modelName, testType, tubeName, options) {
     if (modelName === "default") {
         document.getElementById("data-display").classList.add("hide");
+        document.getElementById("filters-options").classList.add("hide");
         document.getElementById("data-table").innerHTML = "";
         location.href = location.origin + "/SatcomStatsPage/Index/" + productType;
         return;
@@ -172,6 +173,7 @@ function getTable(productType, modelName, testType, tubeName, options) {
     };
 
     document.getElementById("data-display").classList.remove("hide");
+    document.getElementById("filters-options").classList.remove("hide");
     document.getElementById("getdata-loading").classList.remove("hide");
     document.getElementById("getdata-failed").classList.add("hide");
     document.getElementById("selection-failed").classList.add("hide");
