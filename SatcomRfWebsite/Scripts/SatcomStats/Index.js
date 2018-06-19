@@ -358,20 +358,31 @@ function sendResults(productType, modelName) {
     document.getElementById("navBarTests").innerHTML = "<a href=\"" + newurl + "\">Test Results</a>";
 }
 
+function convertTestType(testType) {
+    if (testType == "ProdTest") {
+        return "Production Test";
+    } else if (testType == "EngTest") {
+        return "Engineering Test";
+    } else if (testType == "Debug") {
+        return "Debugging";
+    } else {
+        return "";
+    }
+}
+
 function setupIndex() {
     var filter = document.URL.substring(document.URL.indexOf("Index") + 6);
     var productType = filter.indexOf("/") != -1 ? filter.substring(0, filter.indexOf("/")) : filter;
     var modelName = filter.indexOf("/") != -1 ? filter.substring(filter.indexOf("/") + 1) : "";
-    var testType = "", tubeName = "", opt = "";
     if (modelName != "") {
         var params = modelName.indexOf("/") != -1 ? modelName.substring(modelName.indexOf("/") + 1) : "";
         modelName = modelName.indexOf("/") != -1 ? modelName.substring(0, modelName.indexOf("/")) : modelName;
         if (params != "") {
             testType = params.substring(params.indexOf("testType=") + 9, params.indexOf("tubeName=") - 1);
             tubeName = params.substring(params.indexOf("tubeName=") + 9, params.indexOf("opt=") - 1);
-            testType = params.substring(params.indexOf("opt=") + 4);
+            opt = params.substring(params.indexOf("opt=") + 4);
         }
-    }   
+    }
 
     if (document.URL.indexOf("SatcomStatsPage") == document.URL.length - 15) {
         getProductTypes();
@@ -384,7 +395,7 @@ function setupIndex() {
         getProductTypes(productType);
         if (modelName != "") {
             getModelNames(productType, modelName);
-            getTable(productType, modelName, testType, tubeName, opt);
+            getTable(productType, modelName, convertTestType(testType), tubeName, opt);
         }
         else {
             getModelNames(productType);
