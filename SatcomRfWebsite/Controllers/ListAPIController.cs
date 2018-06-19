@@ -103,7 +103,7 @@ namespace SatcomRfWebsite.Controllers
         }
 
         [NonAction]
-        public List<TestData> InternalGetTableData(string modelName, string productType, string testType, string tubeName, string flags)
+        public List<TestData> InternalGetTableData(string modelName, string productType, string testType, string tubeName, string options)
         {
             var data = new List<TestData>();
             using (var conn = new SqlConnection(GetSqlConnectString()))
@@ -196,7 +196,7 @@ namespace SatcomRfWebsite.Controllers
                         var key = tmp2["TestName"].ToString() + tmp2["Channel"].ToString() + tmp2["P2"].ToString();
 
 
-                        string[] flagList = !(flags == null || flags == "") ? flags.Split(',') : new string[0];
+                        string[] flagList = !(options == null || options == "") ? options.Split(',') : new string[0];
 
                         if (testType != null && !testType.Equals("null") && !testType.Equals("undefined") && !tmp2["TestType"].Equals(testType)
                             || tubeName != null && !tubeName.Equals("null") && !tubeName.Equals("undefined") && !tmp2["TubeName"].Equals(tubeName)
@@ -466,11 +466,11 @@ namespace SatcomRfWebsite.Controllers
             return data;
         }
 
-        public IHttpActionResult GetTableData(string modelName, string productType, string testType, string tubeName, string flags)
+        public IHttpActionResult GetTableData(string modelName, string productType, string testType, string tubeName, string options)
         {
             try
             {
-                List<TestData> data = InternalGetTableData(modelName, productType, testType, tubeName, flags);
+                List<TestData> data = InternalGetTableData(modelName, productType, testType, tubeName, options);
                 return Ok(data);
             }
             catch (DataNotFoundException)
@@ -484,11 +484,11 @@ namespace SatcomRfWebsite.Controllers
             }
         }
 
-        public IHttpActionResult GetTableFile(string modelName, string productType, string testType, string tubeName, string flags)
+        public IHttpActionResult GetTableFile(string modelName, string productType, string testType, string tubeName, string options)
         {
             try
             {
-                List<TestData> data = InternalGetTableData(modelName, productType, testType, tubeName, flags);
+                List<TestData> data = InternalGetTableData(modelName, productType, testType, tubeName, options);
                 string[][] headers = new string[1][];
                 headers[0] = new string[] { "Testname", "Channel", "Power", "Serial Number", "Test Type", "Start Time", "Audit", "Itar", "Long Model Name", "TubeSN", "Tube Name", "SsaSN", "LinSN", "LipaSN", "BucSN", "BipaSN", "BlipaSN", "Result", "Min", "Max", "Average", "Std. Deviation", "Unit", "Result (Conv)", "Min (Conv)", "Max (Conv)", "Average (Conv)", "Std. Deviation (Conv)", "Unit (Conv)", "LowLimit", "UpLimit", "Cpk" };
                 var file = new MemoryStream();
@@ -595,9 +595,9 @@ namespace SatcomRfWebsite.Controllers
                 {
                     filename = filename.Replace(".xlsx", $" {tubeName}.xlsx");
                 }
-                if (flags != null && !flags.Equals("null"))
+                if (options != null && !options.Equals("null"))
                 {
-                    filename = filename.Replace(".xlsx", $" {flags}.xlsx");
+                    filename = filename.Replace(".xlsx", $" {options}.xlsx");
                 }
                 var resp = new ExcelFileResponse(file.ToArray(), Request, filename);
                 file.Dispose();

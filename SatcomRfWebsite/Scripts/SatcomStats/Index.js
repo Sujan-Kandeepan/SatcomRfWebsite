@@ -145,7 +145,7 @@ function getTable(productType, modelName, testType, tubeName, options) {
         return;
     }
 
-    var src = document.location.origin + "/api/ListAPI/GetTableData?modelName=" + modelName + "&productType=" + productType + "&testType=" + testType + "&tubeName=" + tubeName + "&flags=" + options;
+    var src = document.location.origin + "/api/ListAPI/GetTableData?modelName=" + modelName + "&productType=" + productType + "&testType=" + testType + "&tubeName=" + tubeName + "&options=" + options;
     var data = new XMLHttpRequest();
     data.onreadystatechange = function () {
         document.getElementById("data-table").innerHTML = "";
@@ -282,7 +282,7 @@ function getxlsxfile(productType, modelName, testType, tubeName, options) {
         return;
     }
 
-    var src = document.location.origin + "/api/ListAPI/GetTableFile?modelName=" + modelName + "&productType=" + productType + "&testType=" + testType + "&tubeName=" + tubeName + "&flags=" + options;
+    var src = document.location.origin + "/api/ListAPI/GetTableFile?modelName=" + modelName + "&productType=" + productType + "&testType=" + testType + "&tubeName=" + tubeName + "&options=" + options;
     var data = new XMLHttpRequest();
     data.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
@@ -299,7 +299,7 @@ function getxlsxfile(productType, modelName, testType, tubeName, options) {
     data.send();
 
     document.getElementById("iframe-temp").innerHTML = "<iframe style=\"display:none\" src=\"" + document.location.origin +
-        "/api/ListAPI/GetTableFile?modelName=" + modelName + "&productType=" + productType + "&testType=" + testType + "&tubeName=" + tubeName + "&flags=" + options + "\"></iframe>";
+        "/api/ListAPI/GetTableFile?modelName=" + modelName + "&productType=" + productType + "&testType=" + testType + "&tubeName=" + tubeName + "&options=" + options + "\"></iframe>";
 }
 
 function sendStats() {
