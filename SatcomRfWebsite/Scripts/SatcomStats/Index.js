@@ -92,9 +92,9 @@ function resetFilter() {
 }
 
 function applyFilter() {
-    testType = document.getElementById("selectTestType").value;
-    tubeName = document.getElementById("selectTubeName").value;
-    opt = document.getElementById("selectOptions").value;
+    testType = $('#selectTestType').val();
+    tubeName = $('#selectTubeName').val();
+    opt = $('#selectOptions').val();
 
     testType = testType == "" ? "none" : testType;
     tubeName = tubeName == "" ? "none" : tubeName;
