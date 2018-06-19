@@ -616,7 +616,30 @@ namespace SatcomRfWebsite.Controllers
             }
         }
 
-        public IHttpActionResult GetModels(string productType)
+        public IHttpActionResult GetTubes(string modelName)
+        {
+            var db = new rfDbEntities();
+
+            var myQuery = (from serialNums in db.tblSerialNumbers
+                           join ateOut in db.tblATEOutputs on serialNums.ModelSN equals ateOut.ModelSN
+                           where serialNums.ModelName.Equals(modelName)
+                           orderby ateOut.TubeName ascending
+                           select ateOut).Select(x => x.TubeName).Distinct();
+
+            var tubeList = new List<string>();
+
+            foreach (var output in myQuery)
+            {
+                if (output != null)
+                {
+                    tubeList.Add(output.ToString());
+                }
+            }
+
+            return Ok(tubeList);
+        }
+
+    public IHttpActionResult GetModels(string productType)
         {
             List<string> data = null;
             using (var conn = new SqlConnection(GetSqlConnectString()))
