@@ -316,8 +316,8 @@ function fillModal(testName, channel, allResultsString, unit, unitConv, sortMode
         html += allResults[i][16] != "" ? "&ensp;BipaSN: " + allResults[i][16] : "";
         html += allResults[i][17] != "" ? "&ensp;BlipaSN: " + allResults[i][17] : "";
         html += "</div><div style=\"margin-top: -5px; color: rgb(128, 128, 128)\">";
-        html += "LowLimit: " + (allResults[i][4] != "" ? allResults[i][4] : "None");
-        html += "&ensp;UpLimit: " + (allResults[i][5] != "" ? allResults[i][5] : "None");
+        html += "LowLimit: " + (allResults[i][5] != "" ? allResults[i][5] : "None");
+        html += "&ensp;UpLimit: " + (allResults[i][6] != "" ? allResults[i][6] : "None");
         html += "</div>";
     }
 
