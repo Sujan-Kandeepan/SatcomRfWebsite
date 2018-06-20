@@ -1,7 +1,4 @@
-﻿@using SatcomRfWebsite.Controllers;
-@using System.Web.Http.Results;
-
-@{
+﻿@{
     ViewData["Title"] = "Statistics";
 }
 
@@ -122,24 +119,11 @@
     <div class="col-lg-2">
         <select id="selectTubeName" class="demo-default" placeholder="Tube Name...">
             <option value="">Tube Name...</option>
-            @foreach (var tube in new List<string>())//((new ListAPIController()).GetTubes("VZC-6967AG") as OkNegotiatedContentResult<List<string>>).Content)
+            @foreach (var tube in new List<string>())
                     {
                         <option value="@tube" @(Request.Url.ToString().Contains(@tube) ? "selected" : "")>@tube</option>
                     }
         </select>
-
-        <script>
-            $('#selectTubeName').selectize({
-                sortField: {
-                    field: 'text',
-                    direction: 'asc'
-                },
-                dropdownParent: 'body',
-                onChange: function (value) {
-                    
-                }
-            });
-        </script>
     </div>
 
     <div class="col-lg-2">
