@@ -21,6 +21,17 @@ function getTubes(modelName, selected) {
             }
 
             document.getElementById("selectTubeName").innerHTML = html;
+
+            $('#selectTubeName').selectize({
+                sortField: {
+                    field: 'text',
+                    direction: 'asc'
+                },
+                dropdownParent: 'body',
+                onChange: function (value) {
+
+                }
+            });
         }
     };
 
