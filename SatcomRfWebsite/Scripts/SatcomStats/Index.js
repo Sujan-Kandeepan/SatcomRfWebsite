@@ -1,8 +1,4 @@
-﻿var testType = "";
-var tubeName = "";
-var opt = "";
-
-function getTubes(modelName, selected) {
+﻿function getTubes(modelName, selected) {
     selected = selected || "none";
     var src = document.location.origin + "/api/ListAPI/GetTubes?modelName=" + modelName;
     var data = new XMLHttpRequest();
@@ -412,6 +408,7 @@ function setupIndex() {
     var filter = document.URL.substring(document.URL.indexOf("Index") + 6);
     var productType = filter.indexOf("/") != -1 ? filter.substring(0, filter.indexOf("/")) : filter;
     var modelName = filter.indexOf("/") != -1 ? filter.substring(filter.indexOf("/") + 1) : "";
+    var testType = "", tubeName = "", opt = "";
     if (modelName != "") {
         var params = modelName.indexOf("/") != -1 ? modelName.substring(modelName.indexOf("/") + 1) : "";
         modelName = modelName.indexOf("/") != -1 ? modelName.substring(0, modelName.indexOf("/")) : modelName;
