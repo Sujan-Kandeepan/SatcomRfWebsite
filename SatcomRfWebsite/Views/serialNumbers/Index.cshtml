@@ -35,8 +35,8 @@
 
                         <tr>
                             <td>
-                                @Html.DisplayFor(modelItem => item.ModelSN)
-                            </td>
+                                <a href="/ateData/AteOutputDetail/?serNum=@Html.DisplayFor(modelItem => item.ModelSN)">@Html.DisplayFor(modelItem => item.ModelSN)</a>
+</td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.ModelName)
                             </td>
