@@ -435,8 +435,11 @@
             else if (mN == "") {
                 newurl = "/SatcomStatsPage/Index/" + pT;
             }
-            else {
+            else if (selectTestType.value == "" && selectTubeName.value == "" && selectOptions.value == "") {
                 newurl = "/SatcomStatsPage/Index/" + pT + "/" + mN;
+            }
+            else {
+                newurl = "/SatcomStatsPage/Index/" + pT + "/" + mN + "/" + document.URL.substring(document.URL.indexOf("testType"));
             }
             document.getElementById("navBarStats").innerHTML = "<a href=\"" + newurl + "\">Statistics</a>";
         }

@@ -1,4 +1,8 @@
-﻿function getTubes(modelName, selected) {
+﻿var testType = "none";
+var tubeName = "none";
+var opt = "none";
+
+function getTubes(modelName, selected) {
     selected = selected || "none";
     var src = document.location.origin + "/api/ListAPI/GetTubes?modelName=" + modelName;
     var data = new XMLHttpRequest();
@@ -373,8 +377,8 @@ function sendOutput(productType, modelName) {
         newurl = "/ateData/AteOutput/?filter=pT=" + productType + "%mN=na%ser=na%testType=na%tubeName=na%opt=na";
     }
     else {
-        newurl = "/ateData/AteOutput/?filter=pT=" + productType + "%mN=" + modelName + "%ser=na%testType=na%tubeName=na%opt=na";
-    }
+        newurl = "/ateData/AteOutput/?filter=pT=" + productType + "%mN=" + modelName + "%ser=na%testType=" + (testType == "none" ? "na" : testType) + "%tubeName=" + (tubeName == "none" ? "na" : tubeName) + "%opt=" + (opt == "none" ? "na" : opt);
+    } 
     document.getElementById("navBarAteOutput").innerHTML = "<a href=\"" + newurl + "\">ATE Output</a>";
 }
 
@@ -386,8 +390,11 @@ function sendResults(productType, modelName) {
     else if (modelName == "default") {
         newurl = "/testsData/TestResults/" + productType;
     }
-    else {
+    else if (testType == "none" && tubeName == "none" && opt == "none") {
         newurl = "/testsData/TestResults/" + productType + "/" + modelName;
+    }
+    else {
+        newurl = "/testsData/TestResults/" + productType + "/" + modelName + "/" + document.URL.substring(document.URL.indexOf("testType"));
     }
     document.getElementById("navBarTests").innerHTML = "<a href=\"" + newurl + "\">Test Results</a>";
 }
@@ -408,7 +415,6 @@ function setupIndex() {
     var filter = document.URL.substring(document.URL.indexOf("Index") + 6);
     var productType = filter.indexOf("/") != -1 ? filter.substring(0, filter.indexOf("/")) : filter;
     var modelName = filter.indexOf("/") != -1 ? filter.substring(filter.indexOf("/") + 1) : "";
-    var testType = "", tubeName = "", opt = "";
     if (modelName != "") {
         var params = modelName.indexOf("/") != -1 ? modelName.substring(modelName.indexOf("/") + 1) : "";
         modelName = modelName.indexOf("/") != -1 ? modelName.substring(0, modelName.indexOf("/")) : modelName;
