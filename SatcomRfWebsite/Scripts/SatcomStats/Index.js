@@ -2,6 +2,33 @@
 var tubeName = "";
 var opt = "";
 
+function getTubes(modelName, selected) {
+    selected = selected || "none";
+    var src = document.location.origin + "/api/ListAPI/GetTubes?modelName=" + modelName;
+    var data = new XMLHttpRequest();
+    data.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            var retData = JSON.parse(data.responseText);
+            var html = "<option value=\"\" selected=\"selected\">Tube Name...</option>";
+
+            if (retData !== null) {
+                for (var i = 0; i < retData.length; i++) {
+                    html += "<option value=\"" + retData[i] + "\"" + (selected == retData[i] ? " selected" : "") + ">" + retData[i] + "</option>";
+                }
+            }
+            else {
+                html = "";
+            }
+
+            document.getElementById("selectTubeName").innerHTML = html;
+        }
+    };
+
+    data.open("GET", src, true);
+    data.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    data.send();
+}
+
 function getModelNames(productType, selected) {
     selected = selected || "default";
     if (productType === "default") {
@@ -395,10 +422,16 @@ function setupIndex() {
         getProductTypes(productType);
         if (modelName != "") {
             getModelNames(productType, modelName);
+            if (tubeName != "none") {
+                getTubes(modelName, tubeName);
+            } else {
+                getTubes(modelName);
+            }
             getTable(productType, modelName, convertTestType(testType), tubeName, opt);
         }
         else {
             getModelNames(productType);
+            getTubes(modelName);
         }
     }
 }
