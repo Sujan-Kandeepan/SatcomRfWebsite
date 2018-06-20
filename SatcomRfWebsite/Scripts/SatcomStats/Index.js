@@ -298,7 +298,7 @@ function fillModal(testName, channel, allResultsString, unit, unitConv, sortMode
         + closeButton + "</h4>" + toggleButton + "<hr/>";
 
     for (var i = 0; i < allResults.length; i++) {
-        html += "<strong>" + allResults[i][0] + ":" + "</strong>" + " " + allResults[i][3] + unit;
+        html += "<strong>" + "<a href = \"" + location.origin + "/ateData/AteOutputDetail/?serNum=" + allResults[i][0] + "\">" + allResults[i][0] + "</a>" + "</strong>&ensp;" + allResults[i][3] + unit;
         if (unitConv != "N/A") {
             html += ", " + allResults[i][4] + unitConv;
         }
