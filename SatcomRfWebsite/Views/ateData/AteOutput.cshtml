@@ -14,8 +14,11 @@
             else if (selectModelName.value == "") {
                 newurl = "/SatcomStatsPage/Index/" + selectProductType.value;
             }
-            else {
+            else if (selectTestType.value == "" && selectTubeName.value == "" && selectOptions.value == "" && document.URL.indexOf("filter") == -1) {
                 newurl = "/SatcomStatsPage/Index/" + selectProductType.value + "/" + selectModelName.value;
+            }
+            else {
+                newurl = "/SatcomStatsPage/Index/" + selectProductType.value + "/" + selectModelName.value + "/testType=" + (selectTestType.value == "" ? "none" : selectTestType.value) + "+tubeName=" + (selectTubeName.value == "" ? "none" : selectTubeName.value) + "+opt=" + (selectOptions.value == "" ? "none" : selectOptions.value);
             }
             document.getElementById("navBarStats").innerHTML = "<a href=\"" + newurl + "\">Statistics</a>";
         }
