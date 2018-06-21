@@ -162,7 +162,8 @@
                         $('#table_serialNums').DataTable({
                             "scrollY": 650,
                             "iDisplayLength": 50,
-                            "searching": false
+                            "searching": false,
+                            "order": [[(document.URL.indexOf("sortby=name") != -1 ? 1 : 0), "asc"]]
                         });
                     });
 
