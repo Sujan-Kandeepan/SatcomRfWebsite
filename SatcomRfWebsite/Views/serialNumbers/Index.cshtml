@@ -16,8 +16,19 @@
             <div class="row" id="search-form">
                 <div class="col-sm-4"></div>
                 <div class="col-sm-4" type="text" style="text-transform: uppercase">
-                    <input class="form-control" id="search" placeholder="Filter by serial number or model name" />
+                    <input class="form-control" id="search" placeholder="Filter by serial number or model name" oninput="changeButtons()"/>
                     <script type="text/javascript">
+                        function changeButtons() {
+                            if (document.getElementById("search").value == "") {
+                                document.getElementById("sort-by-serial").innerHTML = "Sort by Serial Number";
+                                document.getElementById("sort-by-name").innerHTML = "Sort by Model Name";
+                            }
+                            else {
+                                document.getElementById("sort-by-serial").innerHTML = "Search by Serial Number";
+                                document.getElementById("sort-by-name").innerHTML = "Search by Model Name";
+                            }
+                        }
+
                         function forceKeyPressUppercase(e) {
                             var charInput = e.keyCode;
                             if ((charInput >= 97) && (charInput <= 122)) { // lowercase
@@ -32,21 +43,32 @@
                             }
                         }
                         document.getElementById("search").addEventListener("keypress", forceKeyPressUppercase, false);
+                        document.getElementById("search").addEventListener("keypress", changeButtons, false);
                     </script>
                 </div>
                 <div class="col-sm-2">
-                    <button class="btn btn-primary" id="sort-by-serial" onclick="sortBySerial()">Search by Serial Number</button>
+                    <button class="btn btn-primary" id="sort-by-serial" style="width: 180px" onclick="sortBySerial()">Sort by Serial Number</button>
                     <script>
                         function sortBySerial() {
-                            location.href = location.origin + "/serialnumbers?beginning=" + document.getElementById("search").value + "&sortby=serial";
+                            if (document.getElementById("search").value == "") {
+                                location.href = document.URL.replace("=name", "=serial");
+                            }
+                            else {
+                                location.href = location.origin + "/serialnumbers?beginning=" + document.getElementById("search").value + "&sortby=serial";
+                            }
                         }
                     </script>
                 </div>
                 <div class="col-sm-2">
-                    <button class="btn btn-primary" id="sort-by-name" onclick="sortByName()">Search by Model Name</button>
+                    <button class="btn btn-primary" id="sort-by-name" style="width: 180px" onclick="sortByName()">Sort by Model Name</button>
                     <script>
                         function sortByName() {
-                            location.href = location.origin + "/serialnumbers?beginning=" + document.getElementById("search").value + "&sortby=name";
+                            if (document.getElementById("search").value == "") {
+                                location.href = document.URL.replace("=serial", "=name");
+                            }
+                            else {
+                                location.href = location.origin + "/serialnumbers?beginning=" + document.getElementById("search").value + "&sortby=name";
+                            }
                         }
                     </script>
                 </div>
@@ -79,7 +101,6 @@
                                 @Html.DisplayFor(modelItem => item.ModelName)
                             </td>
                             <td>
-
                                 <!--@Html.ActionLink("Edit", "Edit", new { id=item.id }) |
                                 @Html.ActionLink("Details", "Details", new { id=item.id }) |-->
                                 @Html.ActionLink("Delete", "Delete", new { id=item.id })
