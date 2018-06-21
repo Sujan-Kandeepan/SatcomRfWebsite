@@ -14,7 +14,19 @@
             <div class="page-header"><h1>Serial Numbers</h1></div>
             <div class="display" style="margin-bottom: 20px"><h3>View complete list of serial numbers with corresponding model names.</h3></div>
             <div class="row" id="search-form">
-                <div class="col-sm-4"></div>
+                <div class="col-sm-4">
+                    <label class="text-center center-block" id="label" style="font-size: 18px; padding-bottom: 20px"></label>
+                    <script>
+                        var text = "";
+                        if (document.URL.indexOf("sortby=serial") != -1) {
+                            text += "Serial numbers starting with "
+                        } else if (document.URL.indexOf("sortby=name") != -1) {
+                            text += "Model names starting with ";
+                        }
+                        text += document.URL.substring(document.URL.indexOf("beginning=") + 10, document.URL.indexOf("&sortby="));
+                        document.getElementById("label").innerHTML = "<strong>" + text + "</strong>";
+                    </script>
+                </div>
                 <div class="col-sm-4" type="text" style="text-transform: uppercase">
                     <input class="form-control" id="search" placeholder="Filter by serial number or model name" oninput="changeButtons()"/>
                     <script type="text/javascript">
@@ -73,55 +85,74 @@
                     </script>
                 </div>
             </div>
-            <table id="table_serialNums" class="display" width="100%">
-                <thead>
-                    <tr>
-                        <th>@Html.DisplayNameFor(model => model.ModelSN)</th>
-                        <th>@Html.DisplayNameFor(model => model.ModelName)</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tfoot>
-                    <tr>
-                        <th>@Html.DisplayNameFor(model => model.ModelSN)</th>
-                        <th>@Html.DisplayNameFor(model => model.ModelName)</th>
-                        <th></th>
-                    </tr>
-                </tfoot>
-                <tbody>
-
-                    @foreach (var item in Model)
+            <div class="row">
+                <div class="col-lg-1">
+                    <div class="text-center" style="font-size: 16px; padding-bottom: 2px"><strong>First Letter</strong></div>
+                    <hr style="margin: 5px 0;" />
+                    @for (int i = 65; i <= 90; i++)
                     {
-
-                        <tr>
-                            <td>
-                                <a href="/ateData/AteOutputDetail/?serNum=@Html.DisplayFor(modelItem => item.ModelSN)">@Html.DisplayFor(modelItem => item.ModelSN)</a>
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.ModelName)
-                            </td>
-                            <td>
-                                <!--@Html.ActionLink("Edit", "Edit", new { id=item.id }) |
-                                @Html.ActionLink("Details", "Details", new { id=item.id }) |-->
-                                @Html.ActionLink("Delete", "Delete", new { id=item.id })
-                            </td>
-                        </tr>
+                        <div class="start-letter text-center" style="font-size: 20px">@((char)i)</div>
                     }
-                </tbody>
-            </table>
+                    <script>
+                        Array.prototype.filter.call(document.getElementsByClassName("start-letter"), function (element) {
+                            element.innerHTML = "<a href=\"/serialnumbers?beginning=" + element.innerHTML + "&sortby="
+                                + (document.URL.indexOf("?") != -1 ? document.URL.substring(document.URL.indexOf("sortby") + 7) : "serial") + "\">"
+                                + element.innerHTML + "</a>";
+                        })
+                    </script>
+                </div>
+                <div class="col-lg-11">
+                    <table id="table_serialNums" class="display" width="100%">
+                        <thead>
+                            <tr>
+                                <th>@Html.DisplayNameFor(model => model.ModelSN)</th>
+                                <th>@Html.DisplayNameFor(model => model.ModelName)</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>@Html.DisplayNameFor(model => model.ModelSN)</th>
+                                <th>@Html.DisplayNameFor(model => model.ModelName)</th>
+                                <th></th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
 
-            <script>
-                $(document).ready(function () {
-                    $('#table_serialNums').DataTable({
-                        "scrollY": 650,
-                        "iDisplayLength": 50,
-                        "searching": false
+                            @foreach (var item in Model)
+                            {
+
+                                <tr>
+                                    <td>
+                                        <a href="/ateData/AteOutputDetail/?serNum=@Html.DisplayFor(modelItem => item.ModelSN)">@Html.DisplayFor(modelItem => item.ModelSN)</a>
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ModelName)
+                                    </td>
+                                    <td>
+                                        <!--@Html.ActionLink("Edit", "Edit", new { id=item.id }) |
+                            @Html.ActionLink("Details", "Details", new { id=item.id }) |-->
+                                        @Html.ActionLink("Delete", "Delete", new { id=item.id })
+                                    </td>
+                                </tr>
+                                }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+                <script>
+                    $(document).ready(function () {
+                        $('#table_serialNums').DataTable({
+                            "scrollY": 650,
+                            "iDisplayLength": 50,
+                            "searching": false
+                        });
                     });
-                });
 
-                //Set navbar button as active
-                document.getElementById("navBarSerial").classList.add("active");
-            </script>
-        </div>
+                    //Set navbar button as active
+                    document.getElementById("navBarSerial").classList.add("active");
+                </script>
+            </div>
     </div>
 @*}*@
