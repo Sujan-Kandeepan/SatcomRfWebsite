@@ -48,8 +48,8 @@
                     <script type="text/javascript">
                         function changeButtons() {
                             if (document.getElementById("search").value == "") {
-                                document.getElementById("sort-by-serial").innerHTML = "Sort by Serial Number";
-                                document.getElementById("sort-by-name").innerHTML = "Sort by Model Name";
+                                document.getElementById("sort-by-serial").innerHTML = "Find by Serial Number";
+                                document.getElementById("sort-by-name").innerHTML = "Find by Model Name";
                             }
                             else {
                                 document.getElementById("sort-by-serial").innerHTML = "Search by Serial Number";
@@ -75,7 +75,7 @@
                     </script>
                 </div>
                 <div class="col-sm-2">
-                    <button class="btn btn-primary" id="sort-by-serial" style="width: 180px" onclick="sortBySerial()">Sort by Serial Number</button>
+                    <button class="btn btn-primary" id="sort-by-serial" style="width: 180px" onclick="sortBySerial()">Find by Serial Number</button>
                     <script>
                         function sortBySerial() {
                             if (document.getElementById("search").value == "") {
@@ -88,7 +88,7 @@
                     </script>
                 </div>
                 <div class="col-sm-2">
-                    <button class="btn btn-primary" id="sort-by-name" style="width: 180px" onclick="sortByName()">Sort by Model Name</button>
+                    <button class="btn btn-primary" id="sort-by-name" style="width: 180px" onclick="sortByName()">Find by Model Name</button>
                     <script>
                         function sortByName() {
                             if (document.getElementById("search").value == "") {
