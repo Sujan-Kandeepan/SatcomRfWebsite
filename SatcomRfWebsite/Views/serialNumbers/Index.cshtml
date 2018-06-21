@@ -11,13 +11,13 @@
 <script>
     
     if (document.URL.indexOf("?") != -1) {
-        if (document.URL.indexOf("sortby=serial") == -1 && document.URL.indexOf("sortby=name") == -1) {
+        if (document.URL.indexOf("findby=serial") == -1 && document.URL.indexOf("findby=name") == -1) {
         
-                //location.replace(document.URL.replace(/sortby=[a-zA-Z0-9=+,-]*/, "sortby=serial"));
+                //location.replace(document.URL.replace(/findby=[a-zA-Z0-9=+,-]*/, "findby=serial"));
         
         }
 
-        var beginning = document.URL.substring(document.URL.indexOf("beginning=") + 10, document.URL.indexOf("sortby=") - 1);
+        var beginning = document.URL.substring(document.URL.indexOf("beginning=") + 10, document.URL.indexOf("findby=") - 1);
         if (document.URL.indexOf("?") != -1 && beginning != beginning.toUpperCase()) {
             //location.replace(document.URL.replace(beginning, beginning.toUpperCase()));
         }
@@ -34,12 +34,12 @@
                     <label class="text-center center-block" id="label" style="font-size: 18px; padding-bottom: 20px"></label>
                     <script>
                         var text = "";
-                        if (document.URL.indexOf("sortby=serial") != -1) {
+                        if (document.URL.indexOf("findby=serial") != -1) {
                             text += "Serial numbers starting with "
-                        } else if (document.URL.indexOf("sortby=name") != -1) {
+                        } else if (document.URL.indexOf("findby=name") != -1) {
                             text += "Model names starting with ";
                         }
-                        text += document.URL.substring(document.URL.indexOf("beginning=") + 10, document.URL.indexOf("&sortby="));
+                        text += document.URL.substring(document.URL.indexOf("beginning=") + 10, document.URL.indexOf("&findby="));
                         document.getElementById("label").innerHTML = "<strong>" + text + "</strong>";
                     </script>
                 </div>
@@ -48,12 +48,12 @@
                     <script type="text/javascript">
                         function changeButtons() {
                             if (document.getElementById("search").value == "") {
-                                document.getElementById("sort-by-serial").innerHTML = "Find by Serial Number";
-                                document.getElementById("sort-by-name").innerHTML = "Find by Model Name";
+                                document.getElementById("find-by-serial").innerHTML = "Find by Serial Number";
+                                document.getElementById("find-by-name").innerHTML = "Find by Model Name";
                             }
                             else {
-                                document.getElementById("sort-by-serial").innerHTML = "Search by Serial Number";
-                                document.getElementById("sort-by-name").innerHTML = "Search by Model Name";
+                                document.getElementById("find-by-serial").innerHTML = "Search by Serial Number";
+                                document.getElementById("find-by-name").innerHTML = "Search by Model Name";
                             }
                         }
 
@@ -75,27 +75,27 @@
                     </script>
                 </div>
                 <div class="col-sm-2">
-                    <button class="btn btn-primary" id="sort-by-serial" style="width: 180px" onclick="sortBySerial()">Find by Serial Number</button>
+                    <button class="btn btn-primary" id="find-by-serial" style="width: 180px" onclick="sortBySerial()">Find by Serial Number</button>
                     <script>
                         function sortBySerial() {
                             if (document.getElementById("search").value == "") {
                                 location.href = document.URL.replace("=name", "=serial");
                             }
                             else {
-                                location.href = location.origin + "/serialnumbers?beginning=" + document.getElementById("search").value + "&sortby=serial";
+                                location.href = location.origin + "/serialnumbers?beginning=" + document.getElementById("search").value + "&findby=serial";
                             }
                         }
                     </script>
                 </div>
                 <div class="col-sm-2">
-                    <button class="btn btn-primary" id="sort-by-name" style="width: 180px" onclick="sortByName()">Find by Model Name</button>
+                    <button class="btn btn-primary" id="find-by-name" style="width: 180px" onclick="sortByName()">Find by Model Name</button>
                     <script>
                         function sortByName() {
                             if (document.getElementById("search").value == "") {
                                 location.href = document.URL.replace("=serial", "=name");
                             }
                             else {
-                                location.href = location.origin + "/serialnumbers?beginning=" + document.getElementById("search").value + "&sortby=name";
+                                location.href = location.origin + "/serialnumbers?beginning=" + document.getElementById("search").value + "&findby=name";
                             }
                         }
                     </script>
@@ -111,8 +111,8 @@
                     }
                     <script>
                         Array.prototype.filter.call(document.getElementsByClassName("start-letter"), function (element) {
-                            element.innerHTML = "<a href=\"/serialnumbers?beginning=" + element.innerHTML + "&sortby="
-                                + (document.URL.indexOf("?") != -1 ? document.URL.substring(document.URL.indexOf("sortby") + 7) : "serial") + "\">"
+                            element.innerHTML = "<a href=\"/serialnumbers?beginning=" + element.innerHTML + "&findby="
+                                + (document.URL.indexOf("?") != -1 ? document.URL.substring(document.URL.indexOf("findby") + 7) : "serial") + "\">"
                                 + element.innerHTML + "</a>";
                         })
                     </script>
@@ -163,7 +163,7 @@
                             "scrollY": 650,
                             "iDisplayLength": 50,
                             "searching": false,
-                            "order": [[(document.URL.indexOf("sortby=name") != -1 ? 1 : 0), "asc"]]
+                            "order": [[(document.URL.indexOf("findby=name") != -1 ? 1 : 0), "asc"]]
                         });
                     });
 
