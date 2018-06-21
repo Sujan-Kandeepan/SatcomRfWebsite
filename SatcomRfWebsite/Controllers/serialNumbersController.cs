@@ -18,7 +18,7 @@ namespace SatcomRfWebsite.Controllers
         //
         // GET: /serialNumbers/
 
-        public ActionResult Index(string beginning = "", string sortby = "serial")
+        public ActionResult Index(string beginning = "", string findby = "serial")
         {
             if (serialNumbers.Count() == 0 && beginning.Equals(""))
             {
@@ -29,7 +29,7 @@ namespace SatcomRfWebsite.Controllers
             {
                 return View(db.tblSerialNumbers.OrderBy(x => x.ModelSN).ToList());
             }
-            else if (sortby.Equals("name"))
+            else if (findby.Equals("name"))
             {
                 return View(db.tblSerialNumbers.Where(x => x.ModelName.StartsWith(beginning)).OrderBy(x => x.ModelName).ToList());
             }
