@@ -12,7 +12,7 @@
     if (document.URL.indexOf("?") != -1) {
         if (document.URL.indexOf("findby=serial") == -1 && document.URL.indexOf("findby=name") == -1) {
 
-            location.replace(document.URL.replace(/findby=[a-zA-Z0-9=+,-]*/, "findby=serial"));
+            location.replace(document.URL.substring(0, document.URL.indexOf("findby=") + 7) + "serial");
 
         }
 
