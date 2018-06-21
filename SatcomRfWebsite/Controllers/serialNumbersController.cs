@@ -25,13 +25,17 @@ namespace SatcomRfWebsite.Controllers
                 serialNumbers = db.tblSerialNumbers.ToList();
                 return View(serialNumbers);
             }
+            else if (beginning.Equals(""))
+            {
+                return View(db.tblSerialNumbers.OrderBy(x => x.ModelSN).ToList());
+            }
             else if (sortby.Equals("name"))
             {
-                return View(db.tblSerialNumbers.Where(x => x.ModelName.StartsWith(beginning)).ToList());
+                return View(db.tblSerialNumbers.Where(x => x.ModelName.StartsWith(beginning)).OrderBy(x => x.ModelName).ToList());
             }
             else
             {
-                return View(db.tblSerialNumbers.Where(x => x.ModelSN.StartsWith(beginning)).ToList());
+                return View(db.tblSerialNumbers.Where(x => x.ModelSN.StartsWith(beginning)).OrderBy(x => x.ModelSN).ToList());
             }
         }
 
