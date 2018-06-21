@@ -9,13 +9,18 @@
 </p>-->
 
 <script>
-    if (document.URL.indexOf("sortby=serial") == -1 && document.URL.indexOf("sortby=name") == -1) {
-        location.replace(document.URL.replace(/sortby=[a-zA-Z0-9=+,-]*/, "sortby=serial"));
-    }
+    
+    if (document.URL.indexOf("?") != -1) {
+        if (document.URL.indexOf("sortby=serial") == -1 && document.URL.indexOf("sortby=name") == -1) {
+        
+                //location.replace(document.URL.replace(/sortby=[a-zA-Z0-9=+,-]*/, "sortby=serial"));
+        
+        }
 
-    var beginning = document.URL.substring(document.URL.indexOf("beginning=") + 10, document.URL.indexOf("sortby=") - 1);
-    if (document.URL.indexOf("?") == -1 || beginning != beginning.toUpperCase()) {
-        location.replace(document.URL.replace(beginning, beginning.toUpperCase()));
+        var beginning = document.URL.substring(document.URL.indexOf("beginning=") + 10, document.URL.indexOf("sortby=") - 1);
+        if (document.URL.indexOf("?") != -1 && beginning != beginning.toUpperCase()) {
+            //location.replace(document.URL.replace(beginning, beginning.toUpperCase()));
+        }
     }
 </script>
 
