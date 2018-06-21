@@ -9,17 +9,16 @@
 </p>-->
 
 <script>
-    
     if (document.URL.indexOf("?") != -1) {
         if (document.URL.indexOf("findby=serial") == -1 && document.URL.indexOf("findby=name") == -1) {
-        
-                //location.replace(document.URL.replace(/findby=[a-zA-Z0-9=+,-]*/, "findby=serial"));
-        
+
+            location.replace(document.URL.replace(/findby=[a-zA-Z0-9=+,-]*/, "findby=serial"));
+
         }
 
         var beginning = document.URL.substring(document.URL.indexOf("beginning=") + 10, document.URL.indexOf("findby=") - 1);
         if (document.URL.indexOf("?") != -1 && beginning != beginning.toUpperCase()) {
-            //location.replace(document.URL.replace(beginning, beginning.toUpperCase()));
+            location.replace(document.URL.replace(beginning, beginning.toUpperCase()));
         }
     }
 </script>
