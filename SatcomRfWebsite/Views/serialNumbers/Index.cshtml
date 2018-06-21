@@ -13,6 +13,44 @@
         <div class="container">
             <div class="page-header"><h1>Serial Numbers</h1></div>
             <div class="display" style="margin-bottom: 20px"><h3>View complete list of serial numbers with corresponding model names.</h3></div>
+            <div class="row" style="margin-bottom: -25px; z-index: 1">
+                <div class="col-sm-4"></div>
+                <div class="col-sm-4" type="text" style="text-transform: uppercase">
+                    <input class="form-control" id="search" placeholder="Filter by serial number or model name" />
+                    <script type="text/javascript">
+                        function forceKeyPressUppercase(e) {
+                            var charInput = e.keyCode;
+                            if ((charInput >= 97) && (charInput <= 122)) { // lowercase
+                                if (!e.ctrlKey && !e.shiftKey && !e.metaKey && !e.altKEY) { // no modifier key
+                                    var newChar = charInput - 32;
+                                    var start = e.target.selectionStart;
+                                    var end = e.target.selectionEnd;
+                                    e.target.value = e.target.value.substring(0, start) + String.fromCharCode(newChar) + e.target.value.substring(end);
+                                    e.target.setSelectionRange(start + 1, start + 1);
+                                    e.preventDefault();
+                                }
+                            }
+                        }
+                        document.getElementById("search").addEventListener("keypress", forceKeyPressUppercase, false);
+                    </script>
+                </div>
+                <div class="col-sm-2">
+                    <button class="btn btn-primary" id="sort-by-serial" onclick="sortBySerial()">Search by Serial Number</button>
+                    <script>
+                        function sortBySerial() {
+                            location.href = location.origin + "/serialnumbers?beginning=" + document.getElementById("search").value + "&sortby=serial";
+                        }
+                    </script>
+                </div>
+                <div class="col-sm-2">
+                    <button class="btn btn-primary" id="sort-by-name" onclick="sortByName()">Search by Model Name</button>
+                    <script>
+                        function sortByName() {
+                            location.href = location.origin + "/serialnumbers?beginning=" + document.getElementById("search").value + "&sortby=name";
+                        }
+                    </script>
+                </div>
+            </div>
             <table id="table_serialNums" class="display" width="100%">
                 <thead>
                     <tr>
@@ -55,7 +93,8 @@
                 $(document).ready(function () {
                     $('#table_serialNums').DataTable({
                         "scrollY": 650,
-                        "iDisplayLength": 50
+                        "iDisplayLength": 50,
+                        "searching": false
                     });
                 });
 
