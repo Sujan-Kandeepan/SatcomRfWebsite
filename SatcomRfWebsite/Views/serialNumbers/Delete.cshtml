@@ -28,13 +28,10 @@
                         @using (Html.BeginForm())
                         {
                             <input type="submit" class="btn btn-danger" value="Delete" /> @:|
-                            @Html.ActionLink("Back to List", "Index")
+                            <a href="javascript:history.back()">Back to List</a>
                         }
                     </li>
                 </ul>
-            </div>
-            <div class="row">
-                        
             </div>
         </div>
     </div>
