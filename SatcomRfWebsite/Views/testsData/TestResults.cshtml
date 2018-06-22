@@ -89,7 +89,7 @@
                     @tBodyOpen
                 }
                 <tr>
-                    <td>@Html.DisplayFor(modelItem => item.ModelSN)</td>
+                    <td class="modelsn">@Html.DisplayFor(modelItem => item.ModelSN)</td>
                     <td>@Html.DisplayFor(modelItem => item.StartTime)</td>
                     <td>@Html.DisplayFor(modelItem => item.Result)</td>
                     <td>@Html.DisplayFor(modelItem => item.Units)</td>
@@ -125,6 +125,9 @@
                     sendOutput();
                     sendResults();
                 });
+                Array.prototype.filter.call(document.getElementsByClassName("modelsn"), function (element) {
+                    element.innerHTML = "<a href = \"" + location.origin + "/ateData/AteOutputDetail/?serNum=" + element.innerHTML + "\">" + element.innerHTML + "</a>";
+                })
             </script>
         }
     }
