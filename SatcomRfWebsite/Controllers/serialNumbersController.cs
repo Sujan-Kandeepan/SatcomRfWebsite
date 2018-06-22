@@ -22,7 +22,7 @@ namespace SatcomRfWebsite.Controllers
         {
             if (serialNumbers.Count() == 0 && beginning.Equals(""))
             {
-                serialNumbers = db.tblSerialNumbers.ToList();
+                serialNumbers = db.tblSerialNumbers.OrderBy(x => x.ModelSN).ToList();
                 return View(serialNumbers);
             }
             else if (beginning.Equals(""))
