@@ -109,13 +109,13 @@
                     <hr style="margin: 5px 0;" />
                     @for (int i = 65; i <= 90; i++)
                     {
-                        <div class="start-letter text-center" style="font-size: 20px">@((char)i)</div>
+                        <div class="start-letter text-center" id="letter-@((char)i)" style="font-size: 20px">@((char)i)</div>
                     }
                     <script>
                         Array.prototype.filter.call(document.getElementsByClassName("start-letter"), function (element) {
                             element.innerHTML = "<a href=\"/serialnumbers?beginning=" + element.innerHTML + "&findby="
-                                + (document.URL.indexOf("?") != -1 ? document.URL.substring(document.URL.indexOf("findby") + 7) : "serial") + "\">"
-                                + element.innerHTML + "</a>";
+                                + (document.URL.indexOf("?") != -1 ? document.URL.substring(document.URL.indexOf("findby") + 7) : "serial")
+                                + "\"" + (document.URL.indexOf("beginning=" + element.innerHTML) != -1 ? "style=\"color: #4CAE4C ; font-weight: bold\"" : "") + ">" + element.innerHTML + "</a>";
                         })
                     </script>
                 </div>
