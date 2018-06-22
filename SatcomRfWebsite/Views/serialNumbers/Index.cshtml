@@ -8,6 +8,19 @@
     @Html.ActionLink("Create New", "Create")
 </p>-->
 
+<style>
+    .btn-primary {
+        width: 180px;
+    }
+
+    @@media(max-width: 1200px) {
+        .btn-primary {
+            width: 100%;
+            margin-top: 10px;
+        }
+    }
+</style>
+
 <script>
     if (document.URL.indexOf("?") != -1) {
         if (document.URL.indexOf("findby=serial") == -1 && document.URL.indexOf("findby=name") == -1) {
@@ -28,8 +41,8 @@
         <div class="container">
             <div class="page-header"><h1>Serial Numbers</h1></div>
             <div class="display" style="margin-bottom: 20px"><h3>View complete list of serial numbers with corresponding model names.</h3></div>
-            <div class="row" id="search-form">
-                <div class="col-sm-4">
+            <div class="row" id="search-form" style="margin-bottom: 10px">
+                <div class="col-lg-4">
                     <label class="text-center center-block" id="label" style="font-size: 18px; padding-bottom: 20px"></label>
                     <script>
                         var text = "";
@@ -45,7 +58,7 @@
                         document.getElementById("label").innerHTML = "<strong>" + text + "</strong>";
                     </script>
                 </div>
-                <div class="col-sm-4" type="text" style="text-transform: uppercase">
+                <div class="col-lg-4" type="text">
                     <input class="form-control" id="search" placeholder="Filter by serial number or model name" oninput="changeButtons()"/>
                     <script type="text/javascript">
                         function changeButtons() {
@@ -76,8 +89,8 @@
                         document.getElementById("search").addEventListener("keypress", changeButtons, false);
                     </script>
                 </div>
-                <div class="col-sm-2">
-                    <button class="btn btn-primary" id="find-by-serial" style="width: 180px" onclick="sortBySerial()">Find by Serial Number</button>
+                <div class="col-lg-2 col-md-6">
+                    <button class="btn btn-primary" id="find-by-serial" onclick="sortBySerial()">Find by Serial Number</button>
                     <script>
                         function sortBySerial() {
                             if (document.getElementById("search").value == "") {
@@ -89,8 +102,8 @@
                         }
                     </script>
                 </div>
-                <div class="col-sm-2">
-                    <button class="btn btn-primary" id="find-by-name" style="width: 180px" onclick="sortByName()">Find by Model Name</button>
+                <div class="col-lg-2 col-md-6">
+                    <button class="btn btn-primary" id="find-by-name" onclick="sortByName()">Find by Model Name</button>
                     <script>
                         function sortByName() {
                             if (document.getElementById("search").value == "") {
