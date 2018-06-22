@@ -13,19 +13,12 @@ namespace SatcomRfWebsite.Controllers
     {
         private rfDbEntities db = new rfDbEntities();
 
-        private static List<tblSerialNumber> serialNumbers = new List<tblSerialNumber>();
-
         //
         // GET: /serialNumbers/
 
         public ActionResult Index(string beginning = "", string findby = "serial")
         {
-            if (serialNumbers.Count() == 0 && beginning.Equals(""))
-            {
-                serialNumbers = db.tblSerialNumbers.OrderBy(x => x.ModelSN).ToList();
-                return View(serialNumbers);
-            }
-            else if (beginning.Equals(""))
+            if (beginning.Equals(""))
             {
                 return View(db.tblSerialNumbers.OrderBy(x => x.ModelSN).ToList());
             }
