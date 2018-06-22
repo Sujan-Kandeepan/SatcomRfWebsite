@@ -39,6 +39,9 @@
                             text += "Model names starting with ";
                         }
                         text += document.URL.substring(document.URL.indexOf("beginning=") + 10, document.URL.indexOf("&findby="));
+                        if (document.URL.indexOf("?") == -1) {
+                            text = "All serial numbers and model names"
+                        }
                         document.getElementById("label").innerHTML = "<strong>" + text + "</strong>";
                     </script>
                 </div>
