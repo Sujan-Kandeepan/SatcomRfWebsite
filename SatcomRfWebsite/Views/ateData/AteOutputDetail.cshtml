@@ -43,6 +43,10 @@
         <div class="col-sm-10"><h6><i>@Model.tools.isNullOrEmpty(Model.ateOutputModel.ateOutput[0].TubeSN)</i></h6></div>
     </div>
     <div class="row">
+        <div class="col-sm-2"><h4>Tube Name</h4></div>
+        <div class="col-sm-10"><h6><i>@Model.tools.isNullOrEmpty(Model.ateOutputModel.ateOutput[0].TubeName)</i></h6></div>
+    </div>
+    <div class="row">
         <div class="col-sm-2"><h4>Ssa SN</h4></div>
         <div class="col-sm-10"><h6><i>@Model.tools.isNullOrEmpty(Model.ateOutputModel.ateOutput[0].SsaSN)</i></h6></div>
     </div>
@@ -94,42 +98,42 @@
 
     <div class="row">
         <div class="col-sm-12">
-             @{
-               int counter = 0;
-               int numSimilarTests = 0;
-               string testName = "";
-               var yscroll = 500;
+            @{
+                int counter = 0;
+                int numSimilarTests = 0;
+                string testName = "";
+                var yscroll = 500;
 
-               var tBodyOpen = new HtmlString("<tbody>");
-               var tBodyClose = new HtmlString("</tbody>");
-               var tableOpen = new HtmlString("<table>");
-               var tableClose = new HtmlString("</table>");
-               var divOpen = new HtmlString("<div>");
-               var divClose = new HtmlString("</div>");
+                var tBodyOpen = new HtmlString("<tbody>");
+                var tBodyClose = new HtmlString("</tbody>");
+                var tableOpen = new HtmlString("<table>");
+                var tableClose = new HtmlString("</table>");
+                var divOpen = new HtmlString("<div>");
+                var divClose = new HtmlString("</div>");
 
-               if (Model.ateOutputModel.testResults.Count() > 0)
-               {
-                   foreach (var item in Model.ateOutputModel.testResults)
-                   {
-                       numSimilarTests++;
-               
-                       if (!testName.Equals(item.TestName))
-                       {
-                           testName = item.TestName;
-                   
-                           var testParam = Model.ateOutputModel.testParams.Find(x => x.TestName.Contains(item.TestNameNoDigit) );
+                if (Model.ateOutputModel.testResults.Count() > 0)
+                {
+                    foreach (var item in Model.ateOutputModel.testResults)
+                    {
+                        numSimilarTests++;
 
-                           if (numSimilarTests < 5) { yscroll = 250; }
-                           else { yscroll = 500; }
-                   
-                           numSimilarTests = 0;
+                        if (!testName.Equals(item.TestName))
+                        {
+                            testName = item.TestName;
 
-                           //close table"scrollY": false //@yscroll,
-                           if (counter > 0)
-                           {
+                            var testParam = Model.ateOutputModel.testParams.Find(x => x.TestName.Contains(item.TestNameNoDigit));
 
-                                        @tBodyClose
-                                    @tableClose
+                            if (numSimilarTests < 5) { yscroll = 250; }
+                            else { yscroll = 500; }
+
+                            numSimilarTests = 0;
+
+                            //close table"scrollY": false //@yscroll,
+                            if (counter > 0)
+                            {
+
+                                @tBodyClose
+                                @tableClose
                                 @divClose
 
                                 <script>
@@ -145,116 +149,116 @@
                                         });
                                     });
                                 </script>
-                        
-                           }
-                           counter++;
-                           tableOpen = new HtmlString(String.Format("<table id='table_id_{0}' class='display'>", counter));
+
+                            }
+                            counter++;
+                            tableOpen = new HtmlString(String.Format("<table id='table_id_{0}' class='display'>", counter));
                             <hr />
-        
+
                             <div class="row"><h2 id="@Html.Raw(item.TestName)">@Html.Raw(item.TestName)</h2></div>
-        
+
                             @divOpen
                             @tableOpen <!--<table id="table_id_" class="display">-->
-                                    <thead>
-                                        <tr>
-                                            <th>@Html.DisplayNameFor(model => item.ModelSN)</th>
-                                            <!--<th>@Html.DisplayNameFor(model => item.StartTime)</th>-->
-                                            <th>@Html.DisplayNameFor(model => item.Result)</th>
-                                            <th>@Html.DisplayNameFor(model => item.Units)</th>
-                                            <th>@Html.DisplayNameFor(model => item.LowLimit)</th>
-                                            <th>@Html.DisplayNameFor(model => item.UpLimit)</th>
-                                            <th>@Html.DisplayNameFor(model => item.Channel)</th>
-                                            @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => testParam.P1).ToString()))
-                                            {
-                                                <th>@Html.DisplayFor(modelItem => testParam.P1)</th>
-                                            }
-                                            @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => testParam.P2).ToString()))
-                                            {
-                                                <th>@Html.DisplayFor(modelItem => testParam.P2)</th>
-                                            }
-                                            @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => testParam.P3).ToString()))
-                                            {
-                                                <th>@Html.DisplayFor(modelItem => testParam.P3)</th>
-                                            }
-                                            @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => testParam.P4).ToString()))
-                                            {
-                                                <th>@Html.DisplayFor(modelItem => item.P4)</th>
-                                            }
-                                            @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => testParam.P5).ToString()))
-                                            {
-                                                <th>@Html.DisplayFor(modelItem => item.P5)</th>
-                                            }
-                                            @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => testParam.P6).ToString()))
-                                            {
-                                                <th>@Html.DisplayFor(modelItem => testParam.P6)</th>
-                                            }
-                                            @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => testParam.P7).ToString()))
-                                            {
-                                                <th>@Html.DisplayFor(modelItem => testParam.P7)</th>
-                                            }
-                                            @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => testParam.P8).ToString()))
-                                            {
-                                                <th>@Html.DisplayFor(modelItem => testParam.P8)</th>
-                                            }
-                                            @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => testParam.P9).ToString()))
-                                            {
-                                                <th>@Html.DisplayFor(modelItem => testParam.P9)</th>
-                                            }
-                                        </tr>
-                                    </thead>
+                            <thead>
+                                <tr>
+                                    <th>@Html.DisplayNameFor(model => item.ModelSN)</th>
+                                    <!--<th>@Html.DisplayNameFor(model => item.StartTime)</th>-->
+                                    <th>@Html.DisplayNameFor(model => item.Result)</th>
+                                    <th>@Html.DisplayNameFor(model => item.Units)</th>
+                                    <th>@Html.DisplayNameFor(model => item.LowLimit)</th>
+                                    <th>@Html.DisplayNameFor(model => item.UpLimit)</th>
+                                    <th>@Html.DisplayNameFor(model => item.Channel)</th>
+                                    @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => testParam.P1).ToString()))
+                                    {
+                                        <th>@Html.DisplayFor(modelItem => testParam.P1)</th>
+                                    }
+                                    @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => testParam.P2).ToString()))
+                                    {
+                                        <th>@Html.DisplayFor(modelItem => testParam.P2)</th>
+                                    }
+                                    @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => testParam.P3).ToString()))
+                                    {
+                                        <th>@Html.DisplayFor(modelItem => testParam.P3)</th>
+                                    }
+                                    @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => testParam.P4).ToString()))
+                                    {
+                                        <th>@Html.DisplayFor(modelItem => item.P4)</th>
+                                    }
+                                    @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => testParam.P5).ToString()))
+                                    {
+                                        <th>@Html.DisplayFor(modelItem => item.P5)</th>
+                                    }
+                                    @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => testParam.P6).ToString()))
+                                    {
+                                        <th>@Html.DisplayFor(modelItem => testParam.P6)</th>
+                                    }
+                                    @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => testParam.P7).ToString()))
+                                    {
+                                        <th>@Html.DisplayFor(modelItem => testParam.P7)</th>
+                                    }
+                                    @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => testParam.P8).ToString()))
+                                    {
+                                        <th>@Html.DisplayFor(modelItem => testParam.P8)</th>
+                                    }
+                                    @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => testParam.P9).ToString()))
+                                    {
+                                        <th>@Html.DisplayFor(modelItem => testParam.P9)</th>
+                                    }
+                                </tr>
+                            </thead>
                             @tBodyOpen
-                       }
-                                    <tr>
-                                        <td>@Html.DisplayFor(modelItem => item.ModelSN)</td>
-                                        <!--<td>@Html.DisplayFor(modelItem => item.StartTime)</td>-->
-                                        <td>@Html.DisplayFor(modelItem => item.Result)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.Units)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.LowLimit)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.UpLimit)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.Channel)</td>
-                                        @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => item.P1).ToString()))
-                                        {
-                                            <td>@Html.DisplayFor(modelItem => item.P1)</td>
-                                        }
-                                        @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => item.P2).ToString()))
-                                        {
-                                            <td>@Html.DisplayFor(modelItem => item.P2)</td>
-                                        }
-                                        @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => item.P3).ToString()))
-                                        {
-                                            <td>@Html.DisplayFor(modelItem => item.P3)</td>
-                                        }
-                                        @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => item.P4).ToString()))
-                                        {
-                                            <td>@Html.DisplayFor(modelItem => item.P4)</td>
-                                        }
-                                        @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => item.P5).ToString()))
-                                        {
-                                            <td>@Html.DisplayFor(modelItem => item.P5)</td>
-                                        }
-                                        @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => item.P6).ToString()))
-                                        {
-                                            <td>@Html.DisplayFor(modelItem => item.P6)</td>
-                                        }
-                                        @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => item.P7).ToString()))
-                                        {
-                                            <td>@Html.DisplayFor(modelItem => item.P7)</td>
-                                        }
-                                        @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => item.P8).ToString()))
-                                        {
-                                            <td>@Html.DisplayFor(modelItem => item.P8)</td>
-                                        }
-                                        @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => item.P9).ToString()))
-                                        {
-                                            <td>@Html.DisplayFor(modelItem => item.P9)</td>
-                                        }
-                                    </tr>
-                   }
+                        }
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.ModelSN)</td>
+                            <!--<td>@Html.DisplayFor(modelItem => item.StartTime)</td>-->
+                            <td>@Html.DisplayFor(modelItem => item.Result)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Units)</td>
+                            <td>@Html.DisplayFor(modelItem => item.LowLimit)</td>
+                            <td>@Html.DisplayFor(modelItem => item.UpLimit)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Channel)</td>
+                            @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => item.P1).ToString()))
+                            {
+                                <td>@Html.DisplayFor(modelItem => item.P1)</td>
+                            }
+                            @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => item.P2).ToString()))
+                            {
+                                <td>@Html.DisplayFor(modelItem => item.P2)</td>
+                            }
+                            @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => item.P3).ToString()))
+                            {
+                                <td>@Html.DisplayFor(modelItem => item.P3)</td>
+                            }
+                            @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => item.P4).ToString()))
+                            {
+                                <td>@Html.DisplayFor(modelItem => item.P4)</td>
+                            }
+                            @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => item.P5).ToString()))
+                            {
+                                <td>@Html.DisplayFor(modelItem => item.P5)</td>
+                            }
+                            @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => item.P6).ToString()))
+                            {
+                                <td>@Html.DisplayFor(modelItem => item.P6)</td>
+                            }
+                            @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => item.P7).ToString()))
+                            {
+                                <td>@Html.DisplayFor(modelItem => item.P7)</td>
+                            }
+                            @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => item.P8).ToString()))
+                            {
+                                <td>@Html.DisplayFor(modelItem => item.P8)</td>
+                            }
+                            @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => item.P9).ToString()))
+                            {
+                                <td>@Html.DisplayFor(modelItem => item.P9)</td>
+                            }
+                        </tr>
+                    }
 
-                   //close table at the very end
+                    //close table at the very end
 
-                            @tBodyClose
-                        @tableClose
+                    @tBodyClose
+                    @tableClose
                     @divClose
 
                     <script>
@@ -269,8 +273,8 @@
                             });
                         });
                     </script>
-               }
-            } 
+                }
+            }
         </div>
     </div>
 </div>
