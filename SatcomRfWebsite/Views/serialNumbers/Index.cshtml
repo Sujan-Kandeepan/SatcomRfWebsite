@@ -93,11 +93,11 @@
                             // Number 13 is the "Enter" key on the keyboard
                             if (event.keyCode === 13) {
                                 // Trigger the button element with a click
-                                if (document.URL.indexOf("findby=serial") != -1) {
-                                    document.getElementById("find-by-serial").click();
-                                }
-                                else if (document.URL.indexOf("findby=name") != -1) {
+                                if (document.URL.indexOf("findby=name") != -1) {
                                     document.getElementById("find-by-name").click();
+                                }
+                                else {
+                                    document.getElementById("find-by-serial").click();
                                 }
                             }
                         });
