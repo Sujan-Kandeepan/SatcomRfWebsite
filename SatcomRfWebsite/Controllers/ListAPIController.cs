@@ -568,9 +568,6 @@ namespace SatcomRfWebsite.Controllers
                 worksheet.SheetView.FreezeColumns(1);
                 worksheet.SheetView.FreezeColumns(2);
                 worksheet.SheetView.FreezeColumns(3);
-                worksheet.Column(1).Width = 20;
-                worksheet.Column(3).Width = 10;
-                worksheet.Column(23).Width = 10;
                 document.SaveAs(file);
                 string filename = DateTime.Now.ToString("yyyy-MM-dd") + $" {productType} {modelName}.xlsx";
                 if (testType != null && !testType.Equals("null"))
