@@ -265,7 +265,7 @@
                         break;
                 }
 
-                var src = document.location.origin + "/api/ListAPI/GetTableFile?modelName=" + modelName + "&productType=" + productType + "&testType=" + testType + "&tubeName=" + tubeName + "&options=" + options;
+                var src = document.location.origin + "/api/ListAPI/GetTableFile?modelName=" + modelName + "&productType=" + productType + "&testType=" + testType + "&tubeName=" + tubeName + "&options=" + options + "&exclude=none";
                 var data = new XMLHttpRequest();
                 data.onreadystatechange = function () {
                     if (this.readyState === 4 && this.status === 200) {
@@ -282,7 +282,7 @@
                 data.send();
 
                 document.getElementById("iframe-temp").innerHTML = "<iframe style=\"display:none\" src=\"" + document.location.origin +
-                    "/api/ListAPI/GetTableFile?modelName=" + modelName + "&productType=" + productType + "&testType=" + testType + "&tubeName=" + tubeName + "&options=" + options + "\"></iframe>";
+                    "/api/ListAPI/GetTableFile?modelName=" + modelName + "&productType=" + productType + "&testType=" + testType + "&tubeName=" + tubeName + "&options=" + options + "&exclude=none\"></iframe>";
             }
         }
     </script>

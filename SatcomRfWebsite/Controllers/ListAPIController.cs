@@ -103,7 +103,7 @@ namespace SatcomRfWebsite.Controllers
         }
 
         [NonAction]
-        public List<TestData> InternalGetTableData(string modelName, string productType, string testType, string tubeName, string options)
+        public List<TestData> InternalGetTableData(string modelName, string productType, string testType, string tubeName, string options, string exclude)
         {
             var data = new List<TestData>();
             using (var conn = new SqlConnection(GetSqlConnectString()))
@@ -197,6 +197,7 @@ namespace SatcomRfWebsite.Controllers
 
 
                         string[] flagList = !(options == null || options == "" || options == "none") ? options.Split(',') : new string[0];
+                        string[] excludeList = exclude.Equals("none") ? new string[0] : exclude.Split(',');
 
                         if (testType != null && !testType.Equals("null") && !testType.Equals("none")
                             && !testType.Equals("undefined") && !tmp2["TestType"].Equals(testType)
@@ -209,7 +210,8 @@ namespace SatcomRfWebsite.Controllers
                             || flagList.Contains("LipaSN") && tmp2["LipaSN"].ToString().Equals("")
                             || flagList.Contains("BucSN") && tmp2["BucSN"].ToString().Equals("")
                             || flagList.Contains("BipaSN") && tmp2["BipaSN"].ToString().Equals("")
-                            || flagList.Contains("BlipaSN") && tmp2["BlipaSN"].ToString().Equals(""))
+                            || flagList.Contains("BlipaSN") && tmp2["BlipaSN"].ToString().Equals("")
+                            || excludeList.Contains(i))
                         {
                             continue;
                         }
@@ -468,11 +470,11 @@ namespace SatcomRfWebsite.Controllers
             return data;
         }
 
-        public IHttpActionResult GetTableData(string modelName, string productType, string testType, string tubeName, string options)
+        public IHttpActionResult GetTableData(string modelName, string productType, string testType, string tubeName, string options, string exclude)
         {
             try
             {
-                List<TestData> data = InternalGetTableData(modelName, productType, testType, tubeName, options);
+                List<TestData> data = InternalGetTableData(modelName, productType, testType, tubeName, options, exclude);
                 return Ok(data);
             }
             catch (DataNotFoundException)
@@ -486,11 +488,11 @@ namespace SatcomRfWebsite.Controllers
             }
         }
 
-        public IHttpActionResult GetTableFile(string modelName, string productType, string testType, string tubeName, string options)
+        public IHttpActionResult GetTableFile(string modelName, string productType, string testType, string tubeName, string options, string exclude)
         {
             try
             {
-                List<TestData> data = InternalGetTableData(modelName, productType, testType, tubeName, options);
+                List<TestData> data = InternalGetTableData(modelName, productType, testType, tubeName, options, exclude);
                 string[][] headers = new string[1][];
                 headers[0] = new string[] { "Testname", "Channel", "Power", "Serial Number", "Test Type", "Start Time", "Audit", "Itar", "Long Model Name", "TubeSN", "Tube Name", "SsaSN", "LinSN", "LipaSN", "BucSN", "BipaSN", "BlipaSN", "Result", "Min", "Max", "Average", "Std. Deviation", "Unit", "Result (Conv)", "Min (Conv)", "Max (Conv)", "Average (Conv)", "Std. Deviation (Conv)", "Unit (Conv)", "LowLimit", "UpLimit", "Cpk" };
                 var file = new MemoryStream();
@@ -581,6 +583,10 @@ namespace SatcomRfWebsite.Controllers
                 if (options != null && !options.Equals("null"))
                 {
                     filename = filename.Replace(".xlsx", $" {options}.xlsx");
+                }
+                if (exclude != null && !exclude.Equals("null") && !exclude.Equals("") && !exclude.Equals("none"))
+                {
+                    filename = filename.Replace(".xlsx", $" Selective.xlsx");
                 }
                 var resp = new ExcelFileResponse(file.ToArray(), Request, filename);
                 file.Dispose();
