@@ -27,6 +27,11 @@
             {
                 numSimilarTests++;
 
+                if (!item.TestName.Equals(Model.searchModel.testName))
+                {
+                    continue;
+                }
+
                 if (!testName.Equals(item.TestName))
                 {
                     testName = item.TestName;
@@ -50,8 +55,9 @@
 
                             $(document).ready(function () {
                                 $('#table_id_@counter').DataTable({
+                                    "collapse": true,
                                     "scrollX": true,
-                                    "scrollY": @yscroll
+                                    "scrollY": false
                                 });
                             });
                         </script>
@@ -115,51 +121,51 @@
                     </thead>
                     @tBodyOpen
                 }
-                    <tr>
-                        <td class="modelsn">@Html.DisplayFor(modelItem => item.ModelSN)</td>
-                        <td>@Html.DisplayFor(modelItem => item.StartTime)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Result)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Units)</td>
-                        <td>@Html.DisplayFor(modelItem => item.LowLimit)</td>
-                        <td>@Html.DisplayFor(modelItem => item.UpLimit)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Channel)</td>
-                        @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => item.P1).ToString()))
-                        {
-                            <td>@Html.DisplayFor(modelItem => item.P1)</td>
-                        }
-                        @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => item.P2).ToString()))
-                        {
-                            <td>@Html.DisplayFor(modelItem => item.P2)</td>
-                        }
-                        @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => item.P3).ToString()))
-                        {
-                            <td>@Html.DisplayFor(modelItem => item.P3)</td>
-                        }
-                        @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => item.P4).ToString()))
-                        {
-                            <td>@Html.DisplayFor(modelItem => item.P4)</td>
-                        }
-                        @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => item.P5).ToString()))
-                        {
-                            <td>@Html.DisplayFor(modelItem => item.P5)</td>
-                        }
-                        @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => item.P6).ToString()))
-                        {
-                            <td>@Html.DisplayFor(modelItem => item.P6)</td>
-                        }
-                        @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => item.P7).ToString()))
-                        {
-                            <td>@Html.DisplayFor(modelItem => item.P7)</td>
-                        }
-                        @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => item.P8).ToString()))
-                        {
-                            <td>@Html.DisplayFor(modelItem => item.P8)</td>
-                        }
-                        @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => item.P9).ToString()))
-                        {
-                            <td>@Html.DisplayFor(modelItem => item.P9)</td>
-                        }
-                    </tr>
+                <tr>
+                    <td class="modelsn">@Html.DisplayFor(modelItem => item.ModelSN)</td>
+                    <td>@Html.DisplayFor(modelItem => item.StartTime)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Result)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Units)</td>
+                    <td>@Html.DisplayFor(modelItem => item.LowLimit)</td>
+                    <td>@Html.DisplayFor(modelItem => item.UpLimit)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Channel)</td>
+                    @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => item.P1).ToString()))
+                    {
+                        <td>@Html.DisplayFor(modelItem => item.P1)</td>
+                    }
+                    @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => item.P2).ToString()))
+                    {
+                        <td>@Html.DisplayFor(modelItem => item.P2)</td>
+                    }
+                    @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => item.P3).ToString()))
+                    {
+                        <td>@Html.DisplayFor(modelItem => item.P3)</td>
+                    }
+                    @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => item.P4).ToString()))
+                    {
+                        <td>@Html.DisplayFor(modelItem => item.P4)</td>
+                    }
+                    @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => item.P5).ToString()))
+                    {
+                        <td>@Html.DisplayFor(modelItem => item.P5)</td>
+                    }
+                    @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => item.P6).ToString()))
+                    {
+                        <td>@Html.DisplayFor(modelItem => item.P6)</td>
+                    }
+                    @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => item.P7).ToString()))
+                    {
+                        <td>@Html.DisplayFor(modelItem => item.P7)</td>
+                    }
+                    @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => item.P8).ToString()))
+                    {
+                        <td>@Html.DisplayFor(modelItem => item.P8)</td>
+                    }
+                    @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => item.P9).ToString()))
+                    {
+                        <td>@Html.DisplayFor(modelItem => item.P9)</td>
+                    }
+                </tr>
             }
 
             //close table at the very end
@@ -171,8 +177,9 @@
             <script>
                 $(document).ready(function () {
                     $('#table_id_@counter').DataTable({
+                        "collapse": true,
                         "scrollX": true,
-                        "scrollY": @yscroll
+                        "scrollY": false
                     });
 
                     sendStats();

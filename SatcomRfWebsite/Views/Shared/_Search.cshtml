@@ -17,7 +17,7 @@
         if ("@ViewBag.getFilter" != "") {
             var filterToApply       = "@ViewBag.getFilter";
         } else {
-            var filterToApply       = "testType=none+tubeName=none+opt=none";
+            var filterToApply       = "testName=none+testType=none+tubeName=none+opt=none";
         }
 
         //Set navbar button as active
@@ -48,8 +48,8 @@
 <!-----------------------------  Search ------------------------------->
 <div class="row">
     <div class="col-lg-2">
-        <select id="selectProductType" class="demo-default" placeholder="Product types...">
-            <option value="">Product types...</option>
+        <select id="selectProductType" class="demo-default" placeholder="Product Types...">
+            <option value="">Product Types...</option>
             @foreach (var item in Model.searchModel.productTypeList)
             {
                 <option value="@item.ProductType">@item.ProductType</option>
@@ -96,8 +96,8 @@
         </script>
     </div>
     <div class="col-lg-2">
-        <select id="selectModelName" class="demo-default" placeholder="Model names..." name="ModelName">
-            <option value="">Model names...</option>
+        <select id="selectModelName" class="demo-default" placeholder="Model Names..." name="ModelName">
+            <option value="">Model Names...</option>
             @foreach (var item in Model.searchModel.modelNameList)
             {
                 //if (Model.tools.isModelNameItar(item.ModelName)) { continue; }
@@ -118,9 +118,9 @@
 		                var $select = $("#selectModelName").selectize();
 		                var selectizeObj = $select[0].selectize;
 		                selectizeObj.setValue(modelNamePassedIn);
-		                selectizeObj.disable()
+                        selectizeObj.disable();
 
-		                noSearchCriteria = false;
+                        noSearchCriteria = false;
 		            }
 
 		            $('#selectModelName').selectize({
@@ -147,6 +147,70 @@
                                 location.href = document.URL + "/" + value;
                             } else {
 		                        location.href = document.URL + "/" + prod + "/" + value;
+                            }
+
+                            sendStats();
+                            sendOutput();
+                            sendResults();
+		                }
+		            });
+
+
+		            $("#selectModelName").change(function () {
+		                //$("#filterReset").html('Please Wait');
+		                $body = $("body");
+		                $body.addClass("loading");
+		            });
+		        });
+
+        </script>
+    </div>
+
+    <div class="col-lg-2">
+        <select id="selectTestName" class="demo-default" placeholder="Test Names..." name="TestName">
+            <option value="">Test Names...</option>
+            @{
+                string testName = "";
+                foreach (var item in Model.testResModel.testResults.Distinct().ToList())
+                {
+                    if (!item.TestName.Equals(testName))
+                    {
+                        <option value="@item.TestName">@item.TestName</option>
+                        testName = item.TestName;
+                    }
+                }
+            }
+        </select>
+
+        <script>
+
+            $(document).ready(function () {
+
+                    var modelNamePassedIn = "@ViewBag.getModName";
+                    var testNamePassedIn = "@Model.searchModel.testName";
+
+                    //set and disable on load
+		            if (modelNamePassedIn == "") {
+                        var $select = $("#selectTestName").selectize();
+                        var selectizeObj = $select[0].selectize;
+                        selectizeObj.disable();
+                    } else {
+                        var $select = $("#selectTestName").val(testNamePassedIn);
+                    }
+
+                    $('#selectTestName').selectize({
+		                sortField: {
+		                    field: 'text',
+		                    direction: 'asc'
+		                },
+		                dropdownParent: 'body',
+                        onChange: function (value) {
+
+                            var url = document.URL;
+                            if (url.indexOf("testName") == -1) {
+                                location.href += "/testName=" + value + "+testType=none+tubeName=none+opt=none";
+                            } else {
+                                location.href = document.URL.replace(/testName=[a-zA-Z0-9-]*/, "testName=" + value);
                             }
 
                             sendStats();
@@ -231,21 +295,21 @@
     </script>
 </div>
 
-    <!-----------------------------  FILTER ------------------------------->
+<!-----------------------------  FILTER ------------------------------->
 
-    <div class="row" style="margin-top: 20px">
+<div class="row" style="margin-top: 20px">
 
-        <label class="col-lg-2" style="font-size: 16px; text-align: right; font-weight: normal"><big>Filters & Options:</big></label>
+    <label class="col-lg-2" style="font-size: 16px; text-align: right; font-weight: normal"><big>Filters & Options:</big></label>
 
-        <div class="col-lg-2">
-            <select id="selectTestType" class="demo-default" placeholder="Test Type...">
-                <option value="">Test Type...</option>
-                <option value="ProdTest" @(Model.searchModel.testType == "ProdTest" ? "selected" : "")>Production Test</option>
-                <option value="EngTest" @(Model.searchModel.testType == "EngTest" ? "selected" : "")>Engineering Test</option>
-                <option value="Debug" @(Model.searchModel.testType == "Debug" ? "selected" : "")>Debugging</option>
-            </select>
+    <div class="col-lg-2">
+        <select id="selectTestType" class="demo-default" placeholder="Test Type...">
+            <option value="">Test Type...</option>
+            <option value="ProdTest" @(Model.searchModel.testType == "ProdTest" ? "selected" : "")>Production Test</option>
+            <option value="EngTest" @(Model.searchModel.testType == "EngTest" ? "selected" : "")>Engineering Test</option>
+            <option value="Debug" @(Model.searchModel.testType == "Debug" ? "selected" : "")>Debugging</option>
+        </select>
 
-            <script>
+        <script>
 
 		        $(document).ready(function () {
 
@@ -279,19 +343,19 @@
 		            });
 		        });
 
-            </script>
-        </div>
+        </script>
+    </div>
 
-        <div class="col-lg-2">
-            <select id="selectTubeName" class="demo-default" placeholder="Tube Name...">
-                <option value="">Tube Name...</option>
-                @foreach (var tube in Model.searchModel.tubeList)
-                {
-                    <option value="@tube" @(Model.searchModel.tubeName == tube ? "selected" : "")>@tube</option>
-                }
-            </select>
+    <div class="col-lg-2">
+        <select id="selectTubeName" class="demo-default" placeholder="Tube Name...">
+            <option value="">Tube Name...</option>
+            @foreach (var tube in Model.searchModel.tubeList)
+            {
+                <option value="@tube" @(Model.searchModel.tubeName == tube ? "selected" : "")>@tube</option>
+            }
+        </select>
 
-            <script>
+        <script>
 
 		        $(document).ready(function () {
 
@@ -323,150 +387,151 @@
 		            });
 		        });
 
-            </script>
-        </div>
-
-        <div class="col-lg-2">
-            <select id="selectOptions" multiple class="demo-default" placeholder="Select Options...">
-                <option value="">Select Options...</option>
-                <option value="SsaSN" @(Model.searchModel.options.Contains("SsaSN") ? "selected" : "")>SSA</option>
-                <option value="LinSN" @(Model.searchModel.options.Contains("LinSN") ? "selected" : "")>LIN</option>
-                <option value="LipaSN" @(Model.searchModel.options.Contains("LipaSN") ? "selected" : "")>LIPA</option>
-                <option value="BucSN" @(Model.searchModel.options.Contains("BucSN") ? "selected" : "")>BUC</option>
-                <option value="BipaSN" @(Model.searchModel.options.Contains("BipaSN") ? "selected" : "")>BIPA</option>
-                <option value="BlipaSN" @(Model.searchModel.options.Contains("BlipaSN") ? "selected" : "")>BLIPA</option>
-            </select>
-
-            <script>
-
-                $(document).ready(function () {
-
-                    if (noSearchCriteria) {
-                        var $select = $("#selectOptions").selectize();
-                        var selectizeObj = $select[0].selectize;
-                        selectizeObj.disable();
-                    }
-
-
-                    //select by typing
-                    $('#selectOptions').selectize({
-                        plugins: ['remove_button'],
-                        delimiter: ',',
-                        persist: false,
-                        onChange: function (value) {
-
-                            var strPos = filterToApply.search("opt=")
-
-                            if (strPos == -1) {
-                                filterToApply += "+opt=" + value;
-                            } else {
-                                filterToApply = filterToApply.replace(/opt=[a-zA-Z,]*/, "opt=" + value);
-                            }
-                        }
-                    });
-                });
-
-            </script>
-        </div>
-
-        <div class="col-lg-2">
-            <button id='filterReset' class="btn btn-block" type="button" onclick='resetFilter()'>Reset Filter</button>
-        </div>
-
-        <div class="col-lg-2">
-            <button id='filterApply' class="btn btn-primary btn-block" type="button" onclick='applyFilter()'>Apply Filter</button>
-
-            <script>
-                $(document).ready(function () {
-                    if (noSearchCriteria) {
-                        $('#filterReset').prop('disabled', true);
-                        $('#filterApply').prop('disabled', true);
-                    } else {
-                        $('#filterReset').prop('disabled', false);
-                        $('#filterApply').prop('disabled', false);
-                    }
-
-                    $("#filterReset").click(function () {
-                        //$("#filterReset").html('Please Wait');
-                        $body = $("body");
-                        $body.addClass("loading");
-                    });
-
-                    $("#filterApply").click(function () {
-                        //$("#filterReset").html('Please Wait');
-                        $body = $("body");
-                        $body.addClass("loading");
-                    });
-                });
-
-                function resetFilter() {
-                    location.href = document.URL.replace(/\/testType=[a-zA-Z0-9=+,-]*/, "");
-
-                    sendStats();
-                    sendOutput();
-                    sendResults();
-                }
-
-                function applyFilter() {
-                    if (document.URL.search("testType=") == -1) {
-                        location.href = document.URL + "/" + filterToApply;
-                    } else {
-                        location.href = document.URL.replace(/\/testType=[a-zA-Z0-9=+,-]*/, "/" + filterToApply);
-                    }
-
-                    sendStats();
-                    sendOutput();
-                    sendResults();
-                }
-            </script>
-        </div>
+        </script>
     </div>
 
-    <script>
-        function sendStats() {
-            var pT = selectProductType.value;
-            var mN = selectModelName.value;
+    <div class="col-lg-2">
+        <select id="selectOptions" multiple class="demo-default" placeholder="Select Options...">
+            <option value="">Select Options...</option>
+            <option value="SsaSN" @(Model.searchModel.options.Contains("SsaSN") ? "selected" : "")>SSA</option>
+            <option value="LinSN" @(Model.searchModel.options.Contains("LinSN") ? "selected" : "")>LIN</option>
+            <option value="LipaSN" @(Model.searchModel.options.Contains("LipaSN") ? "selected" : "")>LIPA</option>
+            <option value="BucSN" @(Model.searchModel.options.Contains("BucSN") ? "selected" : "")>BUC</option>
+            <option value="BipaSN" @(Model.searchModel.options.Contains("BipaSN") ? "selected" : "")>BIPA</option>
+            <option value="BlipaSN" @(Model.searchModel.options.Contains("BlipaSN") ? "selected" : "")>BLIPA</option>
+        </select>
 
-            var newurl;
-            if (pT == "") {
-                newurl = "/SatcomStatsPage";
+        <script>
+
+            $(document).ready(function () {
+
+                if (noSearchCriteria) {
+                    var $select = $("#selectOptions").selectize();
+                    var selectizeObj = $select[0].selectize;
+                    selectizeObj.disable();
+                }
+
+
+                //select by typing
+                $('#selectOptions').selectize({
+                    plugins: ['remove_button'],
+                    delimiter: ',',
+                    persist: false,
+                    onChange: function (value) {
+
+                        var strPos = filterToApply.search("opt=")
+
+                        if (strPos == -1) {
+                            filterToApply += "+opt=" + value;
+                        } else {
+                            filterToApply = filterToApply.replace(/opt=[a-zA-Z,]*/, "opt=" + value);
+                        }
+                    }
+                });
+            });
+
+        </script>
+    </div>
+
+    <div class="col-lg-2">
+        <button id='filterReset' class="btn btn-block" type="button" onclick='resetFilter()'>Reset Filter</button>
+    </div>
+
+    <div class="col-lg-2">
+        <button id='filterApply' class="btn btn-primary btn-block" type="button" onclick='applyFilter()'>Apply Filter</button>
+
+        <script>
+            $(document).ready(function () {
+                if (noSearchCriteria) {
+                    $('#filterReset').prop('disabled', true);
+                    $('#filterApply').prop('disabled', true);
+                } else {
+                    $('#filterReset').prop('disabled', false);
+                    $('#filterApply').prop('disabled', false);
+                }
+
+                $("#filterReset").click(function () {
+                    //$("#filterReset").html('Please Wait');
+                    $body = $("body");
+                    $body.addClass("loading");
+                });
+
+                $("#filterApply").click(function () {
+                    //$("#filterReset").html('Please Wait');
+                    $body = $("body");
+                    $body.addClass("loading");
+                });
+            });
+
+            function resetFilter() {
+                location.href = document.URL.replace(/\/testName=[a-zA-Z0-9=+,-]*/, "");
+
+                sendStats();
+                sendOutput();
+                sendResults();
             }
-            else if (mN == "") {
-                newurl = "/SatcomStatsPage/Index/" + pT;
+
+            function applyFilter() {
+                if (document.URL.search("testType=") == -1) {
+                    location.href = document.URL + "/" + filterToApply;
+                } else {
+                    location.href = document.URL.replace(/\/testName=[a-zA-Z0-9=+,-]*/, "/" + filterToApply);
+                }
+                alert(filterToApply);
+
+                sendStats();
+                sendOutput();
+                sendResults();
             }
-            else if (selectTestType.value == "" && selectTubeName.value == "" && selectOptions.value == "") {
-                newurl = "/SatcomStatsPage/Index/" + pT + "/" + mN;
-            }
-            else {
-                newurl = "/SatcomStatsPage/Index/" + pT + "/" + mN + "/" + document.URL.substring(document.URL.indexOf("testType"));
-            }
-            document.getElementById("navBarStats").innerHTML = "<a href=\"" + newurl + "\">Statistics</a>";
+        </script>
+    </div>
+</div>
+
+<script>
+    function sendStats() {
+        var pT = selectProductType.value;
+        var mN = selectModelName.value;
+
+        var newurl;
+        if (pT == "") {
+            newurl = "/SatcomStatsPage";
         }
-
-        function sendOutput() {
-            //alert("¯\\_(ツ)_/¯");
-
-            var pT = selectProductType.value != "" ? selectProductType.value : "na";
-            var mN = selectModelName.value != "" ? selectModelName.value : "na";
-            var testType = selectTestType.value != "" ? selectTestType.value : "na";
-            var tubeName = selectTubeName.value != "" ? selectTubeName.value : "na";
-            var opt = selectOptions.value != "" ? selectOptions.value : "na";
-
-            var newurl;
-            if (document.URL.indexOf("TestResults") == document.URL.length - 11) {
-                newurl = "/ateData/AteOutput";
-            }
-            else {
-                newurl = "/ateData/AteOutput?filter=pT=" + pT + "%mN=" + mN + "%ser=na%testType=" + testType + "%tubeName=" + tubeName + "%opt=" + opt + "";
-            }
-            document.getElementById("navBarAteOutput").innerHTML = "<a href=\"" + newurl + "\">ATE Output</a>";
+        else if (mN == "") {
+            newurl = "/SatcomStatsPage/Index/" + pT;
         }
-
-        function sendResults() {
-            //document.getElementById("navBarTests").innerHTML = "<a href=\"" + location.pathname + "\">Test Results</a>";
+        else if (selectTestType.value == "" && selectTubeName.value == "" && selectOptions.value == "") {
+            newurl = "/SatcomStatsPage/Index/" + pT + "/" + mN;
         }
+        else {
+            newurl = "/SatcomStatsPage/Index/" + pT + "/" + mN + "/" + document.URL.substring(document.URL.indexOf("testType"));
+        }
+        document.getElementById("navBarStats").innerHTML = "<a href=\"" + newurl + "\">Statistics</a>";
+    }
 
-        sendStats();
-        sendOutput();
-        sendResults();
-    </script>
+    function sendOutput() {
+        //alert("¯\\_(ツ)_/¯");
+
+        var pT = selectProductType.value != "" ? selectProductType.value : "na";
+        var mN = selectModelName.value != "" ? selectModelName.value : "na";
+        var testType = selectTestType.value != "" ? selectTestType.value : "na";
+        var tubeName = selectTubeName.value != "" ? selectTubeName.value : "na";
+        var opt = selectOptions.value != "" ? selectOptions.value : "na";
+
+        var newurl;
+        if (document.URL.indexOf("TestResults") == document.URL.length - 11) {
+            newurl = "/ateData/AteOutput";
+        }
+        else {
+            newurl = "/ateData/AteOutput?filter=pT=" + pT + "%mN=" + mN + "%ser=na%testType=" + testType + "%tubeName=" + tubeName + "%opt=" + opt + "";
+        }
+        document.getElementById("navBarAteOutput").innerHTML = "<a href=\"" + newurl + "\">ATE Output</a>";
+    }
+
+    function sendResults() {
+        //document.getElementById("navBarTests").innerHTML = "<a href=\"" + location.pathname + "\">Test Results</a>";
+    }
+
+    sendStats();
+    sendOutput();
+    sendResults();
+</script>
