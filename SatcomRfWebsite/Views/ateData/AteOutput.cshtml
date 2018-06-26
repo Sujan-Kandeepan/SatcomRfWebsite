@@ -47,7 +47,7 @@
                 newurl = "/testsData/TestResults/" + pT + "/" + mN;
             }
             else {
-                newurl = "/testsData/TestResults/" + pT + "/" + mN + "/testType=" + (testType == "" ? "none" : testType) + "+tubeName=" + (tubeName == "" ? "none" : tubeName) + "+opt=" + (opt == "" ? "none" : opt);
+                newurl = "/testsData/TestResults/" + pT + "/" + mN + "/testType=" + (testType == "" ? "none" : testType) + "+tubeName=" + (tubeName == "" ? "none" : tubeName) + "+opt=" + ((opt == "" || opt.indexOf("Audit") != -1) ? "none" : opt);
             }
             document.getElementById("navBarTests").innerHTML = "<a href=\"" + newurl + "\">Test Results</a>";
 
