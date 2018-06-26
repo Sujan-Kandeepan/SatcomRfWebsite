@@ -154,11 +154,6 @@
                             sendResults();
 		                }
 		            });
-
-
-                    $("#selectModelName").change(function () {
-
-		            });
 		        });
 
         </script>
@@ -193,7 +188,7 @@
                         var selectizeObj = $select[0].selectize;
                         selectizeObj.disable();
                     } else {
-                        var $select = $("#selectTestName").val(testNamePassedIn);
+                        $("#selectTestName").val(testNamePassedIn);
                     }
 
                     $('#selectTestName').selectize({
