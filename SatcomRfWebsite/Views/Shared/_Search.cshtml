@@ -201,9 +201,9 @@
 
                             var url = document.URL;
                             if (url.indexOf("testName") == -1) {
-                                location.href += "/testName=" + value + "+testType=none+tubeName=none+opt=none";
+                                location.href += "/testName=" + (value == "" ? "none" : value) + "+testType=none+tubeName=none+opt=none";
                             } else {
-                                location.href = document.URL.replace(/testName=[a-zA-Z0-9-]*/, "testName=" + value);
+                                location.href = document.URL.replace(/testName=[a-zA-Z0-9-]*/, "testName=" + (value == "" ? "none" : value));
                             }
 
                             sendStats();
