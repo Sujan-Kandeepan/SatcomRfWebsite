@@ -344,7 +344,7 @@ function getxlsxfile(productType, modelName, testType, tubeName, options) {
         return;
     }
 
-    var src = document.location.origin + "/api/ListAPI/GetTableFile?modelName=" + modelName + "&productType=" + productType + "&testType=" + testType + "&tubeName=" + tubeName + "&options=" + options + "&exclude=C16663H2,C19181L3";
+    var src = document.location.origin + "/api/ListAPI/GetTableFile?modelName=" + modelName + "&productType=" + productType + "&testType=" + testType + "&tubeName=" + tubeName + "&options=" + options + "&exclude=none";
     var data = new XMLHttpRequest();
     data.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
@@ -361,7 +361,7 @@ function getxlsxfile(productType, modelName, testType, tubeName, options) {
     data.send();
 
     document.getElementById("iframe-temp").innerHTML = "<iframe style=\"display:none\" src=\"" + document.location.origin +
-        "/api/ListAPI/GetTableFile?modelName=" + modelName + "&productType=" + productType + "&testType=" + testType + "&tubeName=" + tubeName + "&options=" + options + "&exclude=C16663H2,C19181L3\"></iframe>";
+        "/api/ListAPI/GetTableFile?modelName=" + modelName + "&productType=" + productType + "&testType=" + testType + "&tubeName=" + tubeName + "&options=" + options + "&exclude=none\"></iframe>";
 }
 
 function sendStats() {
