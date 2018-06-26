@@ -500,36 +500,6 @@ namespace SatcomRfWebsite.Controllers
                 var insertionIndex = 2;
                 foreach (TestData test in data)
                 {
-                    worksheet.Cell(insertionIndex, 1).SetValue(test.TestName);
-                    worksheet.Cell(insertionIndex, 2).SetValue(test.Channel);
-                    worksheet.Cell(insertionIndex, 3).SetValue(test.Power);
-                    worksheet.Cell(insertionIndex, 19).SetValue(test.MinResult);
-                    worksheet.Cell(insertionIndex, 20).SetValue(test.MaxResult);
-                    worksheet.Cell(insertionIndex, 21).SetValue(test.AvgResult);
-                    worksheet.Cell(insertionIndex, 22).SetValue(test.StdDev);
-                    worksheet.Cell(insertionIndex, 23).SetValue(test.Unit);
-                    worksheet.Cell(insertionIndex, 25).SetValue(test.MinResultConv);
-                    worksheet.Cell(insertionIndex, 26).SetValue(test.MaxResultConv);
-                    worksheet.Cell(insertionIndex, 27).SetValue(test.AvgResultConv);
-                    worksheet.Cell(insertionIndex, 28).SetValue(test.StdDevConv);
-                    worksheet.Cell(insertionIndex, 29).SetValue(test.UnitConv);
-                    worksheet.Cell(insertionIndex, 32).SetValue(test.Cpk);
-
-                    worksheet.Range(worksheet.Cell(insertionIndex, 1), worksheet.Cell(insertionIndex + test.AllResults.Count() - 1, 1)).Merge();
-                    worksheet.Range(worksheet.Cell(insertionIndex, 2), worksheet.Cell(insertionIndex + test.AllResults.Count() - 1, 2)).Merge();
-                    worksheet.Range(worksheet.Cell(insertionIndex, 3), worksheet.Cell(insertionIndex + test.AllResults.Count() - 1, 3)).Merge();
-                    worksheet.Range(worksheet.Cell(insertionIndex, 19), worksheet.Cell(insertionIndex + test.AllResults.Count() - 1, 19)).Merge();
-                    worksheet.Range(worksheet.Cell(insertionIndex, 20), worksheet.Cell(insertionIndex + test.AllResults.Count() - 1, 20)).Merge();
-                    worksheet.Range(worksheet.Cell(insertionIndex, 21), worksheet.Cell(insertionIndex + test.AllResults.Count() - 1, 21)).Merge();
-                    worksheet.Range(worksheet.Cell(insertionIndex, 22), worksheet.Cell(insertionIndex + test.AllResults.Count() - 1, 22)).Merge();
-                    worksheet.Range(worksheet.Cell(insertionIndex, 23), worksheet.Cell(insertionIndex + test.AllResults.Count() - 1, 23)).Merge();
-                    worksheet.Range(worksheet.Cell(insertionIndex, 25), worksheet.Cell(insertionIndex + test.AllResults.Count() - 1, 25)).Merge();
-                    worksheet.Range(worksheet.Cell(insertionIndex, 26), worksheet.Cell(insertionIndex + test.AllResults.Count() - 1, 26)).Merge();
-                    worksheet.Range(worksheet.Cell(insertionIndex, 27), worksheet.Cell(insertionIndex + test.AllResults.Count() - 1, 27)).Merge();
-                    worksheet.Range(worksheet.Cell(insertionIndex, 28), worksheet.Cell(insertionIndex + test.AllResults.Count() - 1, 28)).Merge();
-                    worksheet.Range(worksheet.Cell(insertionIndex, 29), worksheet.Cell(insertionIndex + test.AllResults.Count() - 1, 29)).Merge();
-                    worksheet.Range(worksheet.Cell(insertionIndex, 32), worksheet.Cell(insertionIndex + test.AllResults.Count() - 1, 32)).Merge();
-
                     for (int i = 0; i < test.AllResults.Count(); i++)
                     {
                         var serial = test.AllResults[i].SerialNumber;
@@ -551,6 +521,9 @@ namespace SatcomRfWebsite.Controllers
                         var lowLimit = test.AllResults[i].LowLimit;
                         var upLimit = test.AllResults[i].UpLimit;
 
+                        worksheet.Cell(insertionIndex, 1).SetValue(test.TestName);
+                        worksheet.Cell(insertionIndex, 2).SetValue(test.Channel);
+                        worksheet.Cell(insertionIndex, 3).SetValue(test.Power);
                         worksheet.Cell(insertionIndex, 4).SetValue(serial != "" ? serial : "---");
                         worksheet.Cell(insertionIndex, 5).SetValue(thisTestType != "" ? thisTestType : "---");
                         worksheet.Cell(insertionIndex, 6).SetValue(startTime != "" ? startTime : "---");
@@ -566,9 +539,20 @@ namespace SatcomRfWebsite.Controllers
                         worksheet.Cell(insertionIndex, 16).SetValue(bipaSN != "" ? bipaSN : "---");
                         worksheet.Cell(insertionIndex, 17).SetValue(blipaSN != "" ? blipaSN : "---");
                         worksheet.Cell(insertionIndex, 18).SetValue(result != "" ? result : "---");
+                        worksheet.Cell(insertionIndex, 19).SetValue(test.MinResult);
+                        worksheet.Cell(insertionIndex, 20).SetValue(test.MaxResult);
+                        worksheet.Cell(insertionIndex, 21).SetValue(test.AvgResult);
+                        worksheet.Cell(insertionIndex, 22).SetValue(test.StdDev);
+                        worksheet.Cell(insertionIndex, 23).SetValue(test.Unit);
                         worksheet.Cell(insertionIndex, 24).SetValue(resultConv != "" ? resultConv : "---");
+                        worksheet.Cell(insertionIndex, 25).SetValue(test.MinResultConv);
+                        worksheet.Cell(insertionIndex, 26).SetValue(test.MaxResultConv);
+                        worksheet.Cell(insertionIndex, 27).SetValue(test.AvgResultConv);
+                        worksheet.Cell(insertionIndex, 28).SetValue(test.StdDevConv);
+                        worksheet.Cell(insertionIndex, 29).SetValue(test.UnitConv);
                         worksheet.Cell(insertionIndex, 30).SetValue(lowLimit != "" ? lowLimit : "---");
                         worksheet.Cell(insertionIndex, 31).SetValue(upLimit != "" ? upLimit : "---");
+                        worksheet.Cell(insertionIndex, 32).SetValue(test.Cpk);
 
                         insertionIndex++;
                     }
