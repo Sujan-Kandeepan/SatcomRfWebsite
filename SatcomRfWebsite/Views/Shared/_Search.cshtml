@@ -195,7 +195,7 @@
 		                sortField: {
 		                    field: 'text',
 		                    direction: 'asc'
-		                },
+                        },
 		                dropdownParent: 'body',
                         onChange: function (value) {
 
@@ -238,11 +238,9 @@
         }
     </script>
 
-    <div class="col-lg-2"></div>
-
     <div class="col-lg-4">
         <input type="button" class="form-control btn btn-success" id="dlxlsx" name="dlbtn" onclick="getxlsxfile(selectProductType.value, selectModelName.value, $('#selectTestType').val(), $('#selectTubeName').val(), $('#selectOptions').val())" value="Download as Excel file (.xlsx)" />
-    </div> <!--Another button can go here, possibly-->
+    </div>
 
     <script>
         function getxlsxfile(productType, modelName, testType, tubeName, options) {
