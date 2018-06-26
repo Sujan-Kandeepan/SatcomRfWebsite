@@ -394,7 +394,7 @@ function sendResults(productType, modelName) {
         newurl = "/testsData/TestResults/" + productType + "/" + modelName;
     }
     else {
-        newurl = "/testsData/TestResults/" + productType + "/" + modelName + "/" + document.URL.substring(document.URL.indexOf("testType"));
+        newurl = "/testsData/TestResults/" + productType + "/" + modelName + "/" + "testName=none+" + document.URL.substring(document.URL.indexOf("testType"));
     }
     document.getElementById("navBarTests").innerHTML = "<a href=\"" + newurl + "\">Test Results</a>";
 }
