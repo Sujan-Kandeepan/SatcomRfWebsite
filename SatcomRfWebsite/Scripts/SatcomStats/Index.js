@@ -377,7 +377,7 @@ function sendOutput(productType, modelName) {
         newurl = "/ateData/AteOutput/?filter=pT=" + productType + "%mN=na%ser=na%testType=na%tubeName=na%opt=na";
     }
     else {
-        newurl = "/ateData/AteOutput/?filter=pT=" + productType + "%mN=" + modelName + "%ser=na%testType=" + (testType == "none" ? "na" : testType) + "%tubeName=" + (tubeName == "none" ? "na" : tubeName) + "%opt=" + (opt == "none" ? "na" : opt);
+        newurl = "/ateData/AteOutput/?filter=pT=" + productType + "%mN=" + modelName + "%ser=na%testType=" + (testType == "none" ? "na" : testType) + "%tubeName=" + (tubeName == "none" ? "na" : tubeName) + "%opt=" + ((opt == "none" || opt.indexOf("Itar") != -1) ? "na" : opt);
     } 
     document.getElementById("navBarAteOutput").innerHTML = "<a href=\"" + newurl + "\">ATE Output</a>";
 }
@@ -390,11 +390,11 @@ function sendResults(productType, modelName) {
     else if (modelName == "default") {
         newurl = "/testsData/TestResults/" + productType;
     }
-    else if (testType == "none" && tubeName == "none" && opt == "none") {
+    else if (testType == "none" && tubeName == "none" && (opt == "none" || opt.indexOf("Audit") != -1 || opt.indexOf("Itar") != -1)) {
         newurl = "/testsData/TestResults/" + productType + "/" + modelName;
     }
     else {
-        newurl = "/testsData/TestResults/" + productType + "/" + modelName + "/" + "testName=none+" + document.URL.substring(document.URL.indexOf("testType"));
+        newurl = "/testsData/TestResults/" + productType + "/" + modelName + "/" + "testName=none+" + ((opt.indexOf("Audit") != -1 || opt.indexOf("Itar") != -1) ? document.URL.substring(document.URL.indexOf("testType"), document.URL.indexOf("opt") + 4) + "none" : document.URL.substring(document.URL.indexOf("testType")));
     }
     document.getElementById("navBarTests").innerHTML = "<a href=\"" + newurl + "\">Test Results</a>";
 }
