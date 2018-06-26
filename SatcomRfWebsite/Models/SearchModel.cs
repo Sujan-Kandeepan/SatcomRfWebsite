@@ -14,7 +14,7 @@ namespace SatcomRfWebsite.Models
 
         public string modelNamesStr { get; set; }
         public string prodTypeStr { get; set; }
-
+        public string testName { get; set; }
         public string testType { get; set; }
         public string tubeName { get; set; }
         public string options { get; set; }
@@ -29,6 +29,7 @@ namespace SatcomRfWebsite.Models
             productTypeList = new List<SatcomRfWebsite.Models.tblProductType>();
             modelNameList = new List<SatcomRfWebsite.Models.tblModelName>();
 
+            testName = "";
             testType = "";
             tubeName = "";
             options = "";
@@ -90,7 +91,14 @@ namespace SatcomRfWebsite.Models
         public void parseFilter(string filter)
         {
 
-            Match match = Regex.Match(filter, @"(?<=testType\=)([a-zA-Z0-9]*)(?=\+)");
+            Match match = Regex.Match(filter, @"(?<=testName\=)([a-zA-Z0-9]*)(?=\+)");
+
+            if (match.Success)
+            {
+                testName = match.Groups[0].Value;
+            }
+
+            match = Regex.Match(filter, @"(?<=testType\=)([a-zA-Z0-9]*)(?=\+)");
 
             if (match.Success)
             {

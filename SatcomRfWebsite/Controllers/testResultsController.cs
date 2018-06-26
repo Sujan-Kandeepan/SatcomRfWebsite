@@ -48,7 +48,7 @@ namespace SatcomRfWebsite.Controllers
                     model.searchModel.getTubes(modelN);
                     model.searchModel.parseFilter(filter);
 
-                    model.testResModel.generateTestsResults(prodT, modelN, model.searchModel.testType, model.searchModel.tubeName, model.searchModel.options);
+                    model.testResModel.generateTestsResults(prodT, modelN, model.searchModel.testName, model.searchModel.testType, model.searchModel.tubeName, model.searchModel.options);
                 }
             }
             else

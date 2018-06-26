@@ -23,7 +23,7 @@ namespace SatcomRfWebsite.Models
             testParams = new List<TestParams>();
         }
 
-        public void generateTestsResults(string prodType, string modelName, string testType, string tubeName, string options)
+        public void generateTestsResults(string prodType, string modelName, string testName, string testType, string tubeName, string options)
         {
             //if (tools.isModelNameItar(modelName)) { return; }
 
