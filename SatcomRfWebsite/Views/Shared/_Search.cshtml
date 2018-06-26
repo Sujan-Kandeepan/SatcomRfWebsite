@@ -191,6 +191,9 @@
                     $("#selectTestName").val(testNamePassedIn);
                 }
 
+                if (testNamePassedIn == "" || testNamePassedIn == "none") {
+                    $("#filters-options").hide();
+                }
 
                 $('#selectTestName').selectize({
 		            sortField: {
