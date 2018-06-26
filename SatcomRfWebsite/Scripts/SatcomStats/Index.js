@@ -295,8 +295,9 @@ function fillModal(testName, channel, allResultsString, unit, unitConv, sortMode
         + "aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>";
     var toggleButton = "<input type=\"button\" class=\"btn btn-link center-block\" name=\"graph\" onclick=\"sortMode(\'" + testName + "\', \'" + channel + "\', \'"
         + allResultsString + "\', \'" + unit + "\', \'" + unitConv + "\', \'" + sortMode + "\')\" value=\"" + toggleMessage + "\" />";
+    var excludeMessage = "<p><div class=\"text-center\" style=\"margin-top: -5px; color: rgb(128, 128, 128)\">Uncheck boxes to exclude specific</div><div class=\"text-center\" style=\"margin-top: -5px; color: rgb(128, 128, 128)\">serial numbers from the list.</div></p>";
     var html = "<h4 class=\"text-center\" style=\"margin-top: 5px\">" + testName + " (Channel " + channel + ") "
-        + closeButton + "</h4>" + toggleButton + "<hr/>";
+        + closeButton + "</h4>" + toggleButton + "<hr/>" + excludeMessage;
 
     for (var i = 0; i < allResults.length; i++) {
         html += "<input type=\"checkbox\" value=\"\" id=\"" + allResults[i][0] + "\" checked></input>&nbsp;";
