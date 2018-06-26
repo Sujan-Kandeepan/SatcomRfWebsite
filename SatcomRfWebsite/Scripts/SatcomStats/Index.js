@@ -1,6 +1,7 @@
 ﻿var testType = "none";
 var tubeName = "none";
 var opt = "none";
+var exclude = "none";
 
 function getTubes(modelName, selected) {
     selected = selected || "none";
@@ -138,7 +139,7 @@ function applyFilter() {
     tubeName = tubeName == "" ? "none" : tubeName;
     opt = (opt == "" || opt == null) ? "none" : opt;
 
-    var filterToApply = "testType=" + testType + "+tubeName=" + tubeName + "+opt=" + opt;
+    var filterToApply = "testType=" + testType + "+tubeName=" + tubeName + "+opt=" + opt + "+exclude=none";
 
     if (document.URL.search("testType=") == -1) {
         location.href = document.URL + "/" + filterToApply;
@@ -192,7 +193,7 @@ function buildTable(tableData) {
     return result;
 }
 
-function getTable(productType, modelName, testType, tubeName, options) {
+function getTable(productType, modelName, testType, tubeName, options, exclude) {
     if (modelName === "default") {
         document.getElementById("data-display").classList.add("hide");
         document.getElementById("filters-options").classList.add("hide");
@@ -206,7 +207,7 @@ function getTable(productType, modelName, testType, tubeName, options) {
         return;
     }
 
-    var src = document.location.origin + "/api/ListAPI/GetTableData?modelName=" + modelName + "&productType=" + productType + "&testType=" + testType + "&tubeName=" + tubeName + "&options=" + options + "&exclude=none";
+    var src = document.location.origin + "/api/ListAPI/GetTableData?modelName=" + modelName + "&productType=" + productType + "&testType=" + testType + "&tubeName=" + tubeName + "&options=" + options + "&exclude=" + exclude;
     var data = new XMLHttpRequest();
     data.onreadystatechange = function () {
         document.getElementById("data-table").innerHTML = "";
@@ -298,6 +299,7 @@ function fillModal(testName, channel, allResultsString, unit, unitConv, sortMode
         + closeButton + "</h4>" + toggleButton + "<hr/>";
 
     for (var i = 0; i < allResults.length; i++) {
+        html += "<input type=\"checkbox\" value=\"\" id=\"" + allResults[i][0] + "\" checked></input>&nbsp;";
         html += "<strong>" + "<a href = \"" + location.origin + "/ateData/AteOutputDetail/?serNum=" + allResults[i][0] + "\">" + allResults[i][0] + "</a>" + "</strong>&ensp;" + allResults[i][3] + unit;
         if (unitConv != "N/A") {
             html += ", " + allResults[i][4] + unitConv;
@@ -337,14 +339,14 @@ function showFail() {
     document.getElementById("data-table").innerHTML = "";
 }
 
-function getxlsxfile(productType, modelName, testType, tubeName, options) {
+function getxlsxfile(productType, modelName, testType, tubeName, options, exclude) {
     if (modelName === "default" || productType === "default") {
         document.getElementById("selection-failed").classList.remove("hide");
         document.getElementById("download-failed").classList.add("hide");
         return;
     }
 
-    var src = document.location.origin + "/api/ListAPI/GetTableFile?modelName=" + modelName + "&productType=" + productType + "&testType=" + testType + "&tubeName=" + tubeName + "&options=" + options + "&exclude=none";
+    var src = document.location.origin + "/api/ListAPI/GetTableFile?modelName=" + modelName + "&productType=" + productType + "&testType=" + testType + "&tubeName=" + tubeName + "&options=" + options + "&exclude=" + exclude;
     var data = new XMLHttpRequest();
     data.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
@@ -361,7 +363,7 @@ function getxlsxfile(productType, modelName, testType, tubeName, options) {
     data.send();
 
     document.getElementById("iframe-temp").innerHTML = "<iframe style=\"display:none\" src=\"" + document.location.origin +
-        "/api/ListAPI/GetTableFile?modelName=" + modelName + "&productType=" + productType + "&testType=" + testType + "&tubeName=" + tubeName + "&options=" + options + "&exclude=none\"></iframe>";
+        "/api/ListAPI/GetTableFile?modelName=" + modelName + "&productType=" + productType + "&testType=" + testType + "&tubeName=" + tubeName + "&options=" + options + "&exclude=" + exclude + "\"></iframe>";
 }
 
 function sendStats() {
@@ -394,7 +396,7 @@ function sendResults(productType, modelName) {
         newurl = "/testsData/TestResults/" + productType + "/" + modelName;
     }
     else {
-        newurl = "/testsData/TestResults/" + productType + "/" + modelName + "/" + "testName=none+" + ((opt.indexOf("Audit") != -1 || opt.indexOf("Itar") != -1) ? document.URL.substring(document.URL.indexOf("testType"), document.URL.indexOf("opt") + 4) + "none" : document.URL.substring(document.URL.indexOf("testType")));
+        newurl = "/testsData/TestResults/" + productType + "/" + modelName + "/" + "testName=none+" + ((opt.indexOf("Audit") != -1 || opt.indexOf("Itar") != -1) ? document.URL.substring(document.URL.indexOf("testType"), document.URL.indexOf("opt") + 4) + "none" : document.URL.substring(document.URL.indexOf("testType"), document.URL.indexOf("exclude") - 1));
     }
     document.getElementById("navBarTests").innerHTML = "<a href=\"" + newurl + "\">Test Results</a>";
 }
@@ -421,7 +423,8 @@ function setupIndex() {
         if (params != "") {
             testType = params.substring(params.indexOf("testType=") + 9, params.indexOf("tubeName=") - 1);
             tubeName = params.substring(params.indexOf("tubeName=") + 9, params.indexOf("opt=") - 1);
-            opt = params.substring(params.indexOf("opt=") + 4);
+            opt = params.substring(params.indexOf("opt=") + 4, params.indexOf("opt=") - 1);
+            exclude = params.substring(params.indexOf("exclude=") + 8);
         }
     }
 
@@ -441,7 +444,7 @@ function setupIndex() {
             } else {
                 getTubes(modelName);
             }
-            getTable(productType, modelName, convertTestType(testType), tubeName, opt);
+            getTable(productType, modelName, convertTestType(testType), tubeName, opt, exclude);
         }
         else {
             getModelNames(productType);

@@ -498,7 +498,7 @@
             newurl = "/SatcomStatsPage/Index/" + pT + "/" + mN;
         }
         else {
-            newurl = "/SatcomStatsPage/Index/" + pT + "/" + mN + "/" + document.URL.substring(document.URL.indexOf("testType"));
+            newurl = "/SatcomStatsPage/Index/" + pT + "/" + mN + "/" + document.URL.substring(document.URL.indexOf("testType")) + "+exclude=none";
         }
         document.getElementById("navBarStats").innerHTML = "<a href=\"" + newurl + "\">Statistics</a>";
     }

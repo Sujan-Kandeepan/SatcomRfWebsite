@@ -81,11 +81,11 @@
         </div>
 
         <div class="col-sm-4">
-            <select class="form-control" id="models" name="models" onchange="getTable(productTypes.value, this.value, convertTestType($('#selectTestType').val()), $('#selectTubeName').val(), $('#selectOptions').val())"></select>
+            <select class="form-control" id="models" name="models" onchange="getTable(productTypes.value, this.value, convertTestType($('#selectTestType').val()), $('#selectTubeName').val(), $('#selectOptions').val(), exclude)"></select>
         </div>
 
         <div class="col-sm-4">
-            <input type="button" class="form-control btn btn-success" id="dlxlsx" name="dlbtn" onclick="getxlsxfile(productTypes.value, models.value, convertTestType($('#selectTestType').val()), $('#selectTubeName').val(), $('#selectOptions').val())" value="Download as Excel file (.xlsx)" />
+            <input type="button" class="form-control btn btn-success" id="dlxlsx" name="dlbtn" onclick="getxlsxfile(productTypes.value, models.value, convertTestType($('#selectTestType').val()), $('#selectTubeName').val(), $('#selectOptions').val(), exclude)" value="Download as Excel file (.xlsx)" />
         </div>
     </form>
 </div>
