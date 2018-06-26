@@ -9,19 +9,19 @@
 <div class="display" style="margin-bottom: 20px"><h3>View complete test results for a specific product.</h3></div>
 <script type="text/javascript">
 
-        var arrProdType         = [@Html.Raw(Model.searchModel.prodTypeStr)];
-        var arrModelName        = [@Html.Raw(Model.searchModel.modelNamesStr)];
+    var arrProdType         = [@Html.Raw(Model.searchModel.prodTypeStr)];
+    var arrModelName        = [@Html.Raw(Model.searchModel.modelNamesStr)];
 
-        var noSearchCriteria    = true;
+    var noSearchCriteria    = true;
 
-        if ("@ViewBag.getFilter" != "") {
-            var filterToApply       = "@ViewBag.getFilter";
-        } else {
-            var filterToApply       = "testName=none+testType=none+tubeName=none+opt=none";
-        }
+    if ("@ViewBag.getFilter" != "") {
+        var filterToApply       = "@ViewBag.getFilter";
+    } else {
+        var filterToApply       = "testName=none+testType=none+tubeName=none+opt=none";
+    }
 
-        //Set navbar button as active
-        document.getElementById("navBarTests").classList.add("active");
+    //Set navbar button as active
+    document.getElementById("navBarTests").classList.add("active");
 
 </script>
 
@@ -58,40 +58,40 @@
 
         <script>
 
-		        $(document).ready(function () {
+		    $(document).ready(function () {
 
-		            var prodTypePassedIn = "@ViewBag.getProdType";
+		        var prodTypePassedIn = "@ViewBag.getProdType";
 
-		            //set and disable on load
-		            if (prodTypePassedIn != "") {
+		        //set and disable on load
+		        if (prodTypePassedIn != "") {
 
-		                var $select = $("#selectProductType").selectize();
-		                var selectizeObj = $select[0].selectize;
-		                selectizeObj.setValue(prodTypePassedIn);
-		                selectizeObj.disable();
+		            var $select = $("#selectProductType").selectize();
+		            var selectizeObj = $select[0].selectize;
+		            selectizeObj.setValue(prodTypePassedIn);
+		            selectizeObj.disable();
+		        }
+
+		        $('#selectProductType').selectize({
+		            sortField: {
+		                field: 'text',
+		                direction: 'asc'
+		            },
+		            dropdownParent: 'body',
+		            onChange: function (value) {
+
+                        location.href = document.URL + "/" + value;
+
+                        sendStats();
+                        sendOutput();
+                        sendResults();
 		            }
-
-		            $('#selectProductType').selectize({
-		                sortField: {
-		                    field: 'text',
-		                    direction: 'asc'
-		                },
-		                dropdownParent: 'body',
-		                onChange: function (value) {
-
-                            location.href = document.URL + "/" + value;
-
-                            sendStats();
-                            sendOutput();
-                            sendResults();
-		                }
-		            });
-
-		            //$('#selectProductType').change(function () {
-		            //location.href = document.URL + "/" + "CHPA";
-		            //});
-		            //$("#selectProductType").val("CHPA");
 		        });
+
+		        //$('#selectProductType').change(function () {
+		        //location.href = document.URL + "/" + "CHPA";
+		        //});
+		        //$("#selectProductType").val("CHPA");
+		    });
 
         </script>
     </div>
@@ -107,54 +107,54 @@
 
         <script>
 
-		        $(document).ready(function () {
+		    $(document).ready(function () {
 
-                    var prodTypePassedIn = "@ViewBag.getProdType";
-                    var modelNamePassedIn = "@ViewBag.getModName";
+                var prodTypePassedIn = "@ViewBag.getProdType";
+                var modelNamePassedIn = "@ViewBag.getModName";
 
-                    //set and disable on load
-		            if (modelNamePassedIn != "") {
+                //set and disable on load
+		        if (modelNamePassedIn != "") {
 
-		                var $select = $("#selectModelName").selectize();
-		                var selectizeObj = $select[0].selectize;
-		                selectizeObj.setValue(modelNamePassedIn);
-                        selectizeObj.disable();
+		            var $select = $("#selectModelName").selectize();
+		            var selectizeObj = $select[0].selectize;
+		            selectizeObj.setValue(modelNamePassedIn);
+                    selectizeObj.disable();
 
-                        noSearchCriteria = false;
+                    noSearchCriteria = false;
+		        }
+
+		        $('#selectModelName').selectize({
+		            sortField: {
+		                field: 'text',
+		                direction: 'asc'
+		            },
+		            dropdownParent: 'body',
+                    onChange: function (value) {
+
+                        var prod = "";
+
+                        // trying to figure out what is the product type if we do the search by model name
+                        for ( i=0; i<arrModelName.length; i++ ){
+
+                            if(value == arrModelName[i]){
+
+                                prod = arrProdType[i];
+                                break;
+                            }
+                        }
+
+                        if (prodTypePassedIn != "") {
+                            location.href = document.URL + "/" + value;
+                        } else {
+		                    location.href = document.URL + "/" + prod + "/" + value;
+                        }
+
+                        sendStats();
+                        sendOutput();
+                        sendResults();
 		            }
-
-		            $('#selectModelName').selectize({
-		                sortField: {
-		                    field: 'text',
-		                    direction: 'asc'
-		                },
-		                dropdownParent: 'body',
-                        onChange: function (value) {
-
-                            var prod = "";
-
-                            // trying to figure out what is the product type if we do the search by model name
-                            for ( i=0; i<arrModelName.length; i++ ){
-
-                                if(value == arrModelName[i]){
-
-                                    prod = arrProdType[i];
-                                    break;
-                                }
-                            }
-
-                            if (prodTypePassedIn != "") {
-                                location.href = document.URL + "/" + value;
-                            } else {
-		                        location.href = document.URL + "/" + prod + "/" + value;
-                            }
-
-                            sendStats();
-                            sendOutput();
-                            sendResults();
-		                }
-		            });
 		        });
+		    });
 
         </script>
     </div>
@@ -179,46 +179,46 @@
 
             $(document).ready(function () {
 
-                    var modelNamePassedIn = "@ViewBag.getModName";
-                    var testNamePassedIn = "@Model.searchModel.testName";
+                var modelNamePassedIn = "@ViewBag.getModName";
+                var testNamePassedIn = "@Model.searchModel.testName";
 
-                    //set and disable on load
-		            if (modelNamePassedIn == "") {
-                        var $select = $("#selectTestName").selectize();
-                        var selectizeObj = $select[0].selectize;
-                        selectizeObj.disable();
-                    } else {
-                        $("#selectTestName").val(testNamePassedIn);
-                    }
-
-                    $('#selectTestName').selectize({
-		                sortField: {
-		                    field: 'text',
-		                    direction: 'asc'
-                        },
-		                dropdownParent: 'body',
-                        onChange: function (value) {
-
-                            var url = document.URL;
-                            if (url.indexOf("testName") == -1) {
-                                location.href += "/testName=" + (value == "" ? "none" : value) + "+testType=none+tubeName=none+opt=none";
-                            } else {
-                                location.href = document.URL.replace(/testName=[a-zA-Z0-9-]*/, "testName=" + (value == "" ? "none" : value));
-                            }
-
-                            sendStats();
-                            sendOutput();
-                            sendResults();
-		                }
-		            });
+                //set and disable on load
+		        if (modelNamePassedIn == "") {
+                    var $select = $("#selectTestName").selectize();
+                    var selectizeObj = $select[0].selectize;
+                    selectizeObj.disable();
+                } else {
+                    $("#selectTestName").val(testNamePassedIn);
+                }
 
 
-		            $("#selectTestName").change(function () {
-		                //$("#filterReset").html('Please Wait');
-		                $body = $("body");
-		                $body.addClass("loading");
-		            });
+                $('#selectTestName').selectize({
+		            sortField: {
+		                field: 'text',
+		                direction: 'asc'
+                    },
+		            dropdownParent: 'body',
+                    onChange: function (value) {
+
+                        var url = document.URL;
+                        if (url.indexOf("testName") == -1) {
+                            location.href += "/testName=" + (value == "" ? "none" : value) + "+testType=none+tubeName=none+opt=none";
+                        } else {
+                            location.href = document.URL.replace(/testName=[a-zA-Z0-9-]*/, "testName=" + (value == "" ? "none" : value));
+                        }
+
+                        sendStats();
+                        sendOutput();
+                        sendResults();
+		            }
 		        });
+
+		        $("#selectTestName").change(function () {
+		            //$("#filterReset").html('Please Wait');
+		            $body = $("body");
+		            $body.addClass("loading");
+		        });
+		    });
 
         </script>
     </div>
@@ -288,7 +288,7 @@
 
 <!-----------------------------  FILTER ------------------------------->
 
-<div class="row" style="margin-top: 20px">
+<div class="row" id="filters-options" style="margin-top: 20px">
 
     <label class="col-lg-2" style="font-size: 16px; text-align: right; font-weight: normal"><big>Filters & Options:</big></label>
 
@@ -302,37 +302,37 @@
 
         <script>
 
-		        $(document).ready(function () {
+		    $(document).ready(function () {
 
-		            var testTypePassedIn = "@ViewBag.getProdType";
+		        var testTypePassedIn = "@ViewBag.getProdType";
 
-		            //alert("@Model.searchModel.testType" + " " + "@Model.searchModel.tubeName" + " " + "@Model.searchModel.options");
+		        //alert("@Model.searchModel.testType" + " " + "@Model.searchModel.tubeName" + " " + "@Model.searchModel.options");
 
 
-		            if (noSearchCriteria) {
-		                var $select = $("#selectTestType").selectize();
-		                var selectizeObj = $select[0].selectize;
-		                selectizeObj.disable();
+		        if (noSearchCriteria) {
+		            var $select = $("#selectTestType").selectize();
+		            var selectizeObj = $select[0].selectize;
+		            selectizeObj.disable();
+		        }
+
+		        //select by typing
+		        $('#selectTestType').selectize({
+		            sortField: {
+		                field: 'text',
+		                direction: 'asc'
+		            },
+		            dropdownParent: 'body',
+		            onChange: function (value) {
+
+		                var strPos = filterToApply.search("testType=")
+		                if (strPos == -1) {
+		                    filterToApply += "testType=" + value;
+		                } else {
+		                    filterToApply = filterToApply.replace(/testType=[a-zA-Z]*/, "testType=" + value);
+                        }
 		            }
-
-		            //select by typing
-		            $('#selectTestType').selectize({
-		                sortField: {
-		                    field: 'text',
-		                    direction: 'asc'
-		                },
-		                dropdownParent: 'body',
-		                onChange: function (value) {
-
-		                    var strPos = filterToApply.search("testType=")
-		                    if (strPos == -1) {
-		                        filterToApply += "testType=" + value;
-		                    } else {
-		                        filterToApply = filterToApply.replace(/testType=[a-zA-Z]*/, "testType=" + value);
-                            }
-		                }
-		            });
 		        });
+		    });
 
         </script>
     </div>
@@ -348,35 +348,35 @@
 
         <script>
 
-		        $(document).ready(function () {
+		    $(document).ready(function () {
 
-		            var tubeNamePassedIn = "@ViewBag.getProdType";
+		        var tubeNamePassedIn = "@ViewBag.getProdType";
 
-		            if (noSearchCriteria) {
-		                var $select = $("#selectTubeName").selectize();
-		                var selectizeObj = $select[0].selectize;
-		                selectizeObj.disable();
+		        if (noSearchCriteria) {
+		            var $select = $("#selectTubeName").selectize();
+		            var selectizeObj = $select[0].selectize;
+		            selectizeObj.disable();
+		        }
+
+		        //select by typing
+		        $('#selectTubeName').selectize({
+		            sortField: {
+		                field: 'text',
+		                direction: 'asc'
+		            },
+		            dropdownParent: 'body',
+		            onChange: function (value) {
+
+		                var strPos = filterToApply.search("tubeName=")
+
+		                if (strPos == -1) {
+		                    filterToApply += "+tubeName=" + value;
+		                } else {
+		                    filterToApply = filterToApply.replace(/tubeName=[a-zA-Z0-9-]*/, "tubeName=" + value);
+                        }
 		            }
-
-		            //select by typing
-		            $('#selectTubeName').selectize({
-		                sortField: {
-		                    field: 'text',
-		                    direction: 'asc'
-		                },
-		                dropdownParent: 'body',
-		                onChange: function (value) {
-
-		                    var strPos = filterToApply.search("tubeName=")
-
-		                    if (strPos == -1) {
-		                        filterToApply += "+tubeName=" + value;
-		                    } else {
-		                        filterToApply = filterToApply.replace(/tubeName=[a-zA-Z0-9-]*/, "tubeName=" + value);
-                            }
-		                }
-		            });
 		        });
+		    });
 
         </script>
     </div>
@@ -432,6 +432,7 @@
         <button id='filterApply' class="btn btn-primary btn-block" type="button" onclick='applyFilter()'>Apply Filter</button>
 
         <script>
+
             $(document).ready(function () {
                 if (noSearchCriteria) {
                     $('#filterReset').prop('disabled', true);
@@ -473,6 +474,7 @@
                 sendOutput();
                 sendResults();
             }
+
         </script>
     </div>
 </div>
