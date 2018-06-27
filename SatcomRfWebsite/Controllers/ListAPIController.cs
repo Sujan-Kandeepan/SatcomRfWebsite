@@ -582,7 +582,7 @@ namespace SatcomRfWebsite.Controllers
                 }
                 if (options != null && !options.Equals("null"))
                 {
-                    filename = filename.Replace(".xlsx", $" {options}.xlsx");
+                    filename = filename.Replace(".xlsx", $" {options.Replace("SN", "")}.xlsx");
                 }
                 if (exclude != null && !exclude.Equals("null") && !exclude.Equals("") && !exclude.Equals("none"))
                 {
