@@ -295,12 +295,13 @@ function fillModal(testName, channel, allResultsString, unit, unitConv, sortMode
         + "aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>";
     var toggleButton = "<input type=\"button\" class=\"btn btn-link center-block\" name=\"graph\" onclick=\"sortMode(\'" + testName + "\', \'" + channel + "\', \'"
         + allResultsString + "\', \'" + unit + "\', \'" + unitConv + "\', \'" + sortMode + "\')\" value=\"" + toggleMessage + "\" />";
-    var excludeMessage = "<p><div class=\"text-center\" style=\"margin-top: -5px; color: rgb(128, 128, 128)\">Uncheck boxes to exclude specific</div><div class=\"text-center\" style=\"margin-top: -5px; color: rgb(128, 128, 128)\">serial numbers from the list.</div></p>";
+    var resetURL = document.URL.indexOf("exclude") == -1 ? document.URL : document.URL.substring(0, document.URL.indexOf("exclude") + 8) + "none";
+    var excludeMessage = "<p><div class=\"text-center\" style=\"margin-top: -5px; color: rgb(128, 128, 128)\">Uncheck boxes to exclude specific</div><div class=\"text-center\" style=\"margin-top: -5px; color: rgb(128, 128, 128)\">serial numbers (or, <a href=\"" + resetURL + "\">reset</a>).</div></p>";
     var html = "<h4 class=\"text-center\" style=\"margin-top: 5px\">" + testName + " (Channel " + channel + ") "
         + closeButton + "</h4>" + toggleButton + "<hr/>" + excludeMessage;
 
     for (var i = 0; i < allResults.length; i++) {
-        html += "<input type=\"checkbox\" value=\"\" id=\"" + allResults[i][0] + "\" checked></input>&nbsp;";
+        html += "<input type=\"checkbox\" value=\"\" class=\"update-serial\" id=\"" + allResults[i][0] + "\" checked></input>&nbsp;";
         html += "<strong>" + "<a href = \"" + location.origin + "/ateData/AteOutputDetail/?serNum=" + allResults[i][0] + "\">" + allResults[i][0] + "</a>" + "</strong>&ensp;" + allResults[i][3] + unit;
         if (unitConv != "N/A") {
             html += ", " + allResults[i][4] + unitConv;
@@ -331,7 +332,7 @@ function sortMode(testName, channel, allResultsString, unit, unitConv, sortMode)
     unit = unit.replace(" ", "");
     unitConv = unitConv.replace(" ", "");
     fillModal(testName, channel, allResultsString, unit, unitConv, (sortMode == 'val') ? 'sn' : 'val');
-    $("#myModal").val(null).trigger("change");
+    $("#allResultsModal").val(null).trigger("change");
 }
 
 function showFail() {
@@ -445,11 +446,29 @@ function setupIndex() {
             } else {
                 getTubes(modelName);
             }
-            getTable(productType, modelName, convertTestType(testType), tubeName, opt, exclude);
+            getTable(productType, modelName, convertTestType(testType), tubeName, $('#selectOptions').val(), exclude);
         }
         else {
             getModelNames(productType);
             getTubes(modelName);
         }
     }
+
+    $('#allResultsModal').on('hidden.bs.modal', function () {
+        var excludeList = exclude == "none" ? [] : exclude.split(",");
+        Array.prototype.filter.call(document.getElementsByClassName("update-serial"), function (element) {
+            //alert(element.checked + " " + element.id);
+            if (element.checked == false) {
+                excludeList.push(element.id);
+            }
+        });
+        if (!(exclude == "none" && excludeList == "") && exclude != excludeList.join(",")) {
+            if (document.URL.indexOf("exclude") == -1) {
+                location.href = document.URL + "/testType=none+tubeName=none+opt=none+exclude=" + (excludeList == "" ? "none" : excludeList.join(","));
+            }
+            else {
+                location.href = document.URL.substring(0, document.URL.indexOf("exclude") + 8) + (excludeList == "" ? "none" : excludeList.join(","));
+            }
+        }
+    });
 }
