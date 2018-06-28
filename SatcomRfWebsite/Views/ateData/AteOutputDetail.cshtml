@@ -32,7 +32,7 @@
                 <div class="col-sm-6"><i>@Model.ateOutputModel.ateOutput[0].StartTime</i></div>
             </div>
         </div>
-        <div class="col-sm-6 text-center"><button class="btn btn-default" style="margin-top: 20px" onclick="openfolder()">Open output data file folder</button></div>
+        <div class="col-sm-6 text-center"><button class="btn btn-default" id="openfolder" style="margin-top: 20px" data-html="true" data-container="body" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="..." onclick="openfolder()">Open output data file folder</button></div>
         <script>
             function openfolder() {
                 var requestpath = "file:///P:\\OutputData\\@Model.tools.getProdTypeFromSN(Model.ateOutputModel.ateOutput[0].ModelSN)\\@Model.tools.getModelNameFromSN(Model.ateOutputModel.ateOutput[0].ModelSN)\\@Model.ateOutputModel.serialNum";
@@ -43,7 +43,9 @@
                 var win = window.open(requestpath);
                 if (win != null) {
                     win.close();
-                    alert("Browser not supported for this action!\nYou may open " + explorerpath + " manually.");
+                    var message = "Browser not supported for this action!";
+                    $("#openfolder").attr('data-content', message);
+                    $('#openfolder').popover({ maxWidth: "600px" });
                 }
             }
         </script>
