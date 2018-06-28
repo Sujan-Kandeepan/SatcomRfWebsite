@@ -22,16 +22,31 @@
         <div class="col-sm-3"><i>@Model.ateOutputModel.ateOutput[0].SalesOrder</i></div>
     </div>
     <div class="row">
-        <div class="col-sm-3"><h4>Test Type</h4></div>
-        <div class="col-sm-3"><h4>Tested On</h4></div>
-        <div class="col-sm-3"><h4></h4></div>
-        <div class="col-sm-3"><h4></h4></div>
-    </div>
-    <div class="row">
-        <div class="col-sm-3"><i>@Model.ateOutputModel.ateOutput[0].TestType</i></div>
-        <div class="col-sm-3"><i>@Model.ateOutputModel.ateOutput[0].StartTime</i></div>
-        <div class="col-sm-3"></div>
-        <div class="col-sm-3"></div>
+        <div class="col-sm-6">
+            <div class="row">
+                <div class="col-sm-6"><h4>Test Type</h4></div>
+                <div class="col-sm-6"><h4>Tested On</h4></div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6"><i>@Model.ateOutputModel.ateOutput[0].TestType</i></div>
+                <div class="col-sm-6"><i>@Model.ateOutputModel.ateOutput[0].StartTime</i></div>
+            </div>
+        </div>
+        <div class="col-sm-6 text-center"><button class="btn btn-default" style="margin-top: 20px" onclick="openfolder()">Open output data file folder</button></div>
+        <script>
+            function openfolder() {
+                var requestpath = "file:///P:\\OutputData\\@Model.tools.getProdTypeFromSN(Model.ateOutputModel.ateOutput[0].ModelSN)\\@Model.tools.getModelNameFromSN(Model.ateOutputModel.ateOutput[0].ModelSN)\\@Model.ateOutputModel.serialNum";
+                var explorerpath = requestpath.replace("file:///", "");
+                while (explorerpath.indexOf("\\") != -1) {
+                    explorerpath = explorerpath.replace("\\", "/");
+                }
+                var win = window.open(requestpath);
+                if (win != null) {
+                    win.close();
+                    alert("Browser not supported for this action!\nYou may open " + explorerpath + " manually.");
+                }
+            }
+        </script>
     </div>
     <div class="row"><hr /></div>
     <div class="row">
