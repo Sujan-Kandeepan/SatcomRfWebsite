@@ -32,7 +32,10 @@
                 <div class="col-sm-6"><i>@Model.ateOutputModel.ateOutput[0].StartTime</i></div>
             </div>
         </div>
-        <div class="col-sm-6 text-center"><button class="btn btn-default" id="openfolder" style="margin-top: 20px" data-html="true" data-container="body" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="..." onclick="openfolder()">Open output data file folder</button></div>
+        <div class="col-sm-6 text-center">
+            <button class="btn btn-default" id="openfolder" style="margin-top: 20px" data-html="true" data-container="body" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="..." onclick="openfolder()">Open output data file folder</button>
+            <label id="filepath" style="font-weight: normal; color: rgb(128, 128, 128); margin-top: 10px; margin-bottom: -20px"></label>
+        </div>
         <script>
             function openfolder() {
                 var requestpath = "file:///P:\\OutputData\\@Model.tools.getProdTypeFromSN(Model.ateOutputModel.ateOutput[0].ModelSN)\\@Model.tools.getModelNameFromSN(Model.ateOutputModel.ateOutput[0].ModelSN)\\@Model.ateOutputModel.serialNum";
@@ -45,7 +48,12 @@
                     win.close();
                     var message = "Browser not supported for this action!";
                     $("#openfolder").attr('data-content', message);
-                    $('#openfolder').popover({ maxWidth: "600px" });
+                    $('#openfolder').popover();
+                    $("#filepath").html("File path: " + explorerpath);
+                    setTimeout(function () {
+                        $('#openfolder').popover('hide');
+                        $('#openfolder').prop("disabled", true);
+                    }, 5000);
                 }
             }
         </script>
