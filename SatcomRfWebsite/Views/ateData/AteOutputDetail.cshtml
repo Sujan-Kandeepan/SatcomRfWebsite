@@ -33,8 +33,12 @@
             </div>
         </div>
         <div class="col-sm-6 text-center">
-            <button class="btn btn-default" id="openfolder" style="margin-top: 20px" data-html="true" data-container="body" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="..." onclick="openfolder()">Open output data file folder</button>
-            <label id="filepath" style="font-weight: normal; color: rgb(128, 128, 128); margin-top: 10px; margin-bottom: -20px"></label>
+            <div class="row">
+                <button class="btn btn-default" id="openfolder" style="margin-top: 20px" data-html="true" data-container="body" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="..." onclick="openfolder()">Open output data file folder</button>
+            </div>
+            <div class="row" style="margin-top: 10px">
+                <a id="filepath" style="font-weight: normal"></a>
+            </div>
         </div>
         <script>
             function openfolder() {
@@ -49,12 +53,21 @@
                     var message = "Browser not supported for this action!";
                     $("#openfolder").attr('data-content', message);
                     $('#openfolder').popover();
-                    $("#filepath").html("File path: " + explorerpath);
+                    $("#filepath").html("Copy file path: <span id='pathstring'>" + explorerpath + "</span>");
                     setTimeout(function () {
                         $('#openfolder').prop("disabled", true);
                     }, 5000);
                 }
             }
+
+            $("#filepath").click(function () {
+                var $temp = $("<input>");
+                $("body").append($temp);
+                $temp.val($('#pathstring').text()).select();
+                document.execCommand("copy");
+                $temp.remove();
+                $("#filepath").html($("#filepath").html().replace("Copy", "Copied"));
+            });
         </script>
     </div>
     <div class="row"><hr /></div>
