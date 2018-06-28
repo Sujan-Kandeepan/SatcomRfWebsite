@@ -484,30 +484,38 @@
 
 <script>
     function sendStats() {
-        var pT = selectProductType.value;
-        var mN = selectModelName.value;
+        var filter = document.URL.substring(document.URL.indexOf("TestResults") + 12);
+        var productType = filter.indexOf("/") != -1 ? filter.substring(0, filter.indexOf("/")) : filter;
+        var modelName = filter.indexOf("/") != -1 ? filter.substring(filter.indexOf("/") + 1) : "";
+        if (modelName != "") {
+            var params = modelName.indexOf("/") != -1 ? modelName.substring(modelName.indexOf("/") + 1) : "";
+            modelName = modelName.indexOf("/") != -1 ? modelName.substring(0, modelName.indexOf("/")) : modelName;
+        }
 
         var newurl;
-        if (pT == "") {
+        if (productType == "") {
             newurl = "/SatcomStatsPage";
         }
-        else if (mN == "") {
-            newurl = "/SatcomStatsPage/Index/" + pT;
+        else if (modelName == "") {
+            newurl = "/SatcomStatsPage/Index/" + productType;
         }
         else if (selectTestType.value == "" && selectTubeName.value == "" && selectOptions.value == "") {
-            newurl = "/SatcomStatsPage/Index/" + pT + "/" + mN;
+            newurl = "/SatcomStatsPage/Index/" + productType + "/" + modelName;
         }
         else {
-            newurl = "/SatcomStatsPage/Index/" + pT + "/" + mN + "/" + document.URL.substring(document.URL.indexOf("testType")) + "+exclude=none";
+            newurl = "/SatcomStatsPage/Index/" + productType + "/" + modelName + "/" + document.URL.substring(document.URL.indexOf("testType")) + "+exclude=none";
         }
         document.getElementById("navBarStats").innerHTML = "<a href=\"" + newurl + "\">Statistics</a>";
     }
 
     function sendOutput() {
-        //alert("¯\\_(ツ)_/¯");
-
-        var pT = selectProductType.value != "" ? selectProductType.value : "na";
-        var mN = selectModelName.value != "" ? selectModelName.value : "na";
+        var filter = document.URL.substring(document.URL.indexOf("TestResults") + 12);
+        var productType = filter.indexOf("/") != -1 ? filter.substring(0, filter.indexOf("/")) : filter;
+        var modelName = filter.indexOf("/") != -1 ? filter.substring(filter.indexOf("/") + 1) : "";
+        if (modelName != "") {
+            var params = modelName.indexOf("/") != -1 ? modelName.substring(modelName.indexOf("/") + 1) : "";
+            modelName = modelName.indexOf("/") != -1 ? modelName.substring(0, modelName.indexOf("/")) : modelName;
+        }
         var testType = selectTestType.value != "" ? selectTestType.value : "na";
         var tubeName = selectTubeName.value != "" ? selectTubeName.value : "na";
         var opt = selectOptions.value != "" ? selectOptions.value : "na";
@@ -517,7 +525,7 @@
             newurl = "/ateData/AteOutput";
         }
         else {
-            newurl = "/ateData/AteOutput?filter=pT=" + pT + "%mN=" + mN + "%ser=na%testType=" + testType + "%tubeName=" + tubeName + "%opt=" + opt + "";
+            newurl = "/ateData/AteOutput?filter=pT=" + productType + "%mN=" + modelName + "%ser=na%testType=" + testType + "%tubeName=" + tubeName + "%opt=" + opt + "";
         }
         document.getElementById("navBarAteOutput").innerHTML = "<a href=\"" + newurl + "\">ATE Output</a>";
     }
