@@ -77,9 +77,6 @@
                 } else {
                     $("#pathstring").show();
                     $("#pathstring").select();
-                    setTimeout(function () {
-                        $("#pathstring").hide();
-                    }, 250);
                     if (!ClipboardJS.isSupported()) {
                         $("#openfolder").attr('data-content', "Press Ctrl-C");
                     } else {
