@@ -32,23 +32,25 @@
                 <div class="col-sm-6"><i>@Model.ateOutputModel.ateOutput[0].StartTime</i></div>
             </div>
         </div>
+        <div id="pathstring" hidden></div>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
         <script>
             new ClipboardJS('.btn');
+            var requestpath = "file:///P:\\OutputData\\@Model.tools.getProdTypeFromSN(Model.ateOutputModel.ateOutput[0].ModelSN)\\@Model.tools.getModelNameFromSN(Model.ateOutputModel.ateOutput[0].ModelSN)\\@Model.ateOutputModel.serialNum";
+            var explorerpath = requestpath.replace("file:///", "");
+            while (explorerpath.indexOf("\\") != -1) {
+                explorerpath = explorerpath.replace("\\", "/");
+            }
         </script>
         <div class="col-sm-6 text-center">
             <div class="row">
-                <button class="btn btn-default" id="openfolder" style="margin-top: 20px" data-html="true" data-container="body" data-toggle="popover" data-placement="left" data-trigger="focus" data-content="..." onclick="openfolder()">Open output data file folder</button>
+                <button class="btn btn-default" id="openfolder" style="margin-top: 20px" data-html="true" data-container="body" data-show="popover" data-placement="left" data-trigger="focus" data-content="..." onclick="openfolder()">Open output data file folder</button>
             </div>
         </div>
         <script>
             var attemptedOpen = false;
             function openfolder() {
-                var requestpath = "file:///P:\\OutputData\\@Model.tools.getProdTypeFromSN(Model.ateOutputModel.ateOutput[0].ModelSN)\\@Model.tools.getModelNameFromSN(Model.ateOutputModel.ateOutput[0].ModelSN)\\@Model.ateOutputModel.serialNum";
-                var explorerpath = requestpath.replace("file:///", "");
-                while (explorerpath.indexOf("\\") != -1) {
-                    explorerpath = explorerpath.replace("\\", "/");
-                }
+
                 if (!attemptedOpen) {
                     var win = window.open(requestpath);
                     if (win != null) {
@@ -56,13 +58,29 @@
                         $("#openfolder").attr('data-content', "Browser could not open window!");
                         $("#openfolder").html("Copy file path instead");
                         $('#openfolder').popover();
-                        attemptedOpen = true;
                         setTimeout(function () {
-                            $("#openfolder").attr('data-clipboard-text', explorerpath);
-                        }, 100);
+                            $("#openfolder").popover("destroy");
+                        }, 3000);
+                        attemptedOpen = true;
                     }
                 } else {
-                    $("#openfolder").popover('disable');
+                    $("#pathstring").html(explorerpath);
+                    var $temp = $("<input>");
+                    $("body").append($temp);
+                    $temp.val($('#pathstring').text()).select();
+                    document.execCommand("copy");
+                    $temp.remove();
+                    if (!ClipboardJS.isSupported()) {
+                        $("#openfolder").attr('data-content', "Press Ctrl-C");
+                    } else {
+                        $("#openfolder").attr('data-content', "Copied!");
+                    }
+                    setTimeout(function () {
+                        $("#openfolder").popover("show");
+                    }, 300);
+                    setTimeout(function () {
+                        $("#openfolder").popover("destroy");
+                    }, 1500);
                 }
             }
         </script>
