@@ -50,9 +50,18 @@
         <script>
             var attemptedOpen = false;
             function openfolder() {
-
                 if (!attemptedOpen) {
-                    var win = window.open(requestpath);
+                    try {
+                        var win = window.open(requestpath);
+                    } catch (e) {
+                        $("#openfolder").attr('data-content', "Browser could not open window!");
+                        $("#openfolder").html("Copy file path instead");
+                        $('#openfolder').popover("show");
+                        setTimeout(function () {
+                            $("#openfolder").popover("destroy");
+                        }, 3000);
+                        attemptedOpen = true;
+                    }
                     if (win != null) {
                         win.close();
                         $("#openfolder").attr('data-content', "Browser could not open window!");
