@@ -68,19 +68,19 @@
                     var $temp = $("<input>");
                     $("body").append($temp);
                     $temp.val($('#pathstring').text()).select();
-                    document.execCommand("copy");
-                    $temp.remove();
                     if (!ClipboardJS.isSupported()) {
                         $("#openfolder").attr('data-content', "Press Ctrl-C");
                     } else {
+                        document.execCommand("copy");
                         $("#openfolder").attr('data-content', "Copied!");
                     }
+                    $temp.remove();
                     setTimeout(function () {
                         $("#openfolder").popover("show");
                     }, 300);
                     setTimeout(function () {
                         $("#openfolder").popover("destroy");
-                    }, 1500);
+                    }, 5000);
                 }
             }
         </script>
