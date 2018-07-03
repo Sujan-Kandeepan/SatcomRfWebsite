@@ -149,7 +149,7 @@ function applyFilter() {
 }
 
 function buildTable(tableData) {
-    var result = "<tr><th>Test Name</th><th>Channel</th><th>Power</th><th>Minimum</th><th>Maximum</th><th>Average</th><th>Standard Deviation</th><th>Cpk</th><th></th></tr>";
+    var result = "<tr><th>Test Name</th><th>Channel</th><th>Frequency</th><th>Power</th><th>Minimum</th><th>Maximum</th><th>Average</th><th>Standard Deviation</th><th>Cpk</th><th></th></tr>";
     for (var i = 0; i < tableData.length; i++) {
         var unit = "";
          
@@ -171,21 +171,21 @@ function buildTable(tableData) {
 
         if (unit.indexOf("dB") !== -1)
         {
-            result += "<tr><td>" + tableData[i].TestName + "</td><td>" + tableData[i].Channel + "</td><td>" + tableData[i].Power + "</td><td>"
+            result += "<tr><td>" + tableData[i].TestName + "</td><td>" + tableData[i].Channel + "</td><td>" + tableData[i].Frequency + "</td><td>" + tableData[i].Power + "</td><td>"
                 + tableData[i].MinResult + unit + "</br>" + tableData[i].MinResultConv + unitConv + "</td><td>" + tableData[i].MaxResult + unit + "</br>"
                 + tableData[i].MaxResultConv + unitConv + "</td><td>" + tableData[i].AvgResult + unit + "</br>" + tableData[i].AvgResultConv + unitConv
                 + "</td><td>" + tableData[i].StdDev + unit + "</br>" + tableData[i].StdDevConv + unitConv + "</td><td>" + tableData[i].Cpk + "</td><td>" +
                 "<input type=\"button\" class=\"btn btn-link\" name=\"graph\" data-toggle=\"modal\" data-target=\"#allResultsModal\" onclick=\"fillModal(\'"
-                + tableData[i].TestName + "\', \'" + tableData[i].Channel + "\', \'" + tableData[i].ParsableResults.toString() + "\', \'" + tableData[i].Unit
+                + tableData[i].TestName + "\', \'" + tableData[i].Channel + "\', \'" + tableData[i].Frequency + "\', \'" + tableData[i].Power + "\', \'" + tableData[i].ParsableResults.toString() + "\', \'" + tableData[i].Unit
                 + "\', \'" + tableData[i].UnitConv + "\', \'sn\')\" value=\"View All Results\" />" + "</td></tr>";
         }
         else
         {
-            result += "<tr><td>" + tableData[i].TestName + "</td><td>" + tableData[i].Channel + "</td><td>" + tableData[i].Power + "</td><td>"
+            result += "<tr><td>" + tableData[i].TestName + "</td><td>" + tableData[i].Channel + "</td><td>" + tableData[i].Frequency + "</td><td>" + tableData[i].Power + "</td><td>"
                 + tableData[i].MinResult + unit + "</td><td>" + tableData[i].MaxResult + unit + "</td><td>" + tableData[i].AvgResult + unit + "</td><td>"
                 + tableData[i].StdDev + unit + "</td><td>" + tableData[i].Cpk + "</td><td>" +
                 "<input type=\"button\" class=\"btn btn-link\" name=\"graph\" data-toggle=\"modal\" data-target=\"#allResultsModal\" onclick=\"fillModal(\'"
-                + tableData[i].TestName + "\', \'" + tableData[i].Channel + "\', \'" + tableData[i].ParsableResults.toString() + "\', \'" + tableData[i].Unit
+                + tableData[i].TestName + "\', \'" + tableData[i].Channel + "\', \'" + tableData[i].Frequency + "\', \'" + tableData[i].Power + "\', \'" + tableData[i].ParsableResults.toString() + "\', \'" + tableData[i].Unit
                 + "\', \'" + "N/A" + "\', \'sn\')\" value=\"View All Results\" />" + "</td></tr>";
         }
     }
@@ -245,7 +245,7 @@ function getTable(productType, modelName, testType, tubeName, options, exclude) 
     data.send();
 }
 
-function fillModal(testName, channel, allResultsString, unit, unitConv, sortMode) {
+function fillModal(testName, channel, frequency, power, allResultsString, unit, unitConv, sortMode) {
     var allResultsJoined = allResultsString.split(",");
     var allResults = [];
 
@@ -293,12 +293,12 @@ function fillModal(testName, channel, allResultsString, unit, unitConv, sortMode
     var toggleMessage = (sortMode == 'val') ? "Click to sort by serial number." : "Click to sort by value.";
     var closeButton = "<button type=\"button\" class=\"close\" style=\"float: right; margin-left: 10px\" data-dismiss=\"modal\" "
         + "aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>";
-    var toggleButton = "<input type=\"button\" class=\"btn btn-link center-block\" name=\"graph\" onclick=\"sortMode(\'" + testName + "\', \'" + channel + "\', \'"
+    var toggleButton = "<input type=\"button\" class=\"btn btn-link center-block\" name=\"graph\" onclick=\"sortMode(\'" + testName + "\', \'" + channel + "\', \'" + frequency + "\', \'" + power + "\', \'"
         + allResultsString + "\', \'" + unit + "\', \'" + unitConv + "\', \'" + sortMode + "\')\" value=\"" + toggleMessage + "\" />";
     var resetURL = document.URL.indexOf("exclude") == -1 ? document.URL : document.URL.substring(0, document.URL.indexOf("exclude") + 8) + "none";
     var excludeMessage = "<p><div class=\"text-center\" style=\"margin-top: -5px; color: rgb(128, 128, 128)\">Uncheck boxes to exclude specific</div><div class=\"text-center\" style=\"margin-top: -5px; color: rgb(128, 128, 128)\">serial numbers (or, <a href=\"" + resetURL + "\">reset</a>).</div></p>";
-    var html = "<h4 class=\"text-center\" style=\"margin-top: 5px\">" + testName + " (Channel " + channel + ") "
-        + closeButton + "</h4>" + toggleButton + "<hr/>" + excludeMessage;
+    var html = "<h4 class=\"text-center\" style=\"margin-top: 5px; font-size: 20px\">&emsp;" + testName + " "
+        + closeButton + "<br><div style=\"margin-top: 10px\"><small>Channel: " + channel + "<br>Frequency: " + frequency + "<br>Power: " + power + "</small></div></h4>" + toggleButton + "<hr/>" + excludeMessage;
 
     for (var i = 0; i < allResults.length; i++) {
         html += "<input type=\"checkbox\" value=\"\" class=\"update-serial\" id=\"" + allResults[i][0] + "\" checked></input>&nbsp;";
@@ -328,10 +328,10 @@ function fillModal(testName, channel, allResultsString, unit, unitConv, sortMode
     document.getElementById("content-all-results").innerHTML = html;
 }
 
-function sortMode(testName, channel, allResultsString, unit, unitConv, sortMode) {
+function sortMode(testName, channel, frequency, power, allResultsString, unit, unitConv, sortMode) {
     unit = unit.replace(" ", "");
     unitConv = unitConv.replace(" ", "");
-    fillModal(testName, channel, allResultsString, unit, unitConv, (sortMode == 'val') ? 'sn' : 'val');
+    fillModal(testName, channel, frequency, power, allResultsString, unit, unitConv, (sortMode == 'val') ? 'sn' : 'val');
     $("#allResultsModal").val(null).trigger("change");
 }
 

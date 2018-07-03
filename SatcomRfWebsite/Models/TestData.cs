@@ -7,6 +7,7 @@ namespace SatcomRfWebsite.Models
     {
         public string TestName { get; set; }
         public string Channel { get; set; }
+        public string Frequency { get; set; }
         public string Power { get; set; }
         public List<ResultData> AllResults { get; set; }
         public string MinResult { get; set; }
@@ -29,14 +30,16 @@ namespace SatcomRfWebsite.Models
     {
         public string TestName { get; set; }
         public string Channel { get; set; }
+        public string Frequency { get; set; }
         public string Power { get; set; }
         public string Units { get; set; }
         public List<ResultData> Results { get; set; }
 
-        public TestInfo(string inTestName, string inChannel, string inPower, string inUnits, List<ResultData> inResults)
+        public TestInfo(string inTestName, string inChannel, string inFrequency, string inPower, string inUnits, List<ResultData> inResults)
         {
             TestName = inTestName;
             Channel = inChannel;
+            Frequency = inFrequency;
             Power = inPower;
             Units = inUnits;
             Results = inResults;
