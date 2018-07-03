@@ -425,7 +425,7 @@ function setupIndex() {
         if (params != "") {
             testType = params.substring(params.indexOf("testType=") + 9, params.indexOf("tubeName=") - 1);
             tubeName = params.substring(params.indexOf("tubeName=") + 9, params.indexOf("opt=") - 1);
-            opt = params.substring(params.indexOf("opt=") + 4, params.indexOf("opt=") - 1);
+            opt = params.substring(params.indexOf("opt=") + 4, params.indexOf("exclude=") - 1);
             exclude = params.substring(params.indexOf("exclude=") + 8);
         }
     }

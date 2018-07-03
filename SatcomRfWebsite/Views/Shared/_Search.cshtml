@@ -518,7 +518,7 @@
         }
         var testType = selectTestType.value != "" ? selectTestType.value : "na";
         var tubeName = selectTubeName.value != "" ? selectTubeName.value : "na";
-        var opt = selectOptions.value != "" ? selectOptions.value : "na";
+        var opt = $("#selectOptions").val() != "" ? $("#selectOptions").val() : "na";
 
         var newurl;
         if (document.URL.indexOf("TestResults") == document.URL.length - 11) {
