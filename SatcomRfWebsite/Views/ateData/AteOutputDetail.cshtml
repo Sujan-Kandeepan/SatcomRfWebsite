@@ -42,7 +42,7 @@
             }
         </script>
         <div class="col-sm-6 text-center">
-            <div class="row">
+            <div class="row" style="display: inline-block">
                 <button class="btn btn-default" id="openfolder" style="margin-top: 20px" data-html="true" data-container="body" data-show="popover" data-placement="left" data-trigger="focus" data-content="..." onclick="openfolder()">Open output data file folder</button>
                 <input class="form-control text-center" type="text" style="margin-top: 10px" value="Hello World" id="pathstring">
             </div>
@@ -76,7 +76,10 @@
                     }
                 } else {
                     $("#pathstring").show();
+                    $("#pathstring").prop('disabled', false);
                     $("#pathstring").select();
+                    $("#pathstring").attr('size', $("#pathstring").val().length);
+                    $("#pathstring").prop('disabled', true);
                     if (!ClipboardJS.isSupported()) {
                         $("#openfolder").attr('data-content', "Press Ctrl-C");
                     } else {
