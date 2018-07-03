@@ -297,8 +297,8 @@ function fillModal(testName, channel, frequency, power, allResultsString, unit, 
         + allResultsString + "\', \'" + unit + "\', \'" + unitConv + "\', \'" + sortMode + "\')\" value=\"" + toggleMessage + "\" />";
     var resetURL = document.URL.indexOf("exclude") == -1 ? document.URL : document.URL.substring(0, document.URL.indexOf("exclude") + 8) + "none";
     var excludeMessage = "<p><div class=\"text-center\" style=\"margin-top: -5px; color: rgb(128, 128, 128)\">Uncheck boxes to exclude specific</div><div class=\"text-center\" style=\"margin-top: -5px; color: rgb(128, 128, 128)\">serial numbers (or, <a href=\"" + resetURL + "\">reset</a>).</div></p>";
-    var html = "<h4 class=\"text-center\" style=\"margin-top: 5px; font-size: 20px\">&emsp;" + testName + " "
-        + closeButton + "<br><div style=\"margin-top: 10px\"><small>Channel: " + channel + "<br>Frequency: " + frequency + "<br>Power: " + power + "</small></div></h4>" + toggleButton + "<hr/>" + excludeMessage;
+    var html = "<h4 class=\"text-center\" style=\"margin-top: 5px; font-size: 20px\">&emsp;" + testName + " (Channel " + channel + ") "
+        + closeButton + "<br><div style=\"margin-top: 10px\"><small>Frequency: " + frequency + "<br>Power: " + power + "</small></div></h4>" + toggleButton + "<hr/>" + excludeMessage;
 
     for (var i = 0; i < allResults.length; i++) {
         html += "<input type=\"checkbox\" value=\"\" class=\"update-serial\" id=\"" + allResults[i][0] + "\" checked></input>&nbsp;";
