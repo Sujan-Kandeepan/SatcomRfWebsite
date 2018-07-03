@@ -20,6 +20,7 @@
         var tableClose = new HtmlString("</table>");
         var divOpen = new HtmlString("<div>");
         var divClose = new HtmlString("</div>");
+        var paramsExist = new List<bool>() { false, false, false, false, false, false, false, false, false };
 
         if (Model.testResModel.testResults.Count() > 0)
         {
@@ -41,6 +42,7 @@
                     testName = item.TestName;
 
                     var testParam = Model.testResModel.testParams.Find(x => x.TestName.Contains(item.TestNameNoDigit));
+                    paramsExist = new List<bool>() { false, false, false, false, false, false, false, false, false };
 
                     if (numSimilarTests < 5) { yscroll = 250; }
                     else { yscroll = 500; }
@@ -88,38 +90,47 @@
                             @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => testParam.P1).ToString()))
                             {
                                 <th>@Html.DisplayFor(modelItem => testParam.P1)</th>
+                                @paramsExist[0] = true;
                             }
                             @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => testParam.P2).ToString()))
                             {
                                 <th>@Html.DisplayFor(modelItem => testParam.P2)</th>
+                                @paramsExist[1] = true;
                             }
                             @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => testParam.P3).ToString()))
                             {
                                 <th>@Html.DisplayFor(modelItem => testParam.P3)</th>
+                                @paramsExist[2] = true;
                             }
                             @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => testParam.P4).ToString()))
                             {
                                 <th>@Html.DisplayFor(modelItem => testParam.P4)</th>
+                                @paramsExist[3] = true;
                             }
                             @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => testParam.P5).ToString()))
                             {
                                 <th>@Html.DisplayFor(modelItem => testParam.P5)</th>
+                                @paramsExist[4] = true;
                             }
                             @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => testParam.P6).ToString()))
                             {
                                 <th>@Html.DisplayFor(modelItem => testParam.P6)</th>
+                                @paramsExist[5] = true;
                             }
                             @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => testParam.P7).ToString()))
                             {
                                 <th>@Html.DisplayFor(modelItem => testParam.P7)</th>
+                                @paramsExist[6] = true;
                             }
                             @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => testParam.P8).ToString()))
                             {
                                 <th>@Html.DisplayFor(modelItem => testParam.P8)</th>
+                                @paramsExist[7] = true;
                             }
                             @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => testParam.P9).ToString()))
                             {
                                 <th>@Html.DisplayFor(modelItem => testParam.P9)</th>
+                                @paramsExist[8] = true;
                             }
                         </tr>
                     </thead>
@@ -133,39 +144,39 @@
                     <td>@Html.DisplayFor(modelItem => item.LowLimit)</td>
                     <td>@Html.DisplayFor(modelItem => item.UpLimit)</td>
                     <td>@Html.DisplayFor(modelItem => item.Channel)</td>
-                    @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => item.P1).ToString()))
+                    @if (paramsExist[0])
                     {
                         <td>@Html.DisplayFor(modelItem => item.P1)</td>
                     }
-                    @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => item.P2).ToString()))
+                    @if (paramsExist[1])
                     {
                         <td>@Html.DisplayFor(modelItem => item.P2)</td>
                     }
-                    @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => item.P3).ToString()))
+                    @if (paramsExist[2])
                     {
                         <td>@Html.DisplayFor(modelItem => item.P3)</td>
                     }
-                    @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => item.P4).ToString()))
+                    @if (paramsExist[3])
                     {
                         <td>@Html.DisplayFor(modelItem => item.P4)</td>
                     }
-                    @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => item.P5).ToString()))
+                    @if (paramsExist[4])
                     {
                         <td>@Html.DisplayFor(modelItem => item.P5)</td>
                     }
-                    @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => item.P6).ToString()))
+                    @if (paramsExist[5])
                     {
                         <td>@Html.DisplayFor(modelItem => item.P6)</td>
                     }
-                    @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => item.P7).ToString()))
+                    @if (paramsExist[6])
                     {
                         <td>@Html.DisplayFor(modelItem => item.P7)</td>
                     }
-                    @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => item.P8).ToString()))
+                    @if (paramsExist[7])
                     {
                         <td>@Html.DisplayFor(modelItem => item.P8)</td>
                     }
-                    @if (!string.IsNullOrEmpty(@Html.DisplayFor(modelItem => item.P9).ToString()))
+                    @if (paramsExist[8])
                     {
                         <td>@Html.DisplayFor(modelItem => item.P9)</td>
                     }
