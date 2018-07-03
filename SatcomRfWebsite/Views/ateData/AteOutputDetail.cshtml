@@ -76,8 +76,8 @@
                     }
                 } else {
                     $("#pathstring").show();
+                    $("#pathstring").select();
                     setTimeout(function () {
-                        $("#pathstring").select();
                         $("#pathstring").hide();
                     }, 250);
                     if (!ClipboardJS.isSupported()) {
