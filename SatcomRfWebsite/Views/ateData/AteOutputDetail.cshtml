@@ -32,7 +32,6 @@
                 <div class="col-sm-6"><i>@Model.ateOutputModel.ateOutput[0].StartTime</i></div>
             </div>
         </div>
-        <div id="pathstring" hidden></div>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
         <script>
             new ClipboardJS('.btn');
@@ -73,10 +72,9 @@
                         attemptedOpen = true;
                     }
                 } else {
-                    $("#pathstring").html(explorerpath);
                     var $temp = $("<input>");
                     $("body").append($temp);
-                    $temp.val($('#pathstring').text()).select();
+                    $temp.val(explorerpath).select();
                     if (!ClipboardJS.isSupported()) {
                         $("#openfolder").attr('data-content', "Press Ctrl-C");
                     } else {
