@@ -41,13 +41,28 @@
                 explorerpath = explorerpath.replace("\\", "/");
             }
         </script>
-        <div class="col-sm-6 text-center">
-            <div class="row" style="display: inline-block">
-                <button class="btn btn-default" id="openfolder" style="margin-top: 20px" data-html="true" data-container="body" data-show="popover" data-placement="left" data-trigger="focus" data-content="..." onclick="openfolder()">Open output data file folder</button>
-                <input class="form-control text-center" type="text" style="margin-top: 10px" value="Hello World" id="pathstring">
+        <div class="text-center">
+            <div class="col-md-2 text-center" style="display: inline-block">
+                <div class="row">
+                    <button class="btn btn-default" id="openfolder" style="margin-top: 20px" data-html="true" data-container="body" data-show="bottom" data-placement="right auto" data-trigger="focus" data-content="..." onclick="openfolder()">Open output data file folder</button>
+                </div>
+            </div>
+            <div class="col-md-4 text-center" style="display: inline-block">
+                <div class="row">
+                    <input class="form-control center-block text-center" type="text" style="margin-top: 20px" data-html="true" data-container="body" data-show="bottom" data-placement="bottom" data-trigger="focus" data-content="..." value="Hello World" id="pathstring">
+                </div>
             </div>
         </div>
         <script>
+            $.fn.textWidth = function (text, font) {
+
+                if (!$.fn.textWidth.fakeEl) $.fn.textWidth.fakeEl = $('<span>').hide().appendTo(document.body);
+
+                $.fn.textWidth.fakeEl.text(text || this.val() || this.text() || this.attr('placeholder')).css('font', font || this.css('font'));
+
+                return $.fn.textWidth.fakeEl.width();
+            };
+
             $("#pathstring").val(explorerpath);
             $("#pathstring").hide();
             var attemptedOpen = false;
@@ -75,22 +90,23 @@
                         attemptedOpen = true;
                     }
                 } else {
-                    $("#pathstring").show();
+                    $("#pathstring").css({ width: $("#pathstring").textWidth() });
+                    $("#pathstring").fadeIn("fast");
                     $("#pathstring").prop('disabled', false);
                     $("#pathstring").select();
                     $("#pathstring").attr('size', $("#pathstring").val().length);
                     $("#pathstring").prop('disabled', true);
                     if (!ClipboardJS.isSupported()) {
-                        $("#openfolder").attr('data-content', "Press Ctrl-C");
+                        $("#pathstring").attr('data-content', "Press Ctrl-C");
                     } else {
                         document.execCommand("copy");
-                        $("#openfolder").attr('data-content', "Copied!");
+                        $("#pathstring").attr('data-content', "Copied!");
                     }
                     setTimeout(function () {
-                        $("#openfolder").popover("show");
-                    }, 300);
+                        $("#pathstring").popover("show");
+                    }, 500);
                     setTimeout(function () {
-                        $("#openfolder").popover("destroy");
+                        $("#pathstring").popover("destroy");
                     }, 5000);
                 }
             }
