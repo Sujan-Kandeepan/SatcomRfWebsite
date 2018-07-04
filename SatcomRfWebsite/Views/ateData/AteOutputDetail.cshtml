@@ -92,10 +92,8 @@
                 } else {
                     $("#pathstring").css({ width: $("#pathstring").textWidth() });
                     $("#pathstring").fadeIn("fast");
-                    $("#pathstring").prop('disabled', false);
                     $("#pathstring").select();
                     $("#pathstring").attr('size', $("#pathstring").val().length);
-                    $("#pathstring").prop('disabled', true);
                     if (!ClipboardJS.isSupported()) {
                         $("#pathstring").attr('data-content', "Press Ctrl-C");
                     } else {
