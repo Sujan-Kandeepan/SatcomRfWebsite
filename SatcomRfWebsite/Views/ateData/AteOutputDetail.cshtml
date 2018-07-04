@@ -63,7 +63,6 @@
                 return $.fn.textWidth.fakeEl.width();
             };
 
-            $("#pathstring").val(explorerpath);
             $("#pathstring").hide();
             var attemptedOpen = false;
             function openfolder() {
@@ -90,6 +89,7 @@
                         attemptedOpen = true;
                     }
                 } else {
+                    $("#pathstring").val(explorerpath);
                     $("#pathstring").css({ width: $("#pathstring").textWidth() });
                     $("#pathstring").fadeIn("fast");
                     $("#pathstring").select();
