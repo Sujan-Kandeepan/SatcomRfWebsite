@@ -187,6 +187,19 @@ namespace SatcomRfWebsite.Models
          */
         public void GenerateLists()
         {
+            if ((productType == "" || productType == "na") && (modelName == "" || modelName == "na")
+                && (serialNum == "" || serialNum == "na") && (tubeName == "" || tubeName == "na"))
+            {
+                prodList = (from prod in db.tblProductTypes select prod.ProductType).ToList();
+                modelList = (from model in db.tblModelNames select model.ModelName).ToList();
+                serList = (from serial in db.tblSerialNumbers select serial.ModelSN).ToList();
+                prodTypeStrList = String.Join(",", (from prod in prodList select "'" + prod + "'"));
+                modelNameStrList = String.Join(",", (from model in modelList select "'" + model + "'"));
+                serialNumStrList = String.Join(",", (from serial in serList select "'" + serial + "'"));
+                tubeList = (from tube in db.tblATEOutputs select tube.TubeName).ToList();
+                return;
+            }
+
             bool pT = false;
             bool mN = false;
             bool sN = false;

@@ -700,5 +700,35 @@ namespace SatcomRfWebsite.Controllers
 
             return Ok(data);
         }
+
+        [HttpGet]
+        public IHttpActionResult FindModel(string serial)
+        {
+            rfDbEntities db = new rfDbEntities();
+            var myQuery = from items in db.tblSerialNumbers where items.ModelSN == serial select items.ModelName;
+            if (myQuery.ToList().Count() > 0)
+            {
+                return Ok(myQuery.ToList().ElementAt(0).ToString());
+            }
+            else
+            {
+                return Ok("na");
+            }
+        }
+
+        [HttpGet]
+        public IHttpActionResult FindProduct(string model)
+        {
+            rfDbEntities db = new rfDbEntities();
+            var myQuery = from items in db.tblModelNames where items.ModelName == model select items.ProductType;
+            if (myQuery.ToList().Count() > 0)
+            {
+                return Ok(myQuery.ToList().ElementAt(0).ToString());
+            }
+            else
+            {
+                return Ok("na");
+            }
+        }
     }
 }

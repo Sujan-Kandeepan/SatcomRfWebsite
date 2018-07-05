@@ -254,21 +254,41 @@
 		                    var prod = "@Model.ateOutputModel.productType"; //"na";
 
 		                    // trying to figure out what is the product type if we do the search by modelName
-		                    if (value != "") {
-		                        for (i = 0; i < arrModelName.length; i++) {
-		                            if (value == arrModelName[i]) {
-		                                prod = arrProdType[i];
-		                                break;
-		                            }
-		                        }
-		                    }
-		                    //indexOf return num > -1 if it finds the string
-		                    if (document.URL.indexOf("mN=") > -1) {
-		                        filterToApply = document.URL;
-		                    }
-		                    if (value != "") { filterToApply = filterToApply.replace(/pT=[a-zA-Z]*/, "pT=" + prod); }
-		                    filterToApply = filterToApply.replace(/mN=[a-zA-Z0-9-]*/, "mN=" + value);
-		                    filterToApply = filterToApply.replace(/ser=[a-zA-Z0-9_-]*/, "ser=na");
+                            if (value != "") {
+                                var src = document.location.origin + "/api/ListAPI/FindProduct?model=" + value;
+                                var data = new XMLHttpRequest();
+                                data.onreadystatechange = function () {
+                                    if (this.readyState === 4 && this.status === 200) {
+                                        var retData = JSON.parse(data.responseText);
+                                        prod = retData;
+
+                                        //indexOf return num > -1 if it finds the string
+                                        if (document.URL.indexOf("mN=") > -1) {
+                                            filterToApply = document.URL;
+                                        }
+                                        if (value != "") { filterToApply = filterToApply.replace(/pT=[a-zA-Z]*/, "pT=" + prod); }
+                                        filterToApply = filterToApply.replace(/mN=[a-zA-Z0-9-]*/, "mN=" + value);
+                                        filterToApply = filterToApply.replace(/ser=[a-zA-Z0-9_-]*/, "ser=na");
+                                        location.href = filterToApply;
+
+                                        sendStats();
+                                        sendOutput();
+                                        sendResults();
+                                    }
+                                };
+
+                                data.open("GET", src, true);
+                                data.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                                data.send();
+                            }
+
+                            //indexOf return num > -1 if it finds the string
+                            if (document.URL.indexOf("mN=") > -1) {
+                                filterToApply = document.URL;
+                            }
+                            if (value != "") { filterToApply = filterToApply.replace(/pT=[a-zA-Z]*/, "pT=" + prod); }
+                            filterToApply = filterToApply.replace(/mN=[a-zA-Z0-9-]*/, "mN=" + value);
+                            filterToApply = filterToApply.replace(/ser=[a-zA-Z0-9_-]*/, "ser=na");
                             location.href = filterToApply;
 
                             sendStats();
@@ -306,26 +326,58 @@
 
 		                    // trying to figure out what is the model name and product type if we do the search by serial
                             if (value != "") {
-		                        for (i = 0; i < arrSerialNum.length; i++) {
-		                            if (value == arrSerialNum[i]) {
-		                                prod = arrProdType[i];
-		                                model = arrModelName[i];
-		                                break;
-		                            }
-		                        }
-                            }
-		                    //indexOf return num > -1 if it finds the string
-		                    if (document.URL.indexOf("ser=") > -1) {
-		                        filterToApply = document.URL;
-		                    }
-		                    filterToApply = filterToApply.replace(/pT=[a-zA-Z]*/, "pT=" + prod);
-		                    filterToApply = filterToApply.replace(/mN=[a-zA-Z0-9-]*/, "mN=" + model);
-		                    filterToApply = filterToApply.replace(/ser=[a-zA-Z0-9_-]*/, "ser=" + value);
-                            location.href = filterToApply;
+                                var src = document.location.origin + "/api/ListAPI/FindModel?serial=" + value;
+                                var data = new XMLHttpRequest();
+                                data.onreadystatechange = function () {
+                                    if (this.readyState === 4 && this.status === 200) {
+                                        var retData = JSON.parse(data.responseText);
+                                        model = retData;
 
-                            sendStats();
-                            sendOutput();
-                            sendResults();
+                                        src = document.location.origin + "/api/ListAPI/FindProduct?model=" + model;
+                                        data = new XMLHttpRequest();
+                                        data.onreadystatechange = function () {
+                                            if (this.readyState === 4 && this.status === 200) {
+                                                var retData = JSON.parse(data.responseText);
+                                                prod = retData;
+
+                                                //indexOf return num > -1 if it finds the string
+                                                if (document.URL.indexOf("ser=") > -1) {
+                                                    filterToApply = document.URL;
+                                                }
+                                                filterToApply = filterToApply.replace(/pT=[a-zA-Z]*/, "pT=" + prod);
+                                                filterToApply = filterToApply.replace(/mN=[a-zA-Z0-9-]*/, "mN=" + model);
+                                                filterToApply = filterToApply.replace(/ser=[a-zA-Z0-9_-]*/, "ser=" + value);
+                                                location.href = filterToApply;
+
+                                                sendStats();
+                                                sendOutput();
+                                                sendResults();
+                                            }
+                                        };
+
+                                        data.open("GET", src, true);
+                                        data.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                                        data.send();
+                                    }
+                                };
+
+                                data.open("GET", src, true);
+                                data.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                                data.send();
+                            } else {
+                                //indexOf return num > -1 if it finds the string
+                                if (document.URL.indexOf("ser=") > -1) {
+                                    filterToApply = document.URL;
+                                }
+                                filterToApply = filterToApply.replace(/pT=[a-zA-Z]*/, "pT=" + prod);
+                                filterToApply = filterToApply.replace(/mN=[a-zA-Z0-9-]*/, "mN=" + model);
+                                filterToApply = filterToApply.replace(/ser=[a-zA-Z0-9_-]*/, "ser=" + value);
+                                location.href = filterToApply;
+
+                                sendStats();
+                                sendOutput();
+                                sendResults();
+                            }
 		                }
 		            });
 		        });
