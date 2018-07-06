@@ -17,7 +17,7 @@ using System.Runtime.Serialization;
 namespace SatcomRfWebsite.Models
 {
     #region Contexts
-
+    
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
@@ -1137,6 +1137,126 @@ namespace SatcomRfWebsite.Models
         private global::System.String _BlipaSN;
         partial void OnBlipaSNChanging(global::System.String value);
         partial void OnBlipaSNChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String InputStartFrequency
+        {
+            get
+            {
+                return _InputStartFrequency;
+            }
+            set
+            {
+                OnInputStartFrequencyChanging(value);
+                ReportPropertyChanging("InputStartFrequency");
+                _InputStartFrequency = StructuralObject.SetValidValue(value, true, "InputStartFrequency");
+                ReportPropertyChanged("InputStartFrequency");
+                OnInputStartFrequencyChanged();
+            }
+        }
+        private global::System.String _InputStartFrequency;
+        partial void OnInputStartFrequencyChanging(global::System.String value);
+        partial void OnInputStartFrequencyChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String InputStopFrequency
+        {
+            get
+            {
+                return _InputStopFrequency;
+            }
+            set
+            {
+                OnInputStopFrequencyChanging(value);
+                ReportPropertyChanging("InputStopFrequency");
+                _InputStopFrequency = StructuralObject.SetValidValue(value, true, "InputStopFrequency");
+                ReportPropertyChanged("InputStopFrequency");
+                OnInputStopFrequencyChanged();
+            }
+        }
+        private global::System.String _InputStopFrequency;
+        partial void OnInputStopFrequencyChanging(global::System.String value);
+        partial void OnInputStopFrequencyChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String OutputStartFrequency
+        {
+            get
+            {
+                return _OutputStartFrequency;
+            }
+            set
+            {
+                OnOutputStartFrequencyChanging(value);
+                ReportPropertyChanging("OutputStartFrequency");
+                _OutputStartFrequency = StructuralObject.SetValidValue(value, true, "OutputStartFrequency");
+                ReportPropertyChanged("OutputStartFrequency");
+                OnOutputStartFrequencyChanged();
+            }
+        }
+        private global::System.String _OutputStartFrequency;
+        partial void OnOutputStartFrequencyChanging(global::System.String value);
+        partial void OnOutputStartFrequencyChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String OutputStopFrequency
+        {
+            get
+            {
+                return _OutputStopFrequency;
+            }
+            set
+            {
+                OnOutputStopFrequencyChanging(value);
+                ReportPropertyChanging("OutputStopFrequency");
+                _OutputStopFrequency = StructuralObject.SetValidValue(value, true, "OutputStopFrequency");
+                ReportPropertyChanged("OutputStopFrequency");
+                OnOutputStopFrequencyChanged();
+            }
+        }
+        private global::System.String _OutputStopFrequency;
+        partial void OnOutputStopFrequencyChanging(global::System.String value);
+        partial void OnOutputStopFrequencyChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String RatedPower
+        {
+            get
+            {
+                return _RatedPower;
+            }
+            set
+            {
+                OnRatedPowerChanging(value);
+                ReportPropertyChanging("RatedPower");
+                _RatedPower = StructuralObject.SetValidValue(value, true, "RatedPower");
+                ReportPropertyChanged("RatedPower");
+                OnRatedPowerChanged();
+            }
+        }
+        private global::System.String _RatedPower;
+        partial void OnRatedPowerChanging(global::System.String value);
+        partial void OnRatedPowerChanged();
 
         #endregion
 
