@@ -1,4 +1,12 @@
-﻿<nav class="navbar navbar-default" role="navigation">
+﻿<style>
+    .divider-vertical {
+        height: 50px; /* any height */
+        border-left: 1px solid #E7E7E7; /* right or left is the same */
+        float: left; /* so BS grid doesn't break */
+    }
+</style>
+
+<nav class="navbar navbar-default" role="navigation">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
@@ -14,11 +22,16 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
+            <li class="divider-vertical"></li>
             <li id="navBarHome"><a href="~/">Home</a></li>
+            <li class="divider-vertical"></li>
             <li id="navBarStats"><a href="~/SatcomStatsPage">Statistics</a></li>
             <li id="navBarAteOutput"><a href="~/ateData/AteOutput">ATE Output</a></li>
             <li id="navBarTests"><a href="~/testsData/TestResults">Test Results</a></li>
+            <li class="divider-vertical"></li>
             <li id="navBarSerial"><a href="~/serialnumbers?beginning=A&findby=serial">Serial Numbers</a></li>
+            <li class="divider-vertical"></li>
+            <li id="navBarCalibration"><a href="">Calibration</a></li>
         </ul>
       <!--<form class="navbar-form navbar-right" role="search">
         <div class="form-group">
