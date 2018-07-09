@@ -57,7 +57,7 @@ warning 6002: The table/view 'ATE_Output_Testing.dbo.tblATEOutput' does not have
           <Property Name="InputStopFrequency" Type="nvarchar" MaxLength="10" />
           <Property Name="OutputStartFrequency" Type="nvarchar" MaxLength="10" />
           <Property Name="OutputStopFrequency" Type="nvarchar" MaxLength="10" />
-          <Property Name="Power" Type="nvarchar" MaxLength="5" />
+          <Property Name="RatedPower" Type="nvarchar" MaxLength="5" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'ATE_Output_Testing.dbo.tblKLYTestParameters' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -302,7 +302,7 @@ warning 6002: The table/view 'ATE_Output_Testing.dbo.tblTWTTestResults' does not
 [tblATEOutput].[InputStopFrequency] AS [InputStopFrequency], 
 [tblATEOutput].[OutputStartFrequency] AS [OutputStartFrequency], 
 [tblATEOutput].[OutputStopFrequency] AS [OutputStopFrequency], 
-[tblATEOutput].[Power] AS [Power]
+[tblATEOutput].[RatedPower] AS [RatedPower]
 FROM [dbo].[tblATEOutput] AS [tblATEOutput]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="tblKLYTestParameters" EntityType="Self.tblKLYTestParameters" store:Type="Tables" store:Schema="dbo">
@@ -693,7 +693,7 @@ FROM [dbo].[tblTWTTestResults] AS [tblTWTTestResults]</DefiningQuery>
           <EntitySetMapping Name="tblATEOutputs">
             <EntityTypeMapping TypeName="rfDbModel.tblATEOutput">
               <MappingFragment StoreEntitySet="tblATEOutput">
-                <ScalarProperty Name="RatedPower" ColumnName="Power" />
+                <ScalarProperty Name="RatedPower" ColumnName="RatedPower" />
                 <ScalarProperty Name="OutputStopFrequency" ColumnName="OutputStopFrequency" />
                 <ScalarProperty Name="OutputStartFrequency" ColumnName="OutputStartFrequency" />
                 <ScalarProperty Name="InputStopFrequency" ColumnName="InputStopFrequency" />
