@@ -5,22 +5,9 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="rfDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'ATE_Output_Testing.dbo.tblATEOutput' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="tblATEOutput">
           <Key>
             <PropertyRef Name="id" />
-            <PropertyRef Name="ModelSN" />
-            <PropertyRef Name="StartTime" />
-            
-            
-            
-            
-            
-            
-            
-            
-            
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ModelSN" Type="nvarchar" MaxLength="25" Nullable="false" />
@@ -59,12 +46,9 @@ warning 6002: The table/view 'ATE_Output_Testing.dbo.tblATEOutput' does not have
           <Property Name="OutputStopFrequency" Type="nvarchar" MaxLength="10" />
           <Property Name="RatedPower" Type="nvarchar" MaxLength="5" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'ATE_Output_Testing.dbo.tblKLYTestParameters' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="tblKLYTestParameters">
           <Key>
             <PropertyRef Name="id" />
-            
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TestName" Type="nvarchar" MaxLength="30" Nullable="false" />
@@ -79,15 +63,9 @@ warning 6002: The table/view 'ATE_Output_Testing.dbo.tblKLYTestParameters' does 
           <Property Name="P9" Type="nvarchar" MaxLength="20" />
           <Property Name="P10" Type="nvarchar" MaxLength="20" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'ATE_Output_Testing.dbo.tblKLYTestResults' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="tblKLYTestResults">
           <Key>
             <PropertyRef Name="id" />
-            <PropertyRef Name="ModelSN" />
-            <PropertyRef Name="StartTime" />
-            
-            
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ModelSN" Type="nvarchar" MaxLength="25" Nullable="false" />
@@ -110,27 +88,17 @@ warning 6002: The table/view 'ATE_Output_Testing.dbo.tblKLYTestResults' does not
           <Property Name="P9" Type="nvarchar" MaxLength="20" />
           <Property Name="P10" Type="nvarchar" MaxLength="20" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'ATE_Output_Testing.dbo.tblModelNames' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="tblModelNames">
           <Key>
             <PropertyRef Name="id" />
-            
-            
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ModelName" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="ProductType" Type="nvarchar" MaxLength="10" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'ATE_Output_Testing.dbo.tblMonitorData' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="tblMonitorData">
           <Key>
             <PropertyRef Name="id" />
-            
-            
-            
-            
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ModelSN" Type="nvarchar" MaxLength="25" Nullable="false" />
@@ -140,34 +108,24 @@ warning 6002: The table/view 'ATE_Output_Testing.dbo.tblMonitorData' does not ha
           <Property Name="OutputResult" Type="decimal" Precision="11" Scale="4" />
           <Property Name="Channel" Type="nvarchar" MaxLength="3" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'ATE_Output_Testing.dbo.tblProductTypes' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="tblProductTypes">
           <Key>
             <PropertyRef Name="id" />
-            
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ProductType" Type="nvarchar" MaxLength="10" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'ATE_Output_Testing.dbo.tblSerialNumbers' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="tblSerialNumbers">
           <Key>
             <PropertyRef Name="id" />
-            
-            
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ModelSN" Type="nvarchar" MaxLength="25" Nullable="false" />
           <Property Name="ModelName" Type="nvarchar" MaxLength="20" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'ATE_Output_Testing.dbo.tblSSPATestParameters' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="tblSSPATestParameters">
           <Key>
             <PropertyRef Name="id" />
-            
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TestName" Type="nvarchar" MaxLength="30" Nullable="false" />
@@ -182,15 +140,9 @@ warning 6002: The table/view 'ATE_Output_Testing.dbo.tblSSPATestParameters' does
           <Property Name="P9" Type="nvarchar" MaxLength="20" />
           <Property Name="P10" Type="nvarchar" MaxLength="20" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'ATE_Output_Testing.dbo.tblSSPATestResults' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="tblSSPATestResults">
           <Key>
             <PropertyRef Name="id" />
-            <PropertyRef Name="ModelSN" />
-            <PropertyRef Name="StartTime" />
-            
-            
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ModelSN" Type="nvarchar" MaxLength="25" Nullable="false" />
@@ -213,12 +165,9 @@ warning 6002: The table/view 'ATE_Output_Testing.dbo.tblSSPATestResults' does no
           <Property Name="P9" Type="nvarchar" MaxLength="20" />
           <Property Name="P10" Type="nvarchar" MaxLength="20" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'ATE_Output_Testing.dbo.tblTWTTestParameters' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="tblTWTTestParameters">
           <Key>
             <PropertyRef Name="id" />
-            
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TestName" Type="nvarchar" MaxLength="30" Nullable="false" />
@@ -233,15 +182,9 @@ warning 6002: The table/view 'ATE_Output_Testing.dbo.tblTWTTestParameters' does 
           <Property Name="P9" Type="nvarchar" MaxLength="20" />
           <Property Name="P10" Type="nvarchar" MaxLength="20" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'ATE_Output_Testing.dbo.tblTWTTestResults' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="tblTWTTestResults">
           <Key>
             <PropertyRef Name="id" />
-            <PropertyRef Name="ModelSN" />
-            <PropertyRef Name="StartTime" />
-            
-            
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ModelSN" Type="nvarchar" MaxLength="25" Nullable="false" />
@@ -265,197 +208,17 @@ warning 6002: The table/view 'ATE_Output_Testing.dbo.tblTWTTestResults' does not
           <Property Name="P10" Type="nvarchar" MaxLength="20" />
         </EntityType>
         <EntityContainer Name="rfDbModelStoreContainer">
-          <EntitySet Name="tblATEOutput" EntityType="Self.tblATEOutput" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-[tblATEOutput].[id] AS [id], 
-[tblATEOutput].[ModelSN] AS [ModelSN], 
-[tblATEOutput].[StartTime] AS [StartTime], 
-[tblATEOutput].[SalesOrder] AS [SalesOrder], 
-[tblATEOutput].[TestPlan] AS [TestPlan], 
-[tblATEOutput].[TestType] AS [TestType], 
-[tblATEOutput].[TPRev] AS [TPRev], 
-[tblATEOutput].[Audit] AS [Audit], 
-[tblATEOutput].[Itar] AS [Itar], 
-[tblATEOutput].[RackNum] AS [RackNum], 
-[tblATEOutput].[UserName] AS [UserName], 
-[tblATEOutput].[LongModelName] AS [LongModelName], 
-[tblATEOutput].[TubeSN] AS [TubeSN], 
-[tblATEOutput].[TubeName] AS [TubeName], 
-[tblATEOutput].[MainRevision] AS [MainRevision], 
-[tblATEOutput].[SsaSN] AS [SsaSN], 
-[tblATEOutput].[LinSN] AS [LinSN], 
-[tblATEOutput].[LipaSN] AS [LipaSN], 
-[tblATEOutput].[LinGain] AS [LinGain], 
-[tblATEOutput].[LinGainOffset] AS [LinGainOffset], 
-[tblATEOutput].[LinPhase] AS [LinPhase], 
-[tblATEOutput].[LinPhaseOffset] AS [LinPhaseOffset], 
-[tblATEOutput].[LinMag] AS [LinMag], 
-[tblATEOutput].[LinMagOffset] AS [LinMagOffset], 
-[tblATEOutput].[LineVoltage] AS [LineVoltage], 
-[tblATEOutput].[LineFrequency] AS [LineFrequency], 
-[tblATEOutput].[IP] AS [IP], 
-[tblATEOutput].[MAC] AS [MAC], 
-[tblATEOutput].[BucSN] AS [BucSN], 
-[tblATEOutput].[BipaSN] AS [BipaSN], 
-[tblATEOutput].[BlipaSN] AS [BlipaSN], 
-[tblATEOutput].[InputStartFrequency] AS [InputStartFrequency], 
-[tblATEOutput].[InputStopFrequency] AS [InputStopFrequency], 
-[tblATEOutput].[OutputStartFrequency] AS [OutputStartFrequency], 
-[tblATEOutput].[OutputStopFrequency] AS [OutputStopFrequency], 
-[tblATEOutput].[RatedPower] AS [RatedPower]
-FROM [dbo].[tblATEOutput] AS [tblATEOutput]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="tblKLYTestParameters" EntityType="Self.tblKLYTestParameters" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-[tblKLYTestParameters].[id] AS [id], 
-[tblKLYTestParameters].[TestName] AS [TestName], 
-[tblKLYTestParameters].[P1] AS [P1], 
-[tblKLYTestParameters].[P2] AS [P2], 
-[tblKLYTestParameters].[P3] AS [P3], 
-[tblKLYTestParameters].[P4] AS [P4], 
-[tblKLYTestParameters].[P5] AS [P5], 
-[tblKLYTestParameters].[P6] AS [P6], 
-[tblKLYTestParameters].[P7] AS [P7], 
-[tblKLYTestParameters].[P8] AS [P8], 
-[tblKLYTestParameters].[P9] AS [P9], 
-[tblKLYTestParameters].[P10] AS [P10]
-FROM [dbo].[tblKLYTestParameters] AS [tblKLYTestParameters]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="tblKLYTestResults" EntityType="Self.tblKLYTestResults" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-[tblKLYTestResults].[id] AS [id], 
-[tblKLYTestResults].[ModelSN] AS [ModelSN], 
-[tblKLYTestResults].[StartTime] AS [StartTime], 
-[tblKLYTestResults].[TestName] AS [TestName], 
-[tblKLYTestResults].[Result] AS [Result], 
-[tblKLYTestResults].[Units] AS [Units], 
-[tblKLYTestResults].[LowLimit] AS [LowLimit], 
-[tblKLYTestResults].[UpLimit] AS [UpLimit], 
-[tblKLYTestResults].[PassFail] AS [PassFail], 
-[tblKLYTestResults].[Channel] AS [Channel], 
-[tblKLYTestResults].[P1] AS [P1], 
-[tblKLYTestResults].[P2] AS [P2], 
-[tblKLYTestResults].[P3] AS [P3], 
-[tblKLYTestResults].[P4] AS [P4], 
-[tblKLYTestResults].[P5] AS [P5], 
-[tblKLYTestResults].[P6] AS [P6], 
-[tblKLYTestResults].[P7] AS [P7], 
-[tblKLYTestResults].[P8] AS [P8], 
-[tblKLYTestResults].[P9] AS [P9], 
-[tblKLYTestResults].[P10] AS [P10]
-FROM [dbo].[tblKLYTestResults] AS [tblKLYTestResults]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="tblModelNames" EntityType="Self.tblModelNames" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-[tblModelNames].[id] AS [id], 
-[tblModelNames].[ModelName] AS [ModelName], 
-[tblModelNames].[ProductType] AS [ProductType]
-FROM [dbo].[tblModelNames] AS [tblModelNames]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="tblMonitorData" EntityType="Self.tblMonitorData" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-[tblMonitorData].[id] AS [id], 
-[tblMonitorData].[ModelSN] AS [ModelSN], 
-[tblMonitorData].[StartTime] AS [StartTime], 
-[tblMonitorData].[Frequency] AS [Frequency], 
-[tblMonitorData].[InputResult] AS [InputResult], 
-[tblMonitorData].[OutputResult] AS [OutputResult], 
-[tblMonitorData].[Channel] AS [Channel]
-FROM [dbo].[tblMonitorData] AS [tblMonitorData]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="tblProductTypes" EntityType="Self.tblProductTypes" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-[tblProductTypes].[id] AS [id], 
-[tblProductTypes].[ProductType] AS [ProductType]
-FROM [dbo].[tblProductTypes] AS [tblProductTypes]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="tblSerialNumbers" EntityType="Self.tblSerialNumbers" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-[tblSerialNumbers].[id] AS [id], 
-[tblSerialNumbers].[ModelSN] AS [ModelSN], 
-[tblSerialNumbers].[ModelName] AS [ModelName]
-FROM [dbo].[tblSerialNumbers] AS [tblSerialNumbers]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="tblSSPATestParameters" EntityType="Self.tblSSPATestParameters" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-[tblSSPATestParameters].[id] AS [id], 
-[tblSSPATestParameters].[TestName] AS [TestName], 
-[tblSSPATestParameters].[P1] AS [P1], 
-[tblSSPATestParameters].[P2] AS [P2], 
-[tblSSPATestParameters].[P3] AS [P3], 
-[tblSSPATestParameters].[P4] AS [P4], 
-[tblSSPATestParameters].[P5] AS [P5], 
-[tblSSPATestParameters].[P6] AS [P6], 
-[tblSSPATestParameters].[P7] AS [P7], 
-[tblSSPATestParameters].[P8] AS [P8], 
-[tblSSPATestParameters].[P9] AS [P9], 
-[tblSSPATestParameters].[P10] AS [P10]
-FROM [dbo].[tblSSPATestParameters] AS [tblSSPATestParameters]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="tblSSPATestResults" EntityType="Self.tblSSPATestResults" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-[tblSSPATestResults].[id] AS [id], 
-[tblSSPATestResults].[ModelSN] AS [ModelSN], 
-[tblSSPATestResults].[StartTime] AS [StartTime], 
-[tblSSPATestResults].[TestName] AS [TestName], 
-[tblSSPATestResults].[Result] AS [Result], 
-[tblSSPATestResults].[Units] AS [Units], 
-[tblSSPATestResults].[LowLimit] AS [LowLimit], 
-[tblSSPATestResults].[UpLimit] AS [UpLimit], 
-[tblSSPATestResults].[PassFail] AS [PassFail], 
-[tblSSPATestResults].[Channel] AS [Channel], 
-[tblSSPATestResults].[P1] AS [P1], 
-[tblSSPATestResults].[P2] AS [P2], 
-[tblSSPATestResults].[P3] AS [P3], 
-[tblSSPATestResults].[P4] AS [P4], 
-[tblSSPATestResults].[P5] AS [P5], 
-[tblSSPATestResults].[P6] AS [P6], 
-[tblSSPATestResults].[P7] AS [P7], 
-[tblSSPATestResults].[P8] AS [P8], 
-[tblSSPATestResults].[P9] AS [P9], 
-[tblSSPATestResults].[P10] AS [P10]
-FROM [dbo].[tblSSPATestResults] AS [tblSSPATestResults]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="tblTWTTestParameters" EntityType="Self.tblTWTTestParameters" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-[tblTWTTestParameters].[id] AS [id], 
-[tblTWTTestParameters].[TestName] AS [TestName], 
-[tblTWTTestParameters].[P1] AS [P1], 
-[tblTWTTestParameters].[P2] AS [P2], 
-[tblTWTTestParameters].[P3] AS [P3], 
-[tblTWTTestParameters].[P4] AS [P4], 
-[tblTWTTestParameters].[P5] AS [P5], 
-[tblTWTTestParameters].[P6] AS [P6], 
-[tblTWTTestParameters].[P7] AS [P7], 
-[tblTWTTestParameters].[P8] AS [P8], 
-[tblTWTTestParameters].[P9] AS [P9], 
-[tblTWTTestParameters].[P10] AS [P10]
-FROM [dbo].[tblTWTTestParameters] AS [tblTWTTestParameters]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="tblTWTTestResults" EntityType="Self.tblTWTTestResults" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-[tblTWTTestResults].[id] AS [id], 
-[tblTWTTestResults].[ModelSN] AS [ModelSN], 
-[tblTWTTestResults].[StartTime] AS [StartTime], 
-[tblTWTTestResults].[TestName] AS [TestName], 
-[tblTWTTestResults].[Result] AS [Result], 
-[tblTWTTestResults].[Units] AS [Units], 
-[tblTWTTestResults].[LowLimit] AS [LowLimit], 
-[tblTWTTestResults].[UpLimit] AS [UpLimit], 
-[tblTWTTestResults].[PassFail] AS [PassFail], 
-[tblTWTTestResults].[Channel] AS [Channel], 
-[tblTWTTestResults].[P1] AS [P1], 
-[tblTWTTestResults].[P2] AS [P2], 
-[tblTWTTestResults].[P3] AS [P3], 
-[tblTWTTestResults].[P4] AS [P4], 
-[tblTWTTestResults].[P5] AS [P5], 
-[tblTWTTestResults].[P6] AS [P6], 
-[tblTWTTestResults].[P7] AS [P7], 
-[tblTWTTestResults].[P8] AS [P8], 
-[tblTWTTestResults].[P9] AS [P9], 
-[tblTWTTestResults].[P10] AS [P10]
-FROM [dbo].[tblTWTTestResults] AS [tblTWTTestResults]</DefiningQuery>
-          </EntitySet>
+          <EntitySet Name="tblATEOutput" EntityType="Self.tblATEOutput" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblKLYTestParameters" EntityType="Self.tblKLYTestParameters" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblKLYTestResults" EntityType="Self.tblKLYTestResults" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblModelNames" EntityType="Self.tblModelNames" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblMonitorData" EntityType="Self.tblMonitorData" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblProductTypes" EntityType="Self.tblProductTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblSerialNumbers" EntityType="Self.tblSerialNumbers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblSSPATestParameters" EntityType="Self.tblSSPATestParameters" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblSSPATestResults" EntityType="Self.tblSSPATestResults" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblTWTTestParameters" EntityType="Self.tblTWTTestParameters" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblTWTTestResults" EntityType="Self.tblTWTTestResults" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -477,8 +240,6 @@ FROM [dbo].[tblTWTTestResults] AS [tblTWTTestResults]</DefiningQuery>
         <EntityType Name="tblATEOutput">
           <Key>
             <PropertyRef Name="id" />
-            <PropertyRef Name="ModelSN" />
-            <PropertyRef Name="StartTime" />
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Name="ModelSN" Type="String" Nullable="false" MaxLength="25" Unicode="true" FixedLength="false" />
@@ -537,8 +298,6 @@ FROM [dbo].[tblTWTTestResults] AS [tblTWTTestResults]</DefiningQuery>
         <EntityType Name="tblKLYTestResult">
           <Key>
             <PropertyRef Name="id" />
-            <PropertyRef Name="ModelSN" />
-            <PropertyRef Name="StartTime" />
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Name="ModelSN" Type="String" Nullable="false" MaxLength="25" Unicode="true" FixedLength="false" />
@@ -616,8 +375,6 @@ FROM [dbo].[tblTWTTestResults] AS [tblTWTTestResults]</DefiningQuery>
         <EntityType Name="tblSSPATestResult">
           <Key>
             <PropertyRef Name="id" />
-            <PropertyRef Name="ModelSN" />
-            <PropertyRef Name="StartTime" />
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Name="ModelSN" Type="String" Nullable="false" MaxLength="25" Unicode="true" FixedLength="false" />
@@ -660,8 +417,6 @@ FROM [dbo].[tblTWTTestResults] AS [tblTWTTestResults]</DefiningQuery>
         <EntityType Name="tblTWTTestResult">
           <Key>
             <PropertyRef Name="id" />
-            <PropertyRef Name="ModelSN" />
-            <PropertyRef Name="StartTime" />
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Name="ModelSN" Type="String" Nullable="false" MaxLength="25" Unicode="true" FixedLength="false" />
@@ -924,7 +679,7 @@ FROM [dbo].[tblTWTTestResults] AS [tblTWTTestResults]</DefiningQuery>
     </edmx:Options>
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <edmx:Diagram Name="rfDb" ZoomLevel="96">
+      <edmx:Diagram Name="rfDb" ZoomLevel="77">
         <edmx:EntityTypeShape EntityType="rfDbModel.tblATEOutput" Width="1.875" PointX="4.375" PointY="0.5" Height="6.4032194010416656" IsExpanded="true" />
         <edmx:EntityTypeShape EntityType="rfDbModel.tblKLYTestParameter" Width="1.75" PointX="6.75" PointY="5.75" Height="3.3263964843749996" IsExpanded="true" />
         <edmx:EntityTypeShape EntityType="rfDbModel.tblKLYTestResult" Width="1.75" PointX="6.75" PointY="0.5" Height="4.8648079427083326" IsExpanded="true" />

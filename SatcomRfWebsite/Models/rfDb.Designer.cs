@@ -415,7 +415,7 @@ namespace SatcomRfWebsite.Models
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
         public global::System.String ModelSN
         {
@@ -425,14 +425,11 @@ namespace SatcomRfWebsite.Models
             }
             set
             {
-                if (_ModelSN != value)
-                {
-                    OnModelSNChanging(value);
-                    ReportPropertyChanging("ModelSN");
-                    _ModelSN = StructuralObject.SetValidValue(value, false, "ModelSN");
-                    ReportPropertyChanged("ModelSN");
-                    OnModelSNChanged();
-                }
+                OnModelSNChanging(value);
+                ReportPropertyChanging("ModelSN");
+                _ModelSN = StructuralObject.SetValidValue(value, false, "ModelSN");
+                ReportPropertyChanged("ModelSN");
+                OnModelSNChanged();
             }
         }
         private global::System.String _ModelSN;
@@ -442,7 +439,7 @@ namespace SatcomRfWebsite.Models
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
         public global::System.DateTime StartTime
         {
@@ -452,14 +449,11 @@ namespace SatcomRfWebsite.Models
             }
             set
             {
-                if (_StartTime != value)
-                {
-                    OnStartTimeChanging(value);
-                    ReportPropertyChanging("StartTime");
-                    _StartTime = StructuralObject.SetValidValue(value, "StartTime");
-                    ReportPropertyChanged("StartTime");
-                    OnStartTimeChanged();
-                }
+                OnStartTimeChanging(value);
+                ReportPropertyChanging("StartTime");
+                _StartTime = StructuralObject.SetValidValue(value, "StartTime");
+                ReportPropertyChanged("StartTime");
+                OnStartTimeChanged();
             }
         }
         private global::System.DateTime _StartTime;
@@ -1647,7 +1641,7 @@ namespace SatcomRfWebsite.Models
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
         public global::System.String ModelSN
         {
@@ -1657,14 +1651,11 @@ namespace SatcomRfWebsite.Models
             }
             set
             {
-                if (_ModelSN != value)
-                {
-                    OnModelSNChanging(value);
-                    ReportPropertyChanging("ModelSN");
-                    _ModelSN = StructuralObject.SetValidValue(value, false, "ModelSN");
-                    ReportPropertyChanged("ModelSN");
-                    OnModelSNChanged();
-                }
+                OnModelSNChanging(value);
+                ReportPropertyChanging("ModelSN");
+                _ModelSN = StructuralObject.SetValidValue(value, false, "ModelSN");
+                ReportPropertyChanged("ModelSN");
+                OnModelSNChanged();
             }
         }
         private global::System.String _ModelSN;
@@ -1674,7 +1665,7 @@ namespace SatcomRfWebsite.Models
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
         public global::System.DateTime StartTime
         {
@@ -1684,14 +1675,11 @@ namespace SatcomRfWebsite.Models
             }
             set
             {
-                if (_StartTime != value)
-                {
-                    OnStartTimeChanging(value);
-                    ReportPropertyChanging("StartTime");
-                    _StartTime = StructuralObject.SetValidValue(value, "StartTime");
-                    ReportPropertyChanged("StartTime");
-                    OnStartTimeChanged();
-                }
+                OnStartTimeChanging(value);
+                ReportPropertyChanging("StartTime");
+                _StartTime = StructuralObject.SetValidValue(value, "StartTime");
+                ReportPropertyChanged("StartTime");
+                OnStartTimeChanged();
             }
         }
         private global::System.DateTime _StartTime;
@@ -3001,7 +2989,7 @@ namespace SatcomRfWebsite.Models
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
         public global::System.String ModelSN
         {
@@ -3011,14 +2999,11 @@ namespace SatcomRfWebsite.Models
             }
             set
             {
-                if (_ModelSN != value)
-                {
-                    OnModelSNChanging(value);
-                    ReportPropertyChanging("ModelSN");
-                    _ModelSN = StructuralObject.SetValidValue(value, false, "ModelSN");
-                    ReportPropertyChanged("ModelSN");
-                    OnModelSNChanged();
-                }
+                OnModelSNChanging(value);
+                ReportPropertyChanging("ModelSN");
+                _ModelSN = StructuralObject.SetValidValue(value, false, "ModelSN");
+                ReportPropertyChanged("ModelSN");
+                OnModelSNChanged();
             }
         }
         private global::System.String _ModelSN;
@@ -3028,7 +3013,7 @@ namespace SatcomRfWebsite.Models
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
         public global::System.DateTime StartTime
         {
@@ -3038,14 +3023,11 @@ namespace SatcomRfWebsite.Models
             }
             set
             {
-                if (_StartTime != value)
-                {
-                    OnStartTimeChanging(value);
-                    ReportPropertyChanging("StartTime");
-                    _StartTime = StructuralObject.SetValidValue(value, "StartTime");
-                    ReportPropertyChanged("StartTime");
-                    OnStartTimeChanged();
-                }
+                OnStartTimeChanging(value);
+                ReportPropertyChanging("StartTime");
+                _StartTime = StructuralObject.SetValidValue(value, "StartTime");
+                ReportPropertyChanged("StartTime");
+                OnStartTimeChanged();
             }
         }
         private global::System.DateTime _StartTime;
@@ -3849,7 +3831,7 @@ namespace SatcomRfWebsite.Models
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
         public global::System.String ModelSN
         {
@@ -3859,14 +3841,11 @@ namespace SatcomRfWebsite.Models
             }
             set
             {
-                if (_ModelSN != value)
-                {
-                    OnModelSNChanging(value);
-                    ReportPropertyChanging("ModelSN");
-                    _ModelSN = StructuralObject.SetValidValue(value, false, "ModelSN");
-                    ReportPropertyChanged("ModelSN");
-                    OnModelSNChanged();
-                }
+                OnModelSNChanging(value);
+                ReportPropertyChanging("ModelSN");
+                _ModelSN = StructuralObject.SetValidValue(value, false, "ModelSN");
+                ReportPropertyChanged("ModelSN");
+                OnModelSNChanged();
             }
         }
         private global::System.String _ModelSN;
@@ -3876,7 +3855,7 @@ namespace SatcomRfWebsite.Models
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
         public global::System.DateTime StartTime
         {
@@ -3886,14 +3865,11 @@ namespace SatcomRfWebsite.Models
             }
             set
             {
-                if (_StartTime != value)
-                {
-                    OnStartTimeChanging(value);
-                    ReportPropertyChanging("StartTime");
-                    _StartTime = StructuralObject.SetValidValue(value, "StartTime");
-                    ReportPropertyChanged("StartTime");
-                    OnStartTimeChanged();
-                }
+                OnStartTimeChanging(value);
+                ReportPropertyChanging("StartTime");
+                _StartTime = StructuralObject.SetValidValue(value, "StartTime");
+                ReportPropertyChanged("StartTime");
+                OnStartTimeChanged();
             }
         }
         private global::System.DateTime _StartTime;
