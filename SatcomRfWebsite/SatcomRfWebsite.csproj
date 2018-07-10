@@ -165,6 +165,8 @@
     </Compile>
     <Compile Include="Models\AteOutputModel.cs" />
     <Compile Include="Models\AteOutputTopViewModel.cs" />
+    <Compile Include="Models\CalibrationData.cs" />
+    <Compile Include="Models\CalibrationModel.cs" />
     <Compile Include="Models\HomeModel.cs" />
     <Compile Include="Models\rfDb.Designer.cs">
       <AutoGen>True</AutoGen>
