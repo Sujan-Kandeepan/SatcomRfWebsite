@@ -4,6 +4,39 @@
         border-left: 1px solid #E7E7E7; /* right or left is the same */
         float: left; /* so BS grid doesn't break */
     }
+
+    #navBarCalibration {
+        margin-right: -30px;
+    }
+
+    #brand-logo {
+        display: none;
+    }
+
+    #brand-logo img {
+        width: 20px;
+        height: 20px;
+    }
+
+    @@media(max-width: 850px) {
+        #brand-text {
+            display: none;
+        }
+
+        #brand-logo {
+            display: block;
+        }
+    }
+
+    @@media(max-width: 768px) {
+        #brand-text {
+            display: block;
+        }
+
+        #brand-logo {
+            display: none;
+        }
+    }
 </style>
 
 <nav class="navbar navbar-default" role="navigation">
@@ -16,7 +49,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="~/">Satcom RF DataBase</a>
+      <a class="navbar-brand" href="~/"><span id="brand-text">Satcom RF DataBase</span><span id="brand-logo"><img src="~/Content/Images/favicon.ico"></span></a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
