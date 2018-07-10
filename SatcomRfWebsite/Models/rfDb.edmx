@@ -46,6 +46,16 @@
           <Property Name="OutputStopFrequency" Type="nvarchar" MaxLength="10" />
           <Property Name="RatedPower" Type="nvarchar" MaxLength="5" />
         </EntityType>
+        <EntityType Name="tblCalData">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AssetNumber" Type="nchar" MaxLength="15" Nullable="false" />
+          <Property Name="Frequency" Type="bigint" Nullable="false" />
+          <Property Name="CalFactor" Type="float" Nullable="false" />
+          <Property Name="AddedDate" Type="smalldatetime" Nullable="false" />
+        </EntityType>
         <EntityType Name="tblKLYTestParameters">
           <Key>
             <PropertyRef Name="id" />
@@ -108,12 +118,47 @@
           <Property Name="OutputResult" Type="decimal" Precision="11" Scale="4" />
           <Property Name="Channel" Type="nvarchar" MaxLength="3" Nullable="false" />
         </EntityType>
+        <EntityType Name="tblOCCalHeaders">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AssetNumber" Type="nchar" MaxLength="15" Nullable="false" />
+          <Property Name="StartFreq" Type="bigint" Nullable="false" />
+          <Property Name="StopFreq" Type="bigint" Nullable="false" />
+          <Property Name="Points" Type="int" Nullable="false" />
+          <Property Name="Loss" Type="bigint" Nullable="false" />
+          <Property Name="Power" Type="bigint" Nullable="false" />
+          <Property Name="MaxOffset" Type="float" Nullable="false" />
+          <Property Name="Temp" Type="float" Nullable="false" />
+          <Property Name="Humidity" Type="float" Nullable="false" />
+          <Property Name="Lookback" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="Operator" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ExpireDate" Type="smalldatetime" Nullable="false" />
+          <Property Name="AddedDate" Type="smalldatetime" Nullable="false" />
+          <Property Name="EditedBy" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="tblProductTypes">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ProductType" Type="nvarchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblPSCalHeaders">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AssetNumber" Type="nchar" MaxLength="15" Nullable="false" />
+          <Property Name="Series" Type="nchar" MaxLength="15" Nullable="false" />
+          <Property Name="Serial" Type="nchar" MaxLength="15" Nullable="false" />
+          <Property Name="RefCal" Type="float" Nullable="false" />
+          <Property Name="Certificate" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Operator" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CalDate" Type="smalldatetime" Nullable="false" />
+          <Property Name="AddedDate" Type="smalldatetime" Nullable="false" />
+          <Property Name="EditedBy" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="tblSerialNumbers">
           <Key>
@@ -209,11 +254,14 @@
         </EntityType>
         <EntityContainer Name="rfDbModelStoreContainer">
           <EntitySet Name="tblATEOutput" EntityType="Self.tblATEOutput" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblCalData" EntityType="Self.tblCalData" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblKLYTestParameters" EntityType="Self.tblKLYTestParameters" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblKLYTestResults" EntityType="Self.tblKLYTestResults" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblModelNames" EntityType="Self.tblModelNames" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblMonitorData" EntityType="Self.tblMonitorData" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblOCCalHeaders" EntityType="Self.tblOCCalHeaders" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblProductTypes" EntityType="Self.tblProductTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblPSCalHeaders" EntityType="Self.tblPSCalHeaders" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblSerialNumbers" EntityType="Self.tblSerialNumbers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblSSPATestParameters" EntityType="Self.tblSSPATestParameters" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblSSPATestResults" EntityType="Self.tblSSPATestResults" Schema="dbo" store:Type="Tables" />
@@ -236,6 +284,9 @@
           <EntitySet Name="tblSSPATestResults" EntityType="rfDbModel.tblSSPATestResult" />
           <EntitySet Name="tblTWTTestParameters" EntityType="rfDbModel.tblTWTTestParameter" />
           <EntitySet Name="tblTWTTestResults" EntityType="rfDbModel.tblTWTTestResult" />
+          <EntitySet Name="tblCalDatas" EntityType="rfDbModel.tblCalData" />
+          <EntitySet Name="tblOCCalHeaders" EntityType="rfDbModel.tblOCCalHeader" />
+          <EntitySet Name="tblPSCalHeaders" EntityType="rfDbModel.tblPSCalHeader" />
         </EntityContainer>
         <EntityType Name="tblATEOutput">
           <Key>
@@ -438,6 +489,51 @@
           <Property Name="P8" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
           <Property Name="P9" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
           <Property Name="P10" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="tblCalData">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AssetNumber" Type="String" Nullable="false" MaxLength="15" FixedLength="true" Unicode="true" />
+          <Property Name="Frequency" Type="Int64" Nullable="false" />
+          <Property Name="CalFactor" Type="Double" Nullable="false" />
+          <Property Name="AddedDate" Type="DateTime" Nullable="false" Precision="0" />
+        </EntityType>
+        <EntityType Name="tblOCCalHeader">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AssetNumber" Type="String" Nullable="false" MaxLength="15" FixedLength="true" Unicode="true" />
+          <Property Name="StartFreq" Type="Int64" Nullable="false" />
+          <Property Name="StopFreq" Type="Int64" Nullable="false" />
+          <Property Name="Points" Type="Int32" Nullable="false" />
+          <Property Name="Loss" Type="Int64" Nullable="false" />
+          <Property Name="Power" Type="Int64" Nullable="false" />
+          <Property Name="MaxOffset" Type="Double" Nullable="false" />
+          <Property Name="Temp" Type="Double" Nullable="false" />
+          <Property Name="Humidity" Type="Double" Nullable="false" />
+          <Property Name="Lookback" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Operator" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ExpireDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="AddedDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="EditedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="tblPSCalHeader">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AssetNumber" Type="String" Nullable="false" MaxLength="15" FixedLength="true" Unicode="true" />
+          <Property Name="Series" Type="String" Nullable="false" MaxLength="15" FixedLength="true" Unicode="true" />
+          <Property Name="Serial" Type="String" Nullable="false" MaxLength="15" FixedLength="true" Unicode="true" />
+          <Property Name="RefCal" Type="Double" Nullable="false" />
+          <Property Name="Certificate" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Operator" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CalDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="AddedDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="EditedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -658,6 +754,54 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="tblCalDatas">
+            <EntityTypeMapping TypeName="rfDbModel.tblCalData">
+              <MappingFragment StoreEntitySet="tblCalData">
+                <ScalarProperty Name="AddedDate" ColumnName="AddedDate" />
+                <ScalarProperty Name="CalFactor" ColumnName="CalFactor" />
+                <ScalarProperty Name="Frequency" ColumnName="Frequency" />
+                <ScalarProperty Name="AssetNumber" ColumnName="AssetNumber" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblOCCalHeaders">
+            <EntityTypeMapping TypeName="rfDbModel.tblOCCalHeader">
+              <MappingFragment StoreEntitySet="tblOCCalHeaders">
+                <ScalarProperty Name="EditedBy" ColumnName="EditedBy" />
+                <ScalarProperty Name="AddedDate" ColumnName="AddedDate" />
+                <ScalarProperty Name="ExpireDate" ColumnName="ExpireDate" />
+                <ScalarProperty Name="Operator" ColumnName="Operator" />
+                <ScalarProperty Name="Lookback" ColumnName="Lookback" />
+                <ScalarProperty Name="Humidity" ColumnName="Humidity" />
+                <ScalarProperty Name="Temp" ColumnName="Temp" />
+                <ScalarProperty Name="MaxOffset" ColumnName="MaxOffset" />
+                <ScalarProperty Name="Power" ColumnName="Power" />
+                <ScalarProperty Name="Loss" ColumnName="Loss" />
+                <ScalarProperty Name="Points" ColumnName="Points" />
+                <ScalarProperty Name="StopFreq" ColumnName="StopFreq" />
+                <ScalarProperty Name="StartFreq" ColumnName="StartFreq" />
+                <ScalarProperty Name="AssetNumber" ColumnName="AssetNumber" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblPSCalHeaders">
+            <EntityTypeMapping TypeName="rfDbModel.tblPSCalHeader">
+              <MappingFragment StoreEntitySet="tblPSCalHeaders">
+                <ScalarProperty Name="EditedBy" ColumnName="EditedBy" />
+                <ScalarProperty Name="AddedDate" ColumnName="AddedDate" />
+                <ScalarProperty Name="CalDate" ColumnName="CalDate" />
+                <ScalarProperty Name="Operator" ColumnName="Operator" />
+                <ScalarProperty Name="Certificate" ColumnName="Certificate" />
+                <ScalarProperty Name="RefCal" ColumnName="RefCal" />
+                <ScalarProperty Name="Serial" ColumnName="Serial" />
+                <ScalarProperty Name="Series" ColumnName="Series" />
+                <ScalarProperty Name="AssetNumber" ColumnName="AssetNumber" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -679,18 +823,21 @@
     </edmx:Options>
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <edmx:Diagram Name="rfDb" ZoomLevel="77">
+      <edmx:Diagram Name="rfDb" ZoomLevel="86">
         <edmx:EntityTypeShape EntityType="rfDbModel.tblATEOutput" Width="1.875" PointX="4.375" PointY="0.5" Height="6.4032194010416656" IsExpanded="true" />
         <edmx:EntityTypeShape EntityType="rfDbModel.tblKLYTestParameter" Width="1.75" PointX="6.75" PointY="5.75" Height="3.3263964843749996" IsExpanded="true" />
         <edmx:EntityTypeShape EntityType="rfDbModel.tblKLYTestResult" Width="1.75" PointX="6.75" PointY="0.5" Height="4.8648079427083326" IsExpanded="true" />
-        <edmx:EntityTypeShape EntityType="rfDbModel.tblModelName" Width="1.5" PointX="0.5" PointY="2.5" Height="1.5956835937499996" IsExpanded="true" />
+        <edmx:EntityTypeShape EntityType="rfDbModel.tblModelName" Width="1.5" PointX="0.5" PointY="2.125" Height="1.5956835937499996" IsExpanded="true" />
         <edmx:EntityTypeShape EntityType="rfDbModel.tblMonitorData" Width="1.5" PointX="2.5" PointY="0.5" Height="2.3648893229166656" IsExpanded="true" />
         <edmx:EntityTypeShape EntityType="rfDbModel.tblProductType" Width="1.5" PointX="0.5" PointY="0.5" Height="1.4033821614583322" IsExpanded="true" />
-        <edmx:EntityTypeShape EntityType="rfDbModel.tblSerialNumber" Width="1.5" PointX="0.5" PointY="4.875" Height="1.5956835937499996" IsExpanded="true" />
+        <edmx:EntityTypeShape EntityType="rfDbModel.tblSerialNumber" Width="1.5" PointX="0.5" PointY="3.875" Height="1.5956835937499996" IsExpanded="true" />
         <edmx:EntityTypeShape EntityType="rfDbModel.tblSSPATestParameter" Width="1.875" PointX="8.75" PointY="5.75" Height="3.3263964843749996" IsExpanded="true" />
         <edmx:EntityTypeShape EntityType="rfDbModel.tblSSPATestResult" Width="1.875" PointX="8.75" PointY="0.5" Height="4.8648079427083353" IsExpanded="true" />
         <edmx:EntityTypeShape EntityType="rfDbModel.tblTWTTestParameter" Width="2.125" PointX="10.875" PointY="5.75" Height="3.3263964843750031" IsExpanded="true" />
         <edmx:EntityTypeShape EntityType="rfDbModel.tblTWTTestResult" Width="2" PointX="10.875" PointY="0.5" Height="4.8648079427083317" IsExpanded="true" />
+        <edmx:EntityTypeShape EntityType="rfDbModel.tblCalData" Width="1.5" PointX="2.5" PointY="7.5" />
+        <edmx:EntityTypeShape EntityType="rfDbModel.tblOCCalHeader" Width="1.5" PointX="0.5" PointY="5.625" />
+        <edmx:EntityTypeShape EntityType="rfDbModel.tblPSCalHeader" Width="1.5" PointX="2.5" PointY="4.375" />
       </edmx:Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -285,7 +285,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\SatcomStatsPage\Index.cshtml" />
-    <Content Include="Views\Calibration\View.cshtml" />
+    <Content Include="Views\Calibration\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
