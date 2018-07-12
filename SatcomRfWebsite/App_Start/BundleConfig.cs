@@ -26,7 +26,7 @@ namespace SatcomRfWebsite
                         "~/Scripts/jquery.dataTables.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/js/SatcomStats").Include("~/Scripts/SatcomStats/Index.js"));
-
+            bundles.Add(new ScriptBundle("~/bundles/js/Calibration").Include("~/Scripts/Calibration/Index.js"));
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
