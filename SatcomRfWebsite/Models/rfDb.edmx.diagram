@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="0fc1975e89944163b6e6bf1660898cf8" Name="Diagram1">
+      <Diagram DiagramId="0fc1975e89944163b6e6bf1660898cf8" Name="Diagram1" ZoomLevel="89">
         <EntityTypeShape EntityType="rfDb.tblATEOutput" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="rfDb.tblCalData" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="rfDb.tblKLYTestParameters" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />

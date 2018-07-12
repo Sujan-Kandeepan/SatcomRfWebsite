@@ -145,15 +145,18 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\CalibrationController.cs" />
     <Compile Include="Controllers\ateOutputController.cs" />
+    <Compile Include="Controllers\CalDataController.cs" />
+    <Compile Include="Controllers\CalibrationController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\klyTestParametersController.cs" />
     <Compile Include="Controllers\klyTestResultsController.cs" />
     <Compile Include="Controllers\ListAPIController.cs" />
     <Compile Include="Controllers\modelNameController.cs" />
     <Compile Include="Controllers\monitorDataController.cs" />
+    <Compile Include="Controllers\OCCalHeadersController.cs" />
     <Compile Include="Controllers\productTypeController.cs" />
+    <Compile Include="Controllers\PSCalHeadersController.cs" />
     <Compile Include="Controllers\SatcomStatsPageController.cs" />
     <Compile Include="Controllers\serialNumbersController.cs" />
     <Compile Include="Controllers\sspaTestParametersController.cs" />
@@ -356,6 +359,21 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\SatcomStatsPage\Index.cshtml" />
+    <Content Include="Views\OCCalHeaders\Create.cshtml" />
+    <Content Include="Views\OCCalHeaders\Delete.cshtml" />
+    <Content Include="Views\OCCalHeaders\Details.cshtml" />
+    <Content Include="Views\OCCalHeaders\Edit.cshtml" />
+    <Content Include="Views\OCCalHeaders\Index.cshtml" />
+    <Content Include="Views\PSCalHeaders\Create.cshtml" />
+    <Content Include="Views\PSCalHeaders\Delete.cshtml" />
+    <Content Include="Views\PSCalHeaders\Details.cshtml" />
+    <Content Include="Views\PSCalHeaders\Edit.cshtml" />
+    <Content Include="Views\PSCalHeaders\Index.cshtml" />
+    <Content Include="Views\CalData\Create.cshtml" />
+    <Content Include="Views\CalData\Delete.cshtml" />
+    <Content Include="Views\CalData\Details.cshtml" />
+    <Content Include="Views\CalData\Edit.cshtml" />
+    <Content Include="Views\CalData\Index.cshtml" />
     <Content Include="Views\Calibration\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>

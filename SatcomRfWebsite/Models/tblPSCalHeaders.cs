@@ -18,7 +18,7 @@ namespace SatcomRfWebsite.Models
         public string AssetNumber { get; set; }
         public string Series { get; set; }
         public string Serial { get; set; }
-        public double RefCal { get; set; }
+        public string RefCal { get; set; }
         public string Certificate { get; set; }
         public string Operator { get; set; }
         public System.DateTime CalDate { get; set; }

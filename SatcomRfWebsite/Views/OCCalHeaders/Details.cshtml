@@ -1,0 +1,130 @@
+﻿@model SatcomRfWebsite.Models.tblOCCalHeaders
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>tblOCCalHeaders</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.AssetNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AssetNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StartFreq)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StartFreq)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StopFreq)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StopFreq)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Points)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Points)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Loss)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Loss)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Power)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Power)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MaxOffset)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MaxOffset)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Temp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Temp)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Humidity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Humidity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Lookback)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Lookback)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Operator)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Operator)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ExpireDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ExpireDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AddedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AddedDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EditedBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EditedBy)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,90 @@
+﻿@model SatcomRfWebsite.Models.tblPSCalHeaders
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>tblPSCalHeaders</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.AssetNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AssetNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Series)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Series)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Serial)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Serial)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RefCal)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RefCal)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Certificate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Certificate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Operator)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Operator)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CalDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CalDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AddedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AddedDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EditedBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EditedBy)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
