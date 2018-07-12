@@ -5,6 +5,26 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="rfDb.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tblATCalHeaders">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AssetNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="StartFreq" Type="bigint" Nullable="false" />
+          <Property Name="StopFreq" Type="bigint" Nullable="false" />
+          <Property Name="Points" Type="int" Nullable="false" />
+          <Property Name="Loss" Type="bigint" Nullable="false" />
+          <Property Name="Power" Type="bigint" Nullable="false" />
+          <Property Name="MaxOffset" Type="float" Nullable="false" />
+          <Property Name="Temp" Type="float" Nullable="false" />
+          <Property Name="Humidity" Type="float" Nullable="false" />
+          <Property Name="Lookback" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Operator" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ExpireDate" Type="smalldatetime" Nullable="false" />
+          <Property Name="AddedDate" Type="smalldatetime" Nullable="false" />
+          <Property Name="EditedBy" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="tblATEOutput">
           <Key>
             <PropertyRef Name="id" />
@@ -51,7 +71,7 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="AssetNumber" Type="nchar" MaxLength="15" Nullable="false" />
+          <Property Name="AssetNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Frequency" Type="float" Nullable="false" />
           <Property Name="CalFactor" Type="float" Nullable="false" />
           <Property Name="AddedDate" Type="smalldatetime" Nullable="false" />
@@ -123,7 +143,7 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="AssetNumber" Type="nchar" MaxLength="15" Nullable="false" />
+          <Property Name="AssetNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="StartFreq" Type="bigint" Nullable="false" />
           <Property Name="StopFreq" Type="bigint" Nullable="false" />
           <Property Name="Points" Type="int" Nullable="false" />
@@ -132,7 +152,7 @@
           <Property Name="MaxOffset" Type="float" Nullable="false" />
           <Property Name="Temp" Type="float" Nullable="false" />
           <Property Name="Humidity" Type="float" Nullable="false" />
-          <Property Name="Lookback" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="Lookback" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Operator" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="ExpireDate" Type="smalldatetime" Nullable="false" />
           <Property Name="AddedDate" Type="smalldatetime" Nullable="false" />
@@ -150,10 +170,10 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="AssetNumber" Type="nchar" MaxLength="15" Nullable="false" />
-          <Property Name="Series" Type="nchar" MaxLength="15" Nullable="false" />
-          <Property Name="Serial" Type="nchar" MaxLength="15" Nullable="false" />
-          <Property Name="RefCal" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="AssetNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Series" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Serial" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="RefCal" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Certificate" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="Operator" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="CalDate" Type="smalldatetime" Nullable="false" />
@@ -253,6 +273,7 @@
           <Property Name="P10" Type="nvarchar" MaxLength="20" />
         </EntityType>
         <EntityContainer Name="rfDbStoreContainer">
+          <EntitySet Name="tblATCalHeaders" EntityType="Self.tblATCalHeaders" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblATEOutput" EntityType="Self.tblATEOutput" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblCalData" EntityType="Self.tblCalData" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblKLYTestParameters" EntityType="Self.tblKLYTestParameters" Schema="dbo" store:Type="Tables" />
@@ -318,7 +339,7 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="AssetNumber" Type="String" MaxLength="15" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="AssetNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Frequency" Type="Int64" Nullable="false" />
           <Property Name="CalFactor" Type="Double" Nullable="false" />
           <Property Name="AddedDate" Type="DateTime" Nullable="false" Precision="0" />
@@ -390,7 +411,7 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="AssetNumber" Type="String" MaxLength="15" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="AssetNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="StartFreq" Type="Int64" Nullable="false" />
           <Property Name="StopFreq" Type="Int64" Nullable="false" />
           <Property Name="Points" Type="Int32" Nullable="false" />
@@ -399,7 +420,7 @@
           <Property Name="MaxOffset" Type="Double" Nullable="false" />
           <Property Name="Temp" Type="Double" Nullable="false" />
           <Property Name="Humidity" Type="Double" Nullable="false" />
-          <Property Name="Lookback" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Lookback" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Operator" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ExpireDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="AddedDate" Type="DateTime" Nullable="false" Precision="0" />
@@ -417,10 +438,10 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="AssetNumber" Type="String" MaxLength="15" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="Series" Type="String" MaxLength="15" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="Serial" Type="String" MaxLength="15" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="RefCal" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false"  />
+          <Property Name="AssetNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Series" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Serial" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RefCal" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false"  />
           <Property Name="Certificate" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Operator" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="CalDate" Type="DateTime" Nullable="false" Precision="0" />
@@ -534,7 +555,28 @@
           <EntitySet Name="tblSSPATestResults" EntityType="Self.tblSSPATestResults" />
           <EntitySet Name="tblTWTTestParameters" EntityType="Self.tblTWTTestParameters" />
           <EntitySet Name="tblTWTTestResults" EntityType="Self.tblTWTTestResults" />
+          <EntitySet Name="tblATCalHeaders" EntityType="rfDb.tblATCalHeaders" />
         </EntityContainer>
+        <EntityType Name="tblATCalHeaders">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AssetNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="StartFreq" Type="Int64" Nullable="false" />
+          <Property Name="StopFreq" Type="Int64" Nullable="false" />
+          <Property Name="Points" Type="Int32" Nullable="false" />
+          <Property Name="Loss" Type="Int64" Nullable="false" />
+          <Property Name="Power" Type="Int64" Nullable="false" />
+          <Property Name="MaxOffset" Type="Double" Nullable="false" />
+          <Property Name="Temp" Type="Double" Nullable="false" />
+          <Property Name="Humidity" Type="Double" Nullable="false" />
+          <Property Name="Lookback" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Operator" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ExpireDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="AddedDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="EditedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -799,6 +841,27 @@
                 <ScalarProperty Name="P8" ColumnName="P8" />
                 <ScalarProperty Name="P9" ColumnName="P9" />
                 <ScalarProperty Name="P10" ColumnName="P10" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblATCalHeaders">
+            <EntityTypeMapping TypeName="rfDb.tblATCalHeaders">
+              <MappingFragment StoreEntitySet="tblATCalHeaders">
+                <ScalarProperty Name="EditedBy" ColumnName="EditedBy" />
+                <ScalarProperty Name="AddedDate" ColumnName="AddedDate" />
+                <ScalarProperty Name="ExpireDate" ColumnName="ExpireDate" />
+                <ScalarProperty Name="Operator" ColumnName="Operator" />
+                <ScalarProperty Name="Lookback" ColumnName="Lookback" />
+                <ScalarProperty Name="Humidity" ColumnName="Humidity" />
+                <ScalarProperty Name="Temp" ColumnName="Temp" />
+                <ScalarProperty Name="MaxOffset" ColumnName="MaxOffset" />
+                <ScalarProperty Name="Power" ColumnName="Power" />
+                <ScalarProperty Name="Loss" ColumnName="Loss" />
+                <ScalarProperty Name="Points" ColumnName="Points" />
+                <ScalarProperty Name="StopFreq" ColumnName="StopFreq" />
+                <ScalarProperty Name="StartFreq" ColumnName="StartFreq" />
+                <ScalarProperty Name="AssetNumber" ColumnName="AssetNumber" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

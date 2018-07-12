@@ -39,5 +39,6 @@ namespace SatcomRfWebsite.Models
         public virtual DbSet<tblSSPATestResults> tblSSPATestResults { get; set; }
         public virtual DbSet<tblTWTTestParameters> tblTWTTestParameters { get; set; }
         public virtual DbSet<tblTWTTestResults> tblTWTTestResults { get; set; }
+        public virtual DbSet<tblATCalHeaders> tblATCalHeaders { get; set; }
     }
 }

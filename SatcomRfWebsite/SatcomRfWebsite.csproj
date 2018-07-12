@@ -145,6 +145,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\ATCalHeadersController.cs" />
     <Compile Include="Controllers\ateOutputController.cs" />
     <Compile Include="Controllers\CalDataController.cs" />
     <Compile Include="Controllers\CalibrationController.cs" />
@@ -187,6 +188,9 @@
       <DependentUpon>rfDb.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\SearchModel.cs" />
+    <Compile Include="Models\tblATCalHeaders.cs">
+      <DependentUpon>rfDb.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\tblATEOutput.cs">
       <DependentUpon>rfDb.tt</DependentUpon>
     </Compile>
@@ -376,6 +380,11 @@
     <Content Include="Views\CalData\Edit.cshtml" />
     <Content Include="Views\CalData\Index.cshtml" />
     <Content Include="Views\Calibration\Index.cshtml" />
+    <Content Include="Views\ATCalHeaders\Create.cshtml" />
+    <Content Include="Views\ATCalHeaders\Delete.cshtml" />
+    <Content Include="Views\ATCalHeaders\Details.cshtml" />
+    <Content Include="Views\ATCalHeaders\Edit.cshtml" />
+    <Content Include="Views\ATCalHeaders\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

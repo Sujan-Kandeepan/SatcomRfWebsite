@@ -38,6 +38,21 @@ namespace SatcomRfWebsite.Models
         public string CalDate { get; set; }
     }
 
+    public class ATCalibrationData : CalibrationData
+    {
+        public string StartFreq { get; set; }
+        public string StopFreq { get; set; }
+        public string Points { get; set; }
+        public string Loss { get; set; }
+        public string Power { get; set; }
+        public string MaxOffset { get; set; }
+        public string Temp { get; set; }
+        public string Humidity { get; set; }
+        public string Lookback { get; set; }
+        public string Operator { get; set; }
+        public string ExpireDate { get; set; }
+    }
+
     public class CalibrationRecord
     {
         public string Frequency { get; set; }
