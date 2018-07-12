@@ -14,7 +14,7 @@
     </div>
     <div class="col-md-3">
         <select class="form-control" id="cal-type" onchange="setURL(this.value)">
-            <option value="default">Select an item type</option>
+            <option value="default">Select a device type</option>
             <option value="Output Coupler" @(Request.Url.ToString().Contains("OutputCoupler") ? "selected" : "" )>Output Coupler</option>
             <option value="Power Sensor" @(Request.Url.ToString().Contains("PowerSensor") ? "selected" : "" )>Power Sensor</option>
         </select>
