@@ -37,12 +37,12 @@ namespace SatcomRfWebsite.Controllers
 
         public ActionResult Details(long id = 0)
         {
-            tblSerialNumber tblserialnumber = db.tblSerialNumbers.Single(t => t.id == id);
-            if (tblserialnumber == null)
+            tblSerialNumbers tblserialnumbers = db.tblSerialNumbers.Single(t => t.id == id);
+            if (tblserialnumbers == null)
             {
                 return HttpNotFound();
             }
-            return View(tblserialnumber);
+            return View(tblserialnumbers);
         }
 
         //
@@ -57,16 +57,16 @@ namespace SatcomRfWebsite.Controllers
         // POST: /serialNumbers/Create
 
         [HttpPost]
-        public ActionResult Create(tblSerialNumber tblserialnumber)
+        public ActionResult Create(tblSerialNumbers tblserialnumbers)
         {
             if (ModelState.IsValid)
             {
-                db.tblSerialNumbers.AddObject(tblserialnumber);
+                db.tblSerialNumbers.Add(tblserialnumbers);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(tblserialnumber);
+            return View(tblserialnumbers);
         }
 
         //
@@ -74,28 +74,27 @@ namespace SatcomRfWebsite.Controllers
 
         public ActionResult Edit(long id = 0)
         {
-            tblSerialNumber tblserialnumber = db.tblSerialNumbers.Single(t => t.id == id);
-            if (tblserialnumber == null)
+            tblSerialNumbers tblserialnumbers = db.tblSerialNumbers.Single(t => t.id == id);
+            if (tblserialnumbers == null)
             {
                 return HttpNotFound();
             }
-            return View(tblserialnumber);
+            return View(tblserialnumbers);
         }
 
         //
         // POST: /serialNumbers/Edit/5
 
         [HttpPost]
-        public ActionResult Edit(tblSerialNumber tblserialnumber)
+        public ActionResult Edit(tblSerialNumbers tblserialnumbers)
         {
             if (ModelState.IsValid)
             {
-                db.tblSerialNumbers.Attach(tblserialnumber);
-                db.ObjectStateManager.ChangeObjectState(tblserialnumber, EntityState.Modified);
+                db.Entry(tblserialnumbers).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(tblserialnumber);
+            return View(tblserialnumbers);
         }
 
         //
@@ -103,13 +102,13 @@ namespace SatcomRfWebsite.Controllers
 
         public ActionResult Delete(long id = 0)
         {
-            tblSerialNumber tblserialnumber = db.tblSerialNumbers.Single(t => t.id == id);
-            if (tblserialnumber == null)
+            tblSerialNumbers tblserialnumbers = db.tblSerialNumbers.Single(t => t.id == id);
+            if (tblserialnumbers == null)
             {
                 return HttpNotFound();
             }
             Console.WriteLine("just testing");
-            return View(tblserialnumber);
+            return View(tblserialnumbers);
         }
 
         //
@@ -118,71 +117,71 @@ namespace SatcomRfWebsite.Controllers
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(long id = 0)
         {
-            tblSerialNumber tblserialnumber = db.tblSerialNumbers.Single(t => t.id == id);
+            tblSerialNumbers tblserialnumbers = db.tblSerialNumbers.Single(t => t.id == id);
 
             /////////////////////////////////////// Delete TWT Tests
             var deleteSerialsTWT  = from serialNum in db.tblTWTTestResults
-                                    where serialNum.ModelSN == tblserialnumber.ModelSN
+                                    where serialNum.ModelSN == tblserialnumbers.ModelSN
                                     select serialNum;
 
             foreach (var serial in deleteSerialsTWT)
             {
-                db.tblTWTTestResults.DeleteObject(serial);
+                db.tblTWTTestResults.Remove(serial);
             }
             db.SaveChanges();
 
             /////////////////////////////////////// Delete KLY Tests
             var deleteSerialsKLY = from serialNum in db.tblKLYTestResults
-                                    where serialNum.ModelSN == tblserialnumber.ModelSN
+                                    where serialNum.ModelSN == tblserialnumbers.ModelSN
                                     select serialNum;
 
             foreach (var serial in deleteSerialsKLY)
             {
-                db.tblKLYTestResults.DeleteObject(serial);
+                db.tblKLYTestResults.Remove(serial);
             }
             db.SaveChanges();
 
             /////////////////////////////////////// Delete SSPA Tests
             var deleteSerialsSSPA = from serialNum in db.tblSSPATestResults
-                                    where serialNum.ModelSN == tblserialnumber.ModelSN
+                                    where serialNum.ModelSN == tblserialnumbers.ModelSN
                                     select serialNum;
 
             foreach (var serial in deleteSerialsSSPA)
             {
-                db.tblSSPATestResults.DeleteObject(serial);
+                db.tblSSPATestResults.Remove(serial);
             }
             db.SaveChanges();
 
             /////////////////////////////////////// Delete Monitor Data
-            var deleteSerialsMD = from serialNum in db.tblMonitorDatas
-                                    where serialNum.ModelSN == tblserialnumber.ModelSN
+            var deleteSerialsMD = from serialNum in db.tblMonitorData
+                                    where serialNum.ModelSN == tblserialnumbers.ModelSN
                                     select serialNum;
 
             foreach (var serial in deleteSerialsMD)
             {
-                db.tblMonitorDatas.DeleteObject(serial);
+                db.tblMonitorData.Remove(serial);
             }
             db.SaveChanges();
 
             /////////////////////////////////////// Delete ATE Output
-            var deleteSerialsATE = from serialNum in db.tblATEOutputs
-                                  where serialNum.ModelSN == tblserialnumber.ModelSN
+            var deleteSerialsATE = from serialNum in db.tblATEOutput
+                                  where serialNum.ModelSN == tblserialnumbers.ModelSN
                                   select serialNum;
 
             foreach (var serial in deleteSerialsATE)
             {
-                db.tblATEOutputs.DeleteObject(serial);
+                db.tblATEOutput.Remove(serial);
             }
             db.SaveChanges();
 
             /////////////////////////////////////// Delete in Serial Numbers table
             var delteFromSerialTable = from serialNum in db.tblSerialNumbers
-                                       where serialNum.ModelSN == tblserialnumber.ModelSN
+                                       where serialNum.ModelSN == tblserialnumbers.ModelSN
                                        select serialNum;
 
             foreach (var serial in delteFromSerialTable)
             {
-                db.tblSerialNumbers.DeleteObject(serial);
+                db.tblSerialNumbers.Remove(serial);
             }
             db.SaveChanges();
 

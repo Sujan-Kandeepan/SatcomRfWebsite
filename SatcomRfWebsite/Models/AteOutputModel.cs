@@ -10,9 +10,9 @@ namespace SatcomRfWebsite.Models
     {
         public IList<SatcomRfWebsite.Models.tblATEOutput> ateOutput { get; set; }
         public IList<ToolBox.AteOutputCustom> ateOutputList { get; set; }
-        public IList<SatcomRfWebsite.Models.tblProductType> productTypeList { get; set; }
-        public IList<SatcomRfWebsite.Models.tblModelName> modelNameList { get; set; }
-        public IList<SatcomRfWebsite.Models.tblSerialNumber> serialNumList { get; set; }
+        public IList<SatcomRfWebsite.Models.tblProductTypes> productTypeList { get; set; }
+        public IList<SatcomRfWebsite.Models.tblModelNames> modelNameList { get; set; }
+        public IList<SatcomRfWebsite.Models.tblSerialNumbers> serialNumList { get; set; }
 
         public List<TestResults> testResults { get; set; }
         public List<TestParams> testParams { get; set; }
@@ -42,9 +42,9 @@ namespace SatcomRfWebsite.Models
         {
             ateOutput = new List<SatcomRfWebsite.Models.tblATEOutput>();
             ateOutputList = new List<ToolBox.AteOutputCustom>();
-            productTypeList = new List<SatcomRfWebsite.Models.tblProductType>();
-            modelNameList = new List<SatcomRfWebsite.Models.tblModelName>();
-            serialNumList = new List<SatcomRfWebsite.Models.tblSerialNumber>();
+            productTypeList = new List<SatcomRfWebsite.Models.tblProductTypes>();
+            modelNameList = new List<SatcomRfWebsite.Models.tblModelNames>();
+            serialNumList = new List<SatcomRfWebsite.Models.tblSerialNumbers>();
 
             testResults = new List<TestResults>();
             testParams = new List<TestParams>();
@@ -89,7 +89,7 @@ namespace SatcomRfWebsite.Models
                 case "Debug": dbTestType = "Debugging"; break;
             }
 
-            var myQuery = (from ateOut in db.tblATEOutputs
+            var myQuery = (from ateOut in db.tblATEOutput
                            join serNums in db.tblSerialNumbers on ateOut.ModelSN equals serNums.ModelSN
                            join modNames in db.tblModelNames on serNums.ModelName equals modNames.ModelName
                            orderby ateOut.StartTime ascending
@@ -196,7 +196,7 @@ namespace SatcomRfWebsite.Models
                 prodTypeStrList = String.Join(",", (from prod in prodList select "'" + prod + "'"));
                 modelNameStrList = String.Join(",", (from model in modelList select "'" + model + "'"));
                 serialNumStrList = String.Join(",", (from serial in serList select "'" + serial + "'"));
-                tubeList = (from tube in db.tblATEOutputs select tube.TubeName).ToList();
+                tubeList = (from tube in db.tblATEOutput select tube.TubeName).ToList();
                 return;
             }
 
@@ -208,7 +208,7 @@ namespace SatcomRfWebsite.Models
             var myQuery = (from prodTypes in db.tblProductTypes
                             join modNames in db.tblModelNames on prodTypes.ProductType equals modNames.ProductType
                             join serNums in db.tblSerialNumbers on modNames.ModelName equals serNums.ModelName
-                            join ateOut in db.tblATEOutputs on serNums.ModelSN equals ateOut.ModelSN
+                            join ateOut in db.tblATEOutput on serNums.ModelSN equals ateOut.ModelSN
                             orderby modNames.ModelName ascending
                             select new { modNames.ProductType,
                                          modNames.ModelName,
@@ -365,7 +365,7 @@ namespace SatcomRfWebsite.Models
                 return false;
             }
 
-            ateOutput = db.tblATEOutputs.Where(x => x.ModelSN.Equals(this.serialNum)).OrderBy(x => x.StartTime).ToList();
+            ateOutput = db.tblATEOutput.Where(x => x.ModelSN.Equals(this.serialNum)).OrderBy(x => x.StartTime).ToList();
 
             ToolBox.ProductClass prodClass = new ToolBox.ProductClass(this.productType);
 

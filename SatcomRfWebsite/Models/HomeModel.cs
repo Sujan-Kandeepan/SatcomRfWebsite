@@ -70,7 +70,7 @@ namespace SatcomRfWebsite.Models
             DateTime lastDateTime = default(DateTime);
             String lastModelSN = "";
 
-            var myQuery = (from ateOut in db.tblATEOutputs
+            var myQuery = (from ateOut in db.tblATEOutput
                            orderby ateOut.StartTime descending
                            select new { ateOut.ModelSN, ateOut.LongModelName, ateOut.StartTime }).Take(1);
 
@@ -91,7 +91,7 @@ namespace SatcomRfWebsite.Models
         {
             DateTime today = DateTime.Today;
 
-            var myQuery = from ateOut in db.tblATEOutputs
+            var myQuery = from ateOut in db.tblATEOutput
                           where (ateOut.StartTime.Day == today.Day && ateOut.StartTime.Month == today.Month && ateOut.StartTime.Year == today.Year)
                           orderby ateOut.StartTime descending
                           select new { ateOut.ModelSN, ateOut.LongModelName, ateOut.StartTime };
@@ -108,7 +108,7 @@ namespace SatcomRfWebsite.Models
         {
             DateTime dt = DateTime.Now.StartOfWeek(DayOfWeek.Sunday);
 
-            var myQuery = from ateOut in db.tblATEOutputs
+            var myQuery = from ateOut in db.tblATEOutput
                           where (ateOut.StartTime.Day >= dt.Day && ateOut.StartTime.Month >= dt.Month && ateOut.StartTime.Year >= dt.Year)
                           orderby ateOut.StartTime descending
                           select new { ateOut.ModelSN, ateOut.LongModelName, ateOut.StartTime };

@@ -168,12 +168,64 @@
     <Compile Include="Models\CalibrationData.cs" />
     <Compile Include="Models\CalibrationModel.cs" />
     <Compile Include="Models\HomeModel.cs" />
+    <Compile Include="Models\rfDb.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rfDb.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\rfDb.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>rfDb.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\rfDb.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>rfDb.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\SearchModel.cs" />
+    <Compile Include="Models\tblATEOutput.cs">
+      <DependentUpon>rfDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblCalData.cs">
+      <DependentUpon>rfDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblKLYTestParameters.cs">
+      <DependentUpon>rfDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblKLYTestResults.cs">
+      <DependentUpon>rfDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblModelNames.cs">
+      <DependentUpon>rfDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblMonitorData.cs">
+      <DependentUpon>rfDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblOCCalHeaders.cs">
+      <DependentUpon>rfDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblProductTypes.cs">
+      <DependentUpon>rfDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblPSCalHeaders.cs">
+      <DependentUpon>rfDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblSerialNumbers.cs">
+      <DependentUpon>rfDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblSSPATestParameters.cs">
+      <DependentUpon>rfDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblSSPATestResults.cs">
+      <DependentUpon>rfDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblTWTTestParameters.cs">
+      <DependentUpon>rfDb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tblTWTTestResults.cs">
+      <DependentUpon>rfDb.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\TestData.cs" />
     <Compile Include="Models\TestResultsModel.cs" />
     <Compile Include="Models\AteDataTopViewModel.cs" />
@@ -197,7 +249,24 @@
     <Content Include="Content\jquery.dataTables.css" />
     <Content Include="Content\jquery.dataTables.min.css" />
     <Content Include="Content\jquery.dataTables_themeroller.css" />
+    <EntityDeploy Include="Models\rfDb.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>rfDb.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\rfDb.edmx.diagram">
+      <DependentUpon>rfDb.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Models\rfDb.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>rfDb.edmx</DependentUpon>
+      <LastGenOutput>rfDb.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\rfDb.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>rfDb.edmx</DependentUpon>
+      <LastGenOutput>rfDb.cs</LastGenOutput>
+    </Content>
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
@@ -297,10 +366,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\Images\Sorting icons.psd" />
-    <EntityDeploy Include="Models\rfDb.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>rfDb.Designer.cs</LastGenOutput>
-    </EntityDeploy>
     <Content Include="Views\Shared\_html5shiv.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\_NavBar.cshtml" />
@@ -362,6 +427,9 @@
     <Content Include="Views\Shared\_Search.cshtml" />
     <Content Include="Views\ateData\AteOutput.cshtml" />
     <Content Include="Views\ateData\AteOutputDetail.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

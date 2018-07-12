@@ -9,8 +9,8 @@ namespace SatcomRfWebsite.Models
 {
     public class SearchModel
     {
-        public IList<SatcomRfWebsite.Models.tblProductType> productTypeList { get; set; }
-        public IList<SatcomRfWebsite.Models.tblModelName> modelNameList { get; set; }
+        public IList<SatcomRfWebsite.Models.tblProductTypes> productTypeList { get; set; }
+        public IList<SatcomRfWebsite.Models.tblModelNames> modelNameList { get; set; }
 
         public string modelNamesStr { get; set; }
         public string prodTypeStr { get; set; }
@@ -26,8 +26,8 @@ namespace SatcomRfWebsite.Models
         //constructor
         public SearchModel()
         {
-            productTypeList = new List<SatcomRfWebsite.Models.tblProductType>();
-            modelNameList = new List<SatcomRfWebsite.Models.tblModelName>();
+            productTypeList = new List<SatcomRfWebsite.Models.tblProductTypes>();
+            modelNameList = new List<SatcomRfWebsite.Models.tblModelNames>();
 
             testName = "";
             testType = "";
@@ -124,7 +124,7 @@ namespace SatcomRfWebsite.Models
         {
 
             var myQuery = (from serialNums in db.tblSerialNumbers
-                           join ateOut in db.tblATEOutputs on serialNums.ModelSN equals ateOut.ModelSN
+                           join ateOut in db.tblATEOutput on serialNums.ModelSN equals ateOut.ModelSN
                            where serialNums.ModelName.Equals(modelN)
                            orderby ateOut.TubeName ascending
                            select ateOut).Select(x => x.TubeName).Distinct();

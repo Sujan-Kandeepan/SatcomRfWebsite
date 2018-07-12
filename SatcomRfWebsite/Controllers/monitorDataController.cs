@@ -18,7 +18,7 @@ namespace SatcomRfWebsite.Controllers
 
         public ActionResult Index()
         {
-            return View(db.tblMonitorDatas.ToList());
+            return View(db.tblMonitorData.ToList());
         }
 
         //
@@ -26,7 +26,7 @@ namespace SatcomRfWebsite.Controllers
 
         public ActionResult Details(long id = 0)
         {
-            tblMonitorData tblmonitordata = db.tblMonitorDatas.Single(t => t.id == id);
+            tblMonitorData tblmonitordata = db.tblMonitorData.Single(t => t.id == id);
             if (tblmonitordata == null)
             {
                 return HttpNotFound();
@@ -50,7 +50,7 @@ namespace SatcomRfWebsite.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.tblMonitorDatas.AddObject(tblmonitordata);
+                db.tblMonitorData.Add(tblmonitordata);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -63,7 +63,7 @@ namespace SatcomRfWebsite.Controllers
 
         public ActionResult Edit(long id = 0)
         {
-            tblMonitorData tblmonitordata = db.tblMonitorDatas.Single(t => t.id == id);
+            tblMonitorData tblmonitordata = db.tblMonitorData.Single(t => t.id == id);
             if (tblmonitordata == null)
             {
                 return HttpNotFound();
@@ -79,8 +79,7 @@ namespace SatcomRfWebsite.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.tblMonitorDatas.Attach(tblmonitordata);
-                db.ObjectStateManager.ChangeObjectState(tblmonitordata, EntityState.Modified);
+                db.Entry(tblmonitordata).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -92,7 +91,7 @@ namespace SatcomRfWebsite.Controllers
 
         public ActionResult Delete(long id = 0)
         {
-            tblMonitorData tblmonitordata = db.tblMonitorDatas.Single(t => t.id == id);
+            tblMonitorData tblmonitordata = db.tblMonitorData.Single(t => t.id == id);
             if (tblmonitordata == null)
             {
                 return HttpNotFound();
@@ -106,8 +105,8 @@ namespace SatcomRfWebsite.Controllers
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(long id)
         {
-            tblMonitorData tblmonitordata = db.tblMonitorDatas.Single(t => t.id == id);
-            db.tblMonitorDatas.DeleteObject(tblmonitordata);
+            tblMonitorData tblmonitordata = db.tblMonitorData.Single(t => t.id == id);
+            db.tblMonitorData.Remove(tblmonitordata);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

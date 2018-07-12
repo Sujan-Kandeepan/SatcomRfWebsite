@@ -627,7 +627,7 @@ namespace SatcomRfWebsite.Controllers
             var db = new rfDbEntities();
 
             var myQuery = (from serialNums in db.tblSerialNumbers
-                           join ateOut in db.tblATEOutputs on serialNums.ModelSN equals ateOut.ModelSN
+                           join ateOut in db.tblATEOutput on serialNums.ModelSN equals ateOut.ModelSN
                            where serialNums.ModelName.Equals(modelName)
                            orderby ateOut.TubeName ascending
                            select ateOut).Select(x => x.TubeName).Distinct();

@@ -36,7 +36,7 @@ namespace SatcomRfWebsite.Models
                 case "Debug": dbTestType = "Debugging"; break;
             }
 
-            var myQuery = (from ateOut in db.tblATEOutputs
+            var myQuery = (from ateOut in db.tblATEOutput
                            join serialNums in db.tblSerialNumbers on ateOut.ModelSN equals serialNums.ModelSN
                            where serialNums.ModelName.Equals(modelName)
                            orderby ateOut.StartTime ascending

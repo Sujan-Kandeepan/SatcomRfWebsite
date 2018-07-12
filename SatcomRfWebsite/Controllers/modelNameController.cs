@@ -26,12 +26,12 @@ namespace SatcomRfWebsite.Controllers
 
         public ActionResult Details(long id = 0)
         {
-            tblModelName tblmodelname = db.tblModelNames.Single(t => t.id == id);
-            if (tblmodelname == null)
+            tblModelNames tblmodelnames = db.tblModelNames.Single(t => t.id == id);
+            if (tblmodelnames == null)
             {
                 return HttpNotFound();
             }
-            return View(tblmodelname);
+            return View(tblmodelnames);
         }
 
         //
@@ -46,16 +46,16 @@ namespace SatcomRfWebsite.Controllers
         // POST: /modelName/Create
 
         [HttpPost]
-        public ActionResult Create(tblModelName tblmodelname)
+        public ActionResult Create(tblModelNames tblmodelnames)
         {
             if (ModelState.IsValid)
             {
-                db.tblModelNames.AddObject(tblmodelname);
+                db.tblModelNames.Add(tblmodelnames);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(tblmodelname);
+            return View(tblmodelnames);
         }
 
         //
@@ -63,28 +63,27 @@ namespace SatcomRfWebsite.Controllers
 
         public ActionResult Edit(long id = 0)
         {
-            tblModelName tblmodelname = db.tblModelNames.Single(t => t.id == id);
-            if (tblmodelname == null)
+            tblModelNames tblmodelnames = db.tblModelNames.Single(t => t.id == id);
+            if (tblmodelnames == null)
             {
                 return HttpNotFound();
             }
-            return View(tblmodelname);
+            return View(tblmodelnames);
         }
 
         //
         // POST: /modelName/Edit/5
 
         [HttpPost]
-        public ActionResult Edit(tblModelName tblmodelname)
+        public ActionResult Edit(tblModelNames tblmodelnames)
         {
             if (ModelState.IsValid)
             {
-                db.tblModelNames.Attach(tblmodelname);
-                db.ObjectStateManager.ChangeObjectState(tblmodelname, EntityState.Modified);
+                db.Entry(tblmodelnames).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(tblmodelname);
+            return View(tblmodelnames);
         }
 
         //
@@ -92,12 +91,12 @@ namespace SatcomRfWebsite.Controllers
 
         public ActionResult Delete(long id = 0)
         {
-            tblModelName tblmodelname = db.tblModelNames.Single(t => t.id == id);
-            if (tblmodelname == null)
+            tblModelNames tblmodelnames = db.tblModelNames.Single(t => t.id == id);
+            if (tblmodelnames == null)
             {
                 return HttpNotFound();
             }
-            return View(tblmodelname);
+            return View(tblmodelnames);
         }
 
         //
@@ -106,8 +105,8 @@ namespace SatcomRfWebsite.Controllers
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(long id)
         {
-            tblModelName tblmodelname = db.tblModelNames.Single(t => t.id == id);
-            db.tblModelNames.DeleteObject(tblmodelname);
+            tblModelNames tblmodelnames = db.tblModelNames.Single(t => t.id == id);
+            db.tblModelNames.Remove(tblmodelnames);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

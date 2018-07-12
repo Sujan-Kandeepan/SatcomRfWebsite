@@ -65,12 +65,12 @@ namespace SatcomRfWebsite.Controllers
 
         public ActionResult Details(long id = 0)
         {
-            tblTWTTestResult tbltwttestresult = db.tblTWTTestResults.Single(t => t.id == id);
-            if (tbltwttestresult == null)
+            tblTWTTestResults tbltwttestresults = db.tblTWTTestResults.Single(t => t.id == id);
+            if (tbltwttestresults == null)
             {
                 return HttpNotFound();
             }
-            return View(tbltwttestresult);
+            return View(tbltwttestresults);
         }
 
         //
@@ -85,16 +85,16 @@ namespace SatcomRfWebsite.Controllers
         // POST: /twtTestResults/Create
 
         [HttpPost]
-        public ActionResult Create(tblTWTTestResult tbltwttestresult)
+        public ActionResult Create(tblTWTTestResults tbltwttestresults)
         {
             if (ModelState.IsValid)
             {
-                db.tblTWTTestResults.AddObject(tbltwttestresult);
+                db.tblTWTTestResults.Add(tbltwttestresults);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(tbltwttestresult);
+            return View(tbltwttestresults);
         }
 
         //
@@ -102,28 +102,27 @@ namespace SatcomRfWebsite.Controllers
 
         public ActionResult Edit(long id = 0)
         {
-            tblTWTTestResult tbltwttestresult = db.tblTWTTestResults.Single(t => t.id == id);
-            if (tbltwttestresult == null)
+            tblTWTTestResults tbltwttestresults = db.tblTWTTestResults.Single(t => t.id == id);
+            if (tbltwttestresults == null)
             {
                 return HttpNotFound();
             }
-            return View(tbltwttestresult);
+            return View(tbltwttestresults);
         }
 
         //
         // POST: /twtTestResults/Edit/5
 
         [HttpPost]
-        public ActionResult Edit(tblTWTTestResult tbltwttestresult)
+        public ActionResult Edit(tblTWTTestResults tbltwttestresults)
         {
             if (ModelState.IsValid)
             {
-                db.tblTWTTestResults.Attach(tbltwttestresult);
-                db.ObjectStateManager.ChangeObjectState(tbltwttestresult, EntityState.Modified);
+                db.Entry(tbltwttestresults).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(tbltwttestresult);
+            return View(tbltwttestresults);
         }
 
         //
@@ -131,12 +130,12 @@ namespace SatcomRfWebsite.Controllers
 
         public ActionResult Delete(long id = 0)
         {
-            tblTWTTestResult tbltwttestresult = db.tblTWTTestResults.Single(t => t.id == id);
-            if (tbltwttestresult == null)
+            tblTWTTestResults tbltwttestresults = db.tblTWTTestResults.Single(t => t.id == id);
+            if (tbltwttestresults == null)
             {
                 return HttpNotFound();
             }
-            return View(tbltwttestresult);
+            return View(tbltwttestresults);
         }
 
         //
@@ -145,8 +144,8 @@ namespace SatcomRfWebsite.Controllers
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(long id)
         {
-            tblTWTTestResult tbltwttestresult = db.tblTWTTestResults.Single(t => t.id == id);
-            db.tblTWTTestResults.DeleteObject(tbltwttestresult);
+            tblTWTTestResults tbltwttestresults = db.tblTWTTestResults.Single(t => t.id == id);
+            db.tblTWTTestResults.Remove(tbltwttestresults);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

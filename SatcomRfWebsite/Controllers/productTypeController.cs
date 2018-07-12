@@ -26,12 +26,12 @@ namespace SatcomRfWebsite.Controllers
 
         public ActionResult Details(long id = 0)
         {
-            tblProductType tblproducttype = db.tblProductTypes.Single(t => t.id == id);
-            if (tblproducttype == null)
+            tblProductTypes tblproducttypes = db.tblProductTypes.Single(t => t.id == id);
+            if (tblproducttypes == null)
             {
                 return HttpNotFound();
             }
-            return View(tblproducttype);
+            return View(tblproducttypes);
         }
 
         //
@@ -46,16 +46,16 @@ namespace SatcomRfWebsite.Controllers
         // POST: /productType/Create
 
         [HttpPost]
-        public ActionResult Create(tblProductType tblproducttype)
+        public ActionResult Create(tblProductTypes tblproducttypes)
         {
             if (ModelState.IsValid)
             {
-                db.tblProductTypes.AddObject(tblproducttype);
+                db.tblProductTypes.Add(tblproducttypes);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(tblproducttype);
+            return View(tblproducttypes);
         }
 
         //
@@ -63,28 +63,27 @@ namespace SatcomRfWebsite.Controllers
 
         public ActionResult Edit(long id = 0)
         {
-            tblProductType tblproducttype = db.tblProductTypes.Single(t => t.id == id);
-            if (tblproducttype == null)
+            tblProductTypes tblproducttypes = db.tblProductTypes.Single(t => t.id == id);
+            if (tblproducttypes == null)
             {
                 return HttpNotFound();
             }
-            return View(tblproducttype);
+            return View(tblproducttypes);
         }
 
         //
         // POST: /productType/Edit/5
 
         [HttpPost]
-        public ActionResult Edit(tblProductType tblproducttype)
+        public ActionResult Edit(tblProductTypes tblproducttypes)
         {
             if (ModelState.IsValid)
             {
-                db.tblProductTypes.Attach(tblproducttype);
-                db.ObjectStateManager.ChangeObjectState(tblproducttype, EntityState.Modified);
+                db.Entry(tblproducttypes).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(tblproducttype);
+            return View(tblproducttypes);
         }
 
         //
@@ -92,12 +91,12 @@ namespace SatcomRfWebsite.Controllers
 
         public ActionResult Delete(long id = 0)
         {
-            tblProductType tblproducttype = db.tblProductTypes.Single(t => t.id == id);
-            if (tblproducttype == null)
+            tblProductTypes tblproducttypes = db.tblProductTypes.Single(t => t.id == id);
+            if (tblproducttypes == null)
             {
                 return HttpNotFound();
             }
-            return View(tblproducttype);
+            return View(tblproducttypes);
         }
 
         //
@@ -106,8 +105,8 @@ namespace SatcomRfWebsite.Controllers
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(long id)
         {
-            tblProductType tblproducttype = db.tblProductTypes.Single(t => t.id == id);
-            db.tblProductTypes.DeleteObject(tblproducttype);
+            tblProductTypes tblproducttypes = db.tblProductTypes.Single(t => t.id == id);
+            db.tblProductTypes.Remove(tblproducttypes);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
