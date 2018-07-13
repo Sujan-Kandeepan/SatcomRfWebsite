@@ -1,6 +1,4 @@
-﻿@model SatcomRfWebsite.Models.CalibrationData
-
-@{
+﻿@{
     ViewBag.Title = "Create";
 }
 
@@ -32,40 +30,16 @@
 
     if (Request.Url.ToString().Contains("Attenuator"))
     {
-        <h4>Attenuator form</h4>
-
-        <div class="form-horizontal">
-            <div class="form-group">
-                <div class="col-md-12">
-                    <input type="submit" value="Create" class="btn btn-default" />
-                </div>
-            </div>
-        </div>
+        @Html.Partial("ATCalForm")
     }
 
     if (Request.Url.ToString().Contains("OutputCoupler"))
     {
-        <h4>OutputCoupler form</h4>
-
-        <div class="form-horizontal">
-            <div class="form-group">
-                <div class="col-md-12">
-                    <input type="submit" value="Create" class="btn btn-default" />
-                </div>
-            </div>
-        </div>
+        @Html.Partial("OCCalForm")
     }
 
     if (Request.Url.ToString().Contains("PowerSensor"))
     {
-        <h4>Power Sensor form</h4>
-
-        <div class="form-horizontal">
-            <div class="form-group">
-                <div class="col-md-12">
-                    <input type="submit" value="Create" class="btn btn-default" />
-                </div>
-            </div>
-        </div>
+        @Html.Partial("PSCalForm")
     }
 }

@@ -31,8 +31,14 @@ namespace SatcomRfWebsite.Controllers
 
         // POST: Calibration/Create
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Create(FormCollection collection)
         {
+            foreach (string key in collection.Keys)
+            {
+                System.Diagnostics.Debug.WriteLine(collection[key], key);
+            }
+
             try
             {
                 // TODO: Add insert logic here
@@ -40,86 +46,80 @@ namespace SatcomRfWebsite.Controllers
                 {
                     CreateAT(new ATCalibrationData
                     {
-                        AssetNumber = Guid.NewGuid().ToString(),
-                        AddedDate = DateTime.Now,
-                        EditedBy = "-",
+                        AssetNumber = collection["AssetNumber"],
+                        AddedDate = Convert.ToDateTime(collection["AddedDate"]),
+                        EditedBy = collection["EditedBy"],
                         Records = new List<CalibrationRecord>()
                         {
                             new CalibrationRecord { Frequency = 1, CalFactor = 2 },
                             new CalibrationRecord { Frequency = 3, CalFactor = 4 },
                             new CalibrationRecord { Frequency = 5, CalFactor = 6 }
                         },
-                        StartFreq = 0,
-                        StopFreq = 0,
-                        Points = 0,
-                        Loss = 0,
-                        Power = 0,
-                        MaxOffset = 0,
-                        Temp = 0,
-                        Humidity = 0,
-                        Lookback = "-",
-                        Operator = "-",
-                        ExpireDate = DateTime.Now
+                        StartFreq = Convert.ToInt64(collection["StartFreq"]),
+                        StopFreq = Convert.ToInt64(collection["StopFreq"]),
+                        Points = Convert.ToInt32(collection["StopFreq"]),
+                        Loss = Convert.ToInt64(collection["Loss"]),
+                        Power = Convert.ToInt64(collection["Power"]),
+                        MaxOffset = Convert.ToDouble(collection["MaxOffset"]),
+                        Temp = Convert.ToDouble(collection["Temp"]),
+                        Humidity = Convert.ToDouble(collection["Humidity"]),
+                        Lookback = collection["Lookback"],
+                        Operator = collection["Operator"],
+                        ExpireDate = Convert.ToDateTime(collection["ExpireDate"])
                     });
                 }
                 else if (Request.Url.ToString().Contains("OutputCoupler"))
                 {
                     CreateOC(new OCCalibrationData
                     {
-                        AssetNumber = Guid.NewGuid().ToString(),
-                        AddedDate = DateTime.Now,
-                        EditedBy = "-",
+                        AssetNumber = collection["AssetNumber"],
+                        AddedDate = Convert.ToDateTime(collection["AddedDate"]),
+                        EditedBy = collection["EditedBy"],
                         Records = new List<CalibrationRecord>()
                         {
                             new CalibrationRecord { Frequency = 1, CalFactor = 2 },
                             new CalibrationRecord { Frequency = 3, CalFactor = 4 },
                             new CalibrationRecord { Frequency = 5, CalFactor = 6 }
                         },
-                        StartFreq = 0,
-                        StopFreq = 0,
-                        Points = 0,
-                        Loss = 0,
-                        Power = 0,
-                        MaxOffset = 0,
-                        Temp = 0,
-                        Humidity = 0,
-                        Lookback = "-",
-                        Operator = "-",
-                        ExpireDate = DateTime.Now
+                        StartFreq = Convert.ToInt64(collection["StartFreq"]),
+                        StopFreq = Convert.ToInt64(collection["StopFreq"]),
+                        Points = Convert.ToInt32(collection["StopFreq"]),
+                        Loss = Convert.ToInt64(collection["Loss"]),
+                        Power = Convert.ToInt64(collection["Power"]),
+                        MaxOffset = Convert.ToDouble(collection["MaxOffset"]),
+                        Temp = Convert.ToDouble(collection["Temp"]),
+                        Humidity = Convert.ToDouble(collection["Humidity"]),
+                        Lookback = collection["Lookback"],
+                        Operator = collection["Operator"],
+                        ExpireDate = Convert.ToDateTime(collection["ExpireDate"])
                     });
                 }
                 else if (Request.Url.ToString().Contains("PowerSensor"))
                 {
                     CreatePS(new PSCalibrationData
                     {
-                        AssetNumber = Guid.NewGuid().ToString(),
-                        AddedDate = DateTime.Now,
-                        EditedBy = "-",
+                        AssetNumber = collection["AssetNumber"],
+                        AddedDate = Convert.ToDateTime(collection["AddedDate"]),
+                        EditedBy = collection["EditedBy"],
                         Records = new List<CalibrationRecord>()
                         {
                             new CalibrationRecord { Frequency = 1, CalFactor = 2 },
                             new CalibrationRecord { Frequency = 3, CalFactor = 4 },
                             new CalibrationRecord { Frequency = 5, CalFactor = 6 }
                         },
-                        Series = "-",
-                        Serial = "-",
-                        RefCal = "-",
-                        Certificate = "-",
-                        Operator = "-",
-                        CalDate = DateTime.Now
+                        Series = collection["Series"],
+                        Serial = collection["Serial"],
+                        RefCal = collection["RefCal"],
+                        Certificate = collection["Certificate"],
+                        Operator = collection["Operator"],
+                        CalDate = Convert.ToDateTime(collection["CalDate"])
                     });
                 }
 
                 return RedirectToAction("Index");
             }
-            catch (System.Data.Entity.Validation.DbEntityValidationException exception)
+            catch
             {
-                System.Data.Entity.Validation.DbEntityValidationException e = exception;
-                while(e.InnerException != null)
-                {
-                    e = (System.Data.Entity.Validation.DbEntityValidationException) e.InnerException;
-                }
-                System.Diagnostics.Debug.WriteLine(e.Message);
                 return View();
             }
         }
