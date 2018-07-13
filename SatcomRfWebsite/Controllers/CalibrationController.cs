@@ -36,13 +36,224 @@ namespace SatcomRfWebsite.Controllers
             try
             {
                 // TODO: Add insert logic here
+                if (Request.Url.ToString().Contains("Attenuator"))
+                {
+                    CreateAT(new ATCalibrationData
+                    {
+                        AssetNumber = Guid.NewGuid().ToString(),
+                        AddedDate = DateTime.Now,
+                        EditedBy = "-",
+                        Records = new List<CalibrationRecord>()
+                        {
+                            new CalibrationRecord { Frequency = 1, CalFactor = 2 },
+                            new CalibrationRecord { Frequency = 3, CalFactor = 4 },
+                            new CalibrationRecord { Frequency = 5, CalFactor = 6 }
+                        },
+                        StartFreq = 0,
+                        StopFreq = 0,
+                        Points = 0,
+                        Loss = 0,
+                        Power = 0,
+                        MaxOffset = 0,
+                        Temp = 0,
+                        Humidity = 0,
+                        Lookback = "-",
+                        Operator = "-",
+                        ExpireDate = DateTime.Now
+                    });
+                }
+                else if (Request.Url.ToString().Contains("OutputCoupler"))
+                {
+                    CreateOC(new OCCalibrationData
+                    {
+                        AssetNumber = Guid.NewGuid().ToString(),
+                        AddedDate = DateTime.Now,
+                        EditedBy = "-",
+                        Records = new List<CalibrationRecord>()
+                        {
+                            new CalibrationRecord { Frequency = 1, CalFactor = 2 },
+                            new CalibrationRecord { Frequency = 3, CalFactor = 4 },
+                            new CalibrationRecord { Frequency = 5, CalFactor = 6 }
+                        },
+                        StartFreq = 0,
+                        StopFreq = 0,
+                        Points = 0,
+                        Loss = 0,
+                        Power = 0,
+                        MaxOffset = 0,
+                        Temp = 0,
+                        Humidity = 0,
+                        Lookback = "-",
+                        Operator = "-",
+                        ExpireDate = DateTime.Now
+                    });
+                }
+                else if (Request.Url.ToString().Contains("PowerSensor"))
+                {
+                    CreatePS(new PSCalibrationData
+                    {
+                        AssetNumber = Guid.NewGuid().ToString(),
+                        AddedDate = DateTime.Now,
+                        EditedBy = "-",
+                        Records = new List<CalibrationRecord>()
+                        {
+                            new CalibrationRecord { Frequency = 1, CalFactor = 2 },
+                            new CalibrationRecord { Frequency = 3, CalFactor = 4 },
+                            new CalibrationRecord { Frequency = 5, CalFactor = 6 }
+                        },
+                        Series = "-",
+                        Serial = "-",
+                        RefCal = "-",
+                        Certificate = "-",
+                        Operator = "-",
+                        CalDate = DateTime.Now
+                    });
+                }
 
                 return RedirectToAction("Index");
             }
-            catch
+            catch (System.Data.Entity.Validation.DbEntityValidationException exception)
             {
+                System.Data.Entity.Validation.DbEntityValidationException e = exception;
+                while(e.InnerException != null)
+                {
+                    e = (System.Data.Entity.Validation.DbEntityValidationException) e.InnerException;
+                }
+                System.Diagnostics.Debug.WriteLine(e.Message);
                 return View();
             }
+        }
+
+        [HttpPost]
+        public ActionResult CreateAT(ATCalibrationData atCalibrationData)
+        {
+            if (ModelState.IsValid)
+            {
+                tblATCalHeaders atCalHeaders = new tblATCalHeaders
+                {
+                    AssetNumber = atCalibrationData.AssetNumber,
+                    StartFreq = atCalibrationData.StartFreq,
+                    StopFreq = atCalibrationData.StopFreq,
+                    Points = atCalibrationData.Points,
+                    Loss = atCalibrationData.Loss,
+                    Power = atCalibrationData.Power,
+                    MaxOffset = atCalibrationData.MaxOffset,
+                    Temp = atCalibrationData.Temp,
+                    Humidity = atCalibrationData.Humidity,
+                    Lookback = atCalibrationData.Lookback,
+                    Operator = atCalibrationData.Operator,
+                    ExpireDate = atCalibrationData.ExpireDate,
+                    AddedDate = atCalibrationData.AddedDate,
+                    EditedBy = atCalibrationData.EditedBy
+                };
+                db.tblATCalHeaders.Add(atCalHeaders);
+                
+
+                foreach (CalibrationRecord record in atCalibrationData.Records)
+                {
+                    tblCalData calData = new tblCalData
+                    {
+                        AssetNumber = atCalibrationData.AssetNumber,
+                        Frequency = record.Frequency,
+                        CalFactor = record.CalFactor,
+                        AddedDate = atCalibrationData.AddedDate
+                    };
+                    db.tblCalData.Add(calData);
+                }
+
+                db.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+
+            return View(atCalibrationData);
+        }
+
+        [HttpPost]
+        public ActionResult CreateOC(OCCalibrationData ocData)
+        {
+            if (ModelState.IsValid)
+            {
+                tblOCCalHeaders ocHeaders = new tblOCCalHeaders
+                {
+                    AssetNumber = ocData.AssetNumber,
+                    StartFreq = ocData.StartFreq,
+                    StopFreq = ocData.StopFreq,
+                    Points = ocData.Points,
+                    Loss = ocData.Loss,
+                    Power = ocData.Power,
+                    MaxOffset = ocData.MaxOffset,
+                    Temp = ocData.Temp,
+                    Humidity = ocData.Humidity,
+                    Lookback = ocData.Lookback,
+                    Operator = ocData.Operator,
+                    ExpireDate = ocData.ExpireDate,
+                    AddedDate = ocData.AddedDate,
+                    EditedBy = ocData.EditedBy
+                };
+                db.tblOCCalHeaders.Add(ocHeaders);
+
+
+                foreach (CalibrationRecord record in ocData.Records)
+                {
+                    tblCalData calData = new tblCalData
+                    {
+                        AssetNumber = ocData.AssetNumber,
+                        Frequency = record.Frequency,
+                        CalFactor = record.CalFactor,
+                        AddedDate = ocData.AddedDate
+                    };
+                    db.tblCalData.Add(calData);
+                }
+
+                db.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+
+            return View(ocData);
+            
+        }
+
+        [HttpPost]
+        public ActionResult CreatePS(PSCalibrationData psData)
+        {
+            if (ModelState.IsValid)
+            {
+                tblPSCalHeaders psHeaders = new tblPSCalHeaders
+                {
+                    AssetNumber = psData.AssetNumber,
+                    Series = psData.Series,
+                    Serial = psData.Serial,
+                    RefCal = psData.RefCal,
+                    Certificate = psData.Certificate,
+                    Operator = psData.Operator,
+                    CalDate = psData.CalDate,
+                    AddedDate = psData.AddedDate,
+                    EditedBy = psData.EditedBy
+
+                };
+                db.tblPSCalHeaders.Add(psHeaders);
+
+
+                foreach (CalibrationRecord record in psData.Records)
+                {
+                    tblCalData calData = new tblCalData
+                    {
+                        AssetNumber = psData.AssetNumber,
+                        Frequency = record.Frequency,
+                        CalFactor = record.CalFactor,
+                        AddedDate = psData.AddedDate
+                    };
+                    db.tblCalData.Add(calData);
+                }
+
+                db.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+
+            return View(psData);
         }
 
         // GET: Calibration/Edit/5

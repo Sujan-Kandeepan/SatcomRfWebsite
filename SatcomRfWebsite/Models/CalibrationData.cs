@@ -8,24 +8,39 @@ namespace SatcomRfWebsite.Models
     public class CalibrationData
     {
         public string AssetNumber { get; set; }
-        public string AddedDate { get; set; }
+        public DateTime AddedDate { get; set; }
         public string EditedBy { get; set; }
         public List<CalibrationRecord> Records { get; set; }
     }
 
-    public class OCCalibrationData : CalibrationData
+    public class ATCalibrationData : CalibrationData
     {
-        public string StartFreq { get; set; }
-        public string StopFreq { get; set; }
-        public string Points { get; set; }
-        public string Loss { get; set; }
-        public string Power { get; set; }
-        public string MaxOffset { get; set; }
-        public string Temp { get; set; }
-        public string Humidity { get; set; }
+        public long StartFreq { get; set; }
+        public long StopFreq { get; set; }
+        public int Points { get; set; }
+        public long Loss { get; set; }
+        public long Power { get; set; }
+        public double MaxOffset { get; set; }
+        public double Temp { get; set; }
+        public double Humidity { get; set; }
         public string Lookback { get; set; }
         public string Operator { get; set; }
-        public string ExpireDate { get; set; }
+        public DateTime ExpireDate { get; set; }
+    }
+
+    public class OCCalibrationData : CalibrationData
+    {
+        public long StartFreq { get; set; }
+        public long StopFreq { get; set; }
+        public int Points { get; set; }
+        public long Loss { get; set; }
+        public long Power { get; set; }
+        public double MaxOffset { get; set; }
+        public double Temp { get; set; }
+        public double Humidity { get; set; }
+        public string Lookback { get; set; }
+        public string Operator { get; set; }
+        public DateTime ExpireDate { get; set; }
     }
 
     public class PSCalibrationData : CalibrationData
@@ -35,27 +50,12 @@ namespace SatcomRfWebsite.Models
         public string RefCal { get; set; }
         public string Certificate { get; set; }
         public string Operator { get; set; }
-        public string CalDate { get; set; }
-    }
-
-    public class ATCalibrationData : CalibrationData
-    {
-        public string StartFreq { get; set; }
-        public string StopFreq { get; set; }
-        public string Points { get; set; }
-        public string Loss { get; set; }
-        public string Power { get; set; }
-        public string MaxOffset { get; set; }
-        public string Temp { get; set; }
-        public string Humidity { get; set; }
-        public string Lookback { get; set; }
-        public string Operator { get; set; }
-        public string ExpireDate { get; set; }
+        public DateTime CalDate { get; set; }
     }
 
     public class CalibrationRecord
     {
-        public string Frequency { get; set; }
-        public string CalFactor { get; set; }
+        public double Frequency { get; set; }
+        public double CalFactor { get; set; }
     }
 }

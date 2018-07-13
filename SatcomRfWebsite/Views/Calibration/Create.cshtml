@@ -6,11 +6,11 @@
 
 @Scripts.Render("~/bundles/js/Calibration")
 
-<div class="page-header"><h1>Calibration Data</h1></div>
+<div class="page-header"><h1>Submit Calibration Data</h1></div>
 <div class="row">
     <div class="col-md-6" style="margin-top: -20px">
         <div class="display">
-            <h3>Submit, view and modify calibration data.</h3>
+            <h3>Submit new calibration record to database.</h3>
         </div>
     </div>
     <div class="col-md-3">
@@ -22,6 +22,50 @@
         </select>
     </div>
     <div class="col-md-3">
-        <button class="form-control btn btn-info @(Request.Url.ToString().Contains("Index") ? "" : "disabled" )" id="import-file">Import calibration file</button>
+        <button class="form-control btn btn-info @(Request.Url.ToString().Replace("/", "").EndsWith("Create") ? "disabled" : "" )" id="import-file">Import calibration file</button>
     </div>
 </div>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    if (Request.Url.ToString().Contains("Attenuator"))
+    {
+        <h4>Attenuator form</h4>
+
+        <div class="form-horizontal">
+            <div class="form-group">
+                <div class="col-md-12">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }
+
+    if (Request.Url.ToString().Contains("OutputCoupler"))
+    {
+        <h4>OutputCoupler form</h4>
+
+        <div class="form-horizontal">
+            <div class="form-group">
+                <div class="col-md-12">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }
+
+    if (Request.Url.ToString().Contains("PowerSensor"))
+    {
+        <h4>Power Sensor form</h4>
+
+        <div class="form-horizontal">
+            <div class="form-group">
+                <div class="col-md-12">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }
+}

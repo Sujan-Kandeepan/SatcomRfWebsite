@@ -340,7 +340,7 @@
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="AssetNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Frequency" Type="Int64" Nullable="false" />
+          <Property Name="Frequency" Type="Double" Nullable="false" />
           <Property Name="CalFactor" Type="Double" Nullable="false" />
           <Property Name="AddedDate" Type="DateTime" Nullable="false" Precision="0" />
         </EntityType>
