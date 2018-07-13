@@ -1,0 +1,27 @@
+﻿@model SatcomRfWebsite.Models.CalibrationData
+
+@{
+    ViewBag.Title = "Create";
+}
+
+@Scripts.Render("~/bundles/js/Calibration")
+
+<div class="page-header"><h1>Calibration Data</h1></div>
+<div class="row">
+    <div class="col-md-6" style="margin-top: -20px">
+        <div class="display">
+            <h3>Submit, view and modify calibration data.</h3>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <select class="form-control" id="cal-type" onchange="setURL(this.value)">
+            <option value="default">Select a device type</option>
+            <option value="Attenuator" @(Request.Url.ToString().Contains("Attenuator") ? "selected" : "" )>Attenuator</option>
+            <option value="Output Coupler" @(Request.Url.ToString().Contains("OutputCoupler") ? "selected" : "" )>Output Coupler</option>
+            <option value="Power Sensor" @(Request.Url.ToString().Contains("PowerSensor") ? "selected" : "" )>Power Sensor</option>
+        </select>
+    </div>
+    <div class="col-md-3">
+        <button class="form-control btn btn-info @(Request.Url.ToString().Contains("Index") ? "" : "disabled" )" id="import-file">Import calibration file</button>
+    </div>
+</div>

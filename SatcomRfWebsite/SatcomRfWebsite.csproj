@@ -385,6 +385,7 @@
     <Content Include="Views\ATCalHeaders\Details.cshtml" />
     <Content Include="Views\ATCalHeaders\Edit.cshtml" />
     <Content Include="Views\ATCalHeaders\Index.cshtml" />
+    <Content Include="Views\Calibration\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
