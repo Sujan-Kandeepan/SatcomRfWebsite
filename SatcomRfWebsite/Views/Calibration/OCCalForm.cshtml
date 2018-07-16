@@ -29,7 +29,7 @@
                 @Html.ValidationMessageFor(model => model.StopFreq, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-4">
-                @Html.EditorFor(model => model.Points, new { htmlAttributes = new { @class = "form-control", @placeholder = "Number of Points" } })
+                @Html.EditorFor(model => model.Points, new { htmlAttributes = new { @class = "form-control", @placeholder = "Number of Points", @min = "0", @max = "999" } })
                 @Html.ValidationMessageFor(model => model.Points, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -78,5 +78,5 @@
             </div>
         </div>
     </div>
-    <div class="col-md-4"></div>
+    <div class="col-md-4" id="DataFields" style="height: 250px; overflow-y: auto"></div>
 </div>

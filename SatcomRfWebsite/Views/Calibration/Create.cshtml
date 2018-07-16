@@ -1,4 +1,6 @@
-﻿@{
+﻿@model SatcomRfWebsite.Models.CalibrationData
+
+@{
     ViewBag.Title = "Create";
 }
 
@@ -26,8 +28,6 @@
 
 @using (Html.BeginForm())
 {
-    @Html.AntiForgeryToken()
-
     if (Request.Url.ToString().Contains("Attenuator"))
     {
         @Html.Partial("ATCalForm")
@@ -49,9 +49,29 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
     $(".datepicker").datepicker({
-        format: 'mm/dd/yyyy'
+        format: 'mm/dd/yyyy',
+        changeMonth: true,
+        changeYear: true
     });
     $(document).ready(function () {
         $("input:text,form").attr("autocomplete", "off");
+        $("#Points").on("input change", function () {
+            if ($("#Points").val().length > 3) {
+                $("#Points").val($("#Points").val().substring(0, 3));
+            }
+
+            $.ajax({
+                type: "post",
+                url: "/Calibration/CreateDataFields",
+                data: { "num": $("#Points").val() > 0 ? $("#Points").val() : 0 },
+                dataType: "text",
+                success: function (result) {
+                    $("#DataFields").html(result);
+                },
+                error: function(xhr, status, error) {
+                    $("#DataFields").html(xhr.responseText);
+                }
+            });
+        });
     });
 </script>

@@ -31,7 +31,6 @@ namespace SatcomRfWebsite.Controllers
 
         // POST: Calibration/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Create(FormCollection collection)
         {
             foreach (string key in collection.Keys)
@@ -42,6 +41,16 @@ namespace SatcomRfWebsite.Controllers
             try
             {
                 // TODO: Add insert logic here
+                List<CalibrationRecord> records = new List<CalibrationRecord>();
+                for (int i = 0; i < Convert.ToInt32(collection["Points"]); i++)
+                {
+                    records.Add(new CalibrationRecord
+                    {
+                        Frequency = Convert.ToDouble(collection[$"Records[{i}].Frequency"]),
+                        CalFactor = Convert.ToDouble(collection[$"Records[{i}].CalFactor"])
+                    });
+                }
+
                 if (Request.Url.ToString().Contains("Attenuator"))
                 {
                     CreateAT(new ATCalibrationData
@@ -49,15 +58,10 @@ namespace SatcomRfWebsite.Controllers
                         AssetNumber = collection["AssetNumber"],
                         AddedDate = Convert.ToDateTime(collection["AddedDate"]),
                         EditedBy = collection["EditedBy"],
-                        Records = new List<CalibrationRecord>()
-                        {
-                            new CalibrationRecord { Frequency = 1, CalFactor = 2 },
-                            new CalibrationRecord { Frequency = 3, CalFactor = 4 },
-                            new CalibrationRecord { Frequency = 5, CalFactor = 6 }
-                        },
+                        Records = records,
                         StartFreq = Convert.ToInt64(collection["StartFreq"]),
                         StopFreq = Convert.ToInt64(collection["StopFreq"]),
-                        Points = Convert.ToInt32(collection["StopFreq"]),
+                        Points = Convert.ToInt32(collection["Points"]),
                         Loss = Convert.ToInt64(collection["Loss"]),
                         Power = Convert.ToInt64(collection["Power"]),
                         MaxOffset = Convert.ToDouble(collection["MaxOffset"]),
@@ -75,15 +79,10 @@ namespace SatcomRfWebsite.Controllers
                         AssetNumber = collection["AssetNumber"],
                         AddedDate = Convert.ToDateTime(collection["AddedDate"]),
                         EditedBy = collection["EditedBy"],
-                        Records = new List<CalibrationRecord>()
-                        {
-                            new CalibrationRecord { Frequency = 1, CalFactor = 2 },
-                            new CalibrationRecord { Frequency = 3, CalFactor = 4 },
-                            new CalibrationRecord { Frequency = 5, CalFactor = 6 }
-                        },
+                        Records = records,
                         StartFreq = Convert.ToInt64(collection["StartFreq"]),
                         StopFreq = Convert.ToInt64(collection["StopFreq"]),
-                        Points = Convert.ToInt32(collection["StopFreq"]),
+                        Points = Convert.ToInt32(collection["Points"]),
                         Loss = Convert.ToInt64(collection["Loss"]),
                         Power = Convert.ToInt64(collection["Power"]),
                         MaxOffset = Convert.ToDouble(collection["MaxOffset"]),
@@ -101,12 +100,7 @@ namespace SatcomRfWebsite.Controllers
                         AssetNumber = collection["AssetNumber"],
                         AddedDate = Convert.ToDateTime(collection["AddedDate"]),
                         EditedBy = collection["EditedBy"],
-                        Records = new List<CalibrationRecord>()
-                        {
-                            new CalibrationRecord { Frequency = 1, CalFactor = 2 },
-                            new CalibrationRecord { Frequency = 3, CalFactor = 4 },
-                            new CalibrationRecord { Frequency = 5, CalFactor = 6 }
-                        },
+                        Records = records,
                         Series = collection["Series"],
                         Serial = collection["Serial"],
                         RefCal = collection["RefCal"],
@@ -257,6 +251,19 @@ namespace SatcomRfWebsite.Controllers
             }
 
             return View(psData);
+        }
+
+       public ActionResult CreateDataFields(int num)
+        {
+            var html = "";
+            for(var i = 0; i < num; i++)
+            {
+                html += "<div class='row' style='margin-bottom: 15px'>";
+                html += $"<div class='col-lg-6'><input class='form-control text-box single-line' data-val='true' data-val-number='The field Frequency must be a number.' data-val-required='The Frequency field is required.' id='Records_{i}__Frequency' name='Records[{i}].Frequency' placeholder='Frequency' type='text' value=''></div>";
+                html += $"<div class='col-lg-6'><input class='form-control text-box single-line' data-val='true' data-val-number='The field CalFactor must be a number.' data-val-required='The CalFactor field is required.' id='Records_{i}__CalFactor' name='Records[{i}].CalFactor' placeholder='Calibration Factor' type='text' value=''></div>";
+                html += "</div>";
+            }
+            return Content(html);
         }
 
         // GET: Calibration/Edit/5
