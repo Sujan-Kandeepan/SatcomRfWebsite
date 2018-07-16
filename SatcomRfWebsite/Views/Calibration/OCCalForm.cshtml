@@ -10,7 +10,7 @@
                 @Html.ValidationMessageFor(model => model.AssetNumber, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-4">
-                @Html.EditorFor(model => model.AddedDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "Date Added" } })
+                @Html.EditorFor(model => model.AddedDate, new { htmlAttributes = new { @class = "form-control datepicker", @placeholder = "Date Added" } })
                 @Html.ValidationMessageFor(model => model.AddedDate, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-4">
@@ -70,7 +70,7 @@
                 @Html.ValidationMessageFor(model => model.Operator, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-4">
-                @Html.EditorFor(model => model.ExpireDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "Expire Date" } })
+                @Html.EditorFor(model => model.ExpireDate, new { htmlAttributes = new { @class = "form-control datepicker", @placeholder = "Expire Date" } })
                 @Html.ValidationMessageFor(model => model.ExpireDate, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-4">
