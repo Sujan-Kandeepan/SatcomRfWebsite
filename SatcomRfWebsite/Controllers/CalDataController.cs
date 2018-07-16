@@ -46,7 +46,7 @@ namespace SatcomRfWebsite.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,AssetNumber,Frequency,CalFactor,AddedDate")] tblCalData tblCalData)
+        public ActionResult Create([Bind(Include = "id,AssetNumber,DeviceType,Frequency,CalFactor,AddedDate")] tblCalData tblCalData)
         {
             if (ModelState.IsValid)
             {
@@ -78,7 +78,7 @@ namespace SatcomRfWebsite.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,AssetNumber,Frequency,CalFactor,AddedDate")] tblCalData tblCalData)
+        public ActionResult Edit([Bind(Include = "id,AssetNumber,DeviceType,Frequency,CalFactor,AddedDate")] tblCalData tblCalData)
         {
             if (ModelState.IsValid)
             {

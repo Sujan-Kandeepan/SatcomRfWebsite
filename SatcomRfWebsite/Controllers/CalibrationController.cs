@@ -154,6 +154,7 @@ namespace SatcomRfWebsite.Controllers
                     tblCalData calData = new tblCalData
                     {
                         AssetNumber = atCalibrationData.AssetNumber,
+                        DeviceType = "Attenuator",
                         Frequency = record.Frequency,
                         CalFactor = record.CalFactor,
                         AddedDate = atCalibrationData.AddedDate
@@ -199,6 +200,7 @@ namespace SatcomRfWebsite.Controllers
                     tblCalData calData = new tblCalData
                     {
                         AssetNumber = ocData.AssetNumber,
+                        DeviceType = "Output Coupler",
                         Frequency = record.Frequency,
                         CalFactor = record.CalFactor,
                         AddedDate = ocData.AddedDate
@@ -241,6 +243,7 @@ namespace SatcomRfWebsite.Controllers
                     tblCalData calData = new tblCalData
                     {
                         AssetNumber = psData.AssetNumber,
+                        DeviceType = "Power Sensor",
                         Frequency = record.Frequency,
                         CalFactor = record.CalFactor,
                         AddedDate = psData.AddedDate

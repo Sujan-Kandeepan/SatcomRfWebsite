@@ -26,7 +26,6 @@ namespace SatcomRfWebsite.Models
         }
     
         public virtual DbSet<tblATEOutput> tblATEOutput { get; set; }
-        public virtual DbSet<tblCalData> tblCalData { get; set; }
         public virtual DbSet<tblKLYTestParameters> tblKLYTestParameters { get; set; }
         public virtual DbSet<tblKLYTestResults> tblKLYTestResults { get; set; }
         public virtual DbSet<tblModelNames> tblModelNames { get; set; }
@@ -40,5 +39,6 @@ namespace SatcomRfWebsite.Models
         public virtual DbSet<tblTWTTestParameters> tblTWTTestParameters { get; set; }
         public virtual DbSet<tblTWTTestResults> tblTWTTestResults { get; set; }
         public virtual DbSet<tblATCalHeaders> tblATCalHeaders { get; set; }
+        public virtual DbSet<tblCalData> tblCalData { get; set; }
     }
 }

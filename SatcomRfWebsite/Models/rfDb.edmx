@@ -72,6 +72,7 @@
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="AssetNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="DeviceType" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Frequency" Type="float" Nullable="false" />
           <Property Name="CalFactor" Type="float" Nullable="false" />
           <Property Name="AddedDate" Type="smalldatetime" Nullable="false" />
@@ -334,16 +335,6 @@
           <Property Name="OutputStopFrequency" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="RatedPower" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="tblCalData">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="AssetNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Frequency" Type="Double" Nullable="false" />
-          <Property Name="CalFactor" Type="Double" Nullable="false" />
-          <Property Name="AddedDate" Type="DateTime" Nullable="false" Precision="0" />
-        </EntityType>
         <EntityType Name="tblKLYTestParameters">
           <Key>
             <PropertyRef Name="id" />
@@ -542,7 +533,6 @@
         </EntityType>
         <EntityContainer Name="rfDbEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="tblATEOutput" EntityType="Self.tblATEOutput" />
-          <EntitySet Name="tblCalData" EntityType="Self.tblCalData" />
           <EntitySet Name="tblKLYTestParameters" EntityType="Self.tblKLYTestParameters" />
           <EntitySet Name="tblKLYTestResults" EntityType="Self.tblKLYTestResults" />
           <EntitySet Name="tblModelNames" EntityType="Self.tblModelNames" />
@@ -556,6 +546,7 @@
           <EntitySet Name="tblTWTTestParameters" EntityType="Self.tblTWTTestParameters" />
           <EntitySet Name="tblTWTTestResults" EntityType="Self.tblTWTTestResults" />
           <EntitySet Name="tblATCalHeaders" EntityType="rfDb.tblATCalHeaders" />
+          <EntitySet Name="tblCalData" EntityType="rfDb.tblCalData" />
         </EntityContainer>
         <EntityType Name="tblATCalHeaders">
           <Key>
@@ -576,6 +567,17 @@
           <Property Name="ExpireDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="AddedDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="EditedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="tblCalData">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AssetNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DeviceType" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Frequency" Type="Double" Nullable="false" />
+          <Property Name="CalFactor" Type="Double" Nullable="false" />
+          <Property Name="AddedDate" Type="DateTime" Nullable="false" Precision="0" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -622,17 +624,6 @@
                 <ScalarProperty Name="OutputStartFrequency" ColumnName="OutputStartFrequency" />
                 <ScalarProperty Name="OutputStopFrequency" ColumnName="OutputStopFrequency" />
                 <ScalarProperty Name="RatedPower" ColumnName="RatedPower" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tblCalData">
-            <EntityTypeMapping TypeName="rfDb.tblCalData">
-              <MappingFragment StoreEntitySet="tblCalData">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="AssetNumber" ColumnName="AssetNumber" />
-                <ScalarProperty Name="Frequency" ColumnName="Frequency" />
-                <ScalarProperty Name="CalFactor" ColumnName="CalFactor" />
-                <ScalarProperty Name="AddedDate" ColumnName="AddedDate" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -860,6 +851,18 @@
                 <ScalarProperty Name="Points" ColumnName="Points" />
                 <ScalarProperty Name="StopFreq" ColumnName="StopFreq" />
                 <ScalarProperty Name="StartFreq" ColumnName="StartFreq" />
+                <ScalarProperty Name="AssetNumber" ColumnName="AssetNumber" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblCalData">
+            <EntityTypeMapping TypeName="rfDb.tblCalData">
+              <MappingFragment StoreEntitySet="tblCalData">
+                <ScalarProperty Name="AddedDate" ColumnName="AddedDate" />
+                <ScalarProperty Name="CalFactor" ColumnName="CalFactor" />
+                <ScalarProperty Name="Frequency" ColumnName="Frequency" />
+                <ScalarProperty Name="DeviceType" ColumnName="DeviceType" />
                 <ScalarProperty Name="AssetNumber" ColumnName="AssetNumber" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>

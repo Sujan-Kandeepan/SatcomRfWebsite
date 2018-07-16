@@ -16,6 +16,7 @@ namespace SatcomRfWebsite.Models
     {
         public long id { get; set; }
         public string AssetNumber { get; set; }
+        public string DeviceType { get; set; }
         public double Frequency { get; set; }
         public double CalFactor { get; set; }
         public System.DateTime AddedDate { get; set; }

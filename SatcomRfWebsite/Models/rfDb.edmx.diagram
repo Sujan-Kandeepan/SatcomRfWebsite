@@ -6,7 +6,6 @@
     <edmx:Diagrams>
       <Diagram DiagramId="0fc1975e89944163b6e6bf1660898cf8" Name="Diagram1" ZoomLevel="88">
         <EntityTypeShape EntityType="rfDb.tblATEOutput" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="rfDb.tblCalData" Width="1.5" PointX="12.75" PointY="5.125" IsExpanded="true" />
         <EntityTypeShape EntityType="rfDb.tblKLYTestParameters" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="rfDb.tblKLYTestResults" Width="1.5" PointX="4.75" PointY="4.625" IsExpanded="true" />
         <EntityTypeShape EntityType="rfDb.tblModelNames" Width="1.5" PointX="2.75" PointY="2.625" IsExpanded="true" />
@@ -20,6 +19,7 @@
         <EntityTypeShape EntityType="rfDb.tblTWTTestParameters" Width="1.5" PointX="8.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="rfDb.tblTWTTestResults" Width="1.5" PointX="8.75" PointY="4.625" IsExpanded="true" />
         <EntityTypeShape EntityType="rfDb.tblATCalHeaders" Width="1.5" PointX="12.75" PointY="0.75" />
+        <EntityTypeShape EntityType="rfDb.tblCalData" Width="1.5" PointX="12.75" PointY="5.125" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
