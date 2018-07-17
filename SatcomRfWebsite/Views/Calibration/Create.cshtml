@@ -47,14 +47,15 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://terrylinooo.github.io/jquery.disableAutoFill/assets/js/jquery.disableAutoFill.min.js"></script>
 <script>
+    $('form').disableAutoFill();
     $(".datepicker").datepicker({
         format: 'mm/dd/yyyy',
         changeMonth: true,
         changeYear: true
     });
     $(document).ready(function () {
-        $("input:text,form").attr("autocomplete", "off");
         $("#Points").on("input change", function () {
             if ($("#Points").val().length > 3) {
                 $("#Points").val($("#Points").val().substring(0, 3));
