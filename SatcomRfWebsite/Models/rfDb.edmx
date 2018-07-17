@@ -17,9 +17,9 @@
           <Property Name="Loss" Type="bigint" Nullable="false" />
           <Property Name="Power" Type="bigint" Nullable="false" />
           <Property Name="MaxOffset" Type="float" Nullable="false" />
-          <Property Name="Temp" Type="float" Nullable="false" />
-          <Property Name="Humidity" Type="float" Nullable="false" />
-          <Property Name="Lookback" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Temp" Type="float" />
+          <Property Name="Humidity" Type="float" />
+          <Property Name="Lookback" Type="nvarchar" MaxLength="50" />
           <Property Name="Operator" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="ExpireDate" Type="smalldatetime" Nullable="false" />
           <Property Name="AddedDate" Type="smalldatetime" Nullable="false" />
@@ -151,9 +151,9 @@
           <Property Name="Loss" Type="bigint" Nullable="false" />
           <Property Name="Power" Type="bigint" Nullable="false" />
           <Property Name="MaxOffset" Type="float" Nullable="false" />
-          <Property Name="Temp" Type="float" Nullable="false" />
-          <Property Name="Humidity" Type="float" Nullable="false" />
-          <Property Name="Lookback" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Temp" Type="float" />
+          <Property Name="Humidity" Type="float" />
+          <Property Name="Lookback" Type="nvarchar" MaxLength="50" />
           <Property Name="Operator" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="ExpireDate" Type="smalldatetime" Nullable="false" />
           <Property Name="AddedDate" Type="smalldatetime" Nullable="false" />
@@ -409,9 +409,9 @@
           <Property Name="Loss" Type="Int64" Nullable="false" />
           <Property Name="Power" Type="Int64" Nullable="false" />
           <Property Name="MaxOffset" Type="Double" Nullable="false" />
-          <Property Name="Temp" Type="Double" Nullable="false" />
-          <Property Name="Humidity" Type="Double" Nullable="false" />
-          <Property Name="Lookback" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Temp" Type="Double" />
+          <Property Name="Humidity" Type="Double" />
+          <Property Name="Lookback" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Operator" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ExpireDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="AddedDate" Type="DateTime" Nullable="false" Precision="0" />
@@ -560,9 +560,9 @@
           <Property Name="Loss" Type="Int64" Nullable="false" />
           <Property Name="Power" Type="Int64" Nullable="false" />
           <Property Name="MaxOffset" Type="Double" Nullable="false" />
-          <Property Name="Temp" Type="Double" Nullable="false" />
-          <Property Name="Humidity" Type="Double" Nullable="false" />
-          <Property Name="Lookback" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Temp" Type="Double" />
+          <Property Name="Humidity" Type="Double" />
+          <Property Name="Lookback" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Operator" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ExpireDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="AddedDate" Type="DateTime" Nullable="false" Precision="0" />

@@ -51,15 +51,15 @@
 
         <div class="form-group row">
             <div class="col-md-4">
-                @Html.EditorFor(model => model.Temp, new { htmlAttributes = new { @class = "form-control", @placeholder = "Temperature" } })
+                @Html.EditorFor(model => model.Temp, new { htmlAttributes = new { @class = "form-control", @placeholder = "Temperature (optional)" } })
                 @Html.ValidationMessageFor(model => model.Temp, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-4">
-                @Html.EditorFor(model => model.Humidity, new { htmlAttributes = new { @class = "form-control", @placeholder = "Humidity" } })
+                @Html.EditorFor(model => model.Humidity, new { htmlAttributes = new { @class = "form-control", @placeholder = "Humidity (optional)" } })
                 @Html.ValidationMessageFor(model => model.Humidity, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-4">
-                @Html.EditorFor(model => model.Lookback, new { htmlAttributes = new { @class = "form-control", @placeholder = "Lookback" } })
+                @Html.EditorFor(model => model.Lookback, new { htmlAttributes = new { @class = "form-control", @placeholder = "Lookback (optional)" } })
                 @Html.ValidationMessageFor(model => model.Lookback, "", new { @class = "text-danger" })
             </div>
         </div>

@@ -21,8 +21,8 @@ namespace SatcomRfWebsite.Models
         public long Loss { get; set; }
         public long Power { get; set; }
         public double MaxOffset { get; set; }
-        public double Temp { get; set; }
-        public double Humidity { get; set; }
+        public double? Temp { get; set; }
+        public double? Humidity { get; set; }
         public string Lookback { get; set; }
         public string Operator { get; set; }
         public DateTime ExpireDate { get; set; }
@@ -36,8 +36,8 @@ namespace SatcomRfWebsite.Models
         public long Loss { get; set; }
         public long Power { get; set; }
         public double MaxOffset { get; set; }
-        public double Temp { get; set; }
-        public double Humidity { get; set; }
+        public double? Temp { get; set; }
+        public double? Humidity { get; set; }
         public string Lookback { get; set; }
         public string Operator { get; set; }
         public DateTime ExpireDate { get; set; }

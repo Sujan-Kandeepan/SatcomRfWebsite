@@ -65,9 +65,9 @@ namespace SatcomRfWebsite.Controllers
                         Loss = Convert.ToInt64(collection["Loss"]),
                         Power = Convert.ToInt64(collection["Power"]),
                         MaxOffset = Convert.ToDouble(collection["MaxOffset"]),
-                        Temp = Convert.ToDouble(collection["Temp"]),
-                        Humidity = Convert.ToDouble(collection["Humidity"]),
-                        Lookback = collection["Lookback"],
+                        Temp = collection["Temp"] != "" ? Convert.ToDouble(collection["Temp"]) : (double?)null,
+                        Humidity = collection["Humidity"] != "" ? Convert.ToDouble(collection["Humidity"]) : (double?)null,
+                        Lookback = collection["Lookback"] != "" ? collection["Lookback"] : null,
                         Operator = collection["Operator"],
                         ExpireDate = Convert.ToDateTime(collection["ExpireDate"])
                     });
@@ -86,9 +86,9 @@ namespace SatcomRfWebsite.Controllers
                         Loss = Convert.ToInt64(collection["Loss"]),
                         Power = Convert.ToInt64(collection["Power"]),
                         MaxOffset = Convert.ToDouble(collection["MaxOffset"]),
-                        Temp = Convert.ToDouble(collection["Temp"]),
-                        Humidity = Convert.ToDouble(collection["Humidity"]),
-                        Lookback = collection["Lookback"],
+                        Temp = collection["Temp"] != "" ? Convert.ToDouble(collection["Temp"]) : (double?)null,
+                        Humidity = collection["Humidity"] != "" ? Convert.ToDouble(collection["Humidity"]) : (double?)null,
+                        Lookback = collection["Lookback"] != "" ? collection["Lookback"] : null,
                         Operator = collection["Operator"],
                         ExpireDate = Convert.ToDateTime(collection["ExpireDate"])
                     });
@@ -119,39 +119,39 @@ namespace SatcomRfWebsite.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateAT(ATCalibrationData atCalibrationData)
+        public ActionResult CreateAT(ATCalibrationData atData)
         {
             if (ModelState.IsValid)
             {
-                tblATCalHeaders atCalHeaders = new tblATCalHeaders
+                tblATCalHeaders atHeaders = new tblATCalHeaders
                 {
-                    AssetNumber = atCalibrationData.AssetNumber,
-                    StartFreq = atCalibrationData.StartFreq,
-                    StopFreq = atCalibrationData.StopFreq,
-                    Points = atCalibrationData.Points,
-                    Loss = atCalibrationData.Loss,
-                    Power = atCalibrationData.Power,
-                    MaxOffset = atCalibrationData.MaxOffset,
-                    Temp = atCalibrationData.Temp,
-                    Humidity = atCalibrationData.Humidity,
-                    Lookback = atCalibrationData.Lookback,
-                    Operator = atCalibrationData.Operator,
-                    ExpireDate = atCalibrationData.ExpireDate,
-                    AddedDate = atCalibrationData.AddedDate,
-                    EditedBy = atCalibrationData.EditedBy
+                    AssetNumber = atData.AssetNumber,
+                    StartFreq = atData.StartFreq,
+                    StopFreq = atData.StopFreq,
+                    Points = atData.Points,
+                    Loss = atData.Loss,
+                    Power = atData.Power,
+                    MaxOffset = atData.MaxOffset,
+                    Temp = atData.Temp,
+                    Humidity = atData.Humidity,
+                    Lookback = atData.Lookback,
+                    Operator = atData.Operator,
+                    ExpireDate = atData.ExpireDate,
+                    AddedDate = atData.AddedDate,
+                    EditedBy = atData.EditedBy
                 };
-                db.tblATCalHeaders.Add(atCalHeaders);
+                db.tblATCalHeaders.Add(atHeaders);
                 
 
-                foreach (CalibrationRecord record in atCalibrationData.Records)
+                foreach (CalibrationRecord record in atData.Records)
                 {
                     tblCalData calData = new tblCalData
                     {
-                        AssetNumber = atCalibrationData.AssetNumber,
+                        AssetNumber = atData.AssetNumber,
                         DeviceType = "Attenuator",
                         Frequency = record.Frequency,
                         CalFactor = record.CalFactor,
-                        AddedDate = atCalibrationData.AddedDate
+                        AddedDate = atData.AddedDate
                     };
                     db.tblCalData.Add(calData);
                 }
@@ -161,7 +161,7 @@ namespace SatcomRfWebsite.Controllers
                 return RedirectToAction("Index");
             }
 
-            return View(atCalibrationData);
+            return View(atData);
         }
 
         [HttpPost]
