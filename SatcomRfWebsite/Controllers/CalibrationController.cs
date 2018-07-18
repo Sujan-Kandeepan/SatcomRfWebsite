@@ -40,7 +40,6 @@ namespace SatcomRfWebsite.Controllers
 
             try
             {
-                // TODO: Add insert logic here
                 List<CalibrationRecord> records = new List<CalibrationRecord>();
                 for (int i = 0; i < Convert.ToInt32(collection["Points"]); i++)
                 {
@@ -56,8 +55,8 @@ namespace SatcomRfWebsite.Controllers
                     CreateAT(new ATCalibrationData
                     {
                         AssetNumber = collection["AssetNumber"],
-                        AddedDate = Convert.ToDateTime(collection["AddedDate"]),
-                        EditedBy = collection["EditedBy"],
+                        AddedDate = DateTime.Now,
+                        EditedBy = Environment.UserName.ToUpper(),
                         Records = records,
                         StartFreq = Convert.ToInt64(collection["StartFreq"]),
                         StopFreq = Convert.ToInt64(collection["StopFreq"]),
@@ -77,8 +76,8 @@ namespace SatcomRfWebsite.Controllers
                     CreateOC(new OCCalibrationData
                     {
                         AssetNumber = collection["AssetNumber"],
-                        AddedDate = Convert.ToDateTime(collection["AddedDate"]),
-                        EditedBy = collection["EditedBy"],
+                        AddedDate = DateTime.Now,
+                        EditedBy = Environment.UserName.ToUpper(),
                         Records = records,
                         StartFreq = Convert.ToInt64(collection["StartFreq"]),
                         StopFreq = Convert.ToInt64(collection["StopFreq"]),
@@ -98,8 +97,8 @@ namespace SatcomRfWebsite.Controllers
                     CreatePS(new PSCalibrationData
                     {
                         AssetNumber = collection["AssetNumber"],
-                        AddedDate = Convert.ToDateTime(collection["AddedDate"]),
-                        EditedBy = collection["EditedBy"],
+                        AddedDate = DateTime.Now,
+                        EditedBy = Environment.UserName.ToUpper(),
                         Records = records,
                         Series = collection["Series"],
                         Serial = collection["Serial"],
