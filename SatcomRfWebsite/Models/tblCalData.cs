@@ -19,6 +19,7 @@ namespace SatcomRfWebsite.Models
         public string DeviceType { get; set; }
         public double Frequency { get; set; }
         public double CalFactor { get; set; }
+        public Nullable<double> ReturnLoss { get; set; }
         public System.DateTime AddedDate { get; set; }
     }
 }

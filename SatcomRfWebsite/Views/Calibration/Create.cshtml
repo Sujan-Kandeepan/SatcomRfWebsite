@@ -50,12 +50,18 @@
 <script src="https://terrylinooo.github.io/jquery.disableAutoFill/assets/js/jquery.disableAutoFill.min.js"></script>
 <script>
     $('form').disableAutoFill();
+
     $(".datepicker").datepicker({
         format: 'mm/dd/yyyy',
         changeMonth: true,
         changeYear: true
     });
-    $(document).ready(function () {
+
+    $("input").click(function() {
+        $(this).attr("autocomplete", "off");
+    });
+
+    $(document).ready(function() {
         $("#Points").on("input change", function () {
             if ($("#Points").val().length > 3) {
                 $("#Points").val($("#Points").val().substring(0, 3));
@@ -64,7 +70,7 @@
             $.ajax({
                 type: "post",
                 url: "/Calibration/CreateDataFields",
-                data: { "num": $("#Points").val() > 0 ? $("#Points").val() : 0 },
+                data: { "num": $("#Points").val() > 0 ? $("#Points").val() : 0, "returnloss": document.URL.indexOf("PowerSensor") == -1 ? true : false },
                 dataType: "text",
                 success: function (result) {
                     $("#DataFields").html(result);

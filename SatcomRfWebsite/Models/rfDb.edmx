@@ -75,6 +75,7 @@
           <Property Name="DeviceType" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Frequency" Type="float" Nullable="false" />
           <Property Name="CalFactor" Type="float" Nullable="false" />
+          <Property Name="ReturnLoss" Type="float" />
           <Property Name="AddedDate" Type="smalldatetime" Nullable="false" />
         </EntityType>
         <EntityType Name="tblKLYTestParameters">
@@ -577,6 +578,7 @@
           <Property Name="DeviceType" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Frequency" Type="Double" Nullable="false" />
           <Property Name="CalFactor" Type="Double" Nullable="false" />
+          <Property Name="ReturnLoss" Type="Double" />
           <Property Name="AddedDate" Type="DateTime" Nullable="false" Precision="0" />
         </EntityType>
       </Schema>
@@ -860,6 +862,7 @@
             <EntityTypeMapping TypeName="rfDb.tblCalData">
               <MappingFragment StoreEntitySet="tblCalData">
                 <ScalarProperty Name="AddedDate" ColumnName="AddedDate" />
+                <ScalarProperty Name="ReturnLoss" ColumnName="ReturnLoss" />
                 <ScalarProperty Name="CalFactor" ColumnName="CalFactor" />
                 <ScalarProperty Name="Frequency" ColumnName="Frequency" />
                 <ScalarProperty Name="DeviceType" ColumnName="DeviceType" />

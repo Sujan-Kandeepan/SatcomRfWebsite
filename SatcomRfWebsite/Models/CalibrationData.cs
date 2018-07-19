@@ -57,5 +57,6 @@ namespace SatcomRfWebsite.Models
     {
         public double Frequency { get; set; }
         public double CalFactor { get; set; }
+        public double? ReturnLoss { get; set; }
     }
 }

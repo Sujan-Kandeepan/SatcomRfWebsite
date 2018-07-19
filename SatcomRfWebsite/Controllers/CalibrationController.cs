@@ -46,7 +46,8 @@ namespace SatcomRfWebsite.Controllers
                     records.Add(new CalibrationRecord
                     {
                         Frequency = Convert.ToDouble(collection[$"Records[{i}].Frequency"]),
-                        CalFactor = Convert.ToDouble(collection[$"Records[{i}].CalFactor"])
+                        CalFactor = Convert.ToDouble(collection[$"Records[{i}].CalFactor"]),
+                        ReturnLoss = collection[$"Records[{i}].ReturnLoss"] != "" ? Convert.ToDouble(collection[$"Records[{i}].ReturnLoss"]) : (double?)null
                     });
                 }
 
@@ -150,6 +151,7 @@ namespace SatcomRfWebsite.Controllers
                         DeviceType = "Attenuator",
                         Frequency = record.Frequency,
                         CalFactor = record.CalFactor,
+                        ReturnLoss = record.ReturnLoss,
                         AddedDate = atData.AddedDate
                     };
                     db.tblCalData.Add(calData);
@@ -196,6 +198,7 @@ namespace SatcomRfWebsite.Controllers
                         DeviceType = "Output Coupler",
                         Frequency = record.Frequency,
                         CalFactor = record.CalFactor,
+                        ReturnLoss = record.ReturnLoss,
                         AddedDate = ocData.AddedDate
                     };
                     db.tblCalData.Add(calData);
@@ -239,6 +242,7 @@ namespace SatcomRfWebsite.Controllers
                         DeviceType = "Power Sensor",
                         Frequency = record.Frequency,
                         CalFactor = record.CalFactor,
+                        ReturnLoss = record.ReturnLoss,
                         AddedDate = psData.AddedDate
                     };
                     db.tblCalData.Add(calData);
@@ -252,14 +256,15 @@ namespace SatcomRfWebsite.Controllers
             return View(psData);
         }
 
-       public ActionResult CreateDataFields(int num)
+       public ActionResult CreateDataFields(int num, bool returnloss)
         {
             var html = "";
             for(var i = 0; i < num; i++)
             {
                 html += "<div class='row' style='margin-bottom: 15px'>";
-                html += $"<div class='col-lg-6'><input class='form-control text-box single-line' data-val='true' data-val-number='The field Frequency must be a number.' data-val-required='The Frequency field is required.' id='Records_{i}__Frequency' name='Records[{i}].Frequency' placeholder='Frequency' type='text' value=''></div>";
-                html += $"<div class='col-lg-6'><input class='form-control text-box single-line' data-val='true' data-val-number='The field CalFactor must be a number.' data-val-required='The CalFactor field is required.' id='Records_{i}__CalFactor' name='Records[{i}].CalFactor' placeholder='Calibration Factor' type='text' value=''></div>";
+                html += $"<div class='col-lg-" + (returnloss ? "4" : "6") + "'><input class='form-control text-box single-line' data-val='true' data-val-number='The field Frequency must be a number.' data-val-required='The Frequency field is required.' id='Records_{i}__Frequency' name='Records[{i}].Frequency' placeholder='Frequency' type='text' value=''></div>";
+                html += $"<div class='col-lg-" + (returnloss ? "4" : "6") + "'><input class='form-control text-box single-line' data-val='true' data-val-number='The field CalFactor must be a number.' data-val-required='The CalFactor field is required.' id='Records_{i}__CalFactor' name='Records[{i}].CalFactor' placeholder='Calibration Factor' type='text' value=''></div>";
+                if (returnloss) html += $"<div class='col-lg-4'><input class='form-control text-box single-line' data-val='true' data-val-number='The field ReturnLoss must be a number.' data-val-required='The ReturnLoss field is required.' id='Records_{i}__CalFactor' name='Records[{i}].ReturnLoss' placeholder='Return Loss (optional)' type='text' value=''></div>";
                 html += "</div>";
             }
             return Content(html);
