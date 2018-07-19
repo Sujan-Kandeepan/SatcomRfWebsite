@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Office.Interop.Excel;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -273,7 +275,7 @@ namespace SatcomRfWebsite.Controllers
         }
 
         [HttpPost]
-        public ActionResult ImportFile()
+        public JsonResult ImportFile(string type)
         {
             try
             {
@@ -288,15 +290,133 @@ namespace SatcomRfWebsite.Controllers
                     {
                         stream.CopyTo(fileStream);
                     }
+
+                    Application app = new Application();
+                    Workbook wb = app.Workbooks.Open(path, Type.Missing, Type.Missing, Type.Missing, Type.Missing,
+                        Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing,
+                        Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+                    Worksheet sheet = (Worksheet)wb.Sheets["Sheet1"];
+                    Range range = sheet.UsedRange;
+
+                    try
+                    {
+                        if (type.Equals("Attenuator"))
+                        {
+                            List<CalibrationRecord> records = new List<CalibrationRecord>();
+                            for (int i = 9; i <= range.Rows.Count; i++)
+                            {
+                                records.Add(new CalibrationRecord
+                                {
+                                    Frequency = Convert.ToDouble(range.Cells[i, 1].Value),
+                                    CalFactor = Convert.ToDouble(range.Cells[i, 2].Value)
+                                });
+                            }
+
+                            string datestring = range.Cells[8, 2].Value.ToString();
+                            string[] pieces = datestring.Split(' ')[0].Split('/');
+                            DateTime date = new DateTime(Convert.ToInt32(pieces[2]), Convert.ToInt32(pieces[0]), Convert.ToInt32(pieces[1]));
+
+                            ATCalibrationData data = new ATCalibrationData
+                            {
+                                AssetNumber = range.Cells[1, 2].Text,
+                                Records = records,
+                                StartFreq = Convert.ToInt64(range.Cells[3, 2].Value),
+                                StopFreq = Convert.ToInt64(range.Cells[4, 2].Value),
+                                Points = Convert.ToInt32(range.Cells[5, 2].Value),
+                                Loss = Convert.ToInt64(range.Cells[3, 4].Value),
+                                Power = Convert.ToInt64(range.Cells[4, 4].Value),
+                                MaxOffset = Convert.ToDouble(range.Cells[5, 4].Value),
+                                Temp = Convert.ToDouble(range.Cells[3, 6].Value),
+                                Humidity = Convert.ToDouble(range.Cells[4, 6].Value),
+                                Lookback = range.Cells[5, 6].Text,
+                                Operator = range.Cells[7, 2].Text,
+                                ExpireDate = date
+                            };
+                            wb.Close(false, path, false);
+                            return Json(JsonConvert.SerializeObject(data));
+                        }
+                        else if (type.Equals("OutputCoupler"))
+                        {
+                            List<CalibrationRecord> records = new List<CalibrationRecord>();
+                            for (int i = 9; i <= range.Rows.Count; i++)
+                            {
+                                records.Add(new CalibrationRecord
+                                {
+                                    Frequency = Convert.ToDouble(range.Cells[i, 1].Value),
+                                    CalFactor = Convert.ToDouble(range.Cells[i, 2].Value)
+                                });
+                            }
+
+                            string datestring = range.Cells[8, 2].Value.ToString();
+                            string[] pieces = datestring.Split(' ')[0].Split('/');
+                            DateTime date = new DateTime(Convert.ToInt32(pieces[2]), Convert.ToInt32(pieces[0]), Convert.ToInt32(pieces[1]));
+
+                            OCCalibrationData data = new OCCalibrationData
+                            {
+                                AssetNumber = range.Cells[1, 2].Text,
+                                Records = records,
+                                StartFreq = Convert.ToInt64(range.Cells[3, 2].Value),
+                                StopFreq = Convert.ToInt64(range.Cells[4, 2].Value),
+                                Points = Convert.ToInt32(range.Cells[5, 2].Value),
+                                Loss = Convert.ToInt64(range.Cells[3, 4].Value),
+                                Power = Convert.ToInt64(range.Cells[4, 4].Value),
+                                MaxOffset = Convert.ToDouble(range.Cells[5, 4].Value),
+                                Temp = Convert.ToDouble(range.Cells[3, 6].Value),
+                                Humidity = Convert.ToDouble(range.Cells[4, 6].Value),
+                                Lookback = range.Cells[5, 6].Text,
+                                Operator = range.Cells[7, 2].Text,
+                                ExpireDate = date
+                            };
+                            wb.Close(false, path, false);
+                            return Json(JsonConvert.SerializeObject(data));
+                        }
+                        else if (type.Equals("PowerSensor"))
+                        {
+                            List<CalibrationRecord> records = new List<CalibrationRecord>();
+                            for (int i = 12; i <= range.Rows.Count; i++)
+                            {
+                                records.Add(new CalibrationRecord
+                                {
+                                    Frequency = Convert.ToDouble(range.Cells[i, 1].Value),
+                                    CalFactor = Convert.ToDouble(range.Cells[i, 4].Value)
+                                });
+                            }
+
+                            string datestring = range.Cells[1, 7].Value.ToString();
+                            string[] pieces = datestring.Split(' ')[0].Split('/');
+                            DateTime date = new DateTime(Convert.ToInt32(pieces[2]), Convert.ToInt32(pieces[0]), Convert.ToInt32(pieces[1]));
+
+                            PSCalibrationData data = new PSCalibrationData
+                            {
+                                AssetNumber = range.Cells[7, 5].Text,
+                                Records = records,
+                                Series = range.Cells[6, 1].Text,
+                                Serial = range.Cells[7, 3].Text,
+                                RefCal = range.Cells[7, 6].Text,
+                                Certificate = range.Cells[4, 7].Text,
+                                Operator = range.Cells[7, 8].Text,
+                                CalDate = date
+                            };
+                            wb.Close(false, path, false);
+                            return Json(JsonConvert.SerializeObject(data));
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        System.Diagnostics.Debug.WriteLine(e.ToString());
+                        wb.Close(false, path, false);
+                        return Json("Fail");
+                    }
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                System.Diagnostics.Debug.WriteLine(e.ToString());
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return Content("Upload to server failed");
+                return Json("Could not get data from file");
             }
 
-            return Content("File uploaded successfully");
+            return Json("File uploaded successfully");
         }
 
         // GET: Calibration/Edit/5
