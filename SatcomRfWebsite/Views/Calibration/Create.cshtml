@@ -22,7 +22,7 @@
         </select>
     </div>
     <div class="col-md-3">
-        <button class="form-control btn btn-info @(Request.Url.ToString().Replace("/", "").EndsWith("Create") ? "disabled" : "" )" id="import-file">Import calibration file</button>
+        <label class="form-control btn btn-info @(Request.Url.ToString().Replace("/", "").EndsWith("Create") ? "disabled" : "" )" id="import-file">Import calibration file<input type="file" style="display: none;"></label>
     </div>
 </div>
 
@@ -49,20 +49,48 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="https://terrylinooo.github.io/jquery.disableAutoFill/assets/js/jquery.disableAutoFill.min.js"></script>
 <script>
-    $('form').disableAutoFill();
+    $(document).ready(function () {
+        $('form').disableAutoFill();
 
-    $(".datepicker").datepicker({
-        format: 'mm/dd/yyyy',
-        changeMonth: true,
-        changeYear: true
-    });
+        $(".datepicker").datepicker({
+            format: 'mm/dd/yyyy',
+            changeMonth: true,
+            changeYear: true
+        });
 
-    $("input").click(function() {
-        $(this).attr("autocomplete", "off");
-    });
+        $("input:text,form").click(function () {
+            $(this).attr("autocomplete", "off");
+        });
 
-    $(document).ready(function() {
-        $("#Points").on("input change", function () {
+        $("input:file").on("change", function () {
+            if ($(this).prop("files").length > 0 && window.FormData !== undefined) {
+                var file = $(this).prop("files")[0];
+                var data = new FormData();
+                data.append('file', file);
+
+                $.ajax({
+                    type: "post",
+                    url: "/Calibration/ImportFile",
+                    data: data,
+                    contentType: false,
+                    processData: false,
+                    success: function (result) {
+                        alert(result);
+                    },
+                    error: function (xhr, status, p3, p4) {
+                        var err = "Error " + " " + status + " " + p3 + " " + p4;
+                        if (xhr.responseText && xhr.responseText[0] == "{")
+                            err = JSON.parse(xhr.responseText).Message;
+                        alert(err);
+                    }
+                });
+            } else {
+                alert("This browser does not support file uploads!");
+            }
+            $(this).val("");
+        });
+
+        $("#Points").on("input change", function() {
             if ($("#Points").val().length > 3) {
                 $("#Points").val($("#Points").val().substring(0, 3));
             }

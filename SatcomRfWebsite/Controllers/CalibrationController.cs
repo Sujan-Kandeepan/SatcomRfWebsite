@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using SatcomRfWebsite.Models;
@@ -141,7 +143,7 @@ namespace SatcomRfWebsite.Controllers
                     EditedBy = atData.EditedBy
                 };
                 db.tblATCalHeaders.Add(atHeaders);
-                
+
 
                 foreach (CalibrationRecord record in atData.Records)
                 {
@@ -210,7 +212,7 @@ namespace SatcomRfWebsite.Controllers
             }
 
             return View(ocData);
-            
+
         }
 
         [HttpPost]
@@ -256,18 +258,45 @@ namespace SatcomRfWebsite.Controllers
             return View(psData);
         }
 
-       public ActionResult CreateDataFields(int num, bool returnloss)
+        public ActionResult CreateDataFields(int num, bool returnloss)
         {
             var html = "";
-            for(var i = 0; i < num; i++)
+            for (var i = 0; i < num; i++)
             {
                 html += "<div class='row' style='margin-bottom: 15px'>";
-                html += $"<div class='col-lg-" + (returnloss ? "4" : "6") + "'><input class='form-control text-box single-line' data-val='true' data-val-number='The field Frequency must be a number.' data-val-required='The Frequency field is required.' id='Records_{i}__Frequency' name='Records[{i}].Frequency' placeholder='Frequency' type='text' value=''></div>";
-                html += $"<div class='col-lg-" + (returnloss ? "4" : "6") + "'><input class='form-control text-box single-line' data-val='true' data-val-number='The field CalFactor must be a number.' data-val-required='The CalFactor field is required.' id='Records_{i}__CalFactor' name='Records[{i}].CalFactor' placeholder='Calibration Factor' type='text' value=''></div>";
+                html += "<div class='col-lg-" + (returnloss ? "4" : "6") + $"'><input class='form-control text-box single-line' data-val='true' data-val-number='The field Frequency must be a number.' data-val-required='The Frequency field is required.' id='Records_{i}__Frequency' name='Records[{i}].Frequency' placeholder='Frequency' type='text' value=''></div>";
+                html += "<div class='col-lg-" + (returnloss ? "4" : "6") + $"'><input class='form-control text-box single-line' data-val='true' data-val-number='The field CalFactor must be a number.' data-val-required='The CalFactor field is required.' id='Records_{i}__CalFactor' name='Records[{i}].CalFactor' placeholder='Calibration Factor' type='text' value=''></div>";
                 if (returnloss) html += $"<div class='col-lg-4'><input class='form-control text-box single-line' data-val='true' data-val-number='The field ReturnLoss must be a number.' data-val-required='The ReturnLoss field is required.' id='Records_{i}__CalFactor' name='Records[{i}].ReturnLoss' placeholder='Return Loss (optional)' type='text' value=''></div>";
                 html += "</div>";
             }
             return Content(html);
+        }
+
+        [HttpPost]
+        public ActionResult ImportFile()
+        {
+            try
+            {
+                if (Request.Files.Count == 0) return Json("No file found");
+                var fileContent = Request.Files[0];
+                if (fileContent != null && fileContent.ContentLength > 0)
+                {
+                    var stream = fileContent.InputStream;
+                    var fileName = Request.Files[0].FileName;
+                    var path = Path.Combine(Server.MapPath("~/App_Data"), fileName);
+                    using (var fileStream = System.IO.File.Create(path))
+                    {
+                        stream.CopyTo(fileStream);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Content("Upload to server failed");
+            }
+
+            return Content("File uploaded successfully");
         }
 
         // GET: Calibration/Edit/5
