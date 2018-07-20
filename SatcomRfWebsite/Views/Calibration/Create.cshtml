@@ -16,7 +16,7 @@
 
 <div class="page-header"><h1>Submit Calibration Data</h1></div>
 <div class="row">
-    <div class="col-md-6" style="margin-top: -20px">
+    <div class="col-md-5" style="margin-top: -20px">
         <div class="display">
             <h3>Submit new calibration record to database.</h3>
         </div>
@@ -29,8 +29,11 @@
             <option value="Power Sensor" @(Request.Url.ToString().Contains("PowerSensor") ? "selected" : "" )>Power Sensor</option>
         </select>
     </div>
-    <div class="col-md-3">
-        <label class="form-control btn btn-info @(Request.Url.ToString().Replace("/", "").EndsWith("Create") ? "disabled" : "" )" id="import-file"><span id="import-msg">Import calibration file</span><input type="file" style="display: none;"></label>
+    <div class="col-md-2">
+        <label class="form-control btn btn-info @(Request.Url.ToString().Replace("/", "").EndsWith("Create") ? "disabled" : "" )" id="import-file"><span id="import-msg">Import calibration file</span><input type="file" id="file-browser" style="display: none;" @(Request.Url.ToString().Replace("/", "").EndsWith("Create") ? "disabled" : "" )></label>
+    </div>
+    <div class="col-md-2">
+        <a class="form-control btn btn-primary" id="overview" href="~/Calibration">Go to overview</a>
     </div>
 </div>
 
@@ -72,6 +75,7 @@
 
         $("input:file").on("change", function () {
             $("#import-msg").html('Getting form data...');
+            $("#file-browser").prop("disabled", true);
 
             if ($(this).prop("files").length > 0 && window.FormData !== undefined) {
                 var file = $(this).prop("files")[0];
@@ -85,10 +89,7 @@
                     contentType: false,
                     processData: false,
                     success: function (result) {
-                        console.log(result);
-                        $("#import-msg").html('Import calibration file');
-
-                        if (result == "Fail") {
+                       if (result == "Fail") {
                             alert("Could not parse file!");
                             return;
                         }
@@ -133,6 +134,8 @@
                             dataType: "text",
                             success: function (result) {
                                 $("#DataFields").html(result);
+                                $("#import-msg").html('Import calibration file');
+                                $("#file-browser").prop("disabled", false);
 
                                 setTimeout(function () {
                                     for (var i = 0; i < fields.Records.length; i++) {
@@ -144,11 +147,14 @@
                             },
                             error: function (xhr, status, error) {
                                 $("#DataFields").html(xhr.responseText);
+                                $("#import-msg").html('Import calibration file');
+                                $("#file-browser").prop("disabled", false);
                             }
                         });
                     },
                     error: function (xhr, status, p3, p4) {
                         $("#import-msg").html('Import calibration file');
+                        $("#file-browser").prop("disabled", false);
 
                         var err = "Error " + " " + status + " " + p3 + " " + p4;
                         if (xhr.responseText && xhr.responseText[0] == "{")
