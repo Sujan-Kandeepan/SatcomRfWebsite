@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -291,6 +292,8 @@ namespace SatcomRfWebsite.Controllers
                         stream.CopyTo(fileStream);
                     }
 
+                    DateTime startTime = DateTime.Now;
+
                     Application app = new Application();
                     Workbook wb = app.Workbooks.Open(path, Type.Missing, Type.Missing, Type.Missing, Type.Missing,
                         Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing,
@@ -412,6 +415,13 @@ namespace SatcomRfWebsite.Controllers
                     {
                         System.Diagnostics.Debug.WriteLine(e.ToString());
                         wb.Close(false, path, false);
+                        foreach (var process in Process.GetProcessesByName("EXCEL"))
+                        {
+                            if (process.StartTime > startTime)
+                            {
+                                process.Kill();
+                            }
+                        }
                         return Json("Fail");
                     }
                 }

@@ -97,7 +97,8 @@
                     contentType: false,
                     processData: false,
                     success: function (result) {
-                       if (result == "Fail") {
+                        if (result == "Fail") {
+                            $("#import-msg").html('Import calibration file');
                             alert("Could not parse file!");
                             return;
                         }
