@@ -57,7 +57,7 @@ namespace SatcomRfWebsite.Controllers
 
                 if (Request.Url.ToString().Contains("Attenuator"))
                 {
-                    CreateAT(new ATCalibrationData
+                    return CreateAT(new ATCalibrationData
                     {
                         AssetNumber = collection["AssetNumber"],
                         AddedDate = DateTime.Now,
@@ -78,7 +78,7 @@ namespace SatcomRfWebsite.Controllers
                 }
                 else if (Request.Url.ToString().Contains("OutputCoupler"))
                 {
-                    CreateOC(new OCCalibrationData
+                    return CreateOC(new OCCalibrationData
                     {
                         AssetNumber = collection["AssetNumber"],
                         AddedDate = DateTime.Now,
@@ -99,7 +99,7 @@ namespace SatcomRfWebsite.Controllers
                 }
                 else if (Request.Url.ToString().Contains("PowerSensor"))
                 {
-                    CreatePS(new PSCalibrationData
+                    return CreatePS(new PSCalibrationData
                     {
                         AssetNumber = collection["AssetNumber"],
                         AddedDate = DateTime.Now,
@@ -163,7 +163,7 @@ namespace SatcomRfWebsite.Controllers
 
                 db.SaveChanges();
 
-                return RedirectToAction("Index");
+                return Redirect("~/Calibration/Index/Attenuator");
             }
 
             return View(atData);
@@ -210,7 +210,7 @@ namespace SatcomRfWebsite.Controllers
 
                 db.SaveChanges();
 
-                return RedirectToAction("Index");
+                return Redirect("~/Calibration/Index/OutputCoupler");
             }
 
             return View(ocData);
@@ -254,7 +254,7 @@ namespace SatcomRfWebsite.Controllers
 
                 db.SaveChanges();
 
-                return RedirectToAction("Index");
+                return Redirect("~/Calibration/Index/PowerSensor");
             }
 
             return View(psData);

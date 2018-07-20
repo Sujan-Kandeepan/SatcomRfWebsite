@@ -3,4 +3,40 @@
     ViewBag.Title = "Calibration";
 }
 
-<h2>Calibration</h2>
+<script>
+    function setURL(value) {
+        if (value == "default") {
+            location.href = location.origin + "/Calibration";
+        } else {
+            location.href = location.origin + "/Calibration/Index/" + value.replace(" ", "");
+        }
+    }
+
+    function create(value) {
+        if (value == "default") {
+            location.href = location.origin + "/Calibration/Create";
+        } else {
+            location.href = location.origin + "/Calibration/Create/" + value.replace(" ", "");
+        }
+    }
+</script>
+
+<div class="page-header"><h1>Calibration Data Overview</h1></div>
+<div class="row">
+    <div class="col-md-7" style="margin-top: -20px">
+        <div class="display">
+            <h3>View existing claibration data with history.</h3>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <select class="form-control" id="cal-type" onchange="setURL(this.value)">
+            <option value="default">Select a device type</option>
+            <option value="Attenuator" @(Request.Url.ToString().Contains("Attenuator") ? "selected" : "" )>Attenuator</option>
+            <option value="Output Coupler" @(Request.Url.ToString().Contains("OutputCoupler") ? "selected" : "" )>Output Coupler</option>
+            <option value="Power Sensor" @(Request.Url.ToString().Contains("PowerSensor") ? "selected" : "" )>Power Sensor</option>
+        </select>
+    </div>
+    <div class="col-md-2">
+        <a class="form-control btn btn-primary" id="create" onclick="create($('#cal-type').val())">Submit new record</a>
+    </div>
+</div>

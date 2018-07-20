@@ -12,6 +12,14 @@
             location.href = location.origin + "/Calibration/Create/" + value.replace(" ", "");
         }
     }
+
+    function index(value) {
+        if (value == "default") {
+            location.href = location.origin + "/Calibration";
+        } else {
+            location.href = location.origin + "/Calibration/Index/" + value.replace(" ", "");
+        }
+    }
 </script>
 
 <div class="page-header"><h1>Submit Calibration Data</h1></div>
@@ -33,7 +41,7 @@
         <label class="form-control btn btn-info @(Request.Url.ToString().Replace("/", "").EndsWith("Create") ? "disabled" : "" )" id="import-file"><span id="import-msg">Import calibration file</span><input type="file" id="file-browser" style="display: none;" @(Request.Url.ToString().Replace("/", "").EndsWith("Create") ? "disabled" : "" )></label>
     </div>
     <div class="col-md-2">
-        <a class="form-control btn btn-primary" id="overview" href="~/Calibration">Go to overview</a>
+        <button class="form-control btn btn-primary" id="index" onclick="index($('#cal-type').val())">Go to overview</button>
     </div>
 </div>
 
