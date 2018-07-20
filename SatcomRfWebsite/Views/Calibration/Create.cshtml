@@ -78,7 +78,7 @@
             $("#file-browser").prop("disabled", true);
 
             if ($(this).prop("files").length > 0 && window.FormData !== undefined) {
-                var file = $(this).prop("files")[0];
+                var file = $(this).prop("files")["files" in $(this) ? $(this).prop("files").length - 1 : 0];
                 var data = new FormData();
                 data.append('file', file);
 
