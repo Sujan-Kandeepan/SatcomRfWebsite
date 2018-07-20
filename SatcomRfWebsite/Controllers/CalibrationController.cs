@@ -295,7 +295,14 @@ namespace SatcomRfWebsite.Controllers
                     Workbook wb = app.Workbooks.Open(path, Type.Missing, Type.Missing, Type.Missing, Type.Missing,
                         Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing,
                         Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
-                    Worksheet sheet = (Worksheet)wb.Sheets["Sheet1"];
+                    Worksheet sheet = (Worksheet)wb.Sheets[1];
+                    for (int i = 2; i <= wb.Sheets.Count; i++)
+                    {
+                        if (wb.Sheets[i].UsedRange.Rows.Count > sheet.UsedRange.Rows.Count)
+                        {
+                            sheet = wb.Sheets[i];
+                        }
+                    }
                     Range range = sheet.UsedRange;
 
                     try
