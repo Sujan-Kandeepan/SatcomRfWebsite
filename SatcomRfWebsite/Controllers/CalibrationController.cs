@@ -51,7 +51,7 @@ namespace SatcomRfWebsite.Controllers
                     {
                         Frequency = Convert.ToDouble(collection[$"Records[{i}].Frequency"]),
                         CalFactor = Convert.ToDouble(collection[$"Records[{i}].CalFactor"]),
-                        ReturnLoss = collection[$"Records[{i}].ReturnLoss"] != "" ? Convert.ToDouble(collection[$"Records[{i}].ReturnLoss"]) : (double?)null
+                        ReturnLoss = !Request.Url.ToString().Contains("PowerSensor") && collection[$"Records[{i}].ReturnLoss"] != "" ? Convert.ToDouble(collection[$"Records[{i}].ReturnLoss"]) : (double?)null
                     });
                 }
 
@@ -265,10 +265,10 @@ namespace SatcomRfWebsite.Controllers
             var html = "";
             for (var i = 0; i < num; i++)
             {
-                html += "<div class='row' style='margin-bottom: 15px'>";
-                html += "<div class='col-lg-" + (returnloss ? "4" : "6") + $"'><input class='form-control text-box single-line' data-val='true' data-val-number='The field Frequency must be a number.' data-val-required='The Frequency field is required.' id='Records_{i}__Frequency' name='Records[{i}].Frequency' placeholder='Frequency' type='text' value=''></div>";
-                html += "<div class='col-lg-" + (returnloss ? "4" : "6") + $"'><input class='form-control text-box single-line' data-val='true' data-val-number='The field CalFactor must be a number.' data-val-required='The CalFactor field is required.' id='Records_{i}__CalFactor' name='Records[{i}].CalFactor' placeholder='Calibration Factor' type='text' value=''></div>";
-                if (returnloss) html += $"<div class='col-lg-4'><input class='form-control text-box single-line' data-val='true' data-val-number='The field ReturnLoss must be a number.' data-val-required='The ReturnLoss field is required.' id='Records_{i}__CalFactor' name='Records[{i}].ReturnLoss' placeholder='Return Loss (optional)' type='text' value=''></div>";
+                html += $"<div class='form-group row' style='margin-bottom: 5px' align='left'>";
+                html += "<div class='col-md-" + (returnloss ? "4" : "6") + $"'><label class='control-label' for='Records_{i}__Frequency'>Frequency &middot;  {i + 1}</label><input class='form-control text-box single-line' data-val='true' data-val-number='The field Frequency must be a number.' data-val-required='The Frequency field is required.' id='Records_{i}__Frequency' name='Records[{i}].Frequency' type='text' value=''></div>";
+                html += "<div class='col-md-" + (returnloss ? "4" : "6") + $"'><label class='control-label' for='Records_{i}__CalFactor'>Calibration Factor &middot; {i + 1}</label><input class='form-control text-box single-line' data-val='true' data-val-number='The field CalFactor must be a number.' data-val-required='The CalFactor field is required.' id='Records_{i}__CalFactor' name='Records[{i}].CalFactor' type='text' value=''></div>";
+                if (returnloss) html += $"<div class='col-md-4'><label class='control-label' for='Records_{i}__ReturnLoss'>Return Loss &middot; {i + 1}</label><input class='form-control text-box single-line' data-val='true' data-val-number='The field ReturnLoss must be a number.' data-val-required='The ReturnLoss field is required.' id='Records_{i}__CalFactor' name='Records[{i}].ReturnLoss' placeholder='Optional' type='text' value=''></div>";
                 html += "</div>";
             }
             return Content(html);
@@ -307,8 +307,8 @@ namespace SatcomRfWebsite.Controllers
                             {
                                 records.Add(new CalibrationRecord
                                 {
-                                    Frequency = Convert.ToDouble(range.Cells[i, 1].Value),
-                                    CalFactor = Convert.ToDouble(range.Cells[i, 2].Value)
+                                    Frequency = Convert.ToDouble(range.Cells[i, 1].Text),
+                                    CalFactor = Convert.ToDouble(range.Cells[i, 2].Text)
                                 });
                             }
 
@@ -320,14 +320,14 @@ namespace SatcomRfWebsite.Controllers
                             {
                                 AssetNumber = range.Cells[1, 2].Text,
                                 Records = records,
-                                StartFreq = Convert.ToInt64(range.Cells[3, 2].Value),
-                                StopFreq = Convert.ToInt64(range.Cells[4, 2].Value),
-                                Points = Convert.ToInt32(range.Cells[5, 2].Value),
-                                Loss = Convert.ToInt64(range.Cells[3, 4].Value),
-                                Power = Convert.ToInt64(range.Cells[4, 4].Value),
-                                MaxOffset = Convert.ToDouble(range.Cells[5, 4].Value),
-                                Temp = Convert.ToDouble(range.Cells[3, 6].Value),
-                                Humidity = Convert.ToDouble(range.Cells[4, 6].Value),
+                                StartFreq = Convert.ToInt64(range.Cells[3, 2].Text),
+                                StopFreq = Convert.ToInt64(range.Cells[4, 2].Text),
+                                Points = Convert.ToInt32(range.Cells[5, 2].Text),
+                                Loss = Convert.ToInt64(range.Cells[3, 4].Text),
+                                Power = Convert.ToInt64(range.Cells[4, 4].Text),
+                                MaxOffset = Convert.ToDouble(range.Cells[5, 4].Text),
+                                Temp = Convert.ToDouble(range.Cells[3, 6].Text),
+                                Humidity = Convert.ToDouble(range.Cells[4, 6].Text),
                                 Lookback = range.Cells[5, 6].Text,
                                 Operator = range.Cells[7, 2].Text,
                                 ExpireDate = date
@@ -342,8 +342,8 @@ namespace SatcomRfWebsite.Controllers
                             {
                                 records.Add(new CalibrationRecord
                                 {
-                                    Frequency = Convert.ToDouble(range.Cells[i, 1].Value),
-                                    CalFactor = Convert.ToDouble(range.Cells[i, 2].Value)
+                                    Frequency = Convert.ToDouble(range.Cells[i, 1].Text),
+                                    CalFactor = Convert.ToDouble(range.Cells[i, 2].Text)
                                 });
                             }
 
@@ -355,14 +355,14 @@ namespace SatcomRfWebsite.Controllers
                             {
                                 AssetNumber = range.Cells[1, 2].Text,
                                 Records = records,
-                                StartFreq = Convert.ToInt64(range.Cells[3, 2].Value),
-                                StopFreq = Convert.ToInt64(range.Cells[4, 2].Value),
-                                Points = Convert.ToInt32(range.Cells[5, 2].Value),
-                                Loss = Convert.ToInt64(range.Cells[3, 4].Value),
-                                Power = Convert.ToInt64(range.Cells[4, 4].Value),
-                                MaxOffset = Convert.ToDouble(range.Cells[5, 4].Value),
-                                Temp = Convert.ToDouble(range.Cells[3, 6].Value),
-                                Humidity = Convert.ToDouble(range.Cells[4, 6].Value),
+                                StartFreq = Convert.ToInt64(range.Cells[3, 2].Text),
+                                StopFreq = Convert.ToInt64(range.Cells[4, 2].Text),
+                                Points = Convert.ToInt32(range.Cells[5, 2].Text),
+                                Loss = Convert.ToInt64(range.Cells[3, 4].Text),
+                                Power = Convert.ToInt64(range.Cells[4, 4].Text),
+                                MaxOffset = Convert.ToDouble(range.Cells[5, 4].Text),
+                                Temp = Convert.ToDouble(range.Cells[3, 6].Text),
+                                Humidity = Convert.ToDouble(range.Cells[4, 6].Text),
                                 Lookback = range.Cells[5, 6].Text,
                                 Operator = range.Cells[7, 2].Text,
                                 ExpireDate = date
@@ -377,8 +377,8 @@ namespace SatcomRfWebsite.Controllers
                             {
                                 records.Add(new CalibrationRecord
                                 {
-                                    Frequency = Convert.ToDouble(range.Cells[i, 1].Value),
-                                    CalFactor = Convert.ToDouble(range.Cells[i, 4].Value)
+                                    Frequency = Convert.ToDouble(range.Cells[i, 1].Text),
+                                    CalFactor = Convert.ToDouble(range.Cells[i, 4].Text)
                                 });
                             }
 

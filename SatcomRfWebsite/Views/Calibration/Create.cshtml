@@ -72,7 +72,6 @@
 
         $("input:file").on("change", function () {
             $("#import-msg").html('Getting form data...');
-            $("#import-file").prop("disabled", true);
 
             if ($(this).prop("files").length > 0 && window.FormData !== undefined) {
                 var file = $(this).prop("files")[0];
@@ -88,7 +87,6 @@
                     success: function (result) {
                         console.log(result);
                         $("#import-msg").html('Import calibration file');
-                        $("#import-file").prop("disabled", false);
 
                         if (result == "Fail") {
                             alert("Could not parse file!");
@@ -106,7 +104,7 @@
                             $("#ExpireDate").val(date);
                             $("#StartFreq").val(fields.StartFreq);
                             $("#StopFreq").val(fields.StopFreq);
-                            $("#Points").val(fields.Points);
+                            $("#Points").val(fields.Records.length);
                             $("#Loss").val(fields.Loss);
                             $("#Power").val(fields.Power);
                             $("#MaxOffset").val(fields.MaxOffset);
@@ -125,7 +123,7 @@
                             $("#Serial").val(fields.Serial);
                             $("#RefCal").val(fields.RefCal);
                             $("#Certificate").val(fields.Certificate);
-                            $("#Points").val(fields.Points);
+                            $("#Points").val(fields.Records.length);
                         }
 
                         $.ajax({
@@ -151,7 +149,6 @@
                     },
                     error: function (xhr, status, p3, p4) {
                         $("#import-msg").html('Import calibration file');
-                        $("#import-file").prop("disabled", false);
 
                         var err = "Error " + " " + status + " " + p3 + " " + p4;
                         if (xhr.responseText && xhr.responseText[0] == "{")
