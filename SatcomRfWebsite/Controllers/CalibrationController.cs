@@ -40,6 +40,51 @@ namespace SatcomRfWebsite.Controllers
             return Json(new List<string>());
         }
 
+        public ActionResult GetData(string type, string assetNumber)
+        {
+            List<DateTime> dates;
+            if (type.Equals("Attenuator"))
+            {
+                dates = (from val in db.tblATCalHeaders where val.AssetNumber.Equals(assetNumber)
+                         orderby val.AddedDate select val.AddedDate).Distinct().ToList(); 
+            }
+            else if (type.Equals("Output Coupler"))
+            {
+                dates = (from val in db.tblOCCalHeaders where val.AssetNumber.Equals(assetNumber)
+                         orderby val.AddedDate select val.AddedDate).Distinct().ToList();
+            }
+            else if (type.Equals("Power Sensor"))
+            {
+                dates = (from val in db.tblPSCalHeaders where val.AssetNumber.Equals(assetNumber)
+                         orderby val.AddedDate select val.AddedDate).Distinct().ToList();
+            }
+            else
+            {
+                return Json(new object());
+            }
+
+            dates.Reverse();
+
+            List<double> freqs = (from val in db.tblCalData where val.AssetNumber.Equals(assetNumber)
+                                  orderby val.Frequency select val.Frequency).Distinct().ToList();
+
+            List<List<string>> data = new List<List<string>>();
+            foreach (var date in dates)
+            {
+                List<string> records = new List<string>();
+                foreach (var freq in freqs)
+                {
+                    var calrecords = (from val in db.tblCalData
+                                      where val.AssetNumber.Equals(assetNumber) && val.AddedDate.Equals(date) && val.Frequency.Equals(freq)
+                                      select val.CalFactor).ToList();
+                    records.Add(calrecords.Count() > 0 ? Math.Round(calrecords[0], 3).ToString() : "---");
+                }
+                data.Add(records);
+            }
+
+            return Content(JsonConvert.SerializeObject(new { dates = from date in dates select date.ToString("MM/dd/yyyy"), freqs, data }), "application/json");
+        }
+
         // GET: Calibration/Details/5
         public ActionResult Details(int id)
         {

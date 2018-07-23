@@ -3,6 +3,16 @@
     ViewBag.Title = "Calibration";
 }
 
+<style>
+    th, td {
+        text-align: center;
+    }
+
+    table th:first-child, td:first-child {
+        border-right: 1px solid lightgrey;
+    }
+</style>
+
 <script>
     function setURL(value) {
         if (value == "default") {
@@ -18,6 +28,42 @@
         } else {
             location.href = location.origin + "/Calibration/Create/" + value.replace(" ", "");
         }
+    }
+
+    function getData(assetNumber) {
+        if (assetNumber != "default") {
+            $.ajax({
+                type: "post",
+                url: "/Calibration/GetData",
+                data: { "type": $("#cal-type").val(), "assetNumber": assetNumber },
+                dataType: "text",
+                success: function (result) {
+                    var data = JSON.parse(result);
+                    console.log(data);
+                    var html = "<table class='table table-striped' id='data-table'><tr><th>Frequency</th>";
+                    for (var i = 0; i < data.dates.length; i++) {
+                        html += "<th>" + data.dates[i] + "</th>";
+                    }
+                    html += "</tr>"
+                    for (var i = 0; i < data.freqs.length; i++) {
+                        html += "<tr><td><em>" + data.freqs[i] + "</em></td>";
+                        for (var j = 0; j < data.dates.length; j++) {
+                            html += "<td>" + data.data[j][i] + "</td>";
+                        }
+                        html += "</tr>";
+                    }
+                    html += "</table > ";
+
+                    $("#data-display").html(html);
+                },
+                error: function (xhr, status, error) {
+                    alert(xhr.responseText);
+                }
+            });
+        } else {
+            $("#data-display").html("");
+        }
+        
     }
 
     $(document).ready(function () {
@@ -38,6 +84,12 @@
                 alert(xhr.responseText);
             }
         });
+
+        getData($("#asset-numbers").val() || "default");
+
+        $('#data-table').dataTable({
+            "scrollX": true
+        });
     });
 </script>
 
@@ -57,26 +109,13 @@
         </select>
     </div>
     <div class="col-md-3">
-        <select class="form-control" id="asset-numbers" @(Request.Url.ToString().Replace("/", "").EndsWith("Calibration") ? "disabled" : "" )></select>
+        <select class="form-control" id="asset-numbers" @(Request.Url.ToString().Replace("/", "").EndsWith("Calibration") ? "disabled" : "" ) onchange="getData(this.value)"></select>
     </div>
     <div class="col-md-2">
         <a class="form-control btn btn-primary" id="create" onclick="create($('#cal-type').val())">Submit new record</a>
     </div>
 </div>
 
-@{
-    if (Request.Url.ToString().Contains("Attenuator"))
-    {
-        @:Attenuator
-    }
+<hr />
 
-    if (Request.Url.ToString().Contains("OutputCoupler"))
-    {
-        @:Output Coupler
-    }
-
-    if (Request.Url.ToString().Contains("PowerSensor"))
-    {
-        @:Power Sensor
-    }
-}
+<div id="data-display"></div>

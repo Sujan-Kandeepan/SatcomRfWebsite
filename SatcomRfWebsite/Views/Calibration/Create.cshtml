@@ -99,6 +99,7 @@
                     success: function (result) {
                         if (result == "Fail") {
                             $("#import-msg").html('Import calibration file');
+                            $("#file-browser").prop("disabled", false);
                             alert("Could not parse file!");
                             return;
                         }
