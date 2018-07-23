@@ -19,13 +19,33 @@
             location.href = location.origin + "/Calibration/Create/" + value.replace(" ", "");
         }
     }
+
+    $(document).ready(function () {
+        $.ajax({
+            type: "post",
+            url: "/Calibration/GetAssetNumbers",
+            data: { "type": $("#cal-type").val() },
+            dataType: "text",
+            success: function (result) {
+                var assetNumbers = JSON.parse(result);
+                var html = '<option value="default">@(Request.Url.ToString().Replace("/", "").EndsWith("Calibration") ? "" : "Select an asset number" )</option>';
+                for (var i = 0; i < assetNumbers.length; i++) {
+                    html += '<option value="' + assetNumbers[i] + '">' + assetNumbers[i] + '</option>';
+                }
+                $("#asset-numbers").html(html);
+            },
+            error: function (xhr, status, error) {
+                alert(xhr.responseText);
+            }
+        });
+    });
 </script>
 
 <div class="page-header"><h1>Calibration Data Overview</h1></div>
 <div class="row">
-    <div class="col-md-7" style="margin-top: -20px">
+    <div class="col-md-4" style="margin-top: -20px">
         <div class="display">
-            <h3>View existing calibration data with history.</h3>
+            <h3>View calibration data with history.</h3>
         </div>
     </div>
     <div class="col-md-3">
@@ -35,6 +55,9 @@
             <option value="Output Coupler" @(Request.Url.ToString().Contains("OutputCoupler") ? "selected" : "" )>Output Coupler</option>
             <option value="Power Sensor" @(Request.Url.ToString().Contains("PowerSensor") ? "selected" : "" )>Power Sensor</option>
         </select>
+    </div>
+    <div class="col-md-3">
+        <select class="form-control" id="asset-numbers" @(Request.Url.ToString().Replace("/", "").EndsWith("Calibration") ? "disabled" : "" )></select>
     </div>
     <div class="col-md-2">
         <a class="form-control btn btn-primary" id="create" onclick="create($('#cal-type').val())">Submit new record</a>

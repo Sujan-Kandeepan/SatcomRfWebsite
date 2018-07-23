@@ -22,6 +22,24 @@ namespace SatcomRfWebsite.Controllers
             return View();
         }
 
+        public JsonResult GetAssetNumbers(string type)
+        {
+            if (type.Equals("Attenuator"))
+            {
+                return Json((from val in db.tblATCalHeaders.OrderBy(header => header.AssetNumber) select val.AssetNumber).Distinct().ToList());
+            }
+            else if (type.Equals("Output Coupler"))
+            {
+                return Json((from val in db.tblOCCalHeaders.OrderBy(header => header.AssetNumber) select val.AssetNumber).Distinct().ToList());
+            }
+            else if (type.Equals("Power Sensor"))
+            {
+                return Json((from val in db.tblPSCalHeaders.OrderBy(header => header.AssetNumber) select val.AssetNumber).Distinct().ToList());
+            }
+
+            return Json(new List<string>());
+        }
+
         // GET: Calibration/Details/5
         public ActionResult Details(int id)
         {
