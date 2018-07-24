@@ -1,5 +1,7 @@
 ﻿
 @{
+    /**/
+
     ViewBag.Title = "Details";
 }
 
@@ -7,6 +9,7 @@
     var type = location.pathname.substring(location.pathname.lastIndexOf("/") + 1);
     var assetnum = document.URL.substring(document.URL.indexOf("assetnum=") + 9, document.URL.indexOf("date=") - 1);
     var date = document.URL.substring(document.URL.indexOf("date=") + 5);
+
     $.ajax({
         type: "post",
         url: "/Calibration/GetDetails",
@@ -14,12 +17,134 @@
         datatype: "json",
         success: function (result) {
             console.log(result);
+            var data = JSON.parse(result);
+            if (type == "Attenuator" || type == "OutputCoupler") {
+                $("#StartFreq").html(data.StartFreq);
+                $("#StopFreq").html(data.StopFreq);
+                $("#Points").html(data.Points);
+                $("#Loss").html(data.Loss);
+                $("#Power").html(data.Power);
+                $("#MaxOffset").html(data.MaxOffset);
+                $("#Temp").html(data.Temp);
+                $("#Humidity").html(data.Humidity);
+                $("#Lookback").html(data.Lookback);
+                $("#Operator").html(data.Operator);
+                $("#ExpireDate").html(data.ExpireDate);
+                $("#EditedBy").html(data.EditedBy);
+            } else if (type == "PowerSensor") {
+                $("#Series").html(data.Series);
+                $("#Serial").html(data.Serial);
+                $("#RefCal").html(data.RefCal);
+                $("#Certificate").html(data.Certificate);
+                $("#Operator").html(data.Operator);
+                $("#CalDate").html(data.CalDate);
+                $("#EditedBy").html(data.EditedBy);
+            }
         },
         error: function (xhr, status, error) {
             alert(xhr.responseText);
         }
     });
+
+    $(document).ready(function () {
+        $("#header").html(assetnum + " (" + date + ")");
+
+        $("#index").click(function () {
+            location.href = document.URL.substring(0, document.URL.indexOf("&")).replace("Details", "Index");
+        });
+    });
 </script>
 
-<div class="page-header"><h1>Calibration Details</h1></div>
+<div class="page-header">
+    <div class="row">
+        <div class="col-lg-6">
+            <h1 id="header">Calibration Details</h1>
+        </div>
+        <div class="col-lg-2" style="margin-top: 30px">
+            <btn class="btn btn-primary btn-block" id="index">Back to index</btn>
+        </div>
+        <div class="col-lg-2" style="margin-top: 30px">
+            <btn class="btn btn-info btn-block">Edit</btn>
+        </div>
+        <div class="col-lg-2" style="margin-top: 30px">
+            <btn class="btn btn-danger btn-block">Delete</btn>
+        </div>
+    </div>
+</div>
 
+@if (Request.Url.ToString().Contains("Attenuator") || Request.Url.ToString().Contains("OutputCoupler"))
+{
+    <div class="row">
+        <div class="col-lg-4">
+            <h4><strong>Start Frequency:</strong> <span id="StartFreq"></span></h4>
+        </div>
+        <div class="col-lg-4">
+            <h4><strong>Stop Frequency:</strong> <span id="StopFreq"></span></h4>
+        </div>
+        <div class="col-lg-4">
+            <h4><strong>Number Of Points:</strong> <span id="Points"></span></h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4">
+            <h4><strong>Loss:</strong> <span id="Loss"></span></h4>
+        </div>
+        <div class="col-lg-4">
+            <h4><strong>Power:</strong> <span id="Power"></span></h4>
+        </div>
+        <div class="col-lg-4">
+            <h4><strong>Max Offset:</strong> <span id="MaxOffset"></span></h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4">
+            <h4><strong>Temperature:</strong> <span id="Temp"></span></h4>
+        </div>
+        <div class="col-lg-4">
+            <h4><strong>Humidity:</strong> <span id="Humidity"></span></h4>
+        </div>
+        <div class="col-lg-4">
+            <h4><strong>Lookback:</strong> <span id="Lookback"></span></h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4">
+            <h4><strong>Operator:</strong> <span id="Operator"></span></h4>
+        </div>
+        <div class="col-lg-4">
+            <h4><strong>Expire Date:</strong> <span id="ExpireDate"></span></h4>
+        </div>
+        <div class="col-lg-4">
+            <h4><strong>Edited By:</strong> <span id="EditedBy"></span></h4>
+        </div>
+    </div>
+}
+
+@if (Request.Url.ToString().Contains("PowerSensor"))
+{
+    <div class="row">
+        <div class="col-lg-2">
+            <h4><strong>Series:</strong> <span id="Series"></span></h4>
+        </div>
+        <div class="col-lg-3">
+            <h4 class="text-center"><strong>Serial:</strong> <span id="Serial"></span></h4>
+        </div>
+        <div class="col-lg-4">
+            <h4><strong>Reference Calibration:</strong> <span id="RefCal"></span></h4>
+        </div>
+        <div class="col-lg-3">
+            <h4><strong>Certificate:</strong> <span id="Certificate"></span></h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-5">
+            <h4><strong>Operator:</strong> <span id="Operator"></span></h4>
+        </div>
+        <div class="col-lg-4">
+            <h4><strong>Calibration Date:</strong> <span id="CalDate"></span></h4>
+        </div>
+        <div class="col-lg-3">
+            <h4><strong>Edited By:</strong> <span id="EditedBy"></span></h4>
+        </div>
+    </div>
+}

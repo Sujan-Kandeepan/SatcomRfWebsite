@@ -109,6 +109,9 @@ namespace SatcomRfWebsite.Controllers
             var datePieces = date.Split('/');
             var addedDate = new DateTime(Convert.ToInt32(datePieces[2]), Convert.ToInt32(datePieces[0]), Convert.ToInt32(datePieces[1]));
 
+            var jsonSettings = new JsonSerializerSettings();
+            jsonSettings.DateFormatString = "MM/dd/yyyy";
+
             if (type.Equals("Attenuator"))
             {
                 var id = (from val in db.tblATCalHeaders
@@ -116,7 +119,7 @@ namespace SatcomRfWebsite.Controllers
                           select val.id ).ToList();
 
                 tblATCalHeaders data = db.tblATCalHeaders.Find(id[0]);
-                return Content(JsonConvert.SerializeObject(data));
+                return Content(JsonConvert.SerializeObject(data, jsonSettings));
             }
             else if (type.Equals("OutputCoupler"))
             {
@@ -125,7 +128,7 @@ namespace SatcomRfWebsite.Controllers
                           select val.id).ToList();
 
                 tblOCCalHeaders data = db.tblOCCalHeaders.Find(id[0]);
-                return Content(JsonConvert.SerializeObject(data));
+                return Content(JsonConvert.SerializeObject(data, jsonSettings));
             }
             else if (type.Equals("PowerSensor"))
             {
@@ -134,7 +137,7 @@ namespace SatcomRfWebsite.Controllers
                           select val.id).ToList();
 
                 tblPSCalHeaders data = db.tblPSCalHeaders.Find(id[0]);
-                return Content(JsonConvert.SerializeObject(data));
+                return Content(JsonConvert.SerializeObject(data, jsonSettings));
             }
 
             return Content(JsonConvert.SerializeObject(new object()), "application/json");
