@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -97,9 +98,46 @@ namespace SatcomRfWebsite.Controllers
         }
 
         // GET: Calibration/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details()
         {
             return View();
+        }
+
+        public ActionResult GetDetails(string type, string assetnum, string date)
+        {
+            var assetNumber = assetnum.Replace("_", " ").Replace("+", "/");
+            var datePieces = date.Split('/');
+            var addedDate = new DateTime(Convert.ToInt32(datePieces[2]), Convert.ToInt32(datePieces[0]), Convert.ToInt32(datePieces[1]));
+
+            if (type.Equals("Attenuator"))
+            {
+                var id = (from val in db.tblATCalHeaders
+                          where val.AssetNumber.Equals(assetNumber) && DbFunctions.TruncateTime(val.AddedDate) == DbFunctions.TruncateTime(addedDate)
+                          select val.id ).ToList();
+
+                tblATCalHeaders data = db.tblATCalHeaders.Find(id[0]);
+                return Content(JsonConvert.SerializeObject(data));
+            }
+            else if (type.Equals("OutputCoupler"))
+            {
+                var id = (from val in db.tblOCCalHeaders
+                          where val.AssetNumber.Equals(assetNumber) && DbFunctions.TruncateTime(val.AddedDate) == DbFunctions.TruncateTime(addedDate)
+                          select val.id).ToList();
+
+                tblOCCalHeaders data = db.tblOCCalHeaders.Find(id[0]);
+                return Content(JsonConvert.SerializeObject(data));
+            }
+            else if (type.Equals("PowerSensor"))
+            {
+                var id = (from val in db.tblPSCalHeaders
+                          where val.AssetNumber.Equals(assetNumber) && DbFunctions.TruncateTime(val.AddedDate) == DbFunctions.TruncateTime(addedDate)
+                          select val.id).ToList();
+
+                tblPSCalHeaders data = db.tblPSCalHeaders.Find(id[0]);
+                return Content(JsonConvert.SerializeObject(data));
+            }
+
+            return Content(JsonConvert.SerializeObject(new object()), "application/json");
         }
 
         // GET: Calibration/Create
@@ -238,7 +276,7 @@ namespace SatcomRfWebsite.Controllers
 
                 db.SaveChanges();
 
-                return Redirect($"~/Calibration/Index/Attenuator?assetnum={atData.AssetNumber.Replace("/", "_").Replace(" ", "_")}");
+                return Redirect($"~/Calibration/Index/Attenuator?assetnum={atData.AssetNumber.Replace("/", "+").Replace(" ", "_")}");
             }
 
             return View(atData);
@@ -285,7 +323,7 @@ namespace SatcomRfWebsite.Controllers
 
                 db.SaveChanges();
 
-                return Redirect($"~/Calibration/Index/OutputCoupler?assetnum={ocData.AssetNumber.Replace("/", "_").Replace("/", "_")}");
+                return Redirect($"~/Calibration/Index/OutputCoupler?assetnum={ocData.AssetNumber.Replace("/", "+").Replace(" ", "_")}");
             }
 
             return View(ocData);
@@ -329,7 +367,7 @@ namespace SatcomRfWebsite.Controllers
 
                 db.SaveChanges();
 
-                return Redirect($"~/Calibration/Index/PowerSensor?assetnum={psData.AssetNumber.Replace("/", "_").Replace("/", "_")}");
+                return Redirect($"~/Calibration/Index/PowerSensor?assetnum={psData.AssetNumber.Replace("/", "+").Replace(" ", "_")}");
             }
 
             return View(psData);

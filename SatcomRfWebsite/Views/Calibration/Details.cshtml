@@ -1,0 +1,25 @@
+﻿
+@{
+    ViewBag.Title = "Details";
+}
+
+<script>
+    var type = location.pathname.substring(location.pathname.lastIndexOf("/") + 1);
+    var assetnum = document.URL.substring(document.URL.indexOf("assetnum=") + 9, document.URL.indexOf("date=") - 1);
+    var date = document.URL.substring(document.URL.indexOf("date=") + 5);
+    $.ajax({
+        type: "post",
+        url: "/Calibration/GetDetails",
+        data: { "type": type, "assetnum": assetnum, "date": date },
+        datatype: "json",
+        success: function (result) {
+            console.log(result);
+        },
+        error: function (xhr, status, error) {
+            alert(xhr.responseText);
+        }
+    });
+</script>
+
+<div class="page-header"><h1>Calibration Details</h1></div>
+

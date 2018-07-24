@@ -37,7 +37,7 @@
         if (value == "default") {
             location.href = location.origin + location.pathname;
         } else {
-            location.href = location.origin + location.pathname + "?assetnum=" + value.replace("/", "_").split(' ').join('_');
+            location.href = location.origin + location.pathname + "?assetnum=" + value.replace("/", "+").split(' ').join('_');
         }
     }
 
@@ -61,7 +61,8 @@
                     var data = JSON.parse(result);
                     var html = "<table class='table table-striped' id='data-table'><tr><thead><th" + ($("#cal-type").val() != "Power Sensor" ? " rowspan='2' style='vertical-align: middle'" : "") + ">Frequency</th>";
                     for (var i = 0; i < data.dates.length; i++) {
-                        html += "<th" + ($("#cal-type").val() != "Power Sensor" ? " colspan='2'" : "") + ">" + data.dates[i] + "</th>";
+                        var details = document.URL.replace("Index", "Details") + "&date=" + data.dates[i];
+                        html += "<th" + ($("#cal-type").val() != "Power Sensor" ? " colspan='2'" : "") + ">" + data.dates[i] + " (<a href='" + details + "'>Details</a>)</th>";
                     }
                     if ($("#cal-type").val() != "Power Sensor") {
                         html += "</tr><tr>";
@@ -106,7 +107,7 @@
                 var assetNumbers = JSON.parse(result);
                 var html = '<option value="default">@(Request.Url.ToString().Replace("/", "").EndsWith("Calibration") ? "" : "Select an asset number" )</option>';
                 for (var i = 0; i < assetNumbers.length; i++) {
-                    html += '<option value="' + assetNumbers[i] + '"' + (document.URL.indexOf(assetNumbers[i].replace('/', '_').split(' ').join('_')) != -1 ? ' selected' : '') + '>' + assetNumbers[i] + '</option>';
+                    html += '<option value="' + assetNumbers[i] + '"' + (document.URL.indexOf(assetNumbers[i].replace('/', '+').split(' ').join('_')) != -1 ? ' selected' : '') + '>' + assetNumbers[i] + '</option>';
                 }
                 $("#asset-numbers").html(html);
 
