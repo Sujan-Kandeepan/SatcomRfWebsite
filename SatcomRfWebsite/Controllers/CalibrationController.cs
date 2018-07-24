@@ -68,21 +68,32 @@ namespace SatcomRfWebsite.Controllers
             List<double> freqs = (from val in db.tblCalData where val.AssetNumber.Equals(assetNumber)
                                   orderby val.Frequency select val.Frequency).Distinct().ToList();
 
-            List<List<string>> data = new List<List<string>>();
+            List<List<string>> calFactor = new List<List<string>>();
+            List<List<string>> returnLoss = new List<List<string>>();
             foreach (var date in dates)
             {
-                List<string> records = new List<string>();
+                List<string> calFactorSublist = new List<string>();
+                List<string> returnLossSublist = new List<string>();
                 foreach (var freq in freqs)
                 {
-                    var calrecords = (from val in db.tblCalData
+                    var calFactorSingle = (from val in db.tblCalData
                                       where val.AssetNumber.Equals(assetNumber) && val.AddedDate.Equals(date) && val.Frequency.Equals(freq)
                                       select val.CalFactor).ToList();
-                    records.Add(calrecords.Count() > 0 ? Math.Round(calrecords[0], 3).ToString() : "---");
+
+                    var returnLossSingle = (from val in db.tblCalData
+                                           where val.AssetNumber.Equals(assetNumber) && val.AddedDate.Equals(date) && val.Frequency.Equals(freq)
+                                           select val.ReturnLoss).ToList();
+
+                    calFactorSublist.Add(calFactorSingle.Count() > 0 ? Math.Round(calFactorSingle[0], 3).ToString() : "---");
+                    returnLossSublist.Add(returnLossSingle.Count() > 0 && returnLossSingle[0].HasValue ? Math.Round(returnLossSingle[0].Value, 3).ToString() : "---");
                 }
-                data.Add(records);
+                calFactor.Add(calFactorSublist);
+                returnLoss.Add(returnLossSublist);
             }
 
-            return Content(JsonConvert.SerializeObject(new { dates = from date in dates select date.ToString("MM/dd/yyyy"), freqs, data }), "application/json");
+            return Content(JsonConvert.SerializeObject(new {
+                dates = from date in dates select date.ToString("MM/dd/yyyy"), freqs, calFactor, returnLoss
+            }), "application/json");
         }
 
         // GET: Calibration/Details/5
@@ -450,8 +461,8 @@ namespace SatcomRfWebsite.Controllers
                             {
                                 records.Add(new CalibrationRecord
                                 {
-                                    Frequency = Convert.ToDouble(range.Cells[i, 1].Text),
-                                    CalFactor = Convert.ToDouble(range.Cells[i, 4].Text)
+                                    Frequency = Convert.ToDouble(range.Cells[i, 1].Value),
+                                    CalFactor = Convert.ToDouble(range.Cells[i, 4].Value)
                                 });
                             }
 
