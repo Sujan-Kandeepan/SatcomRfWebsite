@@ -238,7 +238,7 @@ namespace SatcomRfWebsite.Controllers
 
                 db.SaveChanges();
 
-                return Redirect("~/Calibration/Index/Attenuator");
+                return Redirect($"~/Calibration/Index/Attenuator?assetnum={atData.AssetNumber.Replace("/", "_").Replace(" ", "_")}");
             }
 
             return View(atData);
@@ -285,7 +285,7 @@ namespace SatcomRfWebsite.Controllers
 
                 db.SaveChanges();
 
-                return Redirect("~/Calibration/Index/OutputCoupler");
+                return Redirect($"~/Calibration/Index/OutputCoupler?assetnum={ocData.AssetNumber.Replace("/", "_").Replace("/", "_")}");
             }
 
             return View(ocData);
@@ -329,7 +329,7 @@ namespace SatcomRfWebsite.Controllers
 
                 db.SaveChanges();
 
-                return Redirect("~/Calibration/Index/PowerSensor");
+                return Redirect($"~/Calibration/Index/PowerSensor?assetnum={psData.AssetNumber.Replace("/", "_").Replace("/", "_")}");
             }
 
             return View(psData);

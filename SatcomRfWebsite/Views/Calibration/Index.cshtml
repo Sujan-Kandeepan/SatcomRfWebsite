@@ -25,11 +25,19 @@
 </style>
 
 <script>
-    function setURL(value) {
+    function calType(value) {
         if (value == "default") {
             location.href = location.origin + "/Calibration";
         } else {
             location.href = location.origin + "/Calibration/Index/" + value.replace(" ", "");
+        }
+    }
+
+    function assetNum(value) {
+        if (value == "default") {
+            location.href = location.origin + location.pathname;
+        } else {
+            location.href = location.origin + location.pathname + "?assetnum=" + value.replace("/", "_").split(' ').join('_');
         }
     }
 
@@ -42,6 +50,7 @@
     }
 
     function getData(assetNumber) {
+        $("#data-display").html("<div class='alert alert-info' role='alert'><strong>Loading...</strong></div>");
         if (assetNumber != "default") {
             $.ajax({
                 type: "post",
@@ -50,7 +59,6 @@
                 dataType: "text",
                 success: function (result) {
                     var data = JSON.parse(result);
-                    console.log(data);
                     var html = "<table class='table table-striped' id='data-table'><tr><thead><th" + ($("#cal-type").val() != "Power Sensor" ? " rowspan='2' style='vertical-align: middle'" : "") + ">Frequency</th>";
                     for (var i = 0; i < data.dates.length; i++) {
                         html += "<th" + ($("#cal-type").val() != "Power Sensor" ? " colspan='2'" : "") + ">" + data.dates[i] + "</th>";
@@ -98,16 +106,16 @@
                 var assetNumbers = JSON.parse(result);
                 var html = '<option value="default">@(Request.Url.ToString().Replace("/", "").EndsWith("Calibration") ? "" : "Select an asset number" )</option>';
                 for (var i = 0; i < assetNumbers.length; i++) {
-                    html += '<option value="' + assetNumbers[i] + '">' + assetNumbers[i] + '</option>';
+                    html += '<option value="' + assetNumbers[i] + '"' + (document.URL.indexOf(assetNumbers[i].replace('/', '_').split(' ').join('_')) != -1 ? ' selected' : '') + '>' + assetNumbers[i] + '</option>';
                 }
                 $("#asset-numbers").html(html);
+
+                getData($("#asset-numbers").val() || "default");
             },
             error: function (xhr, status, error) {
                 alert(xhr.responseText);
             }
         });
-
-        getData($("#asset-numbers").val() || "default");
 
         $('#data-table').dataTable({
             "scrollX": 1200
@@ -123,7 +131,7 @@
         </div>
     </div>
     <div class="col-md-3">
-        <select class="form-control" id="cal-type" onchange="setURL(this.value)">
+        <select class="form-control" id="cal-type" onchange="calType(this.value)">
             <option value="default">Select a device type</option>
             <option value="Attenuator" @(Request.Url.ToString().Contains("Attenuator") ? "selected" : "" )>Attenuator</option>
             <option value="Output Coupler" @(Request.Url.ToString().Contains("OutputCoupler") ? "selected" : "" )>Output Coupler</option>
@@ -131,7 +139,7 @@
         </select>
     </div>
     <div class="col-md-3">
-        <select class="form-control" id="asset-numbers" @(Request.Url.ToString().Replace("/", "").EndsWith("Calibration") ? "disabled" : "" ) onchange="getData(this.value)"></select>
+        <select class="form-control" id="asset-numbers" @(Request.Url.ToString().Replace("/", "").EndsWith("Calibration") ? "disabled" : "" ) onchange="assetNum(this.value)"></select>
     </div>
     <div class="col-md-2">
         <a class="form-control btn btn-primary" id="create" onclick="create($('#cal-type').val())">Submit new record</a>
