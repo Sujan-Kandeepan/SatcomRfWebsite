@@ -112,6 +112,8 @@ namespace SatcomRfWebsite.Controllers
             var jsonSettings = new JsonSerializerSettings();
             jsonSettings.DateFormatString = "MM/dd/yyyy";
 
+            string headers = JsonConvert.SerializeObject(new object());
+
             if (type.Equals("Attenuator"))
             {
                 var id = (from val in db.tblATCalHeaders
@@ -119,7 +121,7 @@ namespace SatcomRfWebsite.Controllers
                           select val.id ).ToList();
 
                 tblATCalHeaders data = db.tblATCalHeaders.Find(id[0]);
-                return Content(JsonConvert.SerializeObject(data, jsonSettings));
+                headers = JsonConvert.SerializeObject(data, jsonSettings);
             }
             else if (type.Equals("OutputCoupler"))
             {
@@ -128,7 +130,7 @@ namespace SatcomRfWebsite.Controllers
                           select val.id).ToList();
 
                 tblOCCalHeaders data = db.tblOCCalHeaders.Find(id[0]);
-                return Content(JsonConvert.SerializeObject(data, jsonSettings));
+                headers = JsonConvert.SerializeObject(data, jsonSettings);
             }
             else if (type.Equals("PowerSensor"))
             {
@@ -137,10 +139,31 @@ namespace SatcomRfWebsite.Controllers
                           select val.id).ToList();
 
                 tblPSCalHeaders data = db.tblPSCalHeaders.Find(id[0]);
-                return Content(JsonConvert.SerializeObject(data, jsonSettings));
+                headers = JsonConvert.SerializeObject(data, jsonSettings);
             }
 
-            return Content(JsonConvert.SerializeObject(new object()), "application/json");
+            List<double> freqs = (from val in db.tblCalData
+                                  where val.AssetNumber.Equals(assetNumber) && val.AddedDate.Equals(addedDate)
+                                  orderby val.Frequency
+                                  select val.Frequency).Distinct().ToList();
+
+            List<string> calFactor = new List<string>();
+            List<string> returnLoss = new List<string>();
+            foreach (var freq in freqs)
+            {
+                var calFactorSingle = (from val in db.tblCalData
+                                       where val.AssetNumber.Equals(assetNumber) && val.AddedDate.Equals(addedDate) && val.Frequency.Equals(freq)
+                                       select val.CalFactor).ToList();
+
+                var returnLossSingle = (from val in db.tblCalData
+                                        where val.AssetNumber.Equals(assetNumber) && val.AddedDate.Equals(addedDate) && val.Frequency.Equals(freq)
+                                        select val.ReturnLoss).ToList();
+
+                calFactor.Add(calFactorSingle.Count() > 0 ? Math.Round(calFactorSingle[0], 3).ToString() : "---");
+                returnLoss.Add(returnLossSingle.Count() > 0 && returnLossSingle[0].HasValue ? Math.Round(returnLossSingle[0].Value, 3).ToString() : "---");
+            }
+
+            return Content(JsonConvert.SerializeObject(new { headers, freqs, calFactor, returnLoss }), "application/json");
         }
 
         // GET: Calibration/Create

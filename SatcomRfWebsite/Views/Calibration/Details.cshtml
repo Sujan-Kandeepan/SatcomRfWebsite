@@ -5,6 +5,20 @@
     ViewBag.Title = "Details";
 }
 
+<style>
+    thead {
+        display: none;
+    }
+
+    .dataTables_wrapper.no-footer .dataTables_scrollBody {
+        border-bottom: none;
+    }
+
+    td {
+        min-width: 20px;
+    }
+</style>
+
 <script>
     var type = location.pathname.substring(location.pathname.lastIndexOf("/") + 1);
     var assetnum = document.URL.substring(document.URL.indexOf("assetnum=") + 9, document.URL.indexOf("date=") - 1).split('_').join(' ');
@@ -17,29 +31,46 @@
         datatype: "json",
         success: function (result) {
             console.log(result);
-            var data = JSON.parse(result);
+
+            var headers = JSON.parse(result.headers);
             if (type == "Attenuator" || type == "OutputCoupler") {
-                $("#StartFreq").html(data.StartFreq);
-                $("#StopFreq").html(data.StopFreq);
-                $("#Points").html(data.Points);
-                $("#Loss").html(data.Loss);
-                $("#Power").html(data.Power);
-                $("#MaxOffset").html(data.MaxOffset);
-                $("#Temp").html(data.Temp);
-                $("#Humidity").html(data.Humidity);
-                $("#Lookback").html(data.Lookback);
-                $("#Operator").html(data.Operator);
-                $("#ExpireDate").html(data.ExpireDate);
-                $("#EditedBy").html(data.EditedBy);
+                $("#StartFreq").html(headers.StartFreq);
+                $("#StopFreq").html(headers.StopFreq);
+                $("#Points").html(headers.Points);
+                $("#Loss").html(headers.Loss);
+                $("#Power").html(headers.Power);
+                $("#MaxOffset").html(headers.MaxOffset);
+                $("#Temp").html(headers.Temp);
+                $("#Humidity").html(headers.Humidity);
+                $("#Lookback").html(headers.Lookback);
+                $("#Operator").html(headers.Operator);
+                $("#ExpireDate").html(headers.ExpireDate);
+                $("#EditedBy").html(headers.EditedBy);
             } else if (type == "PowerSensor") {
-                $("#Series").html(data.Series);
-                $("#Serial").html(data.Serial);
-                $("#RefCal").html(data.RefCal);
-                $("#Certificate").html(data.Certificate);
-                $("#Operator").html(data.Operator);
-                $("#CalDate").html(data.CalDate);
-                $("#EditedBy").html(data.EditedBy);
+                $("#Series").html(headers.Series);
+                $("#Serial").html(headers.Serial);
+                $("#RefCal").html(headers.RefCal);
+                $("#Certificate").html(headers.Certificate);
+                $("#Operator").html(headers.Operator);
+                $("#CalDate").html(headers.CalDate);
+                $("#EditedBy").html(headers.EditedBy);
             }
+
+            var freqs = "", calFactor = "", returnLoss = "";
+            for (var i = 0; i < result.freqs.length; i++) {
+                freqs += "<td>" + result.freqs[i] + "</td>";
+                calFactor += "<td>" + result.calFactor[i] + "</td>";
+                if (document.URL.indexOf("PowerSensor") == -1) {
+                    returnLoss += "<td>" + result.returnLoss[i] + "</td>";
+                }
+            }
+
+            $("#freqs").html(freqs);
+            $("#calFactor").html(calFactor);
+            if (document.URL.indexOf("PowerSensor") == -1) {
+                $("#returnLoss").html(returnLoss);
+            }
+
         },
         error: function (xhr, status, error) {
             alert(xhr.responseText);
@@ -52,6 +83,16 @@
         $("#index").click(function () {
             location.href = document.URL.substring(0, document.URL.indexOf("&")).replace("Details", "Index");
         });
+
+        $('#records').dataTable({
+            "scrollX": 1200,
+            "bLengthChange": false,
+            "bFilter": false,
+            "bPaginate": false,
+            "bInfo": false
+        });
+
+        $("table").show();
     });
 </script>
 
@@ -148,3 +189,27 @@
         </div>
     </div>
 }
+
+<div class="row">
+    <div class="col-lg-2" style="margin-top: 15px">
+        <h4 style="line-height: 30px"><strong>Frequency:</strong> </h4>
+        <h4 style="line-height: 30px"><strong>Calibration Factor:</strong> </h4>
+        @if (!Request.Url.ToString().Contains("PowerSensor"))
+        {
+            <h4 style="line-height: 30px"><strong>Return Loss:</strong> </h4>
+        }
+    </div>
+    <div class="col-lg-10">
+        <table class="table pull-left" id="records" style="margin-top: 12px; display: none">
+            <thead><tr><th></th></tr></thead>
+            <tbody>
+                <tr id="freqs"><td>&emsp;</td></tr>
+                <tr id="calFactor"><td>&emsp;</td></tr>
+                @if (!Request.Url.ToString().Contains("PowerSensor"))
+                {
+                    <tr id="returnLoss"><td>&emsp;</td></tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
