@@ -84,6 +84,7 @@
         $("input:file").on("change", function () {
             $("#import-msg").html('Getting form data...');
             $("#file-browser").prop("disabled", true);
+            $("form input").prop("disabled", true);
 
             if ($(this).prop("files").length > 0 && window.FormData !== undefined) {
                 var file = $(this).prop("files")["files" in $(this) ? $(this).prop("files").length - 1 : 0];
@@ -100,6 +101,7 @@
                         if (result == "Fail") {
                             $("#import-msg").html('Import calibration file');
                             $("#file-browser").prop("disabled", false);
+                            $("form input").prop("disabled", false);
                             alert("Could not parse file!");
                             return;
                         }
@@ -146,6 +148,7 @@
                                 $("#DataFields").html(result);
                                 $("#import-msg").html('Import calibration file');
                                 $("#file-browser").prop("disabled", false);
+                                $("form input").prop("disabled", false);
 
                                 setTimeout(function () {
                                     for (var i = 0; i < fields.Records.length; i++) {
@@ -165,6 +168,7 @@
                     error: function (xhr, status, p3, p4) {
                         $("#import-msg").html('Import calibration file');
                         $("#file-browser").prop("disabled", false);
+                        $("form input").prop("disabled", false);
 
                         var err = "Error " + " " + status + " " + p3 + " " + p4;
                         if (xhr.responseText && xhr.responseText[0] == "{")

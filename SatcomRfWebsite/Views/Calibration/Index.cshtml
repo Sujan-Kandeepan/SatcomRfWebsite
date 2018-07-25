@@ -37,7 +37,7 @@
         if (value == "default") {
             location.href = location.origin + location.pathname;
         } else {
-            location.href = location.origin + location.pathname + "?assetnum=" + value.replace("/", "+").split(' ').join('_');
+            location.href = location.origin + location.pathname + "?assetnum=" + value.split(' ').join('_');
         }
     }
 
@@ -105,9 +105,9 @@
             dataType: "text",
             success: function (result) {
                 var assetNumbers = JSON.parse(result);
-                var html = '<option value="default">@(Request.Url.ToString().Replace("/", "").EndsWith("Calibration") ? "" : "Select an asset number" )</option>';
+                var html = '<option value="default">' + ($("#cal-type").val() == "default" ? "" : "Select an asset number") + '</option>';
                 for (var i = 0; i < assetNumbers.length; i++) {
-                    html += '<option value="' + assetNumbers[i] + '"' + (document.URL.indexOf(assetNumbers[i].replace('/', '+').split(' ').join('_')) != -1 ? ' selected' : '') + '>' + assetNumbers[i] + '</option>';
+                    html += '<option value="' + assetNumbers[i] + '"' + (document.URL.indexOf(assetNumbers[i].split(' ').join('_')) != -1 ? ' selected' : '') + '>' + assetNumbers[i] + '</option>';
                 }
                 $("#asset-numbers").html(html);
 
@@ -117,6 +117,12 @@
                 alert(xhr.responseText);
             }
         });
+
+        if ($("#cal-type").val() == "default") {
+            $("#asset-numbers").prop("disabled", true);
+        } else {
+            $("#asset-numbers").prop("disabled", false);
+        }
 
         $('#data-table').dataTable({
             "scrollX": 1200
@@ -140,7 +146,7 @@
         </select>
     </div>
     <div class="col-md-3">
-        <select class="form-control" id="asset-numbers" @(Request.Url.ToString().Replace("/", "").EndsWith("Calibration") ? "disabled" : "" ) onchange="assetNum(this.value)"></select>
+        <select class="form-control" id="asset-numbers" onchange="assetNum(this.value)"></select>
     </div>
     <div class="col-md-2">
         <a class="form-control btn btn-primary" id="create" onclick="create($('#cal-type').val())">Submit new record</a>

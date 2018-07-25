@@ -105,7 +105,7 @@ namespace SatcomRfWebsite.Controllers
 
         public ActionResult GetDetails(string type, string assetnum, string date)
         {
-            var assetNumber = assetnum.Replace("_", " ").Replace("+", "/");
+            var assetNumber = assetnum.Replace("_", " ");
             var datePieces = date.Split('/');
             var addedDate = new DateTime(Convert.ToInt32(datePieces[2]), Convert.ToInt32(datePieces[0]), Convert.ToInt32(datePieces[1]));
 
@@ -279,7 +279,7 @@ namespace SatcomRfWebsite.Controllers
 
                 db.SaveChanges();
 
-                return Redirect($"~/Calibration/Index/Attenuator?assetnum={atData.AssetNumber.Replace("/", "+").Replace(" ", "_")}");
+                return Redirect($"~/Calibration/Index/Attenuator?assetnum={atData.AssetNumber.Replace(" ", "_")}");
             }
 
             return View(atData);
@@ -326,7 +326,7 @@ namespace SatcomRfWebsite.Controllers
 
                 db.SaveChanges();
 
-                return Redirect($"~/Calibration/Index/OutputCoupler?assetnum={ocData.AssetNumber.Replace("/", "+").Replace(" ", "_")}");
+                return Redirect($"~/Calibration/Index/OutputCoupler?assetnum={ocData.AssetNumber.Replace(" ", "_")}");
             }
 
             return View(ocData);
@@ -370,7 +370,7 @@ namespace SatcomRfWebsite.Controllers
 
                 db.SaveChanges();
 
-                return Redirect($"~/Calibration/Index/PowerSensor?assetnum={psData.AssetNumber.Replace("/", "+").Replace(" ", "_")}");
+                return Redirect($"~/Calibration/Index/PowerSensor?assetnum={psData.AssetNumber.Replace(" ", "_")}");
             }
 
             return View(psData);
