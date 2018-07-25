@@ -115,7 +115,7 @@ namespace SatcomRfWebsite.Controllers
             if (type.Equals("Attenuator"))
             {
                 var id = (from val in db.tblATCalHeaders
-                          where val.AssetNumber.Equals(assetNumber) && DbFunctions.TruncateTime(val.AddedDate) == DbFunctions.TruncateTime(addedDate)
+                          where val.AssetNumber.Equals(assetNumber) && val.AddedDate.Equals(addedDate)
                           select val.id ).ToList();
 
                 tblATCalHeaders data = db.tblATCalHeaders.Find(id[0]);
@@ -124,7 +124,7 @@ namespace SatcomRfWebsite.Controllers
             else if (type.Equals("OutputCoupler"))
             {
                 var id = (from val in db.tblOCCalHeaders
-                          where val.AssetNumber.Equals(assetNumber) && DbFunctions.TruncateTime(val.AddedDate) == DbFunctions.TruncateTime(addedDate)
+                          where val.AssetNumber.Equals(assetNumber) && val.AddedDate.Equals(addedDate)
                           select val.id).ToList();
 
                 tblOCCalHeaders data = db.tblOCCalHeaders.Find(id[0]);
@@ -133,7 +133,7 @@ namespace SatcomRfWebsite.Controllers
             else if (type.Equals("PowerSensor"))
             {
                 var id = (from val in db.tblPSCalHeaders
-                          where val.AssetNumber.Equals(assetNumber) && DbFunctions.TruncateTime(val.AddedDate) == DbFunctions.TruncateTime(addedDate)
+                          where val.AssetNumber.Equals(assetNumber) && val.AddedDate.Equals(addedDate)
                           select val.id).ToList();
 
                 tblPSCalHeaders data = db.tblPSCalHeaders.Find(id[0]);

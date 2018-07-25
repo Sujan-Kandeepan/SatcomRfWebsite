@@ -21,8 +21,8 @@
           <Property Name="Humidity" Type="float" />
           <Property Name="Lookback" Type="nvarchar" MaxLength="50" />
           <Property Name="Operator" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="ExpireDate" Type="smalldatetime" Nullable="false" />
-          <Property Name="AddedDate" Type="smalldatetime" Nullable="false" />
+          <Property Name="ExpireDate" Type="date" Nullable="false" />
+          <Property Name="AddedDate" Type="date" Nullable="false" />
           <Property Name="EditedBy" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="tblATEOutput">
@@ -76,7 +76,7 @@
           <Property Name="Frequency" Type="float" Nullable="false" />
           <Property Name="CalFactor" Type="float" Nullable="false" />
           <Property Name="ReturnLoss" Type="float" />
-          <Property Name="AddedDate" Type="smalldatetime" Nullable="false" />
+          <Property Name="AddedDate" Type="date" Nullable="false" />
         </EntityType>
         <EntityType Name="tblKLYTestParameters">
           <Key>
@@ -156,8 +156,8 @@
           <Property Name="Humidity" Type="float" />
           <Property Name="Lookback" Type="nvarchar" MaxLength="50" />
           <Property Name="Operator" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="ExpireDate" Type="smalldatetime" Nullable="false" />
-          <Property Name="AddedDate" Type="smalldatetime" Nullable="false" />
+          <Property Name="ExpireDate" Type="date" Nullable="false" />
+          <Property Name="AddedDate" Type="date" Nullable="false" />
           <Property Name="EditedBy" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="tblProductTypes">
@@ -178,8 +178,8 @@
           <Property Name="RefCal" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Certificate" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="Operator" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="CalDate" Type="smalldatetime" Nullable="false" />
-          <Property Name="AddedDate" Type="smalldatetime" Nullable="false" />
+          <Property Name="CalDate" Type="date" Nullable="false" />
+          <Property Name="AddedDate" Type="date" Nullable="false" />
           <Property Name="EditedBy" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="tblSerialNumbers">
