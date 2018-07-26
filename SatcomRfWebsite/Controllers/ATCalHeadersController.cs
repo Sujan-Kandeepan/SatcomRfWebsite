@@ -46,7 +46,7 @@ namespace SatcomRfWebsite.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,AssetNumber,StartFreq,StopFreq,Points,Loss,Power,MaxOffset,Temp,Humidity,Lookback,Operator,ExpireDate,AddedDate,EditedBy")] tblATCalHeaders tblATCalHeaders)
+        public ActionResult Create([Bind(Include = "id,AssetNumber,StartFreq,StopFreq,Points,Loss,Power,MaxOffset,Temp,Humidity,Lookback,Operator,CalDate,ExpireDate,AddedDate,EditedBy")] tblATCalHeaders tblATCalHeaders)
         {
             if (ModelState.IsValid)
             {
@@ -78,7 +78,7 @@ namespace SatcomRfWebsite.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,AssetNumber,StartFreq,StopFreq,Points,Loss,Power,MaxOffset,Temp,Humidity,Lookback,Operator,ExpireDate,AddedDate,EditedBy")] tblATCalHeaders tblATCalHeaders)
+        public ActionResult Edit([Bind(Include = "id,AssetNumber,StartFreq,StopFreq,Points,Loss,Power,MaxOffset,Temp,Humidity,Lookback,Operator,CalDate,ExpireDate,AddedDate,EditedBy")] tblATCalHeaders tblATCalHeaders)
         {
             if (ModelState.IsValid)
             {

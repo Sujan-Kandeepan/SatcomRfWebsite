@@ -43,6 +43,7 @@
                 $("#Lookback").html(headers.Lookback);
                 $("#Operator").html(headers.Operator);
                 $("#ExpireDate").html(headers.ExpireDate);
+                $("#AddedDate").html(headers.AddedDate);
                 $("#EditedBy").html(headers.EditedBy);
             } else if (type == "PowerSensor") {
                 $("#Series").html(headers.Series);
@@ -50,7 +51,7 @@
                 $("#RefCal").html(headers.RefCal);
                 $("#Certificate").html(headers.Certificate);
                 $("#Operator").html(headers.Operator);
-                $("#CalDate").html(headers.CalDate);
+                $("#AddedDate").html(headers.AddedDate);
                 $("#EditedBy").html(headers.EditedBy);
             }
 
@@ -204,6 +205,11 @@
         <div class="col-lg-4">
             <h4><strong>Expire Date:</strong> <span id="ExpireDate"></span></h4>
         </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4">
+            <h4><strong>Date Added: </strong> <span id="AddedDate"></span></h4>
+        </div>
         <div class="col-lg-4">
             <h4><strong>Edited By:</strong> <span id="EditedBy"></span></h4>
         </div>
@@ -231,7 +237,7 @@
             <h4><strong>Operator:</strong> <span id="Operator"></span></h4>
         </div>
         <div class="col-lg-4">
-            <h4><strong>Calibration Date:</strong> <span id="CalDate"></span></h4>
+            <h4><strong>Date Added:</strong> <span id="AddedDate"></span></h4>
         </div>
         <div class="col-lg-3">
             <h4><strong>Edited By:</strong> <span id="EditedBy"></span></h4>

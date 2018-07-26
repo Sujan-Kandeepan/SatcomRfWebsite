@@ -9,6 +9,7 @@ namespace SatcomRfWebsite.Models
     {
         public string AssetNumber { get; set; }
         public DateTime AddedDate { get; set; }
+        public DateTime CalDate { get; set; }
         public string EditedBy { get; set; }
         public List<CalibrationRecord> Records { get; set; }
     }
@@ -50,7 +51,6 @@ namespace SatcomRfWebsite.Models
         public string RefCal { get; set; }
         public string Certificate { get; set; }
         public string Operator { get; set; }
-        public DateTime CalDate { get; set; }
     }
 
     public class CalibrationRecord

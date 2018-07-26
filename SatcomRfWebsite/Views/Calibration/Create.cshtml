@@ -126,22 +126,27 @@
 
                         var fields = JSON.parse(result);
                         if ($("#cal-type").val() == "Attenuator" || $("#cal-type").val() == "Output Coupler") {
-                            var dateReturned = fields.ExpireDate.substring(0, fields.ExpireDate.indexOf("T"));
-                            var pieces = dateReturned.split('-');
-                            var date = pieces[1] + "/" + pieces[2] + "/" + pieces[0];
+                            var calDateReturned = fields.CalDate.substring(0, fields.CalDate.indexOf("T"));
+                            var calDatePieces = calDateReturned.split('-');
+                            var calDate = calDatePieces[1] + "/" + calDatePieces[2] + "/" + calDatePieces[0];
+
+                            var expireDateReturned = fields.ExpireDate.substring(0, fields.ExpireDate.indexOf("T"));
+                            var expireDatePieces = expireDateReturned.split('-');
+                            var expireDate = expireDatePieces[1] + "/" + expireDatePieces[2] + "/" + expireDatePieces[0];
 
                             $("#AssetNumber").val(fields.AssetNumber);
                             $("#Operator").val(fields.Operator);
-                            $("#ExpireDate").val(date);
+                            $("#CalDate").val(calDate);
                             $("#StartFreq").val(fields.StartFreq);
                             $("#StopFreq").val(fields.StopFreq);
-                            $("#Points").val(fields.Records.length);
+                            $("#ExpireDate").val(expireDate);
                             $("#Loss").val(fields.Loss);
                             $("#Power").val(fields.Power);
                             $("#MaxOffset").val(fields.MaxOffset);
                             $("#Temp").val(fields.Temp);
                             $("#Humidity").val(fields.Humidity);
                             $("#Lookback").val(fields.Lookback);
+                            $("#Points").val(fields.Records.length);
                         } else if ($("#cal-type").val() == "Power Sensor") {
                             var dateReturned = fields.CalDate.substring(0, fields.CalDate.indexOf("T"));
                             var pieces = dateReturned.split('-');
@@ -191,7 +196,7 @@
                         var err = "Error " + " " + status + " " + p3 + " " + p4;
                         if (xhr.responseText && xhr.responseText[0] == "{")
                             err = JSON.parse(xhr.responseText).Message;
-                        alert(err);
+                        alert("Something went wrong!");
                     }
                 });
             } else {

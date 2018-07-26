@@ -26,6 +26,7 @@ namespace SatcomRfWebsite.Models
         public Nullable<double> Humidity { get; set; }
         public string Lookback { get; set; }
         public string Operator { get; set; }
+        public System.DateTime CalDate { get; set; }
         public System.DateTime ExpireDate { get; set; }
         public System.DateTime AddedDate { get; set; }
         public string EditedBy { get; set; }

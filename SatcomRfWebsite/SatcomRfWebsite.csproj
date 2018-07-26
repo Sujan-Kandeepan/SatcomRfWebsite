@@ -363,6 +363,17 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\SatcomStatsPage\Index.cshtml" />
+    <Content Include="Views\Calibration\Index.cshtml" />
+    <Content Include="Views\Calibration\Create.cshtml" />
+    <Content Include="Views\Calibration\ATCalForm.cshtml" />
+    <Content Include="Views\Calibration\OCCalForm.cshtml" />
+    <Content Include="Views\Calibration\PSCalForm.cshtml" />
+    <Content Include="Views\Calibration\Details.cshtml" />
+    <Content Include="Views\ATCalHeaders\Create.cshtml" />
+    <Content Include="Views\ATCalHeaders\Delete.cshtml" />
+    <Content Include="Views\ATCalHeaders\Details.cshtml" />
+    <Content Include="Views\ATCalHeaders\Edit.cshtml" />
+    <Content Include="Views\ATCalHeaders\Index.cshtml" />
     <Content Include="Views\OCCalHeaders\Create.cshtml" />
     <Content Include="Views\OCCalHeaders\Delete.cshtml" />
     <Content Include="Views\OCCalHeaders\Details.cshtml" />
@@ -373,22 +384,11 @@
     <Content Include="Views\PSCalHeaders\Details.cshtml" />
     <Content Include="Views\PSCalHeaders\Edit.cshtml" />
     <Content Include="Views\PSCalHeaders\Index.cshtml" />
-    <Content Include="Views\Calibration\Index.cshtml" />
-    <Content Include="Views\ATCalHeaders\Create.cshtml" />
-    <Content Include="Views\ATCalHeaders\Delete.cshtml" />
-    <Content Include="Views\ATCalHeaders\Details.cshtml" />
-    <Content Include="Views\ATCalHeaders\Edit.cshtml" />
-    <Content Include="Views\ATCalHeaders\Index.cshtml" />
-    <Content Include="Views\Calibration\Create.cshtml" />
-    <Content Include="Views\Calibration\ATCalForm.cshtml" />
-    <Content Include="Views\Calibration\OCCalForm.cshtml" />
-    <Content Include="Views\Calibration\PSCalForm.cshtml" />
     <Content Include="Views\CalData\Create.cshtml" />
     <Content Include="Views\CalData\Delete.cshtml" />
     <Content Include="Views\CalData\Details.cshtml" />
     <Content Include="Views\CalData\Edit.cshtml" />
     <Content Include="Views\CalData\Index.cshtml" />
-    <Content Include="Views\Calibration\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

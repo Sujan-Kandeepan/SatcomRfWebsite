@@ -47,17 +47,17 @@ namespace SatcomRfWebsite.Controllers
             if (type.Equals("Attenuator"))
             {
                 dates = (from val in db.tblATCalHeaders where val.AssetNumber.Equals(assetNumber)
-                         orderby val.AddedDate select val.AddedDate).Distinct().ToList(); 
+                         orderby val.CalDate select val.CalDate).Distinct().ToList(); 
             }
             else if (type.Equals("Output Coupler"))
             {
                 dates = (from val in db.tblOCCalHeaders where val.AssetNumber.Equals(assetNumber)
-                         orderby val.AddedDate select val.AddedDate).Distinct().ToList();
+                         orderby val.CalDate select val.CalDate).Distinct().ToList();
             }
             else if (type.Equals("Power Sensor"))
             {
                 dates = (from val in db.tblPSCalHeaders where val.AssetNumber.Equals(assetNumber)
-                         orderby val.AddedDate select val.AddedDate).Distinct().ToList();
+                         orderby val.CalDate select val.CalDate).Distinct().ToList();
             }
             else
             {
@@ -78,11 +78,11 @@ namespace SatcomRfWebsite.Controllers
                 foreach (var freq in freqs)
                 {
                     var calFactorSingle = (from val in db.tblCalData
-                                      where val.AssetNumber.Equals(assetNumber) && val.AddedDate.Equals(date) && val.Frequency.Equals(freq)
+                                      where val.AssetNumber.Equals(assetNumber) && val.CalDate.Equals(date) && val.Frequency.Equals(freq)
                                       select val.CalFactor).ToList();
 
                     var returnLossSingle = (from val in db.tblCalData
-                                           where val.AssetNumber.Equals(assetNumber) && val.AddedDate.Equals(date) && val.Frequency.Equals(freq)
+                                           where val.AssetNumber.Equals(assetNumber) && val.CalDate.Equals(date) && val.Frequency.Equals(freq)
                                            select val.ReturnLoss).ToList();
 
                     calFactorSublist.Add(calFactorSingle.Count() > 0 ? Math.Round(calFactorSingle[0], 3).ToString() : "---");
@@ -107,7 +107,7 @@ namespace SatcomRfWebsite.Controllers
         {
             var assetNumber = assetnum.Replace("_", " ");
             var datePieces = date.Split('/');
-            var addedDate = new DateTime(Convert.ToInt32(datePieces[2]), Convert.ToInt32(datePieces[0]), Convert.ToInt32(datePieces[1]));
+            var calDate = new DateTime(Convert.ToInt32(datePieces[2]), Convert.ToInt32(datePieces[0]), Convert.ToInt32(datePieces[1]));
 
             var jsonSettings = new JsonSerializerSettings();
             jsonSettings.DateFormatString = "MM/dd/yyyy";
@@ -117,7 +117,7 @@ namespace SatcomRfWebsite.Controllers
             if (type.Equals("Attenuator"))
             {
                 var id = (from val in db.tblATCalHeaders
-                          where val.AssetNumber.Equals(assetNumber) && val.AddedDate.Equals(addedDate)
+                          where val.AssetNumber.Equals(assetNumber) && val.CalDate.Equals(calDate)
                           select val.id ).ToList();
 
                 tblATCalHeaders data = db.tblATCalHeaders.Find(id[0]);
@@ -126,7 +126,7 @@ namespace SatcomRfWebsite.Controllers
             else if (type.Equals("OutputCoupler"))
             {
                 var id = (from val in db.tblOCCalHeaders
-                          where val.AssetNumber.Equals(assetNumber) && val.AddedDate.Equals(addedDate)
+                          where val.AssetNumber.Equals(assetNumber) && val.CalDate.Equals(calDate)
                           select val.id).ToList();
 
                 tblOCCalHeaders data = db.tblOCCalHeaders.Find(id[0]);
@@ -135,7 +135,7 @@ namespace SatcomRfWebsite.Controllers
             else if (type.Equals("PowerSensor"))
             {
                 var id = (from val in db.tblPSCalHeaders
-                          where val.AssetNumber.Equals(assetNumber) && val.AddedDate.Equals(addedDate)
+                          where val.AssetNumber.Equals(assetNumber) && val.CalDate.Equals(calDate)
                           select val.id).ToList();
 
                 tblPSCalHeaders data = db.tblPSCalHeaders.Find(id[0]);
@@ -143,7 +143,7 @@ namespace SatcomRfWebsite.Controllers
             }
 
             List<double> freqs = (from val in db.tblCalData
-                                  where val.AssetNumber.Equals(assetNumber) && val.AddedDate.Equals(addedDate)
+                                  where val.AssetNumber.Equals(assetNumber) && val.CalDate.Equals(calDate)
                                   orderby val.Frequency
                                   select val.Frequency).Distinct().ToList();
 
@@ -152,11 +152,11 @@ namespace SatcomRfWebsite.Controllers
             foreach (var freq in freqs)
             {
                 var calFactorSingle = (from val in db.tblCalData
-                                       where val.AssetNumber.Equals(assetNumber) && val.AddedDate.Equals(addedDate) && val.Frequency.Equals(freq)
+                                       where val.AssetNumber.Equals(assetNumber) && val.CalDate.Equals(calDate) && val.Frequency.Equals(freq)
                                        select val.CalFactor).ToList();
 
                 var returnLossSingle = (from val in db.tblCalData
-                                        where val.AssetNumber.Equals(assetNumber) && val.AddedDate.Equals(addedDate) && val.Frequency.Equals(freq)
+                                        where val.AssetNumber.Equals(assetNumber) && val.CalDate.Equals(calDate) && val.Frequency.Equals(freq)
                                         select val.ReturnLoss).ToList();
 
                 calFactor.Add(calFactorSingle.Count() > 0 ? Math.Round(calFactorSingle[0], 3).ToString() : "---");
@@ -212,6 +212,7 @@ namespace SatcomRfWebsite.Controllers
                         Humidity = collection["Humidity"] != "" ? Convert.ToDouble(collection["Humidity"]) : (double?)null,
                         Lookback = collection["Lookback"] != "" ? collection["Lookback"] : null,
                         Operator = collection["Operator"],
+                        CalDate = Convert.ToDateTime(collection["CalDate"]),
                         ExpireDate = Convert.ToDateTime(collection["ExpireDate"])
                     });
                 }
@@ -233,6 +234,7 @@ namespace SatcomRfWebsite.Controllers
                         Humidity = collection["Humidity"] != "" ? Convert.ToDouble(collection["Humidity"]) : (double?)null,
                         Lookback = collection["Lookback"] != "" ? collection["Lookback"] : null,
                         Operator = collection["Operator"],
+                        CalDate = Convert.ToDateTime(collection["CalDate"]),
                         ExpireDate = Convert.ToDateTime(collection["ExpireDate"])
                     });
                 }
@@ -280,6 +282,7 @@ namespace SatcomRfWebsite.Controllers
                     Lookback = atData.Lookback,
                     Operator = atData.Operator,
                     ExpireDate = atData.ExpireDate,
+                    CalDate = atData.CalDate,
                     AddedDate = atData.AddedDate,
                     EditedBy = atData.EditedBy
                 };
@@ -295,7 +298,7 @@ namespace SatcomRfWebsite.Controllers
                         Frequency = record.Frequency,
                         CalFactor = record.CalFactor,
                         ReturnLoss = record.ReturnLoss,
-                        AddedDate = atData.AddedDate
+                        CalDate = atData.CalDate
                     };
                     db.tblCalData.Add(calData);
                 }
@@ -327,6 +330,7 @@ namespace SatcomRfWebsite.Controllers
                     Lookback = ocData.Lookback,
                     Operator = ocData.Operator,
                     ExpireDate = ocData.ExpireDate,
+                    CalDate = ocData.CalDate,
                     AddedDate = ocData.AddedDate,
                     EditedBy = ocData.EditedBy
                 };
@@ -342,7 +346,7 @@ namespace SatcomRfWebsite.Controllers
                         Frequency = record.Frequency,
                         CalFactor = record.CalFactor,
                         ReturnLoss = record.ReturnLoss,
-                        AddedDate = ocData.AddedDate
+                        CalDate = ocData.CalDate
                     };
                     db.tblCalData.Add(calData);
                 }
@@ -386,7 +390,7 @@ namespace SatcomRfWebsite.Controllers
                         Frequency = record.Frequency,
                         CalFactor = record.CalFactor,
                         ReturnLoss = record.ReturnLoss,
-                        AddedDate = psData.AddedDate
+                        CalDate = psData.CalDate
                     };
                     db.tblCalData.Add(calData);
                 }
@@ -460,8 +464,8 @@ namespace SatcomRfWebsite.Controllers
                                 });
                             }
 
-                            string datestring = range.Cells[8, 2].Value.ToString();
-                            string[] pieces = datestring.Split(' ')[0].Split('/');
+                            string dateString = range.Cells[8, 2].Value.ToString();
+                            string[] pieces = dateString.Split(' ')[0].Split('/');
                             DateTime date = new DateTime(Convert.ToInt32(pieces[2]), Convert.ToInt32(pieces[0]), Convert.ToInt32(pieces[1]));
 
                             ATCalibrationData data = new ATCalibrationData
@@ -478,6 +482,8 @@ namespace SatcomRfWebsite.Controllers
                                 Humidity = Convert.ToDouble(range.Cells[4, 6].Text),
                                 Lookback = range.Cells[5, 6].Text,
                                 Operator = range.Cells[7, 2].Text,
+                                CalDate = DateTime.Now.Date,
+                                AddedDate = DateTime.Now.Date,
                                 ExpireDate = date
                             };
                             wb.Close(false, path, false);
@@ -513,6 +519,8 @@ namespace SatcomRfWebsite.Controllers
                                 Humidity = Convert.ToDouble(range.Cells[4, 6].Text),
                                 Lookback = range.Cells[5, 6].Text,
                                 Operator = range.Cells[7, 2].Text,
+                                CalDate = DateTime.Now.Date,
+                                AddedDate = DateTime.Now.Date,
                                 ExpireDate = date
                             };
                             wb.Close(false, path, false);
@@ -610,7 +618,7 @@ namespace SatcomRfWebsite.Controllers
             {
                 var assetNumber = assetnum.Replace("_", " ");
                 var datePieces = date.Split('/');
-                var addedDate = new DateTime(Convert.ToInt32(datePieces[2]), Convert.ToInt32(datePieces[0]), Convert.ToInt32(datePieces[1]));
+                var calDate = new DateTime(Convert.ToInt32(datePieces[2]), Convert.ToInt32(datePieces[0]), Convert.ToInt32(datePieces[1]));
                 var deviceType = "";
 
                 var jsonSettings = new JsonSerializerSettings();
@@ -621,7 +629,7 @@ namespace SatcomRfWebsite.Controllers
                     deviceType = "Attenuator";
 
                     var ids = (from val in db.tblATCalHeaders
-                              where val.AssetNumber.Equals(assetNumber) && val.AddedDate.Equals(addedDate)
+                              where val.AssetNumber.Equals(assetNumber) && val.CalDate.Equals(calDate)
                               select val.id).ToList();
 
                     foreach (long id in ids) {
@@ -634,7 +642,7 @@ namespace SatcomRfWebsite.Controllers
                     deviceType = "Output Coupler";
 
                     var ids = (from val in db.tblOCCalHeaders
-                              where val.AssetNumber.Equals(assetNumber) && val.AddedDate.Equals(addedDate)
+                               where val.AssetNumber.Equals(assetNumber) && val.CalDate.Equals(calDate)
                               select val.id).ToList();
 
                     foreach (long id in ids)
@@ -648,7 +656,7 @@ namespace SatcomRfWebsite.Controllers
                     deviceType = "Power Sensor";
 
                     var ids = (from val in db.tblPSCalHeaders
-                              where val.AssetNumber.Equals(assetNumber) && val.AddedDate.Equals(addedDate)
+                              where val.AssetNumber.Equals(assetNumber) && val.CalDate.Equals(calDate)
                               select val.id).ToList();
 
                     foreach (long id in ids)
@@ -659,7 +667,7 @@ namespace SatcomRfWebsite.Controllers
                 }
 
                 var records = (from val in db.tblCalData
-                           where val.AssetNumber.Equals(assetnum) && val.AddedDate.Equals(addedDate) && val.DeviceType.Equals(deviceType)
+                           where val.AssetNumber.Equals(assetnum) && val.CalDate.Equals(calDate) && val.DeviceType.Equals(deviceType)
                            select val.id).ToList();
                 foreach (long id in records)
                 {

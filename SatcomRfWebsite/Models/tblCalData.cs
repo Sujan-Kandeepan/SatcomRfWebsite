@@ -20,6 +20,6 @@ namespace SatcomRfWebsite.Models
         public double Frequency { get; set; }
         public double CalFactor { get; set; }
         public Nullable<double> ReturnLoss { get; set; }
-        public System.DateTime AddedDate { get; set; }
+        public System.DateTime CalDate { get; set; }
     }
 }
