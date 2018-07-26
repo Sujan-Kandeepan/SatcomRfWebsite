@@ -443,7 +443,7 @@ namespace SatcomRfWebsite.Controllers
                     Worksheet sheet = (Worksheet)wb.Sheets[1];
                     for (int i = 2; i <= wb.Sheets.Count; i++)
                     {
-                        if (wb.Sheets[i].UsedRange.Rows.Count > sheet.UsedRange.Rows.Count)
+                        if (wb.Sheets[i].UsedRange.Rows.Count < sheet.UsedRange.Rows.Count && wb.Sheets[i].UsedRange.Rows.Count > 1)
                         {
                             sheet = wb.Sheets[i];
                         }
