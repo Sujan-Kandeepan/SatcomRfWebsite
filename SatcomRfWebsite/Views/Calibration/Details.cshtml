@@ -54,6 +54,12 @@
                 $("#EditedBy").html(headers.EditedBy);
             }
 
+            $("#records-display").show();
+            if (result.freqs.length == 0) {
+                $("#records-display").html("<div class='container' style='margin-top: 20px'><div class='alert alert-warning'><strong>This item has no calibration data.</strong></div></div>");
+                return;
+            }
+
             var freqs = "", calFactor = "", returnLoss = "";
             for (var i = 0; i < result.freqs.length; i++) {
                 freqs += "<td>" + result.freqs[i] + "</td>";
@@ -233,7 +239,7 @@
     </div>
 }
 
-<div class="row">
+<div class="row" id="records-display" hidden>
     <div class="col-lg-2" style="margin-top: 15px">
         <h4 style="line-height: 30px"><strong>Frequency:</strong> </h4>
         <h4 style="line-height: 30px"><strong>Calibration Factor:</strong> </h4>

@@ -59,6 +59,7 @@
                 dataType: "text",
                 success: function (result) {
                     var data = JSON.parse(result);
+
                     var html = "<table class='table table-striped' id='data-table'><tr><thead><th" + ($("#cal-type").val() != "Power Sensor" ? " rowspan='2' style='vertical-align: middle'" : "") + ">Frequency</th>";
                     for (var i = 0; i < data.dates.length; i++) {
                         var details = document.URL.replace("Index", "Details") + "&date=" + data.dates[i];
@@ -71,6 +72,9 @@
                         }
                     }
                     html += "</tr></thead><tbody>";
+                    if (data.freqs.length == 0) {
+                        html += "<tr><td colspan='" + (data.dates.length * 2 + 1) + "'>There are no records to show here!</tr>";
+                    }
                     for (var i = 0; i < data.freqs.length; i++) {
                         html += "<tr><td><em>" + data.freqs[i] + "</em></td>";
                         for (var j = 0; j < data.dates.length; j++) {
