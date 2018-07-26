@@ -583,14 +583,14 @@ namespace SatcomRfWebsite.Controllers
         }
 
         // GET: Calibration/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(string assetnum, string date)
         {
             return View();
         }
 
         // POST: Calibration/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(string type, string assetnum, string date)
         {
             try
             {

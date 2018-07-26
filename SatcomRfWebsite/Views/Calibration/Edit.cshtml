@@ -1,0 +1,86 @@
+﻿
+@{
+    ViewBag.Title = "Edit";
+}
+
+<div class="page-header row" style="border-bottom: none; margin-bottom: -15px">
+    <div class="row">
+        <div class="col-lg-8">
+            <h1 id="title">Edit...</h1>
+        </div>
+        <div class="col-lg-2" style="margin-top: 30px">
+            <button class="btn btn-info btn-block">Reset form</button>
+        </div>
+        <div class="col-lg-2" style="margin-top: 30px">
+            <button class="btn btn-primary btn-block">Back to index</button>
+        </div>
+    </div>
+</div>
+
+@using (Html.BeginForm())
+{
+    if (Request.Url.ToString().Contains("Attenuator"))
+    {
+        @Html.Partial("ATCalForm")
+    }
+
+    if (Request.Url.ToString().Contains("OutputCoupler"))
+    {
+        @Html.Partial("OCCalForm")
+    }
+
+    if (Request.Url.ToString().Contains("PowerSensor"))
+    {
+        @Html.Partial("PSCalForm")
+    }
+}
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://terrylinooo.github.io/jquery.disableAutoFill/assets/js/jquery.disableAutoFill.min.js"></script>
+<script>
+    var type = location.pathname.substring(location.pathname.lastIndexOf("/") + 1);
+    var assetnum = document.URL.substring(document.URL.indexOf("assetnum=") + 9, document.URL.indexOf("date=") - 1).split('_').join(' ');
+    var date = document.URL.substring(document.URL.indexOf("date=") + 5);
+
+    $(document).ready(function () {
+        $('form').disableAutoFill();
+
+        $(".datepicker").datepicker({
+            format: 'mm/dd/yyyy',
+            changeMonth: true,
+            changeYear: true
+        });
+
+        $("#title").html("Edit " + assetnum + " (" + date + ")");
+
+        $("#reset-form").click(function () {
+            $("form input").val("");
+            $("#DataFields").html('<span style="color: grey">Form fields to enter calfactor records will appear here</span>');
+        });
+
+        $("input:text,form").click(function () {
+            $(this).attr("autocomplete", "off");
+        });
+
+        $("#Points").on("input change", function () {
+            if ($("#Points").val().length > 3) {
+                $("#Points").val($("#Points").val().substring(0, 3));
+            }
+
+            $.ajax({
+                type: "post",
+                url: "/Calibration/CreateDataFields",
+                data: { "num": $("#Points").val() > 0 ? $("#Points").val() : 0, "returnloss": document.URL.indexOf("PowerSensor") == -1 ? true : false },
+                dataType: "text",
+                success: function (result) {
+                    $("#DataFields").html(result);
+                },
+                error: function (xhr, status, error) {
+                    $("#DataFields").html(xhr.responseText);
+                }
+            });
+        });
+    });
+</script>

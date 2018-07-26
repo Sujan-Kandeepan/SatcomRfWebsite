@@ -88,6 +88,10 @@
         $("#index").click(function () {
             location.href = document.URL.substring(0, document.URL.indexOf("&")).replace("Details", "Index");
         });
+
+        $("#edit").click(function () {
+            location.href = document.URL.replace("Details", "Edit");
+        });
         
         $("#delete").click(function () {
             $("#default-buttons").hide();
@@ -133,32 +137,30 @@
     });
 </script>
 
-<div class="page-header">
-    <div class="row">
-        <div class="col-lg-6">
-            <h1 id="header">Calibration Details</h1>
+<div class="page-header row">
+    <div class="col-lg-6">
+        <h1 id="header">Calibration Details</h1>
+    </div>
+    <div id="default-buttons" style="margin-top: 30px">
+        <div class="col-lg-2">
+            <btn class="btn btn-primary btn-block" id="index">Back to index</btn>
         </div>
-        <div id="default-buttons" style="margin-top: 30px">
-            <div class="col-lg-2">
-                <btn class="btn btn-primary btn-block" id="index">Back to index</btn>
-            </div>
-            <div class="col-lg-2">
-                <btn class="btn btn-info btn-block" id="edit">Edit</btn>
-            </div>
-            <div class="col-lg-2">
-                <btn class="btn btn-danger btn-block" id="delete">Delete</btn>
-            </div>
+        <div class="col-lg-2">
+            <btn class="btn btn-info btn-block" id="edit">Edit</btn>
         </div>
-        <div id="delete-buttons" style="margin-top: 30px; display: none">
-            <div class="col-lg-2" style="font-size: 115%">
-                <label id="confirm-message" style="margin-top: -10px">Do you really want to delete this record?</label>
-            </div>
-            <div class="col-lg-2">
-                <btn class="btn btn-danger btn-block" id="confirm-delete">Confirm</btn>
-            </div>
-            <div class="col-lg-2">
-                <btn class="btn btn-default btn-block" id="cancel-delete">Cancel</btn>
-            </div>
+        <div class="col-lg-2">
+            <btn class="btn btn-danger btn-block" id="delete">Delete</btn>
+        </div>
+    </div>
+    <div id="delete-buttons" style="margin-top: 30px; display: none">
+        <div class="col-lg-2" style="font-size: 115%">
+            <label id="confirm-message" style="margin-top: -10px">Do you really want to delete this record?</label>
+        </div>
+        <div class="col-lg-2">
+            <btn class="btn btn-danger btn-block" id="confirm-delete">Confirm</btn>
+        </div>
+        <div class="col-lg-2">
+            <btn class="btn btn-default btn-block" id="cancel-delete">Cancel</btn>
         </div>
     </div>
 </div>

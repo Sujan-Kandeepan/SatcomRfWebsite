@@ -22,17 +22,15 @@
     }
 </script>
 
-<div class="page-header">
-    <div class="row">
-        <div class="col-lg-10">
-            <h1>Submit Calibration Data</h1>
-        </div>
-        <div class="col-lg-2" style="margin-top: 30px">
-            @if (!Request.Url.ToString().Replace("/", "").EndsWith("Create"))
-            {
-                <btn class="btn btn-default btn-block" id="reset-form">Reset form</btn>
-            }
-        </div>
+<div class="page-header row">
+    <div class="col-lg-10">
+        <h1>Submit Calibration Data</h1>
+    </div>
+    <div class="col-lg-2" style="margin-top: 30px">
+        @if (!Request.Url.ToString().Replace("/", "").EndsWith("Create"))
+        {
+            <btn class="btn btn-default btn-block" id="reset-form">Reset form</btn>
+        }
     </div>
 </div>
 <div class="row">

@@ -17,7 +17,7 @@
             </div>
             <div class="col-md-4">
                 @Html.Label("CalDate", "Calibration Date", htmlAttributes: new { @class = "control-label" })
-                @Html.EditorFor(model => model.CalDate, new { htmlAttributes = new { @class = "form-control", @min = "0", @max = "999" } })
+                @Html.EditorFor(model => model.CalDate, new { htmlAttributes = new { @class = "form-control datepicker" } })
                 @Html.ValidationMessageFor(model => model.CalDate, "", new { @class = "text-danger" })
             </div>
         </div>

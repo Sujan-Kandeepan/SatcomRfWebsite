@@ -389,6 +389,7 @@
     <Content Include="Views\CalData\Details.cshtml" />
     <Content Include="Views\CalData\Edit.cshtml" />
     <Content Include="Views\CalData\Index.cshtml" />
+    <Content Include="Views\Calibration\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
