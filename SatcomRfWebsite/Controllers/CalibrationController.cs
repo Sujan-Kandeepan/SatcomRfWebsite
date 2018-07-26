@@ -604,17 +604,76 @@ namespace SatcomRfWebsite.Controllers
 
         // POST: Calibration/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(string type, string assetnum, string date)
         {
             try
             {
-                // TODO: Add delete logic here
+                var assetNumber = assetnum.Replace("_", " ");
+                var datePieces = date.Split('/');
+                var addedDate = new DateTime(Convert.ToInt32(datePieces[2]), Convert.ToInt32(datePieces[0]), Convert.ToInt32(datePieces[1]));
+                var deviceType = "";
 
-                return RedirectToAction("Index");
+                var jsonSettings = new JsonSerializerSettings();
+                jsonSettings.DateFormatString = "MM/dd/yyyy";
+
+                if (type.Equals("Attenuator"))
+                {
+                    deviceType = "Attenuator";
+
+                    var ids = (from val in db.tblATCalHeaders
+                              where val.AssetNumber.Equals(assetNumber) && val.AddedDate.Equals(addedDate)
+                              select val.id).ToList();
+
+                    foreach (long id in ids) {
+                        tblATCalHeaders data = db.tblATCalHeaders.Find(id);
+                        db.tblATCalHeaders.Remove(data);
+                    }
+                }
+                else if (type.Equals("OutputCoupler"))
+                {
+                    deviceType = "Output Coupler";
+
+                    var ids = (from val in db.tblOCCalHeaders
+                              where val.AssetNumber.Equals(assetNumber) && val.AddedDate.Equals(addedDate)
+                              select val.id).ToList();
+
+                    foreach (long id in ids)
+                    {
+                        tblOCCalHeaders data = db.tblOCCalHeaders.Find(id);
+                        db.tblOCCalHeaders.Remove(data);
+                    }
+                }
+                else if (type.Equals("PowerSensor"))
+                {
+                    deviceType = "Power Sensor";
+
+                    var ids = (from val in db.tblPSCalHeaders
+                              where val.AssetNumber.Equals(assetNumber) && val.AddedDate.Equals(addedDate)
+                              select val.id).ToList();
+
+                    foreach (long id in ids)
+                    {
+                        tblPSCalHeaders data = db.tblPSCalHeaders.Find(id);
+                        db.tblPSCalHeaders.Remove(data);
+                    }
+                }
+
+                var records = (from val in db.tblCalData
+                           where val.AssetNumber.Equals(assetnum) && val.AddedDate.Equals(addedDate) && val.DeviceType.Equals(deviceType)
+                           select val.id).ToList();
+                foreach (long id in records)
+                {
+                    tblCalData data = db.tblCalData.Find(id);
+                    db.tblCalData.Remove(data);
+                }
+
+                db.SaveChanges();
+
+                return Content(JsonConvert.SerializeObject(new { type, assetnum, date }));
             }
             catch
             {
-                return View();
+                return Content("Fail");
             }
         }
     }

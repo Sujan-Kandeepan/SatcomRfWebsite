@@ -30,8 +30,6 @@
         data: { "type": type, "assetnum": assetnum, "date": date },
         datatype: "json",
         success: function (result) {
-            console.log(result);
-
             var headers = JSON.parse(result.headers);
             if (type == "Attenuator" || type == "OutputCoupler") {
                 $("#StartFreq").html(headers.StartFreq);
@@ -83,6 +81,38 @@
         $("#index").click(function () {
             location.href = document.URL.substring(0, document.URL.indexOf("&")).replace("Details", "Index");
         });
+        
+        $("#delete").click(function () {
+            $("#default-buttons").hide();
+            $("#delete-buttons").show();
+        });
+
+        $("#cancel-delete").click(function () {
+            $("#delete-buttons").hide();
+            $("#default-buttons").show();
+        });
+
+        $("#confirm-delete").click(function () {
+            $.ajax({
+                type: "post",
+                url: "/Calibration/Delete",
+                data: { "type": type, "assetnum": assetnum, "date": date },
+                datatype: "json",
+                success: function (result) {
+                    console.log(result);
+                    if (result == "Fail") {
+                        alert("Something went wrong while deleting the record!")
+                        $("#cancel-delete").trigger("click");
+                    } else {
+                        $("#index").trigger("click");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert(xhr.responseText);
+                    $("#cancel-delete").trigger("click");
+                }
+            });
+        });
 
         $('#records').dataTable({
             "scrollX": 1200,
@@ -101,14 +131,27 @@
         <div class="col-lg-6">
             <h1 id="header">Calibration Details</h1>
         </div>
-        <div class="col-lg-2" style="margin-top: 30px">
-            <btn class="btn btn-primary btn-block" id="index">Back to index</btn>
+        <div id="default-buttons" style="margin-top: 30px">
+            <div class="col-lg-2">
+                <btn class="btn btn-primary btn-block" id="index">Back to index</btn>
+            </div>
+            <div class="col-lg-2">
+                <btn class="btn btn-info btn-block" id="edit">Edit</btn>
+            </div>
+            <div class="col-lg-2">
+                <btn class="btn btn-danger btn-block" id="delete">Delete</btn>
+            </div>
         </div>
-        <div class="col-lg-2" style="margin-top: 30px">
-            <btn class="btn btn-info btn-block">Edit</btn>
-        </div>
-        <div class="col-lg-2" style="margin-top: 30px">
-            <btn class="btn btn-danger btn-block">Delete</btn>
+        <div id="delete-buttons" style="margin-top: 30px; display: none">
+            <div class="col-lg-2" style="font-size: 115%">
+                <label id="confirm-message" style="margin-top: -10px">Do you really want to delete this record?</label>
+            </div>
+            <div class="col-lg-2">
+                <btn class="btn btn-danger btn-block" id="confirm-delete">Confirm</btn>
+            </div>
+            <div class="col-lg-2">
+                <btn class="btn btn-default btn-block" id="cancel-delete">Cancel</btn>
+            </div>
         </div>
     </div>
 </div>
