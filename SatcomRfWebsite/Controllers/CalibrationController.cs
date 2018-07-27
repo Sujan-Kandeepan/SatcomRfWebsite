@@ -399,15 +399,23 @@ namespace SatcomRfWebsite.Controllers
             return View(psData);
         }
 
-        public ActionResult CreateDataFields(int num, bool returnloss)
+        public ActionResult CreateDataFields(int num, bool hasReturnLoss, string freqs, string calFactor, string returnLoss)
         {
+            var freqList = JsonConvert.DeserializeObject<IEnumerable<string>>(freqs).ToList();
+            var calFactorList = JsonConvert.DeserializeObject<IEnumerable<string>>(calFactor).ToList();
+            var returnLossList = JsonConvert.DeserializeObject<IEnumerable<string>>(returnLoss).ToList();
+
             var html = num == 0 ? "<span style='color: grey'>Form fields to enter calfactor records will appear here</span>" : "";
             for (var i = 0; i < num; i++)
             {
+                string freqValue = i < freqList.Count() ? freqList[i] : "";
+                string calFactorValue = i < calFactorList.Count() ? calFactorList[i] : "";
+                string returnLossValue = i < returnLossList.Count() ? returnLossList[i] : "";
+
                 html += $"<div class='form-group row' style='margin-bottom: 5px' align='left'>";
-                html += "<div class='col-md-" + (returnloss ? "4" : "6") + $"'><label class='control-label' for='Records_{i}__Frequency'>Frequency &middot;  {i + 1}</label><input class='form-control text-box single-line' data-val='true' data-val-number='The field Frequency must be a number.' data-val-required='The Frequency field is required.' id='Records_{i}__Frequency' name='Records[{i}].Frequency' type='number' min='0' value=''></div>";
-                html += "<div class='col-md-" + (returnloss ? "4" : "6") + $"'><label class='control-label' for='Records_{i}__CalFactor'>Calibration Factor &middot; {i + 1}</label><input class='form-control text-box single-line' data-val='true' data-val-number='The field CalFactor must be a number.' data-val-required='The CalFactor field is required.' id='Records_{i}__CalFactor' name='Records[{i}].CalFactor' type='number' min='0' value=''></div>";
-                if (returnloss) html += $"<div class='col-md-4'><label class='control-label' for='Records_{i}__ReturnLoss'>Return Loss &middot; {i + 1}</label><input class='form-control text-box single-line' data-val='true' data-val-number='The field ReturnLoss must be a number.' data-val-required='The ReturnLoss field is required.' id='Records_{i}__CalFactor' name='Records[{i}].ReturnLoss' placeholder='Optional' type='number' min='0' value=''></div>";
+                html += "<div class='col-md-" + (hasReturnLoss ? "4" : "6") + $"'><label class='control-label' for='Records_{i}__Frequency'>Frequency &middot;  {i + 1}</label><input class='form-control text-box single-line' data-val='true' data-val-number='The field Frequency must be a number.' data-val-required='The Frequency field is required.' id='Records_{i}__Frequency' name='Records[{i}].Frequency' type='number' min='0' value='{freqValue}'></div>";
+                html += "<div class='col-md-" + (hasReturnLoss ? "4" : "6") + $"'><label class='control-label' for='Records_{i}__CalFactor'>Calibration Factor &middot; {i + 1}</label><input class='form-control text-box single-line' data-val='true' data-val-number='The field CalFactor must be a number.' data-val-required='The CalFactor field is required.' id='Records_{i}__CalFactor' name='Records[{i}].CalFactor' type='number' min='0' value='{calFactorValue}'></div>";
+                if (hasReturnLoss) html += $"<div class='col-md-4'><label class='control-label' for='Records_{i}__ReturnLoss'>Return Loss &middot; {i + 1}</label><input class='form-control text-box single-line' data-val='true' data-val-number='The field ReturnLoss must be a number.' data-val-required='The ReturnLoss field is required.' id='Records_{i}__ReturnLoss' name='Records[{i}].ReturnLoss' placeholder='Optional' type='number' min='0' value='{returnLossValue}'></div>";
                 html += "</div>";
             }
             return Content(html);
