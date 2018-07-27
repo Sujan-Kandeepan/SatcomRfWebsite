@@ -102,6 +102,8 @@
     }
 
     $(document).ready(function () {
+        document.getElementById("navBarCalibration").classList.add("active");
+
         $.ajax({
             type: "post",
             url: "/Calibration/GetAssetNumbers",
