@@ -176,11 +176,6 @@ namespace SatcomRfWebsite.Controllers
         [HttpPost]
         public ActionResult Create(FormCollection collection)
         {
-            foreach (string key in collection.Keys)
-            {
-                System.Diagnostics.Debug.WriteLine(collection[key], key);
-            }
-
             try
             {
                 List<CalibrationRecord> records = new List<CalibrationRecord>();
@@ -257,8 +252,9 @@ namespace SatcomRfWebsite.Controllers
 
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception e)
             {
+                Debug.WriteLine(e.ToString());
                 return View();
             }
         }
@@ -574,7 +570,7 @@ namespace SatcomRfWebsite.Controllers
             }
             catch (Exception e)
             {
-                System.Diagnostics.Debug.WriteLine(e.ToString());
+                Debug.WriteLine(e.ToString());
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return Json("Could not get data from file");
             }
@@ -590,16 +586,23 @@ namespace SatcomRfWebsite.Controllers
 
         // POST: Calibration/Edit/5
         [HttpPost]
-        public ActionResult Edit(string type, string assetnum, string date)
+        public ActionResult Edit(FormCollection collection)
         {
+            var type = collection["TypePassed"];
+            var assetnum = collection["AssetNumberPassed"];
+            var date = collection["DatePassed"];
+            var assetnumGiven = collection["AssetNumber"].Replace(" ", "_");
+            var dateGiven = collection["CalDate"];
+
             try
             {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
+                Delete(type, assetnum, date);
+                Create(collection);
+                return Redirect($"~/Calibration/Details/{type}?assetnum={assetnumGiven}&date={dateGiven}");
             }
-            catch
+            catch (Exception e)
             {
+                Debug.WriteLine(e.ToString());
                 return View();
             }
         }
@@ -679,8 +682,9 @@ namespace SatcomRfWebsite.Controllers
 
                 return Content(JsonConvert.SerializeObject(new { type, assetnum, date }));
             }
-            catch
+            catch (Exception e)
             {
+                Debug.WriteLine(e.ToString());
                 return Content("Fail");
             }
         }

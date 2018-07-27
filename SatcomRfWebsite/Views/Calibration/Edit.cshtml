@@ -9,16 +9,22 @@
             <h1 id="title">Edit...</h1>
         </div>
         <div class="col-lg-2" style="margin-top: 30px">
-            <button class="btn btn-info btn-block">Reset form</button>
+            <button class="btn btn-warning btn-block" id="reset">Reset changes</button>
         </div>
         <div class="col-lg-2" style="margin-top: 30px">
-            <button class="btn btn-primary btn-block">Back to index</button>
+            <button class="btn btn-primary btn-block" id="details">Back to details</button>
         </div>
     </div>
 </div>
 
 @using (Html.BeginForm())
 {
+    <div id="params" hidden>
+        <input type="text" class="form-control" id="TypePassed" name="TypePassed" />
+        <input type="text" class="form-control" id="AssetNumberPassed" name="AssetNumberPassed" />
+        <input type="text" class="form-control" id="DatePassed" name="DatePassed" />
+    </div>
+
     if (Request.Url.ToString().Contains("Attenuator"))
     {
         @Html.Partial("ATCalForm")
@@ -44,8 +50,89 @@
     var assetnum = document.URL.substring(document.URL.indexOf("assetnum=") + 9, document.URL.indexOf("date=") - 1).split('_').join(' ');
     var date = document.URL.substring(document.URL.indexOf("date=") + 5);
 
+    $("#TypePassed").val(type);
+    $("#AssetNumberPassed").val(assetnum);
+    $("#DatePassed").val(date);
+
+    function fillForm() {
+        $.ajax({
+            type: "post",
+            url: "/Calibration/GetDetails",
+            data: { "type": type, "assetnum": assetnum, "date": date },
+            datatype: "json",
+            success: function (result) {
+                if (result == "Fail") {
+                    alert("Could not retrieve existing data!");
+                    return;
+                }
+
+                var headers = JSON.parse(result.headers);
+                if (type == "Attenuator" || type == "OutputCoupler") {
+                    $("#AssetNumber").val(headers.AssetNumber);
+                    $("#Operator").val(headers.Operator);
+                    $("#CalDate").val(headers.CalDate);
+                    $("#StartFreq").val(headers.StartFreq);
+                    $("#StopFreq").val(headers.StopFreq);
+                    $("#ExpireDate").val(headers.ExpireDate);
+                    $("#Loss").val(headers.Loss);
+                    $("#Power").val(headers.Power);
+                    $("#MaxOffset").val(headers.MaxOffset);
+                    $("#Temp").val(headers.Temp);
+                    $("#Humidity").val(headers.Humidity);
+                    $("#Lookback").val(headers.Lookback);
+                    $("#Points").val(result.freqs.length);
+                } else if (type == "PowerSensor") {
+                    var dateReturned = headers.CalDate.substring(0, headers.CalDate.indexOf("T"));
+                    var pieces = dateReturned.split('-');
+                    var date = pieces[1] + "/" + pieces[2] + "/" + pieces[0];
+
+                    $("#AssetNumber").val(headers.AssetNumber);
+                    $("#Operator").val(headers.Operator);
+                    $("#CalDate").val(headers.CalDate);
+                    $("#Series").val(headers.Series);
+                    $("#Serial").val(headers.Serial);
+                    $("#RefCal").val(headers.RefCal);
+                    $("#Certificate").val(headers.Certificate);
+                    $("#Points").val(result.freqs.length);
+                }
+
+                $.ajax({
+                    type: "post",
+                    url: "/Calibration/CreateDataFields",
+                    data: { "num": $("#Points").val() > 0 ? $("#Points").val() : 0, "returnloss": document.URL.indexOf("PowerSensor") == -1 ? true : false },
+                    dataType: "text",
+                    success: function (result2) {
+                        $("#DataFields").html(result2);
+                        $("form input").prop("disabled", false);
+
+                        setTimeout(function () {
+                            for (var i = 0; i < result.freqs.length; i++) {
+                                $("#Records_" + i.toString() + "__Frequency").val(result.freqs[i].toString());
+                                $("#Records_" + i.toString() + "__CalFactor").val(result.calFactor[i].toString());
+                                $("#Records_" + i.toString() + "__ReturnLoss").val(result.returnLoss[i].toString());
+                            }
+                        }, 0);
+                    },
+                    error: function (xhr, status, error) {
+                        $("#DataFields").html(xhr.responseText);
+                        $("form input").prop("disabled", false);
+                    }
+                });
+            },
+            error: function (xhr, status, p3, p4) {
+                $("form input").prop("disabled", false);
+
+                var err = "Error " + " " + status + " " + p3 + " " + p4;
+                if (xhr.responseText && xhr.responseText[0] == "{")
+                    err = JSON.parse(xhr.responseText).Message;
+                alert("Something went wrong!");
+            }
+        });
+    }
+
     $(document).ready(function () {
         $('form').disableAutoFill();
+        $("form input").prop("disabled", true);
 
         $(".datepicker").datepicker({
             format: 'mm/dd/yyyy',
@@ -55,9 +142,15 @@
 
         $("#title").html("Edit " + assetnum + " (" + date + ")");
 
-        $("#reset-form").click(function () {
-            $("form input").val("");
+        fillForm();
+
+        $("#reset").click(function () {
             $("#DataFields").html('<span style="color: grey">Form fields to enter calfactor records will appear here</span>');
+            fillForm();
+        });
+
+        $("#details").click(function () {
+            location.href = document.URL.replace("Edit", "Details");
         });
 
         $("input:text,form").click(function () {
