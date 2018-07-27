@@ -191,6 +191,7 @@ namespace SatcomRfWebsite.Controllers
 
                 if (Request.Url.ToString().Contains("Attenuator"))
                 {
+                    Delete("Attenuator", collection["AssetNumber"], collection["CalDate"]);
                     return CreateAT(new ATCalibrationData
                     {
                         AssetNumber = collection["AssetNumber"],
@@ -213,6 +214,7 @@ namespace SatcomRfWebsite.Controllers
                 }
                 else if (Request.Url.ToString().Contains("OutputCoupler"))
                 {
+                    Delete("OutputCoupler", collection["AssetNumber"], collection["CalDate"]);
                     return CreateOC(new OCCalibrationData
                     {
                         AssetNumber = collection["AssetNumber"],
@@ -235,6 +237,7 @@ namespace SatcomRfWebsite.Controllers
                 }
                 else if (Request.Url.ToString().Contains("PowerSensor"))
                 {
+                    Delete("PowerSensor", collection["AssetNumber"], collection["CalDate"]);
                     return CreatePS(new PSCalibrationData
                     {
                         AssetNumber = collection["AssetNumber"],
