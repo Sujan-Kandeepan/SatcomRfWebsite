@@ -23,13 +23,14 @@
     var type = location.pathname.substring(location.pathname.lastIndexOf("/") + 1);
     var assetnum = document.URL.substring(document.URL.indexOf("assetnum=") + 9, document.URL.indexOf("date=") - 1).split('_').join(' ');
     var date = document.URL.substring(document.URL.indexOf("date=") + 5);
-
+    
     $.ajax({
         type: "post",
         url: "/Calibration/GetDetails",
         data: { "type": type, "assetnum": assetnum, "date": date },
         datatype: "json",
         success: function (result) {
+            if (result == "Fail") return;
             var headers = JSON.parse(result.headers);
             if (type == "Attenuator" || type == "OutputCoupler") {
                 $("#StartFreq").html(headers.StartFreq);
