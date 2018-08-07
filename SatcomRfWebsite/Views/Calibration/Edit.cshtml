@@ -17,6 +17,12 @@
     </div>
 </div>
 
+<div class="alert alert-warning" id="assetnum-not-recognized" style="margin: 10px 0 0 0" hidden>
+    <strong>Asset number not recognized!</strong>
+    By submitting this form, you will be creating a new asset number record in the database.
+    Please use proper naming conventions and letter casing.
+</div>
+
 @using (Html.BeginForm())
 {
     <div id="params" hidden>
@@ -170,6 +176,33 @@
 
         $("input:text,form").click(function () {
             $(this).attr("autocomplete", "off");
+        });
+
+        $.ajax({
+            type: "post",
+            url: "/Calibration/GetAssetNumbers",
+            data: {
+                "type": type
+            },
+            dataType: "text",
+            success: function (result) {
+                $("#AssetNumber").autocomplete({
+                    source: JSON.parse(result),
+                    minLength: 0,
+                    close: function (event, ui) {
+                        $("#assetnum-not-recognized").hide();
+                    }
+                }).focusout(function () {
+                    if (JSON.parse(result).indexOf($("#AssetNumber").val()) == -1 && $("#AssetNumber").val() != "") {
+                        setTimeout(() => { $("#assetnum-not-recognized").show(); }, 0);
+                    } else {
+                        $("#assetnum-not-recognized").hide();
+                    }
+                });
+            },
+            error: function (xhr, status, error) {
+                alert(error);
+            }
         });
 
         $("#Points").on("input change", function () {

@@ -7,7 +7,7 @@
         <div class="form-group row" style="margin-top: -10px">
             <div class="col-md-4">
                 @Html.Label("AssetNumber", "Asset Number", htmlAttributes: new { @class = "control-label" })
-                @Html.EditorFor(model => model.AssetNumber, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.AssetNumber, new { htmlAttributes = new { @class = "form-control", @placeholder = "Autocomplete" } })
                 @Html.ValidationMessageFor(model => model.AssetNumber, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-4">

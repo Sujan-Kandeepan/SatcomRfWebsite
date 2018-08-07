@@ -20,6 +20,7 @@
         <EntityTypeShape EntityType="rfDb.tblCalData" Width="1.5" PointX="12.75" PointY="5.375" />
         <EntityTypeShape EntityType="rfDb.tblATCalHeaders" Width="1.5" PointX="10.75" PointY="0.75" />
         <EntityTypeShape EntityType="rfDb.tblOCCalHeaders" Width="1.5" PointX="12.75" PointY="0.75" />
+        <EntityTypeShape EntityType="rfDb.tblCalDevices" Width="1.5" PointX="12.75" PointY="8.25" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

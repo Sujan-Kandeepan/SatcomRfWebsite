@@ -197,6 +197,9 @@
     <Compile Include="Models\tblCalData.cs">
       <DependentUpon>rfDb.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\tblCalDevices.cs">
+      <DependentUpon>rfDb.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\tblKLYTestParameters.cs">
       <DependentUpon>rfDb.tt</DependentUpon>
     </Compile>

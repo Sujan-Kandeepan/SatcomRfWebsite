@@ -60,32 +60,36 @@
                 success: function (result) {
                     var data = JSON.parse(result);
 
-                    var html = "<table class='table table-striped' id='data-table'><tr><thead><th" + ($("#cal-type").val() != "Power Sensor" ? " rowspan='2' style='vertical-align: middle'" : "") + ">Frequency</th>";
-                    for (var i = 0; i < data.dates.length; i++) {
-                        var details = document.URL.replace("Index", "Details") + "&date=" + data.dates[i];
-                        html += "<th" + ($("#cal-type").val() != "Power Sensor" ? " colspan='2'" : "") + ">" + data.dates[i] + " (<a href='" + details + "'>Details</a>)</th>";
-                    }
-                    if ($("#cal-type").val() != "Power Sensor") {
-                        html += "</tr><tr>";
+                    if (data.dates.length > 0) {
+                        var html = "<table class='table table-striped' id='data-table'><tr><thead><th" + ($("#cal-type").val() != "Power Sensor" ? " rowspan='2' style='vertical-align: middle'" : "") + ">Frequency</th>";
                         for (var i = 0; i < data.dates.length; i++) {
-                            html += "<th>Cal Factor</th><th>Return Loss</th>";
+                            var details = document.URL.replace("Index", "Details") + "&date=" + data.dates[i];
+                            html += "<th" + ($("#cal-type").val() != "Power Sensor" ? " colspan='2'" : "") + ">" + data.dates[i] + " (<a href='" + details + "'>Details</a>)</th>";
                         }
-                    }
-                    html += "</tr></thead><tbody>";
-                    if (data.freqs.length == 0) {
-                        html += "<tr><td colspan='" + (data.dates.length * 2 + 1) + "'>There are no records to show here!</tr>";
-                    }
-                    for (var i = 0; i < data.freqs.length; i++) {
-                        html += "<tr><td><em>" + data.freqs[i] + "</em></td>";
-                        for (var j = 0; j < data.dates.length; j++) {
-                            html += "<td" + ($("#cal-type").val() == "Power Sensor" ? "" : "") + ">" + data.calFactor[j][i] + "</td>";
-                            if ($("#cal-type").val() != "Power Sensor") {
-                                html += "<td>" + data.returnLoss[j][i] + "</td>";
+                        if ($("#cal-type").val() != "Power Sensor") {
+                            html += "</tr><tr>";
+                            for (var i = 0; i < data.dates.length; i++) {
+                                html += "<th>Cal Factor</th><th>Return Loss</th>";
                             }
                         }
-                        html += "</tr>";
+                        html += "</tr></thead><tbody>";
+                        if (data.freqs.length == 0) {
+                            html += "<tr><td colspan='" + (data.dates.length * 2 + 1) + "'>There are no records to show here!</tr>";
+                        }
+                        for (var i = 0; i < data.freqs.length; i++) {
+                            html += "<tr><td><em>" + data.freqs[i] + "</em></td>";
+                            for (var j = 0; j < data.dates.length; j++) {
+                                html += "<td" + ($("#cal-type").val() == "Power Sensor" ? "" : "") + ">" + data.calFactor[j][i] + "</td>";
+                                if ($("#cal-type").val() != "Power Sensor") {
+                                    html += "<td>" + data.returnLoss[j][i] + "</td>";
+                                }
+                            }
+                            html += "</tr>";
+                        }
+                        html += "</tbody></table>";
+                    } else {
+                        html = "<span class='center-block text-center'>There are no records to show here!</span>";
                     }
-                    html += "</tbody></table>";
 
                     $("#data-display").html(html);
                     $("#separator").show();

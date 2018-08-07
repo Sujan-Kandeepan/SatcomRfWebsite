@@ -33,6 +33,7 @@
         }
     </div>
 </div>
+
 <div class="row">
     <div class="col-md-5" style="margin-top: -20px">
         <div class="display">
@@ -40,7 +41,7 @@
         </div>
     </div>
     <div class="col-md-3">
-        <select class="form-control" id="cal-type" onchange="setURL(this.value)">
+        <select class="form-control" id="device-type" onchange="setURL(this.value)">
             <option value="default">Select a device type</option>
             <option value="Attenuator" @(Request.Url.ToString().Contains("Attenuator") ? "selected" : "" )>Attenuator</option>
             <option value="Output Coupler" @(Request.Url.ToString().Contains("OutputCoupler") ? "selected" : "" )>Output Coupler</option>
@@ -51,8 +52,14 @@
         <label class="form-control btn btn-info @(Request.Url.ToString().Replace("/", "").EndsWith("Create") ? "disabled" : "" )" id="import-file"><span id="import-msg">Import calibration file</span><input type="file" id="file-browser" style="display: none;" @(Request.Url.ToString().Replace("/", "").EndsWith("Create") ? "disabled" : "" )></label>
     </div>
     <div class="col-md-2">
-        <button class="form-control btn btn-primary" id="index" onclick="index($('#cal-type').val())">Go to index</button>
+        <button class="form-control btn btn-primary" id="index" onclick="index($('#device-type').val())">Go to index</button>
     </div>
+</div>
+
+<div class="alert alert-warning" id="assetnum-not-recognized" style="margin: 10px 0 0 0" hidden>
+    <strong>Asset number not recognized!</strong>
+    By submitting this form, you will be creating a new asset number record in the database.
+    Please use proper naming conventions and letter casing.
 </div>
 
 @using (Html.BeginForm())
@@ -79,7 +86,7 @@
 <script src="https://terrylinooo.github.io/jquery.disableAutoFill/assets/js/jquery.disableAutoFill.min.js"></script>
 <script>
     $(document).ready(function () {
-        $('form').disableAutoFill();
+        $('form').not("#AssetNumber").disableAutoFill();
         
         document.getElementById("navBarCalibration").classList.add("active");
 
@@ -110,7 +117,7 @@
 
                 $.ajax({
                     type: "post",
-                    url: "/Calibration/ImportFile?type=" + $("#cal-type").val().replace(" ", ""),
+                    url: "/Calibration/ImportFile?type=" + $("#device-type").val().replace(" ", ""),
                     data: data,
                     contentType: false,
                     processData: false,
@@ -125,7 +132,7 @@
                         }
 
                         var fields = JSON.parse(result);
-                        if ($("#cal-type").val() == "Attenuator" || $("#cal-type").val() == "Output Coupler") {
+                        if ($("#device-type").val() == "Attenuator" || $("#device-type").val() == "Output Coupler") {
                             var calDateReturned = fields.CalDate.substring(0, fields.CalDate.indexOf("T"));
                             var calDatePieces = calDateReturned.split('-');
                             var calDate = calDatePieces[1] + "/" + calDatePieces[2] + "/" + calDatePieces[0];
@@ -147,7 +154,7 @@
                             $("#Humidity").val(fields.Humidity);
                             $("#Lookback").val(fields.Lookback);
                             $("#Points").val(fields.Records.length);
-                        } else if ($("#cal-type").val() == "Power Sensor") {
+                        } else if ($("#device-type").val() == "Power Sensor") {
                             var dateReturned = fields.CalDate.substring(0, fields.CalDate.indexOf("T"));
                             var pieces = dateReturned.split('-');
                             var date = pieces[1] + "/" + pieces[2] + "/" + pieces[0];
@@ -217,6 +224,34 @@
                 alert("This browser does not support file uploads!");
             }
             $(this).val("");
+        });
+
+        $.ajax({
+            type: "post",
+            url: "/Calibration/GetAssetNumbers",
+            data: {
+                "type": $("#device-type").val()
+            },
+            dataType: "text",
+            success: function (result) {
+                $("#AssetNumber").autocomplete({
+                    source: JSON.parse(result),
+                    minLength: 0,
+                    close: function (event, ui) {
+                        $("#assetnum-not-recognized").hide();
+                        // TODO: fill remaining header fields
+                    }
+                }).focusout(function () {
+                    if (JSON.parse(result).indexOf($("#AssetNumber").val()) == -1 && $("#AssetNumber").val() != "") {
+                        setTimeout(() => { $("#assetnum-not-recognized").show(); }, 0);
+                    } else {
+                        $("#assetnum-not-recognized").hide();
+                    }
+                });
+            },
+            error: function (xhr, status, error) {
+                alert(error);
+            }
         });
 
         $("#Points").on("input change", function() {

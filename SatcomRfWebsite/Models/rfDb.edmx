@@ -79,6 +79,14 @@
           <Property Name="ReturnLoss" Type="float" />
           <Property Name="CalDate" Type="date" Nullable="false" />
         </EntityType>
+        <EntityType Name="tblCalDevices">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AssetNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="DeviceType" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="tblKLYTestParameters">
           <Key>
             <PropertyRef Name="id" />
@@ -280,6 +288,7 @@
           <EntitySet Name="tblATCalHeaders" EntityType="Self.tblATCalHeaders" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblATEOutput" EntityType="Self.tblATEOutput" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblCalData" EntityType="Self.tblCalData" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblCalDevices" EntityType="Self.tblCalDevices" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblKLYTestParameters" EntityType="Self.tblKLYTestParameters" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblKLYTestResults" EntityType="Self.tblKLYTestResults" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblModelNames" EntityType="Self.tblModelNames" Schema="dbo" store:Type="Tables" />
@@ -530,6 +539,7 @@
           <EntitySet Name="tblCalData" EntityType="rfDb.tblCalData" />
           <EntitySet Name="tblATCalHeaders" EntityType="rfDb.tblATCalHeaders" />
           <EntitySet Name="tblOCCalHeaders" EntityType="rfDb.tblOCCalHeaders" />
+          <EntitySet Name="tblCalDevices" EntityType="rfDb.tblCalDevices" />
         </EntityContainer>
         <EntityType Name="tblCalData">
           <Key>
@@ -584,6 +594,14 @@
           <Property Name="ExpireDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="AddedDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="EditedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="tblCalDevices">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" />
+          <Property Name="AssetNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DeviceType" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -872,6 +890,15 @@
                 <ScalarProperty Name="Points" ColumnName="Points" />
                 <ScalarProperty Name="StopFreq" ColumnName="StopFreq" />
                 <ScalarProperty Name="StartFreq" ColumnName="StartFreq" />
+                <ScalarProperty Name="AssetNumber" ColumnName="AssetNumber" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblCalDevices">
+            <EntityTypeMapping TypeName="rfDb.tblCalDevices">
+              <MappingFragment StoreEntitySet="tblCalDevices">
+                <ScalarProperty Name="DeviceType" ColumnName="DeviceType" />
                 <ScalarProperty Name="AssetNumber" ColumnName="AssetNumber" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>

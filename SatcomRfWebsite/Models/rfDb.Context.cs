@@ -40,5 +40,6 @@ namespace SatcomRfWebsite.Models
         public virtual DbSet<tblCalData> tblCalData { get; set; }
         public virtual DbSet<tblATCalHeaders> tblATCalHeaders { get; set; }
         public virtual DbSet<tblOCCalHeaders> tblOCCalHeaders { get; set; }
+        public virtual DbSet<tblCalDevices> tblCalDevices { get; set; }
     }
 }

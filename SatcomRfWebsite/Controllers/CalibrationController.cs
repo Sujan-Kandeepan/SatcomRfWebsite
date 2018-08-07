@@ -25,20 +25,12 @@ namespace SatcomRfWebsite.Controllers
 
         public JsonResult GetAssetNumbers(string type)
         {
-            if (type.Equals("Attenuator"))
-            {
-                return Json((from val in db.tblATCalHeaders.OrderBy(header => header.AssetNumber) select val.AssetNumber).Distinct().ToList());
-            }
-            else if (type.Equals("Output Coupler"))
-            {
-                return Json((from val in db.tblOCCalHeaders.OrderBy(header => header.AssetNumber) select val.AssetNumber).Distinct().ToList());
-            }
-            else if (type.Equals("Power Sensor"))
-            {
-                return Json((from val in db.tblPSCalHeaders.OrderBy(header => header.AssetNumber) select val.AssetNumber).Distinct().ToList());
-            }
+            var list = from val in db.tblCalDevices
+                       .Where(device => device.DeviceType.Equals(type))
+                       .OrderBy(device => device.AssetNumber)
+                       select val.AssetNumber;
 
-            return Json(new List<string>());
+            return Json(list.Distinct().ToList());
         }
 
         public ActionResult GetData(string type, string assetNumber)
