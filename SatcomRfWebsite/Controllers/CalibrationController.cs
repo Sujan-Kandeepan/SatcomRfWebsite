@@ -202,6 +202,19 @@ namespace SatcomRfWebsite.Controllers
                 if (Request.Url.ToString().Contains("Attenuator"))
                 {
                     Delete("Attenuator", collection["AssetNumber"], collection["CalDate"]);
+
+                    List<String> assetnums = (List<String>)GetAssetNumbers("Attenuator").Data;
+                    if (!assetnums.Contains(collection["AssetNumber"]))
+                    {
+                        tblCalDevices device = new tblCalDevices
+                        {
+                            AssetNumber = collection["AssetNumber"],
+                            DeviceType = "Attenuator"
+                        };
+                        db.tblCalDevices.Add(device);
+                        db.SaveChanges();
+                    }
+
                     return CreateAT(new ATCalibrationData
                     {
                         AssetNumber = collection["AssetNumber"],
@@ -225,6 +238,19 @@ namespace SatcomRfWebsite.Controllers
                 else if (Request.Url.ToString().Contains("OutputCoupler"))
                 {
                     Delete("OutputCoupler", collection["AssetNumber"], collection["CalDate"]);
+
+                    List<String> assetnums = (List<String>)GetAssetNumbers("Attenuator").Data;
+                    if (!assetnums.Contains(collection["AssetNumber"]))
+                    {
+                        tblCalDevices device = new tblCalDevices
+                        {
+                            AssetNumber = collection["AssetNumber"],
+                            DeviceType = "Output Coupler"
+                        };
+                        db.tblCalDevices.Add(device);
+                        db.SaveChanges();
+                    }
+
                     return CreateOC(new OCCalibrationData
                     {
                         AssetNumber = collection["AssetNumber"],
@@ -248,6 +274,19 @@ namespace SatcomRfWebsite.Controllers
                 else if (Request.Url.ToString().Contains("PowerSensor"))
                 {
                     Delete("PowerSensor", collection["AssetNumber"], collection["CalDate"]);
+
+                    List<String> assetnums = (List<String>)GetAssetNumbers("Attenuator").Data;
+                    if (!assetnums.Contains(collection["AssetNumber"]))
+                    {
+                        tblCalDevices device = new tblCalDevices
+                        {
+                            AssetNumber = collection["AssetNumber"],
+                            DeviceType = "Power Sensor"
+                        };
+                        db.tblCalDevices.Add(device);
+                        db.SaveChanges();
+                    }
+
                     return CreatePS(new PSCalibrationData
                     {
                         AssetNumber = collection["AssetNumber"],
