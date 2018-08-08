@@ -300,4 +300,30 @@ $(document).ready(function () {
             }
         });
     });
+
+    $("form").submit(function (e) {
+        e.preventDefault();
+        $.ajax({
+            type: "post",
+            url: "/Calibration/ValidateForm",
+            data: {
+                "type": $("#device-type").val().replace(" ", "")
+            },
+            dataType: "text",
+            success: function (result) {
+                if (JSON.parse(result)) {
+                    $("form").unbind("submit").submit();
+                    return true;
+                }
+                else {
+                    alert('There are validation errors present in the form');
+                    return false;
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr.responseText);
+                return false;
+            }
+        });
+    });
 });

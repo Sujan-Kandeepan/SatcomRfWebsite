@@ -176,6 +176,20 @@ namespace SatcomRfWebsite.Controllers
             }
         }
 
+        public ActionResult ValidateForm(string type)
+        {
+            if (type.Equals("Attenuator") || type.Equals("OutputCoupler"))
+            {
+
+            }
+            else if (type.Equals("PowerSensor"))
+            {
+
+            }
+
+            return Json(false);
+        }
+
         // GET: Calibration/Create
         public ActionResult Create()
         {
