@@ -239,7 +239,7 @@ namespace SatcomRfWebsite.Controllers
                 {
                     Delete("OutputCoupler", collection["AssetNumber"], collection["CalDate"]);
 
-                    List<String> assetnums = (List<String>)GetAssetNumbers("Attenuator").Data;
+                    List<String> assetnums = (List<String>)GetAssetNumbers("Output Coupler").Data;
                     if (!assetnums.Contains(collection["AssetNumber"]))
                     {
                         tblCalDevices device = new tblCalDevices
@@ -275,7 +275,7 @@ namespace SatcomRfWebsite.Controllers
                 {
                     Delete("PowerSensor", collection["AssetNumber"], collection["CalDate"]);
 
-                    List<String> assetnums = (List<String>)GetAssetNumbers("Attenuator").Data;
+                    List<String> assetnums = (List<String>)GetAssetNumbers("Power Sensor").Data;
                     if (!assetnums.Contains(collection["AssetNumber"]))
                     {
                         tblCalDevices device = new tblCalDevices
