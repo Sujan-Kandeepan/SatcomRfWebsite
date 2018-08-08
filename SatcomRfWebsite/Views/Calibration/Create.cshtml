@@ -1,6 +1,4 @@
-﻿@model SatcomRfWebsite.Models.CalibrationData
-
-@{
+﻿@{
     ViewBag.Title = "Create";
 }
 
@@ -97,7 +95,7 @@
         });
 
         $("#reset-form").click(function () {
-            $("form input").val("");
+            $("form input").not(".btn").val("");
             $("#DataFields").html('<span style="color: grey">Form fields to enter calfactor records will appear here</span>');
         });
 
