@@ -320,7 +320,7 @@
                     }
                 }).focusout(function () {
                     if (JSON.parse(result).indexOf($("#AssetNumber").val()) == -1 && $("#AssetNumber").val() != "") {
-                        setTimeout(() => { $("#assetnum-not-recognized").show(); }, 0);
+                        setTimeout(function() { $("#assetnum-not-recognized").show(); }, 0);
                     } else {
                         $("#assetnum-not-recognized").hide();
                     }
