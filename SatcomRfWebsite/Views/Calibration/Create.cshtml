@@ -87,6 +87,11 @@
         $('form').not("#AssetNumber").disableAutoFill();
 
         document.getElementById("navBarCalibration").classList.add("active");
+        
+        if (document.URL.indexOf("failed") != -1) {
+            alert("Could not submit to the database!");
+            location.replace(document.URL.substring(0, document.URL.indexOf("?")));
+        }
 
         $(".datepicker").datepicker({
             format: 'mm/dd/yyyy',

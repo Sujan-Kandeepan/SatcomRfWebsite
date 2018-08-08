@@ -307,6 +307,9 @@ namespace SatcomRfWebsite.Controllers
             catch (Exception e)
             {
                 Debug.WriteLine(e.ToString());
+                if (Request.Url.ToString().Contains("Attenuator")) return Redirect("/Calibration/Create/Attenuator?failed=true");
+                if (Request.Url.ToString().Contains("OutputCoupler")) return Redirect("/Calibration/Create/OutputCoupler?failed=true");
+                if (Request.Url.ToString().Contains("PowerSensor")) return Redirect("/Calibration/Create/PowerSensor?failed=true");
                 return View();
             }
         }
