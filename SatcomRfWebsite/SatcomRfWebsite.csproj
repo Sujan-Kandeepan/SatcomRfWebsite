@@ -277,6 +277,10 @@
       <DependentUpon>rfDb.edmx</DependentUpon>
       <LastGenOutput>rfDb.cs</LastGenOutput>
     </Content>
+    <Content Include="Scripts\Calibration\Create.js" />
+    <Content Include="Scripts\Calibration\Details.js" />
+    <Content Include="Scripts\Calibration\Edit.js" />
+    <Content Include="Scripts\Calibration\Index.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
