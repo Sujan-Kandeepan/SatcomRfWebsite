@@ -144,7 +144,7 @@
                 var err = "Error " + " " + status + " " + p3 + " " + p4;
                 if (xhr.responseText && xhr.responseText[0] == "{")
                     err = JSON.parse(xhr.responseText).Message;
-                alert("Something went wrong!");
+                console.log(err);
             }
         });
     }
@@ -201,7 +201,7 @@
                 });
             },
             error: function (xhr, status, error) {
-                alert(error);
+                console.log(xhr.responseText);
             }
         });
 

@@ -95,7 +95,7 @@
                     $("#separator").show();
                 },
                 error: function (xhr, status, error) {
-                    alert(xhr.responseText);
+                    console.log(xhr.responseText);
                 }
             });
         } else {
@@ -124,7 +124,7 @@
                 getData($("#asset-numbers").val() || "default");
             },
             error: function (xhr, status, error) {
-                alert(xhr.responseText);
+                console.log(xhr.responseText);
             }
         });
 
