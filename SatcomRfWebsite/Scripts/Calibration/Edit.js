@@ -99,6 +99,8 @@ $(document).ready(function () {
     $('form').disableAutoFill();
     $("form input").prop("disabled", true);
 
+    $("input").not(".btn").attr("data-lpignore", "true");
+
     document.getElementById("navBarCalibration").classList.add("active");
 
     $(".datepicker").datepicker({

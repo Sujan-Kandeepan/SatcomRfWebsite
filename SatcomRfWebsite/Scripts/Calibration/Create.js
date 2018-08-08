@@ -17,6 +17,8 @@ function index(value) {
 $(document).ready(function () {
     $('form').not("#AssetNumber").disableAutoFill();
 
+    $("input").not(".btn").attr("data-lpignore", "true");
+
     document.getElementById("navBarCalibration").classList.add("active");
 
     if (document.URL.indexOf("failed") != -1) {
