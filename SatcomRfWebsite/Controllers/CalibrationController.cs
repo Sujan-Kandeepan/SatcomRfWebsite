@@ -176,18 +176,106 @@ namespace SatcomRfWebsite.Controllers
             }
         }
 
-        public ActionResult ValidateForm(string type)
+        public ActionResult ValidateForm(string type, string formString)
         {
+            bool headersFilled = false, headersValid = false, dataValid = false;
+            List<string> messages = new List<string>();
+            string message = "";
+            Dictionary<string, string> form = JsonConvert.DeserializeObject<Dictionary<string, string>>(formString);
+
+            List<string> requiredHeaders = new List<string>();
             if (type.Equals("Attenuator") || type.Equals("OutputCoupler"))
             {
-
+                requiredHeaders = new List<string>()
+                {
+                    "AssetNumber", "Operator", "CalDate", "StartFreq", "StopFreq",
+                    "ExpireDate", "Loss", "Power", "MaxOffset", "Points"
+                };
             }
             else if (type.Equals("PowerSensor"))
             {
+                requiredHeaders = new List<string>()
+                {
+                    "AssetNumber", "Operator", "CalDate", "Series", "Serial",
+                    "RefCal", "Certificate", "Points"
+                };
+            }
+            if (requiredHeaders.Count() == 0) return Json(false);
+            List<string> headerData = (from item in requiredHeaders select form[item]).ToList();
+            headersFilled = headerData.Aggregate(true, (accumulator, next) => accumulator && !string.IsNullOrEmpty(next));
 
+            try
+            {
+                if (type.Equals("Attenuator"))
+                {
+                    new ATCalibrationData
+                    {
+                        AssetNumber = form["AssetNumber"],
+                        AddedDate = DateTime.Now,
+                        EditedBy = Environment.UserName.ToUpper(),
+                        StartFreq = Convert.ToInt64(form["StartFreq"]),
+                        StopFreq = Convert.ToInt64(form["StopFreq"]),
+                        Points = Convert.ToInt32(form["Points"]),
+                        Loss = Convert.ToInt64(form["Loss"]),
+                        Power = Convert.ToInt64(form["Power"]),
+                        MaxOffset = Convert.ToDouble(form["MaxOffset"]),
+                        Temp = form["Temp"] != "" ? Convert.ToDouble(form["Temp"]) : (double?)null,
+                        Humidity = form["Humidity"] != "" ? Convert.ToDouble(form["Humidity"]) : (double?)null,
+                        Lookback = form["Lookback"] != "" ? form["Lookback"] : null,
+                        Operator = form["Operator"],
+                        CalDate = Convert.ToDateTime(form["CalDate"]),
+                        ExpireDate = Convert.ToDateTime(form["ExpireDate"])
+                    };
+                }
+                else if (type.Equals("OutputCoupler"))
+                {
+                    new OCCalibrationData
+                    {
+                        AssetNumber = form["AssetNumber"],
+                        AddedDate = DateTime.Now,
+                        EditedBy = Environment.UserName.ToUpper(),
+                        StartFreq = Convert.ToInt64(form["StartFreq"]),
+                        StopFreq = Convert.ToInt64(form["StopFreq"]),
+                        Points = Convert.ToInt32(form["Points"]),
+                        Loss = Convert.ToInt64(form["Loss"]),
+                        Power = Convert.ToInt64(form["Power"]),
+                        MaxOffset = Convert.ToDouble(form["MaxOffset"]),
+                        Temp = form["Temp"] != "" ? Convert.ToDouble(form["Temp"]) : (double?)null,
+                        Humidity = form["Humidity"] != "" ? Convert.ToDouble(form["Humidity"]) : (double?)null,
+                        Lookback = form["Lookback"] != "" ? form["Lookback"] : null,
+                        Operator = form["Operator"],
+                        CalDate = Convert.ToDateTime(form["CalDate"]),
+                        ExpireDate = Convert.ToDateTime(form["ExpireDate"])
+                    };
+                }
+                else if (type.Equals("PowerSensor"))
+                {
+                    new PSCalibrationData
+                    {
+                        AssetNumber = form["AssetNumber"],
+                        AddedDate = DateTime.Now,
+                        EditedBy = Environment.UserName.ToUpper(),
+                        Series = form["Series"],
+                        Serial = form["Serial"],
+                        RefCal = form["RefCal"],
+                        Certificate = form["Certificate"],
+                        Operator = form["Operator"],
+                        CalDate = Convert.ToDateTime(form["CalDate"])
+                    };
+                }
+                Convert.ToInt32(form["Points"]);
+                headersValid = true;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
             }
 
-            return Json(false);
+            if (!headersFilled) messages.Add("Not all required header fields have been filled. Fields not marked as 'Optional' are required for this record to be saved to the database.");
+            if (headersFilled && !headersValid) messages.Add("One or more header fields were entered in an invalid format. Ensure that dates are in the MM/DD/YYYY format and numbers are specified appropriately.");
+            messages = (from item in messages select "&bull; " + item).ToList();
+            message = String.Join("</br>", messages);
+            return Json(new { isValid = headersFilled && headersValid && dataValid, message });
         }
 
         // GET: Calibration/Create
@@ -632,7 +720,7 @@ namespace SatcomRfWebsite.Controllers
                     }
                     catch (Exception e)
                     {
-                        System.Diagnostics.Debug.WriteLine(e.ToString());
+                        Debug.WriteLine(e.ToString());
                         wb.Close(false, path, false);
                         foreach (var process in Process.GetProcessesByName("EXCEL"))
                         {

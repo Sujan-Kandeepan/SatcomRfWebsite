@@ -126,6 +126,11 @@ $(document).ready(function () {
         $(this).attr("autocomplete", "off");
     });
 
+    $("input").on("input change", function () {
+        $("#validation-message").hide();
+        $("#validation-message").html("");
+    });
+
     $.ajax({
         type: "post",
         url: "/Calibration/GetAssetNumbers",
@@ -185,22 +190,44 @@ $(document).ready(function () {
         });
     });
 
+    function serializeForm() {
+        var obj = {};
+        var elements = $("form").find("input").not(".btn");
+        for (var i = 0; i < elements.length; ++i) {
+            var element = elements[i];
+            var name = element.name;
+            var value = element.value;
+
+            if (name) {
+                obj[name] = value;
+            }
+        }
+
+        return JSON.stringify(obj);
+    }
+
     $("form").submit(function (e) {
         e.preventDefault();
         $.ajax({
             type: "post",
             url: "/Calibration/ValidateForm",
             data: {
-                "type": type
+                "type": type,
+                "formString": serializeForm()
             },
             dataType: "text",
             success: function (result) {
-                if (JSON.parse(result)) {
+                if (JSON.parse(result).isValid) {
                     $("form").unbind("submit").submit();
+                    $("#validation-message").hide();
+                    $("#validation-message").html("");
                     return true;
                 }
                 else {
-                    alert('There are validation errors present in the form');
+                    $("#validation-message").show();
+                    $("#validation-message").html("<strong>Form could not be submitted!</strong> "
+                        + "The following validation errors were present:</br>"
+                        + JSON.parse(result).message);
                     return false;
                 }
             },
