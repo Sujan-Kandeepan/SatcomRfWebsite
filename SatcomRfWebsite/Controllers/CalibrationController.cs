@@ -179,7 +179,8 @@ namespace SatcomRfWebsite.Controllers
 
         public ActionResult ValidateForm(string type, string formString)
         {
-            bool headersFilled = false, headersValid = false, dataFilled = false, freqsValid = false, dataValid = false;
+            bool headersFilled = false, headersValid = false, dataFilled = false, freqsValid = false, dataValid = false, matchesExisting = false;
+            double ATTENUATOR_MAXRANGE = 1, OUTPUTCOUPLER_MAXRANGE = 2.5, POWERSENSOR_MINCHANGE = -2.5, POWERSENSOR_MAXCHANGE = 2.5;
             Dictionary<string, string> form = JsonConvert.DeserializeObject<Dictionary<string, string>>(formString);
 
             List<string> requiredHeaders = new List<string>();
@@ -296,6 +297,27 @@ namespace SatcomRfWebsite.Controllers
                     if (num - previous != interval) freqsValid = false;
                     previous = num;
                 }
+
+                List<string> calFactorFields = (from item in form where item.Key.Contains("CalFactor") select item.Key).ToList();
+                List<double> calFactorValues = (from item in calFactorFields select Convert.ToDouble(form[item])).ToList();
+                if (type.Equals("Attenuator"))
+                {
+                    dataValid = calFactorValues.Max() - calFactorValues.Min() < ATTENUATOR_MAXRANGE;
+                }
+                else if (type.Equals("OutputCoupler"))
+                {
+                    dataValid = calFactorValues.Max() - calFactorValues.Min() < OUTPUTCOUPLER_MAXRANGE;
+                }
+                else if (type.Equals("PowerSensor"))
+                {
+                    previous = calFactorValues[0];
+                    dataValid = true;
+                    foreach(var num in calFactorValues)
+                    {
+                        if (num - previous < POWERSENSOR_MINCHANGE || num - previous > POWERSENSOR_MAXCHANGE) dataValid = false;
+                        previous = num;
+                    }
+                }
             }
 
             string message = "";
@@ -304,9 +326,10 @@ namespace SatcomRfWebsite.Controllers
             if (headersFilled && !headersValid) messages.Add("One or more header fields were entered in an invalid format. Ensure that dates are in the MM/DD/YYYY format and numbers are specified appropriately.");
             if (!dataFilled) messages.Add("Not all calibration data fields have been filled. Frequency and calibration factor must be provided for the number of points specified, which also cannot be zero.");
             if (dataFilled && !freqsValid) messages.Add("Frequencies were not entered correctly. Values should be strictly increasing with consistent intervals and correspondent to header information on the left.");
+            if (dataFilled && !dataValid) messages.Add("Abnormalities found in the calibration data. Values should be checked for correctness as large deviations or jumps cannot be accepted.");
             messages = (from item in messages select "&bull; " + item).ToList();
             message = String.Join("</br>", messages);
-            bool isValid = headersFilled && headersValid && dataFilled && freqsValid && dataValid;
+            bool isValid = headersFilled && headersValid && dataFilled && freqsValid && dataValid && matchesExisting;
             return Json(new { isValid, message });
         }
 
