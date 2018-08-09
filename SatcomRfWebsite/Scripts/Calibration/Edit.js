@@ -208,6 +208,7 @@ $(document).ready(function () {
 
     $("form").submit(function (e) {
         e.preventDefault();
+        $("#assetnum-not-recognized").hide();
         $.ajax({
             type: "post",
             url: "/Calibration/ValidateForm",
