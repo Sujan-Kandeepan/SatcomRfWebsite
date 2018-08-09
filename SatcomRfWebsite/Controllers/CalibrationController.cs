@@ -10,6 +10,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using SatcomRfWebsite.Models;
+using System.Globalization;
 
 namespace SatcomRfWebsite.Controllers
 {
@@ -178,9 +179,7 @@ namespace SatcomRfWebsite.Controllers
 
         public ActionResult ValidateForm(string type, string formString)
         {
-            bool headersFilled = false, headersValid = false, dataValid = false;
-            List<string> messages = new List<string>();
-            string message = "";
+            bool headersFilled = false, headersValid = false, dataFilled = false, freqsValid = false, dataValid = false;
             Dictionary<string, string> form = JsonConvert.DeserializeObject<Dictionary<string, string>>(formString);
 
             List<string> requiredHeaders = new List<string>();
@@ -201,13 +200,15 @@ namespace SatcomRfWebsite.Controllers
                 };
             }
             if (requiredHeaders.Count() == 0) return Json(false);
-            List<string> headerData = (from item in requiredHeaders select form[item]).ToList();
-            headersFilled = headerData.Aggregate(true, (accumulator, next) => accumulator && !string.IsNullOrEmpty(next));
+            List<string> headerValues = (from item in requiredHeaders select form[item]).ToList();
+            headersFilled = headerValues.Aggregate(true, (accumulator, next) => accumulator && !string.IsNullOrEmpty(next));
 
             try
             {
                 if (type.Equals("Attenuator"))
                 {
+                    DateTime.ParseExact(form["CalDate"], "MM/dd/yyyy", CultureInfo.InvariantCulture);
+                    DateTime.ParseExact(form["ExpireDate"], "MM/dd/yyyy", CultureInfo.InvariantCulture);
                     new ATCalibrationData
                     {
                         AssetNumber = form["AssetNumber"],
@@ -229,6 +230,8 @@ namespace SatcomRfWebsite.Controllers
                 }
                 else if (type.Equals("OutputCoupler"))
                 {
+                    DateTime.ParseExact(form["CalDate"], "MM/dd/yyyy", CultureInfo.InvariantCulture);
+                    DateTime.ParseExact(form["ExpireDate"], "MM/dd/yyyy", CultureInfo.InvariantCulture);
                     new OCCalibrationData
                     {
                         AssetNumber = form["AssetNumber"],
@@ -250,6 +253,7 @@ namespace SatcomRfWebsite.Controllers
                 }
                 else if (type.Equals("PowerSensor"))
                 {
+                    DateTime.ParseExact(form["CalDate"], "MM/dd/yyyy", CultureInfo.InvariantCulture);
                     new PSCalibrationData
                     {
                         AssetNumber = form["AssetNumber"],
@@ -271,11 +275,39 @@ namespace SatcomRfWebsite.Controllers
                 Debug.WriteLine(e);
             }
 
+            List<string> recordFields = (from item in form where item.Key.Contains("Frequency") || item.Key.Contains("CalFactor") select item.Key).ToList();
+            List<string> recordValues = (from item in recordFields select form[item]).ToList();
+            dataFilled = recordValues.Aggregate(recordFields.Count() > 0, (accumulator, next) => accumulator && !string.IsNullOrEmpty(next));
+
+            if (headersFilled && dataFilled)
+            {
+                List<string> freqFields = (from item in form where item.Key.Contains("Frequency") select item.Key).ToList();
+                List<double> freqValues = (from item in freqFields select Convert.ToDouble(form[item])).ToList();
+                freqsValid = freqValues.SequenceEqual(freqValues.OrderBy(x => x)) && freqValues.SequenceEqual(freqValues.Distinct());
+                if (type.Equals("Attenuator") || type.Equals("OutputCoupler"))
+                {
+                    freqsValid = freqsValid && freqValues.First() == Convert.ToDouble(form["StartFreq"])
+                         && freqValues.Last() == Convert.ToDouble(form["StopFreq"]);
+                }
+                List<double> atLeast1 = (from value in freqValues where value >= 1 select value).ToList();
+                double interval = atLeast1[1] - atLeast1[0], previous = atLeast1[0] - interval;
+                foreach(var num in atLeast1)
+                {
+                    if (num - previous != interval) freqsValid = false;
+                    previous = num;
+                }
+            }
+
+            string message = "";
+            List<string> messages = new List<string>();
             if (!headersFilled) messages.Add("Not all required header fields have been filled. Fields not marked as 'Optional' are required for this record to be saved to the database.");
             if (headersFilled && !headersValid) messages.Add("One or more header fields were entered in an invalid format. Ensure that dates are in the MM/DD/YYYY format and numbers are specified appropriately.");
+            if (!dataFilled) messages.Add("Not all calibration data fields have been filled. Frequency and calibration factor must be provided for the number of points specified, which also cannot be zero.");
+            if (dataFilled && !freqsValid) messages.Add("Frequencies were not entered correctly. Values should be strictly increasing with consistent intervals and correspondent to header information on the left.");
             messages = (from item in messages select "&bull; " + item).ToList();
             message = String.Join("</br>", messages);
-            return Json(new { isValid = headersFilled && headersValid && dataValid, message });
+            bool isValid = headersFilled && headersValid && dataFilled && freqsValid && dataValid;
+            return Json(new { isValid, message });
         }
 
         // GET: Calibration/Create
