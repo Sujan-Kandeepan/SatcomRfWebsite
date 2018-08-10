@@ -308,11 +308,11 @@ namespace SatcomRfWebsite.Controllers
                 dataValues = (from item in dataStrings select Convert.ToDouble(item)).ToList();
                 if (type.Equals("Attenuator"))
                 {
-                    dataValid = dataValues.Max() - dataValues.Min() < ATTENUATOR_MAXRANGE;
+                    dataValid = dataValues.Max() - dataValues.Min() < ATTENUATOR_MAXRANGE && dataValues.Max() < 0;
                 }
                 else if (type.Equals("OutputCoupler"))
                 {
-                    dataValid = dataValues.Max() - dataValues.Min() < OUTPUTCOUPLER_MAXRANGE;
+                    dataValid = dataValues.Max() - dataValues.Min() < OUTPUTCOUPLER_MAXRANGE && dataValues.Max() < 0;
                 }
                 else if (type.Equals("PowerSensor"))
                 {
@@ -323,6 +323,7 @@ namespace SatcomRfWebsite.Controllers
                         if (num - previous < POWERSENSOR_MINCHANGE || num - previous > POWERSENSOR_MAXCHANGE) dataValid = false;
                         previous = num;
                     }
+                    dataValid = dataValid && dataValues.Min() > 0;
                 }
             }
 
@@ -375,7 +376,7 @@ namespace SatcomRfWebsite.Controllers
             if (!dataFilled) messages.Add("Not all calibration data fields have been filled. Calibration factor must be provided for the number of points specified, which also cannot be zero.");
             if (headersFilled && !headersValid) messages.Add("One or more header fields were entered in an invalid format. Ensure that dates are in the MM/DD/YYYY format and numbers are specified appropriately.");
             if (freqsFilled && !freqsValid) messages.Add("Frequencies were not entered correctly. Values should be strictly increasing with consistent intervals and correspondent to header information on the left.");
-            if (dataFilled && !dataValid) messages.Add("Abnormalities found in the calibration data. Values should be checked for correctness as large deviations or jumps cannot be accepted.");
+            if (dataFilled && !dataValid) messages.Add("Abnormalities found in the calibration data. Values should be checked for correctness as large deviations/jumps or incorrect signs cannot be accepted.");
             if (freqsValid && dataValid && !matchesExisting) messages.Add("Given data lacks similarity to existing calibration records. Updated data values are expected to be approximately equal to what was previously recorded.");
             messages = (from item in messages select "&bull; " + item).ToList();
             message = String.Join("</br>", messages);
