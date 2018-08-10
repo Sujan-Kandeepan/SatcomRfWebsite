@@ -11,6 +11,7 @@ using System.Web;
 using System.Web.Mvc;
 using SatcomRfWebsite.Models;
 using System.Globalization;
+using System.Web.Script.Serialization;
 
 namespace SatcomRfWebsite.Controllers
 {
@@ -102,7 +103,6 @@ namespace SatcomRfWebsite.Controllers
             {
                 var assetNumber = assetnum.Replace("_", " ");
                 var calDate = DateTime.Now;
-                Debug.WriteLine(date);
                 if (!string.IsNullOrEmpty(date))
                 {
                     var datePieces = date.Split('/');
@@ -280,9 +280,10 @@ namespace SatcomRfWebsite.Controllers
             List<string> freqFields = (from item in form where item.Key.Contains("Frequency") select item.Key).ToList();
             List<string> freqStrings = (from item in freqFields select form[item]).ToList();
             freqsFilled = freqStrings.Aggregate(freqStrings.Count() > 0, (accumulator, next) => accumulator && !string.IsNullOrEmpty(next));
+            List<double> freqValues = new List<double>();
             if (freqsFilled)
             {
-                List<double> freqValues = (from item in freqStrings select Convert.ToDouble(item)).ToList();
+                freqValues = (from item in freqStrings select Convert.ToDouble(item)).ToList();
                 freqsValid = freqValues.SequenceEqual(freqValues.OrderBy(x => x)) && freqValues.SequenceEqual(freqValues.Distinct());
                 if ((type.Equals("Attenuator") || type.Equals("OutputCoupler")) && !string.IsNullOrEmpty(form["StartFreq"]) && !string.IsNullOrEmpty(form["StopFreq"]))
                 {
@@ -301,9 +302,10 @@ namespace SatcomRfWebsite.Controllers
             List<string> dataFields = (from item in form where item.Key.Contains("CalFactor") select item.Key).ToList();
             List<string> dataStrings = (from item in dataFields select form[item]).ToList();
             dataFilled = dataStrings.Aggregate(dataStrings.Count() > 0, (accumulator, next) => accumulator && !string.IsNullOrEmpty(next));
+            List<double> dataValues = new List<double>();
             if (dataFilled)
             {
-                List<double> dataValues = (from item in dataStrings select Convert.ToDouble(item)).ToList();
+                dataValues = (from item in dataStrings select Convert.ToDouble(item)).ToList();
                 if (type.Equals("Attenuator"))
                 {
                     dataValid = dataValues.Max() - dataValues.Min() < ATTENUATOR_MAXRANGE;
@@ -324,6 +326,48 @@ namespace SatcomRfWebsite.Controllers
                 }
             }
 
+            double estimate(List<double> freqs, List<double> data, double freq)
+            {
+                // Direct return of value if exists
+                if (freqs.Contains(freq)) return data[freqs.IndexOf(freq)];
+                
+                // Estimation by linear interpolation
+                int index = -1;
+                for (int i = 0; i < freqs.Count() - 1; i++) if (freqs[i] <= freq && freqs[i + 1] > freq) index = i;
+                if (index > -1)
+                {
+                    double x0 = freqs[index], x1 = freqs[index + 1], y0 = data[index], y1 = data[index + 1];
+                    return (y0 * (x1 - freq) + y1 * (freq - x0)) / (x1 - x0);
+                }
+                
+                // Estimation by extrapolation using linear regression
+                double xMean = freqs.Aggregate(0.0, (sum, next) => sum + next) / freqs.Count();
+                double yMean = data.Aggregate(0.0, (sum, next) => sum + next) / data.Count();
+                List<Tuple<double, double>> line = freqs.Zip(data, (x, y) => Tuple.Create(x, y)).ToList();
+                double slope = line.Aggregate(0.0, (sum, next) => sum + (next.Item1 - xMean) * (next.Item2 - yMean))
+                    / line.Aggregate(0.0, (sum, next) => sum + Math.Pow(next.Item1 - xMean, 2));
+                double intercept = yMean - slope * xMean;
+                return slope * freq + intercept;
+            }
+
+            if (freqsValid && dataValid && !string.IsNullOrEmpty(form["AssetNumber"]))
+            {
+                string details = ((ContentResult)GetDetails(type, form["AssetNumber"], null)).Content;
+                if (!details.Equals("Fail"))
+                {
+                    JavaScriptSerializer jss = new JavaScriptSerializer();
+                    Dictionary<string, object> content = jss.Deserialize<object>(details) as Dictionary<string, object>;
+                    List<double> freqs = (from item in (content["freqs"] as object[]) select Convert.ToDouble(item)).ToList();
+                    List<double> calFactor = (from item in (content["calFactor"] as object[]) select Convert.ToDouble(item)).ToList();
+                    List<Tuple<double, double>> givenPoints = freqValues.Zip(dataValues, (freq, data) => Tuple.Create(freq, data)).ToList();
+                    matchesExisting = givenPoints.Aggregate(true, (accumulator, next) => accumulator && Math.Abs(estimate(freqs, calFactor, next.Item1) - next.Item2) < 1);
+                }
+                else
+                {
+                    matchesExisting = true;
+                }
+            }
+
             string message = "";
             List<string> messages = new List<string>();
             if (!headersFilled) messages.Add("Not all required header fields have been filled. Fields not marked as 'Optional' are required for this record to be saved to the database.");
@@ -332,6 +376,7 @@ namespace SatcomRfWebsite.Controllers
             if (headersFilled && !headersValid) messages.Add("One or more header fields were entered in an invalid format. Ensure that dates are in the MM/DD/YYYY format and numbers are specified appropriately.");
             if (freqsFilled && !freqsValid) messages.Add("Frequencies were not entered correctly. Values should be strictly increasing with consistent intervals and correspondent to header information on the left.");
             if (dataFilled && !dataValid) messages.Add("Abnormalities found in the calibration data. Values should be checked for correctness as large deviations or jumps cannot be accepted.");
+            if (freqsValid && dataValid && !matchesExisting) messages.Add("Given data lacks similarity to existing calibration records. Updated data values are expected to be approximately equal to what was previously recorded.");
             messages = (from item in messages select "&bull; " + item).ToList();
             message = String.Join("</br>", messages);
             bool isValid = headersFilled && headersValid && freqsFilled && freqsValid && dataFilled && dataValid && matchesExisting;
@@ -630,9 +675,9 @@ namespace SatcomRfWebsite.Controllers
                 string returnLossValue = i < returnLossList.Count() ? returnLossList[i] : "";
 
                 html += $"<div class='form-group row' style='margin-bottom: 5px' align='left'>";
-                html += "<div class='col-md-" + (hasReturnLoss ? "4" : "6") + $"'><label class='control-label' for='Records_{i}__Frequency'>Frequency &middot;  {i + 1}</label><input class='form-control text-box single-line' data-val='true' data-val-number='The field Frequency must be a number.' data-val-required='The Frequency field is required.' id='Records_{i}__Frequency' name='Records[{i}].Frequency' type='number' min='0' value='{freqValue}'></div>";
-                html += "<div class='col-md-" + (hasReturnLoss ? "4" : "6") + $"'><label class='control-label' for='Records_{i}__CalFactor'>Calibration Factor &middot; {i + 1}</label><input class='form-control text-box single-line' data-val='true' data-val-number='The field CalFactor must be a number.' data-val-required='The CalFactor field is required.' id='Records_{i}__CalFactor' name='Records[{i}].CalFactor' type='number' min='0' value='{calFactorValue}'></div>";
-                if (hasReturnLoss) html += $"<div class='col-md-4'><label class='control-label' for='Records_{i}__ReturnLoss'>Return Loss &middot; {i + 1}</label><input class='form-control text-box single-line' data-val='true' data-val-number='The field ReturnLoss must be a number.' data-val-required='The ReturnLoss field is required.' id='Records_{i}__ReturnLoss' name='Records[{i}].ReturnLoss' placeholder='Optional' type='number' min='0' value='{returnLossValue}'></div>";
+                html += "<div class='col-md-" + (hasReturnLoss ? "4" : "6") + $"'><label class='control-label' for='Records_{i}__Frequency'>Frequency &middot;  {i + 1}</label><input class='form-control text-box single-line' data-val='true' data-val-number='The field Frequency must be a number.' data-val-required='The Frequency field is required.' id='Records_{i}__Frequency' name='Records[{i}].Frequency' type='number' value='{freqValue}'></div>";
+                html += "<div class='col-md-" + (hasReturnLoss ? "4" : "6") + $"'><label class='control-label' for='Records_{i}__CalFactor'>Calibration Factor &middot; {i + 1}</label><input class='form-control text-box single-line' data-val='true' data-val-number='The field CalFactor must be a number.' data-val-required='The CalFactor field is required.' id='Records_{i}__CalFactor' name='Records[{i}].CalFactor' type='number' value='{calFactorValue}'></div>";
+                if (hasReturnLoss) html += $"<div class='col-md-4'><label class='control-label' for='Records_{i}__ReturnLoss'>Return Loss &middot; {i + 1}</label><input class='form-control text-box single-line' data-val='true' data-val-number='The field ReturnLoss must be a number.' data-val-required='The ReturnLoss field is required.' id='Records_{i}__ReturnLoss' name='Records[{i}].ReturnLoss' placeholder='Optional' type='number' value='{returnLossValue}'></div>";
                 html += "</div>";
             }
             return Content(html);
