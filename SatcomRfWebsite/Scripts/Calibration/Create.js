@@ -329,18 +329,19 @@ $(document).ready(function () {
                 "type": $("#device-type").val().replace(" ", ""),
                 "formString": serializeForm()
             },
-            dataType: "text",
+            dataType: "json",
             success: function (result) {
-                if (JSON.parse(result).isValid) {
-                    $("form").unbind("submit").submit();
+                if (result.isValid) {
+                    $("form").unbind("submit");
                     $("#validation-message").hide();
                     $("#validation-message").html("");
+                    $(".btn-success").click();
                     return true;
                 }
                 else {
                     $("#validation-message").html("<strong>Form could not be submitted!</strong> "
                         + "The following validation errors were present:</br>"
-                        + JSON.parse(result).message);
+                        + result.message);
                     $("#validation-message").show();
                     return false;
                 }

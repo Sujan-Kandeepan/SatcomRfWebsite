@@ -211,19 +211,20 @@ $(document).ready(function () {
                 "type": type,
                 "formString": serializeForm()
             },
-            dataType: "text",
+            dataType: "json",
             success: function (result) {
-                if (JSON.parse(result).isValid) {
-                    $("form").unbind("submit").submit();
+                if (result.isValid) {
+                    $("form").unbind("submit");
                     $("#validation-message").hide();
                     $("#validation-message").html("");
+                    $(".btn-success").click();
                     return true;
                 }
                 else {
                     $("#validation-message").show();
                     $("#validation-message").html("<strong>Form could not be submitted!</strong> "
                         + "The following validation errors were present:</br>"
-                        + JSON.parse(result).message);
+                        + result.message);
                     return false;
                 }
             },
