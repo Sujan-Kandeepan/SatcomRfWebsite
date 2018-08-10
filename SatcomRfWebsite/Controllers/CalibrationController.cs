@@ -179,7 +179,8 @@ namespace SatcomRfWebsite.Controllers
 
         public ActionResult ValidateForm(string type, string formString)
         {
-            bool headersFilled = false, headersValid = false, dataFilled = false, freqsValid = false, dataValid = false, matchesExisting = false;
+            bool headersFilled = false, headersValid = false, freqsFilled = false, freqsValid = false,
+                dataFilled = false, dataValid = false, matchesExisting = false;
             double ATTENUATOR_MAXRANGE = 1, OUTPUTCOUPLER_MAXRANGE = 2.5, POWERSENSOR_MINCHANGE = -2.5, POWERSENSOR_MAXCHANGE = 2.5;
             Dictionary<string, string> form = JsonConvert.DeserializeObject<Dictionary<string, string>>(formString);
 
@@ -276,43 +277,46 @@ namespace SatcomRfWebsite.Controllers
                 Debug.WriteLine(e);
             }
 
-            List<string> recordFields = (from item in form where item.Key.Contains("Frequency") || item.Key.Contains("CalFactor") select item.Key).ToList();
-            List<string> recordValues = (from item in recordFields select form[item]).ToList();
-            dataFilled = recordValues.Aggregate(recordFields.Count() > 0, (accumulator, next) => accumulator && !string.IsNullOrEmpty(next));
-
-            if (headersFilled && dataFilled)
+            List<string> freqFields = (from item in form where item.Key.Contains("Frequency") select item.Key).ToList();
+            List<string> freqStrings = (from item in freqFields select form[item]).ToList();
+            freqsFilled = freqStrings.Aggregate(freqStrings.Count() > 0, (accumulator, next) => accumulator && !string.IsNullOrEmpty(next));
+            if (freqsFilled)
             {
-                List<string> freqFields = (from item in form where item.Key.Contains("Frequency") select item.Key).ToList();
-                List<double> freqValues = (from item in freqFields select Convert.ToDouble(form[item])).ToList();
+                List<double> freqValues = (from item in freqStrings select Convert.ToDouble(item)).ToList();
                 freqsValid = freqValues.SequenceEqual(freqValues.OrderBy(x => x)) && freqValues.SequenceEqual(freqValues.Distinct());
-                if (type.Equals("Attenuator") || type.Equals("OutputCoupler"))
+                if ((type.Equals("Attenuator") || type.Equals("OutputCoupler")) && !string.IsNullOrEmpty(form["StartFreq"]) && !string.IsNullOrEmpty(form["StopFreq"]))
                 {
                     freqsValid = freqsValid && freqValues.First() == Convert.ToDouble(form["StartFreq"])
                          && freqValues.Last() == Convert.ToDouble(form["StopFreq"]);
                 }
                 List<double> atLeast1 = (from value in freqValues where value >= 1 select value).ToList();
                 double interval = atLeast1[1] - atLeast1[0], previous = atLeast1[0] - interval;
-                foreach(var num in atLeast1)
+                foreach (var num in atLeast1)
                 {
                     if (num - previous != interval) freqsValid = false;
                     previous = num;
                 }
+            }
 
-                List<string> calFactorFields = (from item in form where item.Key.Contains("CalFactor") select item.Key).ToList();
-                List<double> calFactorValues = (from item in calFactorFields select Convert.ToDouble(form[item])).ToList();
+            List<string> dataFields = (from item in form where item.Key.Contains("CalFactor") select item.Key).ToList();
+            List<string> dataStrings = (from item in dataFields select form[item]).ToList();
+            dataFilled = dataStrings.Aggregate(dataStrings.Count() > 0, (accumulator, next) => accumulator && !string.IsNullOrEmpty(next));
+            if (dataFilled)
+            {
+                List<double> dataValues = (from item in dataStrings select Convert.ToDouble(item)).ToList();
                 if (type.Equals("Attenuator"))
                 {
-                    dataValid = calFactorValues.Max() - calFactorValues.Min() < ATTENUATOR_MAXRANGE;
+                    dataValid = dataValues.Max() - dataValues.Min() < ATTENUATOR_MAXRANGE;
                 }
                 else if (type.Equals("OutputCoupler"))
                 {
-                    dataValid = calFactorValues.Max() - calFactorValues.Min() < OUTPUTCOUPLER_MAXRANGE;
+                    dataValid = dataValues.Max() - dataValues.Min() < OUTPUTCOUPLER_MAXRANGE;
                 }
                 else if (type.Equals("PowerSensor"))
                 {
-                    previous = calFactorValues[0];
+                    double previous = dataValues[0];
                     dataValid = true;
-                    foreach(var num in calFactorValues)
+                    foreach (var num in dataValues)
                     {
                         if (num - previous < POWERSENSOR_MINCHANGE || num - previous > POWERSENSOR_MAXCHANGE) dataValid = false;
                         previous = num;
@@ -323,13 +327,14 @@ namespace SatcomRfWebsite.Controllers
             string message = "";
             List<string> messages = new List<string>();
             if (!headersFilled) messages.Add("Not all required header fields have been filled. Fields not marked as 'Optional' are required for this record to be saved to the database.");
+            if (!freqsFilled) messages.Add("Not all frequency fields have been filled. Frequency must be provided for the number of points specified, which also cannot be zero.");
+            if (!dataFilled) messages.Add("Not all calibration data fields have been filled. Calibration factor must be provided for the number of points specified, which also cannot be zero.");
             if (headersFilled && !headersValid) messages.Add("One or more header fields were entered in an invalid format. Ensure that dates are in the MM/DD/YYYY format and numbers are specified appropriately.");
-            if (!dataFilled) messages.Add("Not all calibration data fields have been filled. Frequency and calibration factor must be provided for the number of points specified, which also cannot be zero.");
-            if (dataFilled && !freqsValid) messages.Add("Frequencies were not entered correctly. Values should be strictly increasing with consistent intervals and correspondent to header information on the left.");
+            if (freqsFilled && !freqsValid) messages.Add("Frequencies were not entered correctly. Values should be strictly increasing with consistent intervals and correspondent to header information on the left.");
             if (dataFilled && !dataValid) messages.Add("Abnormalities found in the calibration data. Values should be checked for correctness as large deviations or jumps cannot be accepted.");
             messages = (from item in messages select "&bull; " + item).ToList();
             message = String.Join("</br>", messages);
-            bool isValid = headersFilled && headersValid && dataFilled && freqsValid && dataValid && matchesExisting;
+            bool isValid = headersFilled && headersValid && freqsFilled && freqsValid && dataFilled && dataValid && matchesExisting;
             return Json(new { isValid, message });
         }
 

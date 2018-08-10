@@ -35,6 +35,8 @@ $(document).ready(function () {
     $("#reset-form").click(function () {
         $("form input").not(".btn").val("");
         $("#DataFields").html('<span style="color: grey">Form fields to enter calfactor records will appear here</span>');
+        $("#validation-message").hide();
+        $("#validation-message").html("");
     });
 
     $("input:text,form").click(function () {
@@ -240,11 +242,6 @@ $(document).ready(function () {
             }
         });
     }
-
-    $("input").on("input change", function () {
-        $("#validation-message").hide();
-        $("#validation-message").html("");
-    });
 
     $.ajax({
         type: "post",

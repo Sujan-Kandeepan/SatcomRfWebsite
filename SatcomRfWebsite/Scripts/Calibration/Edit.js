@@ -126,11 +126,6 @@ $(document).ready(function () {
         $(this).attr("autocomplete", "off");
     });
 
-    $("input").on("input change", function () {
-        $("#validation-message").hide();
-        $("#validation-message").html("");
-    });
-
     $.ajax({
         type: "post",
         url: "/Calibration/GetAssetNumbers",
