@@ -1,10 +1,4 @@
-﻿var type = location.pathname.substring(location.pathname.lastIndexOf("/") + 1);
-var assetnum = document.URL.substring(document.URL.indexOf("assetnum=") + 9, document.URL.indexOf("date=") - 1).split('_').join(' ');
-var date = document.URL.substring(document.URL.indexOf("date=") + 5);
-
-$("#TypePassed").val(type);
-$("#AssetNumberPassed").val(assetnum);
-$("#DatePassed").val(date);
+﻿var type, assetnum, date;
 
 function fillForm() {
     $.ajax({
@@ -102,6 +96,14 @@ $(document).ready(function () {
     $("input").not(".btn").attr("data-lpignore", "true");
 
     document.getElementById("navBarCalibration").classList.add("active");
+
+    type = location.pathname.substring(location.pathname.lastIndexOf("/") + 1);
+    assetnum = document.URL.substring(document.URL.indexOf("assetnum=") + 9, document.URL.indexOf("date=") - 1).split('_').join(' ');
+    date = document.URL.substring(document.URL.indexOf("date=") + 5);
+
+    $("#TypePassed").val(type);
+    $("#AssetNumberPassed").val(assetnum);
+    $("#DatePassed").val(date);
 
     $(".datepicker").datepicker({
         format: 'mm/dd/yyyy',
