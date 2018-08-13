@@ -335,6 +335,7 @@ $(document).ready(function () {
                     $("form").unbind("submit");
                     $("#validation-message").hide();
                     $("#validation-message").html("");
+                    $("#success").show();
                     $(".btn-success").click();
                     return true;
                 }
