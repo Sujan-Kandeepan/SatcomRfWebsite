@@ -174,17 +174,24 @@
 <div class="form-group row" id="view-txt" style="margin: 30px 0 15px 0">
     <div class="container row" style="margin-bottom: 5px">
         <h4 class="col-lg-1" style="padding: 0"><strong>Plain text</strong></h4>
-        <div class="col-lg-2">
-            <button class="btn btn-block btn-primary" id="toggle-txt-expand">Collapse</button>
-        </div>
-        <div class="col-lg-2">
-            <button class="btn btn-block btn-info" id="copy-txt">Copy text</button>
+        <div class="col-lg-3">
+            <div class="col-lg-6" style="padding: 0 5px">
+                <button class="btn btn-block btn-primary" id="toggle-txt-expand">Collapse</button>
+            </div>
+            <div class="col-lg-6" style="padding: 0 5px; left: 10px">
+                <button class="btn btn-block btn-info" id="copy-txt">Copy text</button>
+            </div>
         </div>
         <label class="col-lg-1 text-right" id="pathstring-label">
             New file path:
         </label>
-        <div class="col-lg-4">
-            <input class="form-control" id="pathstring" readonly>
+        <div class="col-lg-5">
+            <div class="input-group">
+                <input class="form-control" id="pathstring" data-show="bottom" data-placement="bottom" data-trigger="focus" readonly>
+                <span class="input-group-btn">
+                    <button class="btn btn-default" id="pathcopy" type="button"><strong style="color: #808080">Copy</strong></button>
+                </span>
+            </div>
         </div>
         <div class="col-lg-2" id="download-txt-container">
             <button class="btn btn-block btn-success" id="download-txt" data-show="bottom" data-placement="bottom" data-trigger="focus">Download</button>

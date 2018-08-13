@@ -189,4 +189,18 @@ $(document).ready(function () {
             $("#copy-txt").popover("destroy");
         }, 3000);
     });
+
+    $("#pathcopy").click(function () {
+        $("#pathstring").select();
+        if (!ClipboardJS.isSupported()) {
+            $("#pathstring").attr('data-content', "Press Ctrl-C");
+        } else {
+            document.execCommand("copy");
+            $("#pathstring").attr('data-content', "Copied!");
+        }
+        $("#pathstring").popover("show");
+        setTimeout(function () {
+            $("#pathstring").popover("destroy");
+        }, 3000);
+    });
 });
