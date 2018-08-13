@@ -146,4 +146,10 @@ $(document).ready(function () {
             $("#cancel-delete").trigger("click");
         }
     });
+
+    var folder = "";
+    if (type == "Attenuator") folder = "Attenuator";
+    if (type == "OutputCoupler") folder = "Output Coupler";
+    if (type == "PowerSensor") folder = "Power Sensor";
+    $("#pathstring").val("P:\\CalFiles\\" + folder + "\\ATE_TEXT\\" + assetnum.replace("/", "_") + ".txt");
 });

@@ -15,6 +15,22 @@
     td {
         min-width: 20px;
     }
+
+    #pathstring-label {
+        padding: 7px 0;
+        color: #808080;
+        display: none;
+    }
+
+    @@media(min-width: 1200px) {
+        #download-txt-container {
+            padding-right: 0;
+        }
+
+        #pathstring-label {
+            display: block;
+        }
+    }
 </style>
 
 @Scripts.Render("~/bundles/js/Calibration/Details")
@@ -162,10 +178,13 @@
         <div class="col-lg-2">
             <button class="btn btn-block btn-info" id="copy-txt">Copy text</button>
         </div>
-        <div class="col-lg-5">
-            <input class="form-control" id="download-txt" readonly>
+        <label class="col-lg-1 text-right" id="pathstring-label">
+            New file path:
+        </label>
+        <div class="col-lg-4">
+            <input class="form-control" id="pathstring" readonly>
         </div>
-        <div class="col-lg-2">
+        <div class="col-lg-2" id="download-txt-container">
             <button class="btn btn-block btn-success" id="download-txt">Download</button>
         </div>
     </div>
