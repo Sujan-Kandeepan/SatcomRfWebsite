@@ -129,7 +129,7 @@ $(document).ready(function () {
             $("#toggle-txt-expand").click(function () {
                 if ($(this).html() == "Collapse") {
                     $(this).html("Expand");
-                    $("#txt-display").html(result.split("\n")[0] + "\n...");
+                    $("#txt-display").html(result.split("\r\n")[0] + "\r\n...");
                     $("#txt-display").height(0);
                     $("#txt-display").height($("#txt-display").prop("scrollHeight"));
                 } else {
@@ -140,6 +140,27 @@ $(document).ready(function () {
                 }
             });
             $("#toggle-txt-expand").click();
+
+            $("#download-txt").click(function () {
+                var text = result;
+                var filename = assetnum.replace("/", "_") + ".txt";
+                var blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+                saveAs(blob, filename);
+
+                try {
+                    var isFileSaverSupported = !!new Blob;
+                    if (!isFileSaverSupported) {
+                        $("#download-txt").attr('data-content', "Could not save file!");
+                    } else {
+                        document.execCommand("copy");
+                        $("#download-txt").attr('data-content', "Saved to Downloads!");
+                    }
+                    $("#download-txt").popover("show");
+                    setTimeout(function () {
+                        $("#download-txt").popover("destroy");
+                    }, 3000);
+                } catch (e) { }
+            });
         },
         error: function (xhr, status, error) {
             console.log(xhr.responseText);
@@ -166,6 +187,6 @@ $(document).ready(function () {
         $("#copy-txt").popover("show");
         setTimeout(function () {
             $("#copy-txt").popover("destroy");
-        }, 5000);
+        }, 3000);
     });
 });

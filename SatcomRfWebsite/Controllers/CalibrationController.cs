@@ -219,7 +219,7 @@ namespace SatcomRfWebsite.Controllers
                 lines.Add("");
                 lines.Add("");
 
-                return Content(String.Join("\n", lines));
+                return Content(String.Join("\r\n", lines));
             }
             catch (Exception e)
             {

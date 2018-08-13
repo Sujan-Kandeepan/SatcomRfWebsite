@@ -170,6 +170,7 @@
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+<script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/14082/FileSaver.js"></script>
 <div class="form-group row" id="view-txt" style="margin: 30px 0 15px 0">
     <div class="container row" style="margin-bottom: 5px">
         <h4 class="col-lg-1" style="padding: 0"><strong>Plain text</strong></h4>
@@ -186,7 +187,7 @@
             <input class="form-control" id="pathstring" readonly>
         </div>
         <div class="col-lg-2" id="download-txt-container">
-            <button class="btn btn-block btn-success" id="download-txt">Download</button>
+            <button class="btn btn-block btn-success" id="download-txt" data-show="bottom" data-placement="bottom" data-trigger="focus">Download</button>
         </div>
     </div>
     <textarea class="form-control" id="txt-display" style="overflow: auto; resize: none; font-family: 'Lucida Console'" readonly></textarea>
