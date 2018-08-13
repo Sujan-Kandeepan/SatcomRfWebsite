@@ -152,4 +152,20 @@ $(document).ready(function () {
     if (type == "OutputCoupler") folder = "Output Coupler";
     if (type == "PowerSensor") folder = "Power Sensor";
     $("#pathstring").val("P:\\CalFiles\\" + folder + "\\ATE_TEXT\\" + assetnum.replace("/", "_") + ".txt");
+
+    new ClipboardJS('.btn');
+    $("#copy-txt").click(function () {
+        if ($("#toggle-txt-expand").html() != "Collapse") $("#toggle-txt-expand").click();
+        $("#txt-display").select();
+        if (!ClipboardJS.isSupported()) {
+            $("#copy-txt").attr('data-content', "Press Ctrl-C");
+        } else {
+            document.execCommand("copy");
+            $("#copy-txt").attr('data-content', "Copied!");
+        }
+        $("#copy-txt").popover("show");
+        setTimeout(function () {
+            $("#copy-txt").popover("destroy");
+        }, 5000);
+    });
 });
