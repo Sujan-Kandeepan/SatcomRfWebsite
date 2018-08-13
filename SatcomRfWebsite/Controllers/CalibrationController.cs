@@ -205,10 +205,11 @@ namespace SatcomRfWebsite.Controllers
                 lines.Add(String.Join(";", from item in lines.Last().Replace("Ref.CF", "RefCal").Split(';') select headers[item].ToString()));
                 lines.Add("");
 
-                lines.Add(type.Equals("PowerSensor") ? "Operator;Cal Date" : "Operator;ExpireDate");
+                lines.Add("Operator;ExpireDate");
                 List<string> dates = new List<String>() { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
                 string datefound = headers[type.Equals("PowerSensor") ? "CalDate" : "ExpireDate"].ToString();
-                string dateformatted = datefound.Split('/')[1] + "/" + dates[Convert.ToInt32(datefound.Split('/')[0]) - 1] + "/" + datefound.Split('/')[2];
+                string dateformatted = datefound.Split('/')[1] + "/" + dates[Convert.ToInt32(datefound.Split('/')[0]) - 1] + "/"
+                    + (type.Equals("PowerSensor") ? (Convert.ToInt32(datefound.Split('/')[2]) + 1).ToString() : datefound.Split('/')[2]);
                 lines.Add(headers["Operator"] + ";" + dateformatted);
                 lines.Add("");
 
