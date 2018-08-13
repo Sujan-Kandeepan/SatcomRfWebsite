@@ -177,7 +177,7 @@ namespace SatcomRfWebsite.Controllers
             }
         }
 
-        public ActionResult ValidateForm(string type, string formString)
+        public ActionResult ValidateForm(string type, string formString, string mode)
         {
             bool headersFilled = false, headersValid = false, freqsFilled = false, freqsValid = false,
                 dataFilled = false, dataValid = false, matchesExisting = false;
@@ -368,6 +368,7 @@ namespace SatcomRfWebsite.Controllers
                     matchesExisting = true;
                 }
             }
+            if (mode.Equals("edit")) matchesExisting = true;
 
             string message = "";
             List<string> messages = new List<string>();

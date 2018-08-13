@@ -209,7 +209,8 @@ $(document).ready(function () {
             url: "/Calibration/ValidateForm",
             data: {
                 "type": type,
-                "formString": serializeForm()
+                "formString": serializeForm(),
+                "mode": "edit"
             },
             dataType: "json",
             success: function (result) {

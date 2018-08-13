@@ -327,7 +327,8 @@ $(document).ready(function () {
             url: "/Calibration/ValidateForm",
             data: {
                 "type": $("#device-type").val().replace(" ", ""),
-                "formString": serializeForm()
+                "formString": serializeForm(),
+                "mode": "create"
             },
             dataType: "json",
             success: function (result) {
