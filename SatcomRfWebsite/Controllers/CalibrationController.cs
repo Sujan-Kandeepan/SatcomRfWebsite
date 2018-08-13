@@ -172,8 +172,58 @@ namespace SatcomRfWebsite.Controllers
             }
             catch (Exception e)
             {
-                Debug.WriteLine(e.ToString());
+                Debug.WriteLine(e);
                 return Content("Fail");
+            }
+        }
+
+        public ActionResult GenerateTextFile(string type, string assetnum, string date)
+        {
+            try
+            {
+                string details = ((ContentResult)GetDetails(type, assetnum, date)).Content;
+                if (details.Equals("Fail")) return Content("Could not generate text file!");
+
+                JavaScriptSerializer jss = new JavaScriptSerializer();
+                Dictionary<string, object> content = jss.Deserialize<object>(details) as Dictionary<string, object>;
+                Dictionary<string, object> headers = jss.Deserialize<object>(content["headers"].ToString()) as Dictionary<string, object>;
+                List<double> freqs = (from item in (content["freqs"] as object[]) select Convert.ToDouble(item)).ToList();
+                List<double> calFactor = (from item in (content["calFactor"] as object[]) select Convert.ToDouble(item)).ToList();
+                List<string> lines = new List<string>();
+
+                Dictionary<string, string> types = new Dictionary<string, string>() {
+                    { "Attenuator", "Attenuator" },
+                    { "OutputCoupler", "Load-Coupler" },
+                    { "PowerSensor", "Power Sensor" }
+                };
+                lines.Add(types[type] + " Asset Number: " + headers["AssetNumber"]);
+                lines.Add("");
+
+                lines.Add("CalibrationInfo");
+                if (type.Equals("PowerSensor")) lines.Add("Series;Serial;Ref.CF;Certificate");
+                else lines.Add("StartFreq;StopFreq;Points;Loss;Power;MaxOffset;Temp;Humidity;Lookback");
+                lines.Add(String.Join(";", from item in lines.Last().Replace("Ref.CF", "RefCal").Split(';') select headers[item].ToString()));
+                lines.Add("");
+
+                lines.Add(type.Equals("PowerSensor") ? "Operator;Cal Date" : "Operator;ExpireDate");
+                List<string> dates = new List<String>() { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
+                string datefound = headers[type.Equals("PowerSensor") ? "CalDate" : "ExpireDate"].ToString();
+                string dateformatted = datefound.Split('/')[1] + "/" + dates[Convert.ToInt32(datefound.Split('/')[0]) - 1] + "/" + datefound.Split('/')[2];
+                lines.Add(headers["Operator"] + ";" + dateformatted);
+                lines.Add("");
+
+                lines.Add(type.Equals("PowerSensor") ? "Frequency(GHz);CF(%)" : "Frequency;Data");
+                List<Tuple<double, double>> points = freqs.Zip(calFactor, (x, y) => Tuple.Create(x, y)).ToList();
+                foreach (var point in points) lines.Add(point.Item1.ToString() + ";" + point.Item2.ToString());
+                lines.Add("");
+                lines.Add("");
+
+                return Content(String.Join("\n", lines));
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+                return Content("Could not generate text file!\n" + e.ToString());
             }
         }
 
@@ -354,6 +404,7 @@ namespace SatcomRfWebsite.Controllers
             if (freqsValid && dataValid && !string.IsNullOrEmpty(form["AssetNumber"]))
             {
                 string details = ((ContentResult)GetDetails(type, form["AssetNumber"], null)).Content;
+                double TOLERANCE = type.Equals("PowerSensor") ? 5 : 1;
                 if (!details.Equals("Fail"))
                 {
                     JavaScriptSerializer jss = new JavaScriptSerializer();
@@ -361,7 +412,7 @@ namespace SatcomRfWebsite.Controllers
                     List<double> freqs = (from item in (content["freqs"] as object[]) select Convert.ToDouble(item)).ToList();
                     List<double> calFactor = (from item in (content["calFactor"] as object[]) select Convert.ToDouble(item)).ToList();
                     List<Tuple<double, double>> givenPoints = freqValues.Zip(dataValues, (freq, data) => Tuple.Create(freq, data)).ToList();
-                    matchesExisting = givenPoints.Aggregate(true, (accumulator, next) => accumulator && Math.Abs(estimate(freqs, calFactor, next.Item1) - next.Item2) < 1);
+                    matchesExisting = givenPoints.Aggregate(true, (accumulator, next) => accumulator && Math.Abs(estimate(freqs, calFactor, next.Item1) - next.Item2) < TOLERANCE);
                 }
                 else
                 {

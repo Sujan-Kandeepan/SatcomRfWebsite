@@ -115,4 +115,20 @@ $(document).ready(function () {
     });
 
     $("table").show();
+
+    $.ajax({
+        type: "post",
+        url: "/Calibration/GenerateTextFile",
+        data: { "type": type, "assetnum": assetnum, "date": date },
+        datatype: "json",
+        success: function (result) {
+            $("#txt-display").html(result);
+            $("#txt-display").height(0);
+            $("#txt-display").height($("#txt-display").prop("scrollHeight"));
+        },
+        error: function (xhr, status, error) {
+            console.log(xhr.responseText);
+            $("#cancel-delete").trigger("click");
+        }
+    });
 });
