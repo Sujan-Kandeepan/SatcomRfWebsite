@@ -7,11 +7,10 @@
 }
 
 function index(value) {
-    if (value == "default") {
-        location.href = location.origin + "/Calibration";
-    } else {
-        location.href = location.origin + "/Calibration/Index/" + value.replace(" ", "");
-    }
+    var newurl = location.origin + "/Calibration";
+    if (value != "default") newurl += "/Index/" + value.replace(" ", "");
+    if ($("#AssetNumber").val() != "") newurl += "?assetnum=" + $("#AssetNumber").val();
+    location.href = newurl;
 }
 
 $(document).ready(function () {
