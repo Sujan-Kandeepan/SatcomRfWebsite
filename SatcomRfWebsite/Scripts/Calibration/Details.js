@@ -125,6 +125,21 @@ $(document).ready(function () {
             $("#txt-display").html(result);
             $("#txt-display").height(0);
             $("#txt-display").height($("#txt-display").prop("scrollHeight"));
+
+            $("#toggle-txt-expand").click(function () {
+                if ($(this).html() == "Collapse") {
+                    $(this).html("Expand");
+                    $("#txt-display").html(result.split("\n")[0] + "\n...");
+                    $("#txt-display").height(0);
+                    $("#txt-display").height($("#txt-display").prop("scrollHeight"));
+                } else {
+                    $(this).html("Collapse");
+                    $("#txt-display").html(result);
+                    $("#txt-display").height(0);
+                    $("#txt-display").height($("#txt-display").prop("scrollHeight"));
+                }
+            });
+            $("#toggle-txt-expand").click();
         },
         error: function (xhr, status, error) {
             console.log(xhr.responseText);
