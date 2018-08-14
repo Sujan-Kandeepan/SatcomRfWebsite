@@ -194,7 +194,7 @@ namespace SatcomRfWebsite.Controllers
                 Console.WriteLine(e);
             }*/
 
-            return Redirect("/serialnumbers?beginning=A&findby=serial");
+            return Redirect(Url.Action("", "", null, Request.Url.Scheme) + "serialnumbers?beginning=A&findby=serial");
         }
 
         protected override void Dispose(bool disposing)
