@@ -176,7 +176,7 @@
 
                                 <tr>
                                     <td>
-                                        <a href="/ateData/AteOutputDetail/?serNum=@Html.DisplayFor(modelItem => item.ModelSN)">@Html.DisplayFor(modelItem => item.ModelSN)</a>
+                                        <a href="@Url.Action("", "", null, Request.Url.Scheme)ateData/AteOutputDetail/?serNum=@Html.DisplayFor(modelItem => item.ModelSN)">@Html.DisplayFor(modelItem => item.ModelSN)</a>
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.ModelName)
