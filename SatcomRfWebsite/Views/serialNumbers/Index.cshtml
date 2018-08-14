@@ -147,7 +147,7 @@
                     }
                     <script>
                         Array.prototype.filter.call(document.getElementsByClassName("start-letter"), function (element) {
-                            element.innerHTML = "<a href=\"/serialnumbers?beginning=" + element.innerHTML + "&findby="
+                            element.innerHTML = "<a href=\"" + document.getElementById("absolute-base-url").innerHTML + "serialnumbers?beginning=" + element.innerHTML + "&findby="
                                 + (document.URL.indexOf("?") != -1 ? document.URL.substring(document.URL.indexOf("findby") + 7) : "serial")
                                 + "\"" + (document.URL.indexOf("beginning=" + element.innerHTML) != -1 ? "style=\"color: #4CAE4C; font-weight: bold\"" : "") + ">" + element.innerHTML + "</a>";
                         })

@@ -568,9 +568,9 @@ namespace SatcomRfWebsite.Controllers
             catch (Exception e)
             {
                 Debug.WriteLine(e.ToString());
-                if (Request.Url.ToString().Contains("Attenuator")) return Redirect("/Calibration/Create/Attenuator?failed=true");
-                if (Request.Url.ToString().Contains("OutputCoupler")) return Redirect("/Calibration/Create/OutputCoupler?failed=true");
-                if (Request.Url.ToString().Contains("PowerSensor")) return Redirect("/Calibration/Create/PowerSensor?failed=true");
+                if (Request.Url.ToString().Contains("Attenuator")) return Redirect(Url.Action("", "", null, Request.Url.Scheme) + "Calibration/Create/Attenuator?failed=true");
+                if (Request.Url.ToString().Contains("OutputCoupler")) return Redirect(Url.Action("", "", null, Request.Url.Scheme) + "Calibration/Create/OutputCoupler?failed=true");
+                if (Request.Url.ToString().Contains("PowerSensor")) return Redirect(Url.Action("", "", null, Request.Url.Scheme) + "Calibration/Create/PowerSensor?failed=true");
                 return View();
             }
         }
@@ -617,7 +617,7 @@ namespace SatcomRfWebsite.Controllers
 
                 db.SaveChanges();
 
-                return Redirect($"~/Calibration/Index/Attenuator?assetnum={atData.AssetNumber.Replace(" ", "_")}");
+                return Redirect(Url.Action("", "", null, Request.Url.Scheme) + $"Calibration/Index/Attenuator?assetnum={atData.AssetNumber.Replace(" ", "_")}");
             }
 
             return View(atData);
@@ -665,7 +665,7 @@ namespace SatcomRfWebsite.Controllers
 
                 db.SaveChanges();
 
-                return Redirect($"~/Calibration/Index/OutputCoupler?assetnum={ocData.AssetNumber.Replace(" ", "_")}");
+                return Redirect(Url.Action("", "", null, Request.Url.Scheme) + $"Calibration/Index/OutputCoupler?assetnum={ocData.AssetNumber.Replace(" ", "_")}");
             }
 
             return View(ocData);
@@ -709,7 +709,7 @@ namespace SatcomRfWebsite.Controllers
 
                 db.SaveChanges();
 
-                return Redirect($"~/Calibration/Index/PowerSensor?assetnum={psData.AssetNumber.Replace(" ", "_")}");
+                return Redirect(Url.Action("", "", null, Request.Url.Scheme) + $"Calibration/Index/PowerSensor?assetnum={psData.AssetNumber.Replace(" ", "_")}");
             }
 
             return View(psData);
@@ -748,7 +748,7 @@ namespace SatcomRfWebsite.Controllers
                 {
                     var stream = fileContent.InputStream;
                     var fileName = Request.Files[0].FileName;
-                    var path = Path.Combine(Server.MapPath("~/App_Data"), fileName);
+                    var path = Path.Combine(Server.MapPath(Url.Action("", "", null, Request.Url.Scheme) + "App_Data"), fileName);
                     using (var fileStream = System.IO.File.Create(path))
                     {
                         stream.CopyTo(fileStream);
@@ -922,7 +922,7 @@ namespace SatcomRfWebsite.Controllers
             {
                 Delete(type, assetnum, date);
                 Create(collection);
-                return Redirect($"~/Calibration/Details/{type}?assetnum={assetnumGiven}&date={dateGiven}");
+                return Redirect(Url.Action("", "", null, Request.Url.Scheme) + $"Calibration/Details/{type}?assetnum={assetnumGiven}&date={dateGiven}");
             }
             catch (Exception e)
             {
