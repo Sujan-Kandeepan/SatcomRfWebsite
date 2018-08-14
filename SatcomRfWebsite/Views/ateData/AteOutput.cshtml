@@ -9,18 +9,18 @@
         function sendStats() {
             var newurl;
             if (selectProductType.value == "") {
-                newurl = "/SatcomStatsPage";
+                newurl = document.getElementById("absolute-base-url").innerHTML + "SatcomStatsPage";
             }
             else if (selectModelName.value == "") {
-                newurl = "/SatcomStatsPage/Index/" + selectProductType.value;
+                newurl = "SatcomStatsPage/Index/" + selectProductType.value;
             }
             else if (selectTestType.value == "" && selectTubeName.value == "" && selectOptions.value == "" && document.URL.indexOf("filter") == -1) {
-                newurl = "/SatcomStatsPage/Index/" + selectProductType.value + "/" + selectModelName.value;
+                newurl = "SatcomStatsPage/Index/" + selectProductType.value + "/" + selectModelName.value;
             }
             else {
-                newurl = "/SatcomStatsPage/Index/" + selectProductType.value + "/" + selectModelName.value + "/testType=" + (selectTestType.value == "" ? "none" : selectTestType.value) + "+tubeName=" + (selectTubeName.value == "" ? "none" : selectTubeName.value) + "+opt=" + ($("#selectOptions").val() == "" ? "none" : $("#selectOptions").val()) + "+exclude=none";
+                newurl = "SatcomStatsPage/Index/" + selectProductType.value + "/" + selectModelName.value + "/testType=" + (selectTestType.value == "" ? "none" : selectTestType.value) + "+tubeName=" + (selectTubeName.value == "" ? "none" : selectTubeName.value) + "+opt=" + ($("#selectOptions").val() == "" ? "none" : $("#selectOptions").val()) + "+exclude=none";
             }
-            document.getElementById("navBarStats").innerHTML = "<a href=\"" + newurl + "\">Statistics</a>";
+            document.getElementById("navBarStats").innerHTML = "<a href=\"" + document.getElementById("absolute-base-url").innerHTML + newurl + "\">Statistics</a>";
         }
 
         function sendOutput() {
@@ -38,18 +38,18 @@
 
             var newurl;
             if (pT == "") {
-                newurl = "/testsData/TestResults";
+                newurl = "testsData/TestResults";
             }
             else if (mN == "") {
-                newurl = "/testsData/TestResults/" + pT;
+                newurl = "testsData/TestResults/" + pT;
             }
             else if (testType == "" && tubeName == "" && opt == "") {
-                newurl = "/testsData/TestResults/" + pT + "/" + mN;
+                newurl = "testsData/TestResults/" + pT + "/" + mN;
             }
             else {
-                newurl = "/testsData/TestResults/" + pT + "/" + mN + "/testName=none+testType=" + (testType == "" ? "none" : testType) + "+tubeName=" + (tubeName == "" ? "none" : tubeName) + "+opt=" + ((opt == "" || opt != null && opt.indexOf("Audit") != -1) ? "none" : opt);
+                newurl = "testsData/TestResults/" + pT + "/" + mN + "/testName=none+testType=" + (testType == "" ? "none" : testType) + "+tubeName=" + (tubeName == "" ? "none" : tubeName) + "+opt=" + ((opt == "" || opt != null && opt.indexOf("Audit") != -1) ? "none" : opt);
             }
-            document.getElementById("navBarTests").innerHTML = "<a href=\"" + newurl + "\">Test Results</a>";
+            document.getElementById("navBarTests").innerHTML = "<a href=\"" + document.getElementById("absolute-base-url").innerHTML + newurl + "\">Test Results</a>";
 
         }
     </script>
@@ -108,8 +108,8 @@
             });
 
             function resetFilter() {
-                //location.href = document.location.origin + "/ateData/AteOutput";
-                location.href = location.origin + "/ateData/AteOutput";
+                //location.href = document.getElementById("absolute-base-url").innerHTML + "ateData/AteOutput";
+                location.href = document.getElementById("absolute-base-url").innerHTML + "ateData/AteOutput";
 
                 sendStats();
                 sendOutput();
@@ -142,7 +142,7 @@
                             break;
                     }
 
-                    var src = document.location.origin + "/api/ListAPI/GetTableFile?modelName=" + modelName + "&productType=" + productType + "&testType=" + testType + "&tubeName=" + tubeName + "&options=" + options + "&exclude=none";
+                    var src = document.getElementById("absolute-base-url").innerHTML + "api/ListAPI/GetTableFile?modelName=" + modelName + "&productType=" + productType + "&testType=" + testType + "&tubeName=" + tubeName + "&options=" + options + "&exclude=none";
                     var data = new XMLHttpRequest();
                     data.onreadystatechange = function () {
                         if (this.readyState === 4 && this.status === 200) {
@@ -158,8 +158,8 @@
                     data.open("GET", src, true);
                     data.send();    
 
-                    document.getElementById("iframe-temp").innerHTML = "<iframe style=\"display:none\" src=\"" + document.location.origin +
-                        "/api/ListAPI/GetTableFile?modelName=" + modelName + "&productType=" + productType + "&testType=" + testType + "&tubeName=" + tubeName + "&options=" + options + "&exclude=none\"></iframe>";
+                    document.getElementById("iframe-temp").innerHTML = "<iframe style=\"display:none\" src=\"" + document.getElementById("absolute-base-url").innerHTML +
+                        "api/ListAPI/GetTableFile?modelName=" + modelName + "&productType=" + productType + "&testType=" + testType + "&tubeName=" + tubeName + "&options=" + options + "&exclude=none\"></iframe>";
                 }
             }
         </script>
@@ -255,7 +255,7 @@
 
 		                    // trying to figure out what is the product type if we do the search by modelName
                             if (value != "") {
-                                var src = document.location.origin + "/api/ListAPI/FindProduct?model=" + value;
+                                var src = document.getElementById("absolute-base-url").innerHTML + "api/ListAPI/FindProduct?model=" + value;
                                 var data = new XMLHttpRequest();
                                 data.onreadystatechange = function () {
                                     if (this.readyState === 4 && this.status === 200) {
@@ -326,14 +326,14 @@
 
 		                    // trying to figure out what is the model name and product type if we do the search by serial
                             if (value != "") {
-                                var src = document.location.origin + "/api/ListAPI/FindModel?serial=" + value;
+                                var src = document.getElementById("absolute-base-url").innerHTML + "api/ListAPI/FindModel?serial=" + value;
                                 var data = new XMLHttpRequest();
                                 data.onreadystatechange = function () {
                                     if (this.readyState === 4 && this.status === 200) {
                                         var retData = JSON.parse(data.responseText);
                                         model = retData;
 
-                                        src = document.location.origin + "/api/ListAPI/FindProduct?model=" + model;
+                                        src = document.getElementById("absolute-base-url").innerHTML + "api/ListAPI/FindProduct?model=" + model;
                                         data = new XMLHttpRequest();
                                         data.onreadystatechange = function () {
                                             if (this.readyState === 4 && this.status === 200) {
@@ -540,7 +540,7 @@
                     {
                         <tr>
                             <td>@Html.DisplayFor(modelItem => item.startTime)</td>
-                            <td><a href='~/ateData/AteOutputDetail/?serNum=@item.serialNum'>@Html.DisplayFor(modelItem => item.serialNum)</a></td>
+                            <td><a href='@Url.Action("", "", null, Request.Url.Scheme)ateData/AteOutputDetail/?serNum=@item.serialNum'>@Html.DisplayFor(modelItem => item.serialNum)</a></td>
                             <td>@Html.DisplayFor(modelItem => item.audit)</td>
                             <td>@Html.DisplayFor(modelItem => item.longModelName)</td>
                             <td>@Html.DisplayFor(modelItem => item.tubeName)</td>

@@ -3,7 +3,7 @@
 function fillForm() {
     $.ajax({
         type: "post",
-        url: "/Calibration/GetDetails",
+        url: document.getElementById("absolute-base-url").innerHTML + "Calibration/GetDetails",
         data: { "type": type, "assetnum": assetnum, "date": date },
         datatype: "json",
         success: function (result) {
@@ -51,7 +51,7 @@ function fillForm() {
 
             $.ajax({
                 type: "post",
-                url: "/Calibration/CreateDataFields",
+                url: document.getElementById("absolute-base-url").innerHTML + "Calibration/CreateDataFields",
                 data: {
                     "num": $("#Points").val() > 0 ? $("#Points").val() : 0,
                     "hasReturnLoss": document.URL.indexOf("PowerSensor") == -1 ? true : false,
@@ -130,7 +130,7 @@ $(document).ready(function () {
 
     $.ajax({
         type: "post",
-        url: "/Calibration/GetAssetNumbers",
+        url: document.getElementById("absolute-base-url").innerHTML + "Calibration/GetAssetNumbers",
         data: {
             "type": type
         },
@@ -169,7 +169,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "post",
-            url: "/Calibration/CreateDataFields",
+            url: document.getElementById("absolute-base-url").innerHTML + "Calibration/CreateDataFields",
             data: {
                 "num": $("#Points").val() > 0 ? $("#Points").val() : 0,
                 "hasReturnLoss": document.URL.indexOf("PowerSensor") == -1 ? true : false,
@@ -208,7 +208,7 @@ $(document).ready(function () {
         $("#assetnum-not-recognized").hide();
         $.ajax({
             type: "post",
-            url: "/Calibration/ValidateForm",
+            url: document.getElementById("absolute-base-url").innerHTML + "Calibration/ValidateForm",
             data: {
                 "type": type,
                 "formString": serializeForm(),

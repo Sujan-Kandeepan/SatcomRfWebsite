@@ -4,7 +4,7 @@ var date = document.URL.substring(document.URL.indexOf("date=") + 5);
 
 $.ajax({
     type: "post",
-    url: "/Calibration/GetDetails",
+    url: document.getElementById("absolute-base-url").innerHTML + "Calibration/GetDetails",
     data: { "type": type, "assetnum": assetnum, "date": date },
     datatype: "json",
     success: function (result) {
@@ -87,7 +87,7 @@ $(document).ready(function () {
     $("#confirm-delete").click(function () {
         $.ajax({
             type: "post",
-            url: "/Calibration/Delete",
+            url: document.getElementById("absolute-base-url").innerHTML + "Calibration/Delete",
             data: { "type": type, "assetnum": assetnum, "date": date },
             datatype: "json",
             success: function (result) {
@@ -118,7 +118,7 @@ $(document).ready(function () {
 
     $.ajax({
         type: "post",
-        url: "/Calibration/GenerateTextFile",
+        url: document.getElementById("absolute-base-url").innerHTML + "Calibration/GenerateTextFile",
         data: { "type": type, "assetnum": assetnum, "date": date },
         datatype: "json",
         success: function (result) {

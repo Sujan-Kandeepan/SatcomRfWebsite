@@ -9,7 +9,7 @@
     <div class="row">
         <div class="row page-header">
             <h1 class="col-lg-9">Details For The Serial # @Model.ateOutputModel.serialNum</h1>
-            <button class="col-lg-2 btn btn-info center-block" style="margin-top: 25px" onclick="location.href = '/serialnumbers?beginning=@Model.ateOutputModel.serialNum&findby=serial'">View in serial numbers list</button>
+            <button class="col-lg-2 btn btn-info center-block" style="margin-top: 25px" onclick="location.href = '@Url.Action("", "", null, Request.Url.Scheme)/serialnumbers?beginning=@Model.ateOutputModel.serialNum&findby=serial'">View in serial numbers list</button>
             <div class="col-lg-1"></div>
         </div>
     </div>

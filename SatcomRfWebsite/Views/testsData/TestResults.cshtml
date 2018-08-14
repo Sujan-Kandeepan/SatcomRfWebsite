@@ -205,7 +205,7 @@
                     });
 
                     Array.prototype.filter.call(document.getElementsByClassName("modelsn"), function (element) {
-                        element.innerHTML = "<a href = \"" + location.origin + "/ateData/AteOutputDetail/?serNum=" + element.innerHTML + "\">" + element.innerHTML + "</a>";
+                        element.innerHTML = "<a href = \"" + document.getElementById("absolute-base-url").innerHTML + "ateData/AteOutputDetail/?serNum=" + element.innerHTML + "\">" + element.innerHTML + "</a>";
                     })
                 </script>
             }

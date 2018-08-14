@@ -1,13 +1,13 @@
 ﻿function setURL(value) {
     if (value == "default") {
-        location.href = location.origin + "/Calibration/Create";
+        location.href = document.getElementById("absolute-base-url").innerHTML + "Calibration/Create";
     } else {
-        location.href = location.origin + "/Calibration/Create/" + value.replace(" ", "");
+        location.href = document.getElementById("absolute-base-url").innerHTML + "Calibration/Create/" + value.replace(" ", "");
     }
 }
 
 function index(value) {
-    var newurl = location.origin + "/Calibration";
+    var newurl = document.getElementById("absolute-base-url").innerHTML + "Calibration";
     if (value != "default") newurl += "/Index/" + value.replace(" ", "");
     if ($("#AssetNumber").val() != "") newurl += "?assetnum=" + $("#AssetNumber").val();
     location.href = newurl;
@@ -54,7 +54,7 @@ $(document).ready(function () {
 
             $.ajax({
                 type: "post",
-                url: "/Calibration/ImportFile?type=" + $("#device-type").val().replace(" ", ""),
+                url: document.getElementById("absolute-base-url").innerHTML + "Calibration/ImportFile?type=" + $("#device-type").val().replace(" ", ""),
                 data: data,
                 contentType: false,
                 processData: false,
@@ -115,7 +115,7 @@ $(document).ready(function () {
 
                     $.ajax({
                         type: "post",
-                        url: "/Calibration/CreateDataFields",
+                        url: document.getElementById("absolute-base-url").innerHTML + "Calibration/CreateDataFields",
                         data: {
                             "num": $("#Points").val() > 0 ? $("#Points").val() : 0,
                             "hasReturnLoss": document.URL.indexOf("PowerSensor") == -1 ? true : false,
@@ -167,7 +167,7 @@ $(document).ready(function () {
         var type = $("#device-type").val().replace(" ", "");
         $.ajax({
             type: "post",
-            url: "/Calibration/GetDetails",
+            url: document.getElementById("absolute-base-url").innerHTML + "Calibration/GetDetails",
             data: { "type": type, "assetnum": $("#AssetNumber").val() },
             datatype: "json",
             success: function (result) {
@@ -212,7 +212,7 @@ $(document).ready(function () {
 
                 $.ajax({
                     type: "post",
-                    url: "/Calibration/CreateDataFields",
+                    url: document.getElementById("absolute-base-url").innerHTML + "Calibration/CreateDataFields",
                     data: {
                         "num": $("#Points").val() > 0 ? $("#Points").val() : 0,
                         "hasReturnLoss": document.URL.indexOf("PowerSensor") == -1 ? true : false,
@@ -244,7 +244,7 @@ $(document).ready(function () {
 
     $.ajax({
         type: "post",
-        url: "/Calibration/GetAssetNumbers",
+        url: document.getElementById("absolute-base-url").innerHTML + "Calibration/GetAssetNumbers",
         data: {
             "type": $("#device-type").val()
         },
@@ -284,7 +284,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "post",
-            url: "/Calibration/CreateDataFields",
+            url: document.getElementById("absolute-base-url").innerHTML + "Calibration/CreateDataFields",
             data: {
                 "num": $("#Points").val() > 0 ? $("#Points").val() : 0,
                 "hasReturnLoss": document.URL.indexOf("PowerSensor") == -1 ? true : false,
@@ -323,7 +323,7 @@ $(document).ready(function () {
         $("#assetnum-not-recognized").hide();
         $.ajax({
             type: "post",
-            url: "/Calibration/ValidateForm",
+            url: document.getElementById("absolute-base-url").innerHTML + "Calibration/ValidateForm",
             data: {
                 "type": $("#device-type").val().replace(" ", ""),
                 "formString": serializeForm(),

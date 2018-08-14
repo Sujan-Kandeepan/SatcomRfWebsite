@@ -232,7 +232,7 @@
 
     <script>
         function resetSearch() {
-            location.href = document.location.origin + "/testsData/TestResults";
+            location.href = document.getElementById("absolute-base-url").innerHTML + "testsData/TestResults";
             //location.href = document.URL.replace(/TestResults\?[a-zA-Z0-9=+,-\\%]*/, "TestResults");
 
             sendStats();
@@ -266,7 +266,7 @@
                         break;
                 }
 
-                var src = document.location.origin + "/api/ListAPI/GetTableFile?modelName=" + modelName + "&productType=" + productType + "&testType=" + testType + "&tubeName=" + tubeName + "&options=" + options + "&exclude=none";
+                var src = document.getElementById("absolute-base-url").innerHTML + "api/ListAPI/GetTableFile?modelName=" + modelName + "&productType=" + productType + "&testType=" + testType + "&tubeName=" + tubeName + "&options=" + options + "&exclude=none";
                 var data = new XMLHttpRequest();
                 data.onreadystatechange = function () {
                     if (this.readyState === 4 && this.status === 200) {
@@ -282,8 +282,8 @@
                 data.open("GET", src, true);
                 data.send();
 
-                document.getElementById("iframe-temp").innerHTML = "<iframe style=\"display:none\" src=\"" + document.location.origin +
-                    "/api/ListAPI/GetTableFile?modelName=" + modelName + "&productType=" + productType + "&testType=" + testType + "&tubeName=" + tubeName + "&options=" + options + "&exclude=none\"></iframe>";
+                document.getElementById("iframe-temp").innerHTML = "<iframe style=\"display:none\" src=\"" + document.getElementById("absolute-base-url").innerHTML +
+                    "api/ListAPI/GetTableFile?modelName=" + modelName + "&productType=" + productType + "&testType=" + testType + "&tubeName=" + tubeName + "&options=" + options + "&exclude=none\"></iframe>";
             }
         }
     </script>
@@ -494,18 +494,18 @@
 
         var newurl;
         if (productType == "") {
-            newurl = "/SatcomStatsPage";
+            newurl = "SatcomStatsPage";
         }
         else if (modelName == "") {
-            newurl = "/SatcomStatsPage/Index/" + productType;
+            newurl = "SatcomStatsPage/Index/" + productType;
         }
         else if (selectTestType.value == "" && selectTubeName.value == "" && selectOptions.value == "") {
-            newurl = "/SatcomStatsPage/Index/" + productType + "/" + modelName;
+            newurl = "SatcomStatsPage/Index/" + productType + "/" + modelName;
         }
         else {
-            newurl = "/SatcomStatsPage/Index/" + productType + "/" + modelName + "/" + document.URL.substring(document.URL.indexOf("testType")) + "+exclude=none";
+            newurl = "SatcomStatsPage/Index/" + productType + "/" + modelName + "/" + document.URL.substring(document.URL.indexOf("testType")) + "+exclude=none";
         }
-        document.getElementById("navBarStats").innerHTML = "<a href=\"" + newurl + "\">Statistics</a>";
+        document.getElementById("navBarStats").innerHTML = "<a href=\"" + document.getElementById("absolute-base-url").innerHTML + newurl + "\">Statistics</a>";
     }
 
     function sendOutput() {
@@ -522,12 +522,12 @@
 
         var newurl;
         if (document.URL.indexOf("TestResults") == document.URL.length - 11) {
-            newurl = "/ateData/AteOutput";
+            newurl = "ateData/AteOutput";
         }
         else {
-            newurl = "/ateData/AteOutput?filter=pT=" + productType + "%mN=" + modelName + "%ser=na%testType=" + testType + "%tubeName=" + tubeName + "%opt=" + opt + "";
+            newurl = "ateData/AteOutput?filter=pT=" + productType + "%mN=" + modelName + "%ser=na%testType=" + testType + "%tubeName=" + tubeName + "%opt=" + opt + "";
         }
-        document.getElementById("navBarAteOutput").innerHTML = "<a href=\"" + newurl + "\">ATE Output</a>";
+        document.getElementById("navBarAteOutput").innerHTML = "<a href=\"" + document.getElementById("absolute-base-url").innerHTML + newurl + "\">ATE Output</a>";
     }
 
     function sendResults() {

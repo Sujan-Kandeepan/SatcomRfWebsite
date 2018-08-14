@@ -5,7 +5,7 @@ var exclude = "none";
 
 function getTubes(modelName, selected) {
     selected = selected || "none";
-    var src = document.location.origin + "/api/ListAPI/GetTubes?modelName=" + modelName;
+    var src = document.getElementById("absolute-base-url").innerHTML + "api/ListAPI/GetTubes?modelName=" + modelName;
     var data = new XMLHttpRequest();
     data.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
@@ -49,15 +49,15 @@ function getModelNames(productType, selected) {
         document.getElementById("selection-failed").classList.add("hide");
         document.getElementById("download-failed").classList.add("hide");
         document.getElementById("data-table").innerHTML = "";
-        location.href = location.origin + "/SatcomStatsPage";
+        location.href = document.getElementById("absolute-base-url").innerHTML + "SatcomStatsPage";
         return;
     }
 
     if (document.URL.indexOf(productType) == -1) {
-        location.href = location.origin + "/SatcomStatsPage/Index/" + productType;
+        location.href = document.getElementById("absolute-base-url").innerHTML + "SatcomStatsPage/Index/" + productType;
     }
 
-    var src = document.location.origin + "/api/ListAPI/GetModels?productType=" + productType;
+    var src = document.getElementById("absolute-base-url").innerHTML + "api/ListAPI/GetModels?productType=" + productType;
     var data = new XMLHttpRequest();
     data.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
@@ -93,7 +93,7 @@ function getModelNames(productType, selected) {
 
 function getProductTypes(selected) {
     selected = selected || "default";
-    var src = document.location.origin + "/api/ListAPI/GetProductTypes";
+    var src = document.getElementById("absolute-base-url").innerHTML + "api/ListAPI/GetProductTypes";
     var data = new XMLHttpRequest();
     data.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
@@ -109,7 +109,7 @@ function getProductTypes(selected) {
             document.getElementById("productTypes").innerHTML = html;
             if (!found) {
                 document.getElementById("invalid-url").classList.remove("hide");
-                setTimeout(function () { location.replace(location.origin + "/SatcomStatsPage"); }, 1000);
+                setTimeout(function () { location.replace(document.getElementById("absolute-base-url").innerHTML + "SatcomStatsPage"); }, 1000);
             }
         }
         sendStats();
@@ -198,16 +198,16 @@ function getTable(productType, modelName, testType, tubeName, options, exclude) 
         document.getElementById("data-display").classList.add("hide");
         document.getElementById("filters-options").classList.add("hide");
         document.getElementById("data-table").innerHTML = "";
-        location.href = location.origin + "/SatcomStatsPage/Index/" + productType;
+        location.href = document.getElementById("absolute-base-url").innerHTML + "SatcomStatsPage/Index/" + productType;
         return;
     }
 
     if (document.URL.indexOf(modelName) == -1) {
-        location.href = location.origin + "/SatcomStatsPage/Index/" + productType + "/" + modelName;
+        location.href = document.getElementById("absolute-base-url").innerHTML + "SatcomStatsPage/Index/" + productType + "/" + modelName;
         return;
     }
 
-    var src = document.location.origin + "/api/ListAPI/GetTableData?modelName=" + modelName + "&productType=" + productType + "&testType=" + testType + "&tubeName=" + tubeName + "&options=" + options + "&exclude=" + exclude;
+    var src = document.getElementById("absolute-base-url").innerHTML + "api/ListAPI/GetTableData?modelName=" + modelName + "&productType=" + productType + "&testType=" + testType + "&tubeName=" + tubeName + "&options=" + options + "&exclude=" + exclude;
     var data = new XMLHttpRequest();
     data.onreadystatechange = function () {
         document.getElementById("data-table").innerHTML = "";
@@ -302,7 +302,7 @@ function fillModal(testName, channel, frequency, power, allResultsString, unit, 
 
     for (var i = 0; i < allResults.length; i++) {
         html += "<input type=\"checkbox\" value=\"\" class=\"update-serial\" id=\"" + allResults[i][0] + "\" checked></input>&nbsp;";
-        html += "<strong>" + "<a href = \"" + location.origin + "/ateData/AteOutputDetail/?serNum=" + allResults[i][0] + "\">" + allResults[i][0] + "</a>" + "</strong>&ensp;" + allResults[i][3] + unit;
+        html += "<strong>" + "<a href = \"" + document.getElementById("absolute-base-url").innerHTML + "ateData/AteOutputDetail/?serNum=" + allResults[i][0] + "\">" + allResults[i][0] + "</a>" + "</strong>&ensp;" + allResults[i][3] + unit;
         if (unitConv != "N/A") {
             html += ", " + allResults[i][4] + unitConv;
         }
@@ -348,7 +348,7 @@ function getxlsxfile(productType, modelName, testType, tubeName, options, exclud
         return;
     }
 
-    var src = document.location.origin + "/api/ListAPI/GetTableFile?modelName=" + modelName + "&productType=" + productType + "&testType=" + testType + "&tubeName=" + tubeName + "&options=" + options + "&exclude=" + exclude;
+    var src = document.getElementById("absolute-base-url").innerHTML + "api/ListAPI/GetTableFile?modelName=" + modelName + "&productType=" + productType + "&testType=" + testType + "&tubeName=" + tubeName + "&options=" + options + "&exclude=" + exclude;
     var data = new XMLHttpRequest();
     data.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
@@ -364,8 +364,8 @@ function getxlsxfile(productType, modelName, testType, tubeName, options, exclud
     data.open("GET", src, true);
     data.send();
 
-    document.getElementById("iframe-temp").innerHTML = "<iframe style=\"display:none\" src=\"" + document.location.origin +
-        "/api/ListAPI/GetTableFile?modelName=" + modelName + "&productType=" + productType + "&testType=" + testType + "&tubeName=" + tubeName + "&options=" + options + "&exclude=" + exclude + "\"></iframe>";
+    document.getElementById("iframe-temp").innerHTML = "<iframe style=\"display:none\" src=\"" + document.getElementById("absolute-base-url").innerHTML +
+        "api/ListAPI/GetTableFile?modelName=" + modelName + "&productType=" + productType + "&testType=" + testType + "&tubeName=" + tubeName + "&options=" + options + "&exclude=" + exclude + "\"></iframe>";
 }
 
 function sendStats() {
@@ -375,32 +375,32 @@ function sendStats() {
 function sendOutput(productType, modelName) {
     var newurl;
     if (productType == "default") {
-        newurl = "/ateData/AteOutput";
+        newurl = "ateData/AteOutput";
     }
     else if (modelName == "default") {
-        newurl = "/ateData/AteOutput/?filter=pT=" + productType + "%mN=na%ser=na%testType=na%tubeName=na%opt=na";
+        newurl = "ateData/AteOutput/?filter=pT=" + productType + "%mN=na%ser=na%testType=na%tubeName=na%opt=na";
     }
     else {
-        newurl = "/ateData/AteOutput/?filter=pT=" + productType + "%mN=" + modelName + "%ser=na%testType=" + (testType == "none" ? "na" : testType) + "%tubeName=" + (tubeName == "none" ? "na" : tubeName) + "%opt=" + ((opt == "none" || opt.indexOf("Itar") != -1) ? "na" : opt);
+        newurl = "ateData/AteOutput/?filter=pT=" + productType + "%mN=" + modelName + "%ser=na%testType=" + (testType == "none" ? "na" : testType) + "%tubeName=" + (tubeName == "none" ? "na" : tubeName) + "%opt=" + ((opt == "none" || opt.indexOf("Itar") != -1) ? "na" : opt);
     } 
-    document.getElementById("navBarAteOutput").innerHTML = "<a href=\"" + newurl + "\">ATE Output</a>";
+    document.getElementById("navBarAteOutput").innerHTML = "<a href=\"" + document.getElementById("absolute-base-url").innerHTML + newurl + "\">ATE Output</a>";
 }
 
 function sendResults(productType, modelName) {
     var newurl;
     if (productType == "default") {
-        newurl = "/testsData/TestResults";
+        newurl = "testsData/TestResults";
     }
     else if (modelName == "default") {
-        newurl = "/testsData/TestResults/" + productType;
+        newurl = "testsData/TestResults/" + productType;
     }
     else if (testType == "none" && tubeName == "none" && (opt == "none" || opt.indexOf("Audit") != -1 || opt.indexOf("Itar") != -1)) {
-        newurl = "/testsData/TestResults/" + productType + "/" + modelName;
+        newurl = "testsData/TestResults/" + productType + "/" + modelName;
     }
     else {
-        newurl = "/testsData/TestResults/" + productType + "/" + modelName + "/" + "testName=none+" + ((opt.indexOf("Audit") != -1 || opt.indexOf("Itar") != -1) ? document.URL.substring(document.URL.indexOf("testType"), document.URL.indexOf("opt") + 4) + "none" : document.URL.substring(document.URL.indexOf("testType"), document.URL.indexOf("exclude") - 1));
+        newurl = "testsData/TestResults/" + productType + "/" + modelName + "/" + "testName=none+" + ((opt.indexOf("Audit") != -1 || opt.indexOf("Itar") != -1) ? document.URL.substring(document.URL.indexOf("testType"), document.URL.indexOf("opt") + 4) + "none" : document.URL.substring(document.URL.indexOf("testType"), document.URL.indexOf("exclude") - 1));
     }
-    document.getElementById("navBarTests").innerHTML = "<a href=\"" + newurl + "\">Test Results</a>";
+    document.getElementById("navBarTests").innerHTML = "<a href=\"" + document.getElementById("absolute-base-url").innerHTML + newurl + "\">Test Results</a>";
 }
 
 function convertTestType(testType) {
@@ -435,7 +435,7 @@ function setupIndex() {
     }
     else if (document.URL.indexOf("SatcomStatsPage/") == document.URL.length - 16
         || document.URL.indexOf("SatcomStatsPage/Index") == document.URL.length - 21) {
-        location.replace(location.origin + "/SatcomStatsPage");
+        location.replace(document.getElementById("absolute-base-url").innerHTML + "SatcomStatsPage");
     }
     else {
         getProductTypes(productType);
@@ -457,7 +457,6 @@ function setupIndex() {
     $('#allResultsModal').on('hidden.bs.modal', function () {
         var excludeList = exclude == "none" ? [] : exclude.split(",");
         Array.prototype.filter.call(document.getElementsByClassName("update-serial"), function (element) {
-            //alert(element.checked + " " + element.id);
             if (element.checked == false) {
                 excludeList.push(element.id);
             }

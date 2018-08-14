@@ -45,7 +45,7 @@
                     <div class="display" style="margin-top: -20px; margin-bottom: 20px"><h3>View complete list of serial numbers with corresponding model names.</h3></div>
                 </div>
                 <div class="col-lg-4 center-block" text-center>
-                    <input type="button" class="btn btn-link center-block" style="color: grey; margin-top: -5px" value="Click to view all (slow performance)" onclick="location.href = '/serialnumbers'"/>
+                    <input type="button" class="btn btn-link center-block" style="color: grey; margin-top: -5px" value="Click to view all (slow performance)" onclick="location.href = '@Url.Action("", "", null, Request.Url.Scheme)serialnumbers'"/>
                 </div>
             </div>
             <div class="row" id="search-form" style="margin-bottom: 10px">
@@ -118,7 +118,7 @@
                                 location.href = document.URL.replace("=name", "=serial");
                             }
                             else {
-                                location.href = location.origin + "/serialnumbers?beginning=" + document.getElementById("search").value + "&findby=serial";
+                                location.href = document.getElementById("absolute-base-url").innerHTML + "serialnumbers?beginning=" + document.getElementById("search").value + "&findby=serial";
                             }
                         }
                     </script>
@@ -131,7 +131,7 @@
                                 location.href = document.URL.replace("=serial", "=name");
                             }
                             else {
-                                location.href = location.origin + "/serialnumbers?beginning=" + document.getElementById("search").value + "&findby=name";
+                                location.href = document.getElementById("absolute-base-url").innerHTML + "serialnumbers?beginning=" + document.getElementById("search").value + "&findby=name";
                             }
                         }
                     </script>

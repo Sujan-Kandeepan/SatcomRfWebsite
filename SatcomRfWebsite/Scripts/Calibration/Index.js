@@ -1,8 +1,8 @@
 ﻿function calType(value) {
     if (value == "default") {
-        location.href = location.origin + "/Calibration";
+        location.href = document.getElementById("absolute-base-url").innerHTML + "Calibration";
     } else {
-        location.href = location.origin + "/Calibration/Index/" + value.replace(" ", "");
+        location.href = document.getElementById("absolute-base-url").innerHTML + "Calibration/Index/" + value.replace(" ", "");
     }
 }
 
@@ -16,9 +16,9 @@ function assetNum(value) {
 
 function create(value) {
     if (value == "default") {
-        location.href = location.origin + "/Calibration/Create";
+        location.href = document.getElementById("absolute-base-url").innerHTML + "Calibration/Create";
     } else {
-        location.href = location.origin + "/Calibration/Create/" + value.replace(" ", "");
+        location.href = document.getElementById("absolute-base-url").innerHTML + "Calibration/Create/" + value.replace(" ", "");
     }
 }
 
@@ -27,7 +27,7 @@ function getData(assetNumber) {
     if (assetNumber != "default") {
         $.ajax({
             type: "post",
-            url: "/Calibration/GetData",
+            url: document.getElementById("absolute-base-url").innerHTML + "Calibration/GetData",
             data: { "type": $("#cal-type").val(), "assetNumber": assetNumber },
             dataType: "text",
             success: function (result) {
@@ -83,7 +83,7 @@ $(document).ready(function () {
 
     $.ajax({
         type: "post",
-        url: "/Calibration/GetAssetNumbers",
+        url: document.getElementById("absolute-base-url").innerHTML + "Calibration/GetAssetNumbers",
         data: { "type": $("#cal-type").val() },
         dataType: "text",
         success: function (result) {
