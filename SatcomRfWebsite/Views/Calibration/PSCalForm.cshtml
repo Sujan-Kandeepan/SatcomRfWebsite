@@ -48,9 +48,17 @@
                 @Html.ValidationMessageFor(model => model.Certificate, "", new { @class = "text-danger" })
             </div>
             <div class="col-md-4">
+                @Html.Label("EditedBy", "Edited By", htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.EditedBy, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.EditedBy, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-4">
                 @Html.Label("Points", "Number of Points", htmlAttributes: new { @class = "control-label" })
                 <input type="number" class="form-control" id="Points" name="Points" min="0" max="999" />
-            </div>  
+            </div>
+        </div>
+        <div class="form-group row" style="margin-top: -10px">
+            <div class="col-md-8" style="margin-top: 27px"></div>
             <div class="col-md-4" style="margin-top: 27px">
                 <input type="submit" value="Submit To Database" class="btn btn-success btn-block" />
             </div>

@@ -242,7 +242,7 @@ namespace SatcomRfWebsite.Controllers
                 requiredHeaders = new List<string>()
                 {
                     "AssetNumber", "Operator", "CalDate", "StartFreq", "StopFreq",
-                    "ExpireDate", "Loss", "Power", "MaxOffset", "Points"
+                    "ExpireDate", "Loss", "Power", "MaxOffset", "EditedBy", "Points"
                 };
             }
             else if (type.Equals("PowerSensor"))
@@ -250,7 +250,7 @@ namespace SatcomRfWebsite.Controllers
                 requiredHeaders = new List<string>()
                 {
                     "AssetNumber", "Operator", "CalDate", "Series", "Serial",
-                    "RefCal", "Certificate", "Points"
+                    "RefCal", "Certificate", "EditedBy", "Points"
                 };
             }
             if (requiredHeaders.Count() == 0) return Json(false);
@@ -267,7 +267,7 @@ namespace SatcomRfWebsite.Controllers
                     {
                         AssetNumber = form["AssetNumber"],
                         AddedDate = DateTime.Now,
-                        EditedBy = Request.LogonUserIdentity.Name.ToUpper(),
+                        EditedBy = form["EditedBy"],
                         StartFreq = Convert.ToInt64(form["StartFreq"]),
                         StopFreq = Convert.ToInt64(form["StopFreq"]),
                         Points = Convert.ToInt32(form["Points"]),
@@ -290,7 +290,7 @@ namespace SatcomRfWebsite.Controllers
                     {
                         AssetNumber = form["AssetNumber"],
                         AddedDate = DateTime.Now,
-                        EditedBy = Request.LogonUserIdentity.Name.ToUpper(),
+                        EditedBy = form["EditedBy"],
                         StartFreq = Convert.ToInt64(form["StartFreq"]),
                         StopFreq = Convert.ToInt64(form["StopFreq"]),
                         Points = Convert.ToInt32(form["Points"]),
@@ -312,7 +312,7 @@ namespace SatcomRfWebsite.Controllers
                     {
                         AssetNumber = form["AssetNumber"],
                         AddedDate = DateTime.Now,
-                        EditedBy = Request.LogonUserIdentity.Name.ToUpper(),
+                        EditedBy = form["EditedBy"],
                         Series = form["Series"],
                         Serial = form["Serial"],
                         RefCal = form["RefCal"],
@@ -481,7 +481,7 @@ namespace SatcomRfWebsite.Controllers
                     {
                         AssetNumber = collection["AssetNumber"],
                         AddedDate = DateTime.Now,
-                        EditedBy = Request.LogonUserIdentity.Name.ToUpper(),
+                        EditedBy = collection["EditedBy"],
                         Records = records,
                         StartFreq = Convert.ToInt64(collection["StartFreq"]),
                         StopFreq = Convert.ToInt64(collection["StopFreq"]),
@@ -517,7 +517,7 @@ namespace SatcomRfWebsite.Controllers
                     {
                         AssetNumber = collection["AssetNumber"],
                         AddedDate = DateTime.Now,
-                        EditedBy = Request.LogonUserIdentity.Name.ToUpper(),
+                        EditedBy = collection["EditedBy"],
                         Records = records,
                         StartFreq = Convert.ToInt64(collection["StartFreq"]),
                         StopFreq = Convert.ToInt64(collection["StopFreq"]),
@@ -553,7 +553,7 @@ namespace SatcomRfWebsite.Controllers
                     {
                         AssetNumber = collection["AssetNumber"],
                         AddedDate = DateTime.Now,
-                        EditedBy = Request.LogonUserIdentity.Name.ToUpper(),
+                        EditedBy = collection["EditedBy"],
                         Records = records,
                         Series = collection["Series"],
                         Serial = collection["Serial"],

@@ -26,6 +26,7 @@ function fillForm() {
                 $("#Temp").val(headers.Temp);
                 $("#Humidity").val(headers.Humidity);
                 $("#Lookback").val(headers.Lookback);
+                $("#EditedBy").val(headers.EditedBy);
                 $("#Points").val(result.freqs.length);
             } else if (type == "PowerSensor") {
                 var dateReturned = headers.CalDate.substring(0, headers.CalDate.indexOf("T"));
@@ -39,6 +40,7 @@ function fillForm() {
                 $("#Serial").val(headers.Serial);
                 $("#RefCal").val(headers.RefCal);
                 $("#Certificate").val(headers.Certificate);
+                $("#EditedBy").val(headers.EditedBy);
                 $("#Points").val(result.freqs.length);
             }
 
