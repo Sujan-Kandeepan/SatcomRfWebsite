@@ -253,6 +253,7 @@ $(document).ready(function () {
             $("#AssetNumber").autocomplete({
                 source: JSON.parse(result),
                 minLength: 0,
+                maxShowItems: 10,
                 close: function (event, ui) {
                     $("#assetnum-not-recognized").hide();
                     fillForm();
