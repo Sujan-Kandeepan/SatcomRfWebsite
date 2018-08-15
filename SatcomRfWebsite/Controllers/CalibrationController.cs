@@ -266,7 +266,7 @@ namespace SatcomRfWebsite.Controllers
                     {
                         AssetNumber = form["AssetNumber"],
                         AddedDate = DateTime.Now,
-                        EditedBy = Environment.UserName.ToUpper(),
+                        EditedBy = Request.LogonUserIdentity.Name.ToUpper(),
                         StartFreq = Convert.ToInt64(form["StartFreq"]),
                         StopFreq = Convert.ToInt64(form["StopFreq"]),
                         Points = Convert.ToInt32(form["Points"]),
@@ -289,7 +289,7 @@ namespace SatcomRfWebsite.Controllers
                     {
                         AssetNumber = form["AssetNumber"],
                         AddedDate = DateTime.Now,
-                        EditedBy = Environment.UserName.ToUpper(),
+                        EditedBy = Request.LogonUserIdentity.Name.ToUpper(),
                         StartFreq = Convert.ToInt64(form["StartFreq"]),
                         StopFreq = Convert.ToInt64(form["StopFreq"]),
                         Points = Convert.ToInt32(form["Points"]),
@@ -311,7 +311,7 @@ namespace SatcomRfWebsite.Controllers
                     {
                         AssetNumber = form["AssetNumber"],
                         AddedDate = DateTime.Now,
-                        EditedBy = Environment.UserName.ToUpper(),
+                        EditedBy = Request.LogonUserIdentity.Name.ToUpper(),
                         Series = form["Series"],
                         Serial = form["Serial"],
                         RefCal = form["RefCal"],
@@ -480,7 +480,7 @@ namespace SatcomRfWebsite.Controllers
                     {
                         AssetNumber = collection["AssetNumber"],
                         AddedDate = DateTime.Now,
-                        EditedBy = Environment.UserName.ToUpper(),
+                        EditedBy = Request.LogonUserIdentity.Name.ToUpper(),
                         Records = records,
                         StartFreq = Convert.ToInt64(collection["StartFreq"]),
                         StopFreq = Convert.ToInt64(collection["StopFreq"]),
@@ -516,7 +516,7 @@ namespace SatcomRfWebsite.Controllers
                     {
                         AssetNumber = collection["AssetNumber"],
                         AddedDate = DateTime.Now,
-                        EditedBy = Environment.UserName.ToUpper(),
+                        EditedBy = Request.LogonUserIdentity.Name.ToUpper(),
                         Records = records,
                         StartFreq = Convert.ToInt64(collection["StartFreq"]),
                         StopFreq = Convert.ToInt64(collection["StopFreq"]),
@@ -552,7 +552,7 @@ namespace SatcomRfWebsite.Controllers
                     {
                         AssetNumber = collection["AssetNumber"],
                         AddedDate = DateTime.Now,
-                        EditedBy = Environment.UserName.ToUpper(),
+                        EditedBy = Request.LogonUserIdentity.Name.ToUpper(),
                         Records = records,
                         Series = collection["Series"],
                         Serial = collection["Serial"],
@@ -742,13 +742,13 @@ namespace SatcomRfWebsite.Controllers
         {
             try
             {
-                if (Request.Files.Count == 0) return Json("No file found");
+                if (Request.Files.Count == 0) return Json("Fail");
                 var fileContent = Request.Files[0];
                 if (fileContent != null && fileContent.ContentLength > 0)
                 {
                     var stream = fileContent.InputStream;
                     var fileName = Request.Files[0].FileName;
-                    var path = Path.Combine(Server.MapPath(Url.Action("", "", null, Request.Url.Scheme) + "App_Data"), fileName);
+                    var path = Path.Combine(Server.MapPath("/App_Data"), fileName);
                     using (var fileStream = System.IO.File.Create(path))
                     {
                         stream.CopyTo(fileStream);
@@ -895,8 +895,7 @@ namespace SatcomRfWebsite.Controllers
             catch (Exception e)
             {
                 Debug.WriteLine(e.ToString());
-                Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                return Json("Could not get data from file");
+                return Json("Fail");
             }
 
             return Json("File uploaded successfully");
