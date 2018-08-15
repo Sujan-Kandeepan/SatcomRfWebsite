@@ -12,6 +12,7 @@ using System.Web.Mvc;
 using SatcomRfWebsite.Models;
 using System.Globalization;
 using System.Web.Script.Serialization;
+using System.Web.Hosting;
 
 namespace SatcomRfWebsite.Controllers
 {
@@ -748,7 +749,7 @@ namespace SatcomRfWebsite.Controllers
                 {
                     var stream = fileContent.InputStream;
                     var fileName = Request.Files[0].FileName;
-                    var path = Path.Combine(Server.MapPath("/App_Data"), fileName);
+                    var path = HostingEnvironment.ApplicationPhysicalPath + Path.Combine("App_Data", fileName);
                     using (var fileStream = System.IO.File.Create(path))
                     {
                         stream.CopyTo(fileStream);
