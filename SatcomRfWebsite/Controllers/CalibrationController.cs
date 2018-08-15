@@ -111,7 +111,8 @@ namespace SatcomRfWebsite.Controllers
                 }
                 else
                 {
-                    var dates = (from val in db.tblCalData where val.AssetNumber.Equals(assetNumber) orderby val.CalDate descending select val.CalDate).ToList();
+                    var dates = (from val in db.tblCalData where val.AssetNumber.Equals(assetNumber) && val.DeviceType.Replace(" ", "").Equals(type)
+                                 orderby val.CalDate descending select val.CalDate).ToList();
                     if (dates.Count() > 0) calDate = dates[0];
                 }
 
