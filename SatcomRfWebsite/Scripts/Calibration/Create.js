@@ -59,50 +59,57 @@ $(document).ready(function () {
                 contentType: false,
                 processData: false,
                 success: function (result) {
-                    if (result == "Fail") {
+                    if (result.indexOf("Fail") != -1) {
                         $("#import-msg").html('Import calibration file');
                         $("#file-browser").prop("disabled", false);
                         $("form input").prop("disabled", false);
-
-                        alert("Could not parse file!");
+                        
+                        $("#validation-message").html("<strong>" + result.replace("Fail - ", "") + "</strong>");
+                        $("#validation-message").show();
                         return;
                     }
+                    $("#validation-message").hide();
+                    $("#validation-message").html("");
 
                     var fields = JSON.parse(result);
-                    if ($("#device-type").val() == "Attenuator" || $("#device-type").val() == "Output Coupler") {
-                        var calDateReturned = fields.CalDate.substring(0, fields.CalDate.indexOf("T"));
-                        var calDatePieces = calDateReturned.split('-');
-                        var calDate = calDatePieces[1] + "/" + calDatePieces[2] + "/" + calDatePieces[0];
+                    if (file.name.indexOf(".xls") != -1) {
+                        if ($("#device-type").val() == "Attenuator" || $("#device-type").val() == "Output Coupler") {
+                            var calDateReturned = fields.CalDate.substring(0, fields.CalDate.indexOf("T"));
+                            var calDatePieces = calDateReturned.split('-');
+                            var calDate = calDatePieces[1] + "/" + calDatePieces[2] + "/" + calDatePieces[0];
 
-                        var expireDateReturned = fields.ExpireDate.substring(0, fields.ExpireDate.indexOf("T"));
-                        var expireDatePieces = expireDateReturned.split('-');
-                        var expireDate = expireDatePieces[1] + "/" + expireDatePieces[2] + "/" + expireDatePieces[0];
+                            var expireDateReturned = fields.ExpireDate.substring(0, fields.ExpireDate.indexOf("T"));
+                            var expireDatePieces = expireDateReturned.split('-');
+                            var expireDate = expireDatePieces[1] + "/" + expireDatePieces[2] + "/" + expireDatePieces[0];
 
-                        $("#AssetNumber").val(fields.AssetNumber);
-                        $("#Operator").val(fields.Operator);
-                        $("#CalDate").val(calDate);
-                        $("#StartFreq").val(fields.StartFreq);
-                        $("#StopFreq").val(fields.StopFreq);
-                        $("#ExpireDate").val(expireDate);
-                        $("#Loss").val(fields.Loss);
-                        $("#Power").val(fields.Power);
-                        $("#MaxOffset").val(fields.MaxOffset);
-                        $("#Temp").val(fields.Temp);
-                        $("#Humidity").val(fields.Humidity);
-                        $("#Lookback").val(fields.Lookback);
-                        $("#Points").val(fields.Records.length);
-                    } else if ($("#device-type").val() == "Power Sensor") {
-                        var dateReturned = fields.CalDate.substring(0, fields.CalDate.indexOf("T"));
-                        var pieces = dateReturned.split('-');
-                        var date = pieces[1] + "/" + pieces[2] + "/" + pieces[0];
+                            $("#AssetNumber").val(fields.AssetNumber);
+                            $("#Operator").val(fields.Operator);
+                            $("#CalDate").val(calDate);
+                            $("#StartFreq").val(fields.StartFreq);
+                            $("#StopFreq").val(fields.StopFreq);
+                            $("#ExpireDate").val(expireDate);
+                            $("#Loss").val(fields.Loss);
+                            $("#Power").val(fields.Power);
+                            $("#MaxOffset").val(fields.MaxOffset);
+                            $("#Temp").val(fields.Temp);
+                            $("#Humidity").val(fields.Humidity);
+                            $("#Lookback").val(fields.Lookback);
+                            $("#Points").val(fields.Records.length);
+                        } else if ($("#device-type").val() == "Power Sensor") {
+                            var dateReturned = fields.CalDate.substring(0, fields.CalDate.indexOf("T"));
+                            var pieces = dateReturned.split('-');
+                            var date = pieces[1] + "/" + pieces[2] + "/" + pieces[0];
 
-                        $("#AssetNumber").val(fields.AssetNumber);
-                        $("#Operator").val(fields.Operator);
-                        $("#CalDate").val(date);
-                        $("#Series").val(fields.Series);
-                        $("#Serial").val(fields.Serial);
-                        $("#RefCal").val(fields.RefCal);
-                        $("#Certificate").val(fields.Certificate);
+                            $("#AssetNumber").val(fields.AssetNumber);
+                            $("#Operator").val(fields.Operator);
+                            $("#CalDate").val(date);
+                            $("#Series").val(fields.Series);
+                            $("#Serial").val(fields.Serial);
+                            $("#RefCal").val(fields.RefCal);
+                            $("#Certificate").val(fields.Certificate);
+                            $("#Points").val(fields.Records.length);
+                        }
+                    } else {
                         $("#Points").val(fields.Records.length);
                     }
 

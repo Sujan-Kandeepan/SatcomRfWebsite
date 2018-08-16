@@ -744,7 +744,7 @@ namespace SatcomRfWebsite.Controllers
         {
             try
             {
-                if (Request.Files.Count == 0) return Json("Fail");
+                if (Request.Files.Count == 0) return Json("Fail - File not uploaded properly!");
                 var fileContent = Request.Files[0];
                 if (fileContent != null && fileContent.ContentLength > 0)
                 {
@@ -758,149 +758,182 @@ namespace SatcomRfWebsite.Controllers
 
                     DateTime startTime = DateTime.Now;
 
-                    Application app = new Application();
-                    Workbook wb = app.Workbooks.Open(path, Type.Missing, Type.Missing, Type.Missing, Type.Missing,
-                        Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing,
-                        Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
-                    Worksheet sheet = (Worksheet)wb.Sheets[1];
-                    for (int i = 2; i <= wb.Sheets.Count; i++)
+                    if (path.Contains(".xls"))
                     {
-                        if (wb.Sheets[i].UsedRange.Rows.Count < sheet.UsedRange.Rows.Count && wb.Sheets[i].UsedRange.Rows.Count > 1)
+                        Application app = new Application();
+                        Workbook wb = app.Workbooks.Open(path, Type.Missing, Type.Missing, Type.Missing, Type.Missing,
+                            Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing,
+                            Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+                        Worksheet sheet = (Worksheet)wb.Sheets[1];
+                        for (int i = 2; i <= wb.Sheets.Count; i++)
                         {
-                            sheet = wb.Sheets[i];
+                            if (wb.Sheets[i].UsedRange.Rows.Count < sheet.UsedRange.Rows.Count && wb.Sheets[i].UsedRange.Rows.Count > 1)
+                            {
+                                sheet = wb.Sheets[i];
+                            }
+                        }
+                        Range range = sheet.UsedRange;
+
+                        try
+                        {
+                            if (type.Equals("Attenuator"))
+                            {
+                                List<CalibrationRecord> records = new List<CalibrationRecord>();
+                                for (int i = 9; i <= range.Rows.Count; i++)
+                                {
+                                    records.Add(new CalibrationRecord
+                                    {
+                                        Frequency = Convert.ToDouble(range.Cells[i, 1].Text),
+                                        CalFactor = Convert.ToDouble(range.Cells[i, 2].Text)
+                                    });
+                                }
+
+                                string dateString = range.Cells[8, 2].Value.ToString();
+                                string[] pieces = dateString.Split(' ')[0].Split('/');
+                                DateTime date = new DateTime(Convert.ToInt32(pieces[2]), Convert.ToInt32(pieces[0]), Convert.ToInt32(pieces[1]));
+
+                                ATCalibrationData data = new ATCalibrationData
+                                {
+                                    AssetNumber = range.Cells[1, 2].Text,
+                                    Records = records,
+                                    StartFreq = Convert.ToInt64(range.Cells[3, 2].Text),
+                                    StopFreq = Convert.ToInt64(range.Cells[4, 2].Text),
+                                    Points = Convert.ToInt32(range.Cells[5, 2].Text),
+                                    Loss = Convert.ToInt64(range.Cells[3, 4].Text),
+                                    Power = Convert.ToInt64(range.Cells[4, 4].Text),
+                                    MaxOffset = Convert.ToDouble(range.Cells[5, 4].Text),
+                                    Temp = Convert.ToDouble(range.Cells[3, 6].Text),
+                                    Humidity = Convert.ToDouble(range.Cells[4, 6].Text),
+                                    Lookback = range.Cells[5, 6].Text,
+                                    Operator = range.Cells[7, 2].Text,
+                                    CalDate = DateTime.Now.Date,
+                                    AddedDate = DateTime.Now.Date,
+                                    ExpireDate = date
+                                };
+                                wb.Close(false, path, false);
+                                return Json(JsonConvert.SerializeObject(data));
+                            }
+                            else if (type.Equals("OutputCoupler"))
+                            {
+                                List<CalibrationRecord> records = new List<CalibrationRecord>();
+                                for (int i = 9; i <= range.Rows.Count; i++)
+                                {
+                                    records.Add(new CalibrationRecord
+                                    {
+                                        Frequency = Convert.ToDouble(range.Cells[i, 1].Text),
+                                        CalFactor = Convert.ToDouble(range.Cells[i, 2].Text)
+                                    });
+                                }
+
+                                string datestring = range.Cells[8, 2].Value.ToString();
+                                string[] pieces = datestring.Split(' ')[0].Split('/');
+                                DateTime date = new DateTime(Convert.ToInt32(pieces[2]), Convert.ToInt32(pieces[0]), Convert.ToInt32(pieces[1]));
+
+                                OCCalibrationData data = new OCCalibrationData
+                                {
+                                    AssetNumber = range.Cells[1, 2].Text,
+                                    Records = records,
+                                    StartFreq = Convert.ToInt64(range.Cells[3, 2].Text),
+                                    StopFreq = Convert.ToInt64(range.Cells[4, 2].Text),
+                                    Points = Convert.ToInt32(range.Cells[5, 2].Text),
+                                    Loss = Convert.ToInt64(range.Cells[3, 4].Text),
+                                    Power = Convert.ToInt64(range.Cells[4, 4].Text),
+                                    MaxOffset = Convert.ToDouble(range.Cells[5, 4].Text),
+                                    Temp = Convert.ToDouble(range.Cells[3, 6].Text),
+                                    Humidity = Convert.ToDouble(range.Cells[4, 6].Text),
+                                    Lookback = range.Cells[5, 6].Text,
+                                    Operator = range.Cells[7, 2].Text,
+                                    CalDate = DateTime.Now.Date,
+                                    AddedDate = DateTime.Now.Date,
+                                    ExpireDate = date
+                                };
+                                wb.Close(false, path, false);
+                                return Json(JsonConvert.SerializeObject(data));
+                            }
+                            else if (type.Equals("PowerSensor"))
+                            {
+                                List<CalibrationRecord> records = new List<CalibrationRecord>();
+                                for (int i = 12; i <= range.Rows.Count; i++)
+                                {
+                                    records.Add(new CalibrationRecord
+                                    {
+                                        Frequency = Convert.ToDouble(range.Cells[i, 1].Value),
+                                        CalFactor = Convert.ToDouble(range.Cells[i, 4].Value)
+                                    });
+                                }
+
+                                string datestring = range.Cells[1, 7].Value.ToString();
+                                string[] pieces = datestring.Split(' ')[0].Split('/');
+                                DateTime date = new DateTime(Convert.ToInt32(pieces[2]), Convert.ToInt32(pieces[0]), Convert.ToInt32(pieces[1]));
+
+                                PSCalibrationData data = new PSCalibrationData
+                                {
+                                    AssetNumber = range.Cells[7, 5].Text,
+                                    Records = records,
+                                    Series = range.Cells[6, 1].Text,
+                                    Serial = range.Cells[7, 3].Text,
+                                    RefCal = range.Cells[7, 6].Text,
+                                    Certificate = range.Cells[4, 7].Text,
+                                    Operator = range.Cells[7, 8].Text,
+                                    CalDate = date
+                                };
+                                wb.Close(false, path, false);
+                                return Json(JsonConvert.SerializeObject(data));
+                            }
+                            else
+                            {
+                                return Json("Fail - Device type not recognized!");
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            Debug.WriteLine(e.ToString());
+                            wb.Close(false, path, false);
+                            foreach (var process in Process.GetProcessesByName("EXCEL"))
+                            {
+                                if (process.StartTime > startTime)
+                                {
+                                    process.Kill();
+                                }
+                            }
+                            return Json("Fail - Could not parse file!");
                         }
                     }
-                    Range range = sheet.UsedRange;
-
-                    try
+                    else if (path.EndsWith(".csv") && type.Equals("OutputCoupler"))
                     {
-                        if (type.Equals("Attenuator"))
+                        List<CalibrationRecord> Records = new List<CalibrationRecord>();
+                        using (var reader = new StreamReader(path))
                         {
-                            List<CalibrationRecord> records = new List<CalibrationRecord>();
-                            for (int i = 9; i <= range.Rows.Count; i++)
+                            while (!reader.EndOfStream)
                             {
-                                records.Add(new CalibrationRecord
+                                var line = reader.ReadLine();
+                                var values = line.Split(',');
+                                if (values[0].Replace("\"", "").Contains("Frequency")) continue;
+
+                                Records.Add(new CalibrationRecord
                                 {
-                                    Frequency = Convert.ToDouble(range.Cells[i, 1].Text),
-                                    CalFactor = Convert.ToDouble(range.Cells[i, 2].Text)
+                                    Frequency = Convert.ToDouble(values[0].Replace("\"", "")),
+                                    CalFactor = Convert.ToDouble(values[3].Replace("\"", ""))
                                 });
                             }
-
-                            string dateString = range.Cells[8, 2].Value.ToString();
-                            string[] pieces = dateString.Split(' ')[0].Split('/');
-                            DateTime date = new DateTime(Convert.ToInt32(pieces[2]), Convert.ToInt32(pieces[0]), Convert.ToInt32(pieces[1]));
-
-                            ATCalibrationData data = new ATCalibrationData
-                            {
-                                AssetNumber = range.Cells[1, 2].Text,
-                                Records = records,
-                                StartFreq = Convert.ToInt64(range.Cells[3, 2].Text),
-                                StopFreq = Convert.ToInt64(range.Cells[4, 2].Text),
-                                Points = Convert.ToInt32(range.Cells[5, 2].Text),
-                                Loss = Convert.ToInt64(range.Cells[3, 4].Text),
-                                Power = Convert.ToInt64(range.Cells[4, 4].Text),
-                                MaxOffset = Convert.ToDouble(range.Cells[5, 4].Text),
-                                Temp = Convert.ToDouble(range.Cells[3, 6].Text),
-                                Humidity = Convert.ToDouble(range.Cells[4, 6].Text),
-                                Lookback = range.Cells[5, 6].Text,
-                                Operator = range.Cells[7, 2].Text,
-                                CalDate = DateTime.Now.Date,
-                                AddedDate = DateTime.Now.Date,
-                                ExpireDate = date
-                            };
-                            wb.Close(false, path, false);
-                            return Json(JsonConvert.SerializeObject(data));
                         }
-                        else if (type.Equals("OutputCoupler"))
-                        {
-                            List<CalibrationRecord> records = new List<CalibrationRecord>();
-                            for (int i = 9; i <= range.Rows.Count; i++)
-                            {
-                                records.Add(new CalibrationRecord
-                                {
-                                    Frequency = Convert.ToDouble(range.Cells[i, 1].Text),
-                                    CalFactor = Convert.ToDouble(range.Cells[i, 2].Text)
-                                });
-                            }
-
-                            string datestring = range.Cells[8, 2].Value.ToString();
-                            string[] pieces = datestring.Split(' ')[0].Split('/');
-                            DateTime date = new DateTime(Convert.ToInt32(pieces[2]), Convert.ToInt32(pieces[0]), Convert.ToInt32(pieces[1]));
-
-                            OCCalibrationData data = new OCCalibrationData
-                            {
-                                AssetNumber = range.Cells[1, 2].Text,
-                                Records = records,
-                                StartFreq = Convert.ToInt64(range.Cells[3, 2].Text),
-                                StopFreq = Convert.ToInt64(range.Cells[4, 2].Text),
-                                Points = Convert.ToInt32(range.Cells[5, 2].Text),
-                                Loss = Convert.ToInt64(range.Cells[3, 4].Text),
-                                Power = Convert.ToInt64(range.Cells[4, 4].Text),
-                                MaxOffset = Convert.ToDouble(range.Cells[5, 4].Text),
-                                Temp = Convert.ToDouble(range.Cells[3, 6].Text),
-                                Humidity = Convert.ToDouble(range.Cells[4, 6].Text),
-                                Lookback = range.Cells[5, 6].Text,
-                                Operator = range.Cells[7, 2].Text,
-                                CalDate = DateTime.Now.Date,
-                                AddedDate = DateTime.Now.Date,
-                                ExpireDate = date
-                            };
-                            wb.Close(false, path, false);
-                            return Json(JsonConvert.SerializeObject(data));
-                        }
-                        else if (type.Equals("PowerSensor"))
-                        {
-                            List<CalibrationRecord> records = new List<CalibrationRecord>();
-                            for (int i = 12; i <= range.Rows.Count; i++)
-                            {
-                                records.Add(new CalibrationRecord
-                                {
-                                    Frequency = Convert.ToDouble(range.Cells[i, 1].Value),
-                                    CalFactor = Convert.ToDouble(range.Cells[i, 4].Value)
-                                });
-                            }
-
-                            string datestring = range.Cells[1, 7].Value.ToString();
-                            string[] pieces = datestring.Split(' ')[0].Split('/');
-                            DateTime date = new DateTime(Convert.ToInt32(pieces[2]), Convert.ToInt32(pieces[0]), Convert.ToInt32(pieces[1]));
-
-                            PSCalibrationData data = new PSCalibrationData
-                            {
-                                AssetNumber = range.Cells[7, 5].Text,
-                                Records = records,
-                                Series = range.Cells[6, 1].Text,
-                                Serial = range.Cells[7, 3].Text,
-                                RefCal = range.Cells[7, 6].Text,
-                                Certificate = range.Cells[4, 7].Text,
-                                Operator = range.Cells[7, 8].Text,
-                                CalDate = date
-                            };
-                            wb.Close(false, path, false);
-                            return Json(JsonConvert.SerializeObject(data));
-                        }
+                        return Json(JsonConvert.SerializeObject(new { Records }));
                     }
-                    catch (Exception e)
+                    else
                     {
-                        Debug.WriteLine(e.ToString());
-                        wb.Close(false, path, false);
-                        foreach (var process in Process.GetProcessesByName("EXCEL"))
-                        {
-                            if (process.StartTime > startTime)
-                            {
-                                process.Kill();
-                            }
-                        }
-                        return Json("Fail");
+                        return Json("Fail - Invalid file format!");
                     }
+                }
+                else
+                {
+                    return Json("Fail - File cannot be empty!");
                 }
             }
             catch (Exception e)
             {
                 Debug.WriteLine(e.ToString());
-                return Json("Fail");
+                return Json("Fail - Something went wrong!");
             }
-
-            return Json("File uploaded successfully");
         }
 
         // GET: Calibration/Edit/5
