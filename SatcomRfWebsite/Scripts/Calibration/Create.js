@@ -72,7 +72,7 @@ $(document).ready(function () {
                     $("#validation-message").html("");
 
                     var fields = JSON.parse(result);
-                    if (file.name.indexOf(".xls") != -1) {
+                    if (file.name.indexOf(".xls") != -1 || file.name.indexOf(".txt") != -1) {
                         if ($("#device-type").val() == "Attenuator" || $("#device-type").val() == "Output Coupler") {
                             var calDateReturned = fields.CalDate.substring(0, fields.CalDate.indexOf("T"));
                             var calDatePieces = calDateReturned.split('-');

@@ -208,9 +208,9 @@ namespace SatcomRfWebsite.Controllers
                 lines.Add("");
 
                 lines.Add("Operator;ExpireDate");
-                List<string> dates = new List<String>() { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
+                List<string> months = new List<String>() { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
                 string datefound = headers[type.Equals("PowerSensor") ? "CalDate" : "ExpireDate"].ToString();
-                string dateformatted = datefound.Split('/')[1] + "/" + dates[Convert.ToInt32(datefound.Split('/')[0]) - 1] + "/"
+                string dateformatted = datefound.Split('/')[1] + "/" + months[Convert.ToInt32(datefound.Split('/')[0]) - 1] + "/"
                     + (type.Equals("PowerSensor") ? (Convert.ToInt32(datefound.Split('/')[2]) + 1).ToString() : datefound.Split('/')[2]);
                 lines.Add(headers["Operator"] + ";" + dateformatted);
                 lines.Add("");
@@ -806,7 +806,7 @@ namespace SatcomRfWebsite.Controllers
                                     Humidity = Convert.ToDouble(range.Cells[4, 6].Text),
                                     Lookback = range.Cells[5, 6].Text,
                                     Operator = range.Cells[7, 2].Text,
-                                    CalDate = DateTime.Now.Date,
+                                    CalDate = date.AddYears(-1),
                                     AddedDate = DateTime.Now.Date,
                                     ExpireDate = date
                                 };
@@ -843,7 +843,7 @@ namespace SatcomRfWebsite.Controllers
                                     Humidity = Convert.ToDouble(range.Cells[4, 6].Text),
                                     Lookback = range.Cells[5, 6].Text,
                                     Operator = range.Cells[7, 2].Text,
-                                    CalDate = DateTime.Now.Date,
+                                    CalDate = date.AddMonths(-6),
                                     AddedDate = DateTime.Now.Date,
                                     ExpireDate = date
                                 };
@@ -896,6 +896,151 @@ namespace SatcomRfWebsite.Controllers
                                     process.Kill();
                                 }
                             }
+                            return Json("Fail - Could not parse file!");
+                        }
+                    }
+                    else if (path.EndsWith(".txt"))
+                    {
+                        try
+                        {
+                            Dictionary<string, string> fields = new Dictionary<string, string>();
+                            string line;
+                            string[] values;
+                            using (var reader = new StreamReader(path)) {
+                                fields.Add("AssetNumber", fileName.Replace(".txt", "").Replace("_", "/"));
+
+                                if (type.Equals("Attenuator") || type.Equals("OutputCoupler"))
+                                {
+                                    for (int i = 0; i < 4; i++) reader.ReadLine();
+                                    line = reader.ReadLine();
+                                    values = line.Split(';');
+                                    fields.Add("StartFreq", values[0]);
+                                    fields.Add("StopFreq", values[1]);
+                                    fields.Add("Points", values[2]);
+                                    fields.Add("Loss", values[3]);
+                                    fields.Add("Power", values[4]);
+                                    fields.Add("MaxOffset", values[5]);
+                                    fields.Add("Temp", values[6]);
+                                    fields.Add("Humidity", values[7]);
+                                    fields.Add("Lookback", values[8]);
+                                }
+                                else if (type.Equals("PowerSensor"))
+                                {
+                                    for (int i = 0; i < 4; i++) reader.ReadLine();
+                                    line = reader.ReadLine();
+                                    values = line.Split(';');
+                                    fields.Add("Series", values[0]);
+                                    fields.Add("Serial", values[1]);
+                                    fields.Add("RefCal", values[2]);
+                                    fields.Add("Certificate", values[3]);
+                                }
+                                else
+                                {
+                                    return Json("Fail - Device type not recognized!");
+                                }
+
+                                for (int i = 0; i < 2; i++) reader.ReadLine();
+                                line = reader.ReadLine();
+                                values = line.Split(';');
+                                string[] datePieces = values[1].Split('/');
+                                List<string> months = new List<String>() { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
+                                fields.Add("Operator", values[0]);
+                                fields.Add("ExpireDate", (months.IndexOf(datePieces[1]) + 1).ToString("D2") + "/" + datePieces[0] + "/" + datePieces[2]);
+
+                                for (int i = 0; i < 2; i++) reader.ReadLine();
+                                List<CalibrationRecord> records = new List<CalibrationRecord>();
+                                while (!reader.EndOfStream)
+                                {
+                                    line = reader.ReadLine();
+                                    values = line.Split(';');
+                                    if (values.Count() < 2) continue;
+                                    records.Add(new CalibrationRecord
+                                    {
+                                        Frequency = Convert.ToDouble(values[0]),
+                                        CalFactor = Convert.ToDouble(values[1])
+                                    });
+                                }
+
+                                if (type.Equals("Attenuator"))
+                                {
+                                    string dateString = fields["ExpireDate"];
+                                    string[] pieces = dateString.Split(' ')[0].Split('/');
+                                    DateTime date = new DateTime(Convert.ToInt32(pieces[2]), Convert.ToInt32(pieces[0]), Convert.ToInt32(pieces[1]));
+
+                                    ATCalibrationData data = new ATCalibrationData
+                                    {
+                                        AssetNumber = fields["AssetNumber"],
+                                        Records = records,
+                                        StartFreq = Convert.ToInt64(fields["StartFreq"]),
+                                        StopFreq = Convert.ToInt64(fields["StopFreq"]),
+                                        Points = Convert.ToInt32(fields["Points"]),
+                                        Loss = Convert.ToInt64(fields["Loss"]),
+                                        Power = Convert.ToInt64(fields["Power"]),
+                                        MaxOffset = Convert.ToDouble(fields["MaxOffset"]),
+                                        Temp = Convert.ToDouble(fields["Temp"]),
+                                        Humidity = Convert.ToDouble(fields["Humidity"]),
+                                        Lookback = fields["Lookback"],
+                                        Operator = fields["Operator"],
+                                        CalDate = date.AddYears(-1),
+                                        AddedDate = DateTime.Now.Date,
+                                        ExpireDate = date
+                                    };
+                                    return Json(JsonConvert.SerializeObject(data));
+                                }
+                                else if (type.Equals("OutputCoupler"))
+                                {
+                                    string dateString = fields["ExpireDate"];
+                                    string[] pieces = dateString.Split(' ')[0].Split('/');
+                                    DateTime date = new DateTime(Convert.ToInt32(pieces[2]), Convert.ToInt32(pieces[0]), Convert.ToInt32(pieces[1]));
+
+                                    OCCalibrationData data = new OCCalibrationData
+                                    {
+                                        AssetNumber = fields["AssetNumber"],
+                                        Records = records,
+                                        StartFreq = Convert.ToInt64(fields["StartFreq"]),
+                                        StopFreq = Convert.ToInt64(fields["StopFreq"]),
+                                        Points = Convert.ToInt32(fields["Points"]),
+                                        Loss = Convert.ToInt64(fields["Loss"]),
+                                        Power = Convert.ToInt64(fields["Power"]),
+                                        MaxOffset = Convert.ToDouble(fields["MaxOffset"]),
+                                        Temp = Convert.ToDouble(fields["Temp"]),
+                                        Humidity = Convert.ToDouble(fields["Humidity"]),
+                                        Lookback = fields["Lookback"],
+                                        Operator = fields["Operator"],
+                                        CalDate = date.AddMonths(-6),
+                                        AddedDate = DateTime.Now.Date,
+                                        ExpireDate = date
+                                    };
+                                    return Json(JsonConvert.SerializeObject(data));
+                                }
+                                else if (type.Equals("PowerSensor"))
+                                {
+                                    string dateString = fields["ExpireDate"];
+                                    string[] pieces = dateString.Split(' ')[0].Split('/');
+                                    DateTime date = new DateTime(Convert.ToInt32(pieces[2]) - 1, Convert.ToInt32(pieces[0]), Convert.ToInt32(pieces[1]));
+
+                                    PSCalibrationData data = new PSCalibrationData
+                                    {
+                                        AssetNumber = fields["AssetNumber"],
+                                        Records = records,
+                                        Series = fields["Series"],
+                                        Serial = fields["Serial"],
+                                        RefCal = fields["RefCal"],
+                                        Certificate = fields["Certificate"],
+                                        Operator = fields["Operator"],
+                                        CalDate = date
+                                    };
+                                    return Json(JsonConvert.SerializeObject(data));
+                                }
+                                else
+                                {
+                                    return Json("Fail - Device type not recognized!");
+                                }
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            Debug.WriteLine(e.ToString());
                             return Json("Fail - Could not parse file!");
                         }
                     }
