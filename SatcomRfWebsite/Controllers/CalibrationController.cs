@@ -1044,25 +1044,31 @@ namespace SatcomRfWebsite.Controllers
                             return Json("Fail - Could not parse file!");
                         }
                     }
-                    else if (path.EndsWith(".csv") && type.Equals("OutputCoupler"))
+                    else if (path.EndsWith(".csv"))
                     {
-                        List<CalibrationRecord> Records = new List<CalibrationRecord>();
-                        using (var reader = new StreamReader(path))
-                        {
-                            while (!reader.EndOfStream)
+                        if (type.Equals("OutputCoupler")) {
+                            List<CalibrationRecord> Records = new List<CalibrationRecord>();
+                            using (var reader = new StreamReader(path))
                             {
-                                var line = reader.ReadLine();
-                                var values = line.Split(',');
-                                if (values[0].Replace("\"", "").Contains("Frequency")) continue;
-
-                                Records.Add(new CalibrationRecord
+                                while (!reader.EndOfStream)
                                 {
-                                    Frequency = Convert.ToDouble(values[0].Replace("\"", "")),
-                                    CalFactor = Convert.ToDouble(values[3].Replace("\"", ""))
-                                });
+                                    var line = reader.ReadLine();
+                                    var values = line.Split(',');
+                                    if (values[0].Replace("\"", "").Contains("Frequency")) continue;
+
+                                    Records.Add(new CalibrationRecord
+                                    {
+                                        Frequency = Convert.ToDouble(values[0].Replace("\"", "")),
+                                        CalFactor = Convert.ToDouble(values[3].Replace("\"", ""))
+                                    });
+                                }
                             }
+                            return Json(JsonConvert.SerializeObject(new { Records }));
                         }
-                        return Json(JsonConvert.SerializeObject(new { Records }));
+                        else
+                        {
+                            return Json("Fail - .csv files used for output coupler only!");
+                        }
                     }
                     else
                     {

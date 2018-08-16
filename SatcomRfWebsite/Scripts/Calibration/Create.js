@@ -165,7 +165,8 @@ $(document).ready(function () {
                 }
             });
         } else {
-            alert("This browser does not support file uploads!");
+            $("#validation-message").html("<strong>This browser does not support file uploads!</strong>");
+            $("#validation-message").show();
         }
         $(this).val("");
     });
