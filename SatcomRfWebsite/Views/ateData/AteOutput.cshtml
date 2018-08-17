@@ -9,7 +9,7 @@
         function sendStats() {
             var newurl;
             if (selectProductType.value == "") {
-                newurl = document.getElementById("absolute-base-url").innerHTML + "SatcomStatsPage";
+                newurl = "SatcomStatsPage";
             }
             else if (selectModelName.value == "") {
                 newurl = "SatcomStatsPage/Index/" + selectProductType.value;
