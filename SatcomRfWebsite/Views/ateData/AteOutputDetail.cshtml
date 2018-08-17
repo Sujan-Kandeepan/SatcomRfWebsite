@@ -4,6 +4,17 @@
     ViewBag.Title = "ATE Output Detail";
 }
 
+<script>
+    var statsURL = "SatcomStatsPage/Index/@Model.tools.getProdTypeFromSN(Model.ateOutputModel.ateOutput[0].ModelSN)/@Model.tools.getModelNameFromSN(Model.ateOutputModel.ateOutput[0].ModelSN)";
+    document.getElementById("navBarStats").innerHTML = "<a href=\"" + document.getElementById("absolute-base-url").innerHTML + statsURL + "\">Statistics</a>";
+
+    var outputURL = "ateData/AteOutput?filter=pT=@Model.tools.getProdTypeFromSN(Model.ateOutputModel.ateOutput[0].ModelSN)%mN=@Model.tools.getModelNameFromSN(Model.ateOutputModel.ateOutput[0].ModelSN)%ser=na%testType=na%tubeName=na%opt=na";
+    document.getElementById("navBarAteOutput").innerHTML = "<a href=\"" + document.getElementById("absolute-base-url").innerHTML + outputURL + "\">ATE Output</a>";
+
+    var resultsURL = "testsData/TestResults/@Model.tools.getProdTypeFromSN(Model.ateOutputModel.ateOutput[0].ModelSN)/@Model.tools.getModelNameFromSN(Model.ateOutputModel.ateOutput[0].ModelSN)/testName=none+testType=none+tubeName=none+opt=none";
+    document.getElementById("navBarTests").innerHTML = "<a href=\"" + document.getElementById("absolute-base-url").innerHTML + resultsURL + "\">Test Results</a>";
+</script>
+
 <div class="container">
 
     <div class="row">
