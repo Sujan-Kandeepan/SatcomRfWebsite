@@ -190,11 +190,7 @@
                     $("#selectTestName").val(testNamePassedIn);
                 }
 
-                if (testNamePassedIn == "" || testNamePassedIn == "none") {
-                    $("#filters-options").hide();
-                }
-
-                $('#selectTestName').selectize({
+                var selectized = $('#selectTestName').selectize({
 		            sortField: {
 		                field: 'text',
 		                direction: 'asc'
@@ -213,7 +209,12 @@
                         sendOutput();
                         sendResults();
 		            }
-		        });
+                });
+                
+                if (testNamePassedIn == "" || testNamePassedIn == "none") {
+                    $("#filters-options").hide();
+                    selectized[0].selectize.focus();
+                }
 
 		        $("#selectTestName").change(function () {
 		            //$("#filterReset").html('Please Wait');
