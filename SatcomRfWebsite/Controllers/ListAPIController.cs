@@ -512,7 +512,6 @@ namespace SatcomRfWebsite.Controllers
                 List<TestData> data = InternalGetTableData(modelName, productType, testType, tubeName, options, exclude);
                 string[][] headers = new string[1][];
                 headers[0] = new string[] { "Testname", "Channel", "Frequency", "Power", "Serial Number", "Test Type", "Start Time", "Audit", "Itar", "Long Model Name", "TubeSN", "Tube Name", "SsaSN", "LinSN", "LipaSN", "BucSN", "BipaSN", "BlipaSN", "Result", "Min", "Max", "Average", "Std. Deviation", "Unit", "Result (Conv)", "Min (Conv)", "Max (Conv)", "Average (Conv)", "Std. Deviation (Conv)", "Unit (Conv)", "LowLimit", "UpLimit", "Cpk" };
-                var file = new MemoryStream();
                 var document = new XLWorkbook();
                 var worksheet = document.Worksheets.Add("Table Data");
                 worksheet.Cell(1, 1).InsertData(headers);
@@ -589,7 +588,6 @@ namespace SatcomRfWebsite.Controllers
                 worksheet.SheetView.FreezeColumns(2);
                 worksheet.SheetView.FreezeColumns(3);
                 worksheet.SheetView.FreezeColumns(4);
-                document.SaveAs(file);
                 string filename = DateTime.Now.ToString("yyyy-MM-dd") + $" {productType} {modelName}.xlsx";
                 if (testType != null && !testType.Equals("null"))
                 {
@@ -607,9 +605,9 @@ namespace SatcomRfWebsite.Controllers
                 {
                     filename = filename.Replace(".xlsx", $" Selective.xlsx");
                 }
-                var resp = new ExcelFileResponse(file.ToArray(), Request, filename);
-                file.Dispose();
-                return resp;
+
+                document.SaveAs(System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath + Path.Combine("Public", filename));
+                return Ok(filename);
             }
             catch (DataNotFoundException)
             {

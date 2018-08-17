@@ -4,7 +4,6 @@
     ViewBag.Title = "Search";
 }
 
-<div class="container hide" id="iframe-temp"></div>
 <div class="page-header"><h1>ATE Test Results</h1></div>
 <div class="display" style="margin-bottom: 20px"><h3>View complete test results for a specific product.</h3></div>
 <script type="text/javascript">
@@ -270,6 +269,23 @@
                 var data = new XMLHttpRequest();
                 data.onreadystatechange = function () {
                     if (this.readyState === 4 && this.status === 200) {
+                        var retData = JSON.parse(data.responseText);
+                        var win = window.open($("#absolute-base-url").html() + "Public/" + retData, '_blank');
+                        if (!win) {
+                            $(function () {
+                                $('[data-toggle="popover"]').popover()
+                            })
+                            $("#dlxlsx").attr("data-toggle", "popover");
+                            $("#dlxlsx").attr("data-placement", "top");
+                            $("#dlxlsx").attr("data-content", "Enable popups in your browser first");
+                            $("#dlxlsx").popover("show");
+                            setTimeout(function () {
+                                $("#dlxlsx").popover("destroy");
+                            }, 5000);
+                        }
+                        else {
+                            console.log("works");
+                        }
                         document.getElementById("excel-loading").classList.add("hide");
                     } else if (this.readyState == 4 && this.status !== 200) {
                         document.getElementById("excel-loading").classList.add("hide");

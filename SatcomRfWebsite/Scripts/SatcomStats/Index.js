@@ -352,6 +352,23 @@ function getxlsxfile(productType, modelName, testType, tubeName, options, exclud
     var data = new XMLHttpRequest();
     data.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
+            var retData = JSON.parse(data.responseText);
+            var win = window.open($("#absolute-base-url").html() + "Public/" + retData, '_blank');
+            if (!win) {
+                $(function () {
+                    $('[data-toggle="popover"]').popover()
+                })
+                $("#dlxlsx").attr("data-toggle", "popover");
+                $("#dlxlsx").attr("data-placement", "top");
+                $("#dlxlsx").attr("data-content", "Enable popups in your browser first");
+                $("#dlxlsx").popover("show");
+                setTimeout(function () {
+                    $("#dlxlsx").popover("destroy");
+                }, 5000);
+            }
+            else {
+                console.log("works");
+            }
             document.getElementById("excel-loading").classList.add("hide");
         } else if (this.readyState == 4 && this.status !== 200) {
             document.getElementById("excel-loading").classList.add("hide");
@@ -363,9 +380,6 @@ function getxlsxfile(productType, modelName, testType, tubeName, options, exclud
 
     data.open("GET", src, true);
     data.send();
-
-    document.getElementById("iframe-temp").innerHTML = "<iframe style=\"display:none\" src=\"" + document.getElementById("absolute-base-url").innerHTML +
-        "api/ListAPI/GetTableFile?modelName=" + modelName + "&productType=" + productType + "&testType=" + testType + "&tubeName=" + tubeName + "&options=" + options + "&exclude=" + exclude + "\"></iframe>";
 }
 
 function sendStats() {
