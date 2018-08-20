@@ -173,6 +173,7 @@ $(document).ready(function () {
 
     function fillForm() {
         var type = $("#device-type").val().replace(" ", "");
+        if (!$("#autofill-enabled").prop('checked')) return;
         $.ajax({
             type: "post",
             url: document.getElementById("absolute-base-url").innerHTML + "Calibration/GetDetails",
@@ -232,6 +233,12 @@ $(document).ready(function () {
                     success: function (result2) {
                         $("#DataFields").html(result2);
                         $("form input").prop("disabled", false);
+
+                        setTimeout(function () {
+                            for (var i = 0; i < result.freqs.length; i++) {
+                                $("#Records_" + i.toString() + "__Frequency").val(result.freqs[i].toString());
+                            }
+                        }, 0);
                     },
                     error: function (xhr, status, error) {
                         $("#DataFields").html(xhr.responseText);
