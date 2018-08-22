@@ -751,6 +751,7 @@ namespace SatcomRfWebsite.Controllers
                     var stream = fileContent.InputStream;
                     var fileName = Request.Files[0].FileName;
                     var path = HostingEnvironment.ApplicationPhysicalPath + Path.Combine("App_Data", fileName);
+                    if (path.EndsWith(".xlsm")) return Json("Fail - Macro-enabled Excel workbooks not allowed!");
                     using (var fileStream = System.IO.File.Create(path))
                     {
                         stream.CopyTo(fileStream);
