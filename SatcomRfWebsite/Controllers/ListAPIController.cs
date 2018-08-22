@@ -487,6 +487,47 @@ namespace SatcomRfWebsite.Controllers
             return data;
         }
 
+        [HttpGet]
+        public HttpResponseMessage ReturnCpk(string modelName, string productType, string testName, string channel, string power, string testType = "none", string tubeName = "none", string options = "none", string exclude = "none")
+        {
+            string convertTestType(string type)
+            {
+                if (type == "ProdTest")
+                {
+                    return "Production Test";
+                }
+                else if (type == "EngTest")
+                {
+                    return "Engineering Test";
+                }
+                else if (type == "Debug")
+                {
+                    return "Debugging";
+                }
+                else
+                {
+                    return "none";
+                }
+            }
+
+            try
+            {
+                List<TestData> data = InternalGetTableData(modelName, productType, convertTestType(testType), tubeName, options, exclude);
+                string cpk = (from item in data where item.TestName.Equals(testName) && item.Channel.Equals(channel) && item.Power.Equals(power.Replace("_", " ")) select item.Cpk).ToList()[0];
+
+                var resp = new HttpResponseMessage(HttpStatusCode.OK);
+                resp.Content = new StringContent(cpk, System.Text.Encoding.UTF8, "text/plain");
+                return resp;
+            }
+            catch (Exception e)
+            {
+                System.Diagnostics.Debug.Write(e.ToString());
+                var resp = new HttpResponseMessage(HttpStatusCode.NotFound);
+                resp.Content = new StringContent("Not found", System.Text.Encoding.UTF8, "text/plain");
+                return resp;
+            }
+        }
+
         public IHttpActionResult GetTableData(string modelName, string productType, string testType, string tubeName, string options, string exclude)
         {
             try
