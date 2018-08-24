@@ -1084,7 +1084,7 @@ namespace SatcomRfWebsite.Controllers
             catch (Exception e)
             {
                 Debug.WriteLine(e.ToString());
-                return Json("Fail - Something went wrong!");
+                return Json("Fail - An error occurred with the following message: " + e.Message);
             }
         }
 
