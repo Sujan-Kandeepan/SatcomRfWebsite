@@ -86,6 +86,7 @@ namespace SatcomRfWebsite.Models
             {
                 case "ProdTest": dbTestType = "Production"; break;
                 case "EngTest": dbTestType = "Engineering"; break;
+                case "RMATest": dbTestType = "RMA"; break;
                 case "Debug": dbTestType = "Debugging"; break;
             }
 
@@ -129,6 +130,7 @@ namespace SatcomRfWebsite.Models
             {
                 myQuery = myQuery.Where(ateOut => ateOut.TestType.Contains("Production") ||
                                                     ateOut.TestType.Contains("Engineering") ||
+                                                    ateOut.TestType.Contains("RMA") ||
                                                     ateOut.TestType.Contains("Debugging"));
             }
             else

@@ -422,6 +422,8 @@ function convertTestType(testType) {
         return "Production Test";
     } else if (testType == "EngTest") {
         return "Engineering Test";
+    } else if (testType == "RMATest") {
+        return "RMA Test";
     } else if (testType == "Debug") {
         return "Debugging";
     } else {

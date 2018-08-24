@@ -8,6 +8,7 @@ using System.Data.SqlClient;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.RegularExpressions;
@@ -499,6 +500,10 @@ namespace SatcomRfWebsite.Controllers
                 else if (type == "EngTest")
                 {
                     return "Engineering Test";
+                }
+                else if (type == "RMATest")
+                {
+                    return "RMA Test";
                 }
                 else if (type == "Debug")
                 {
