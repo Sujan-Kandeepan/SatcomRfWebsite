@@ -1084,7 +1084,10 @@ namespace SatcomRfWebsite.Controllers
             catch (Exception e)
             {
                 Debug.WriteLine(e.ToString());
-                return Json("Fail - An error occurred with the following message: " + e.Message);
+                if (e.Message.Contains("Retrieving the COM class factory")) return Json("Fail - Excel files cannot be accepted at this time (server-side issue). "
+                    + "<span style='font-weight: normal'>Try uploading the corresponding .txt file, which should load successfully and much quicker. "
+                    + "</br></br><u>Full error message</u></br>" + e.Message + "</span>");
+                return Json("Fail - An error occurred with the following message: <span style='font-weight: normal'>" + e.Message + "</span>");
             }
         }
 
