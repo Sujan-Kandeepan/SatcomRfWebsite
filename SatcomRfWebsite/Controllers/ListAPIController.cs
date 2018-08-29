@@ -557,11 +557,12 @@ namespace SatcomRfWebsite.Controllers
             {
                 List<TestData> data = InternalGetTableData(modelName, productType, testType, tubeName, options, exclude);
                 string[][] headers = new string[1][];
-                headers[0] = new string[] { "Testname", "Channel", "Frequency", "Power", "Serial Number", "Test Type", "Start Time", "Audit", "Itar", "Long Model Name", "TubeSN", "Tube Name", "SsaSN", "LinSN", "LipaSN", "BucSN", "BipaSN", "BlipaSN", "Result", "Min", "Max", "Average", "Std. Deviation", "Unit", "Result (Conv)", "Min (Conv)", "Max (Conv)", "Average (Conv)", "Std. Deviation (Conv)", "Unit (Conv)", "LowLimit", "UpLimit", "Cpk" };
+                headers[0] = new string[] { "Testname", "Channel", "Frequency", "Power", "Serial Number", "Test Type", "Start Time", "Audit", "Itar", "Long Model Name", "TubeSN", "Tube Name", "SsaSN", "LinSN", "LipaSN", "BucSN", "BipaSN", "BlipaSN", "Result", "Min", "Max", "Average", "Std. Deviation", "Unit", "Result (Conv)", "Min (Conv)", "Max (Conv)", "Average (Conv)", "Std. Deviation (Conv)", "Unit (Conv)", "LSL", "LCL", "UCL", "USL", "Cpk" };
                 var document = new XLWorkbook();
                 var worksheet = document.Worksheets.Add("Table Data");
                 worksheet.Cell(1, 1).InsertData(headers);
                 var insertionIndex = 2;
+                bool oddgroup = true;
                 foreach (TestData test in data)
                 {
                     for (int i = 0; i < test.AllResults.Count(); i++)
@@ -616,12 +617,19 @@ namespace SatcomRfWebsite.Controllers
                         worksheet.Cell(insertionIndex, 29).SetValue(test.StdDevConv);
                         worksheet.Cell(insertionIndex, 30).SetValue(test.UnitConv);
                         worksheet.Cell(insertionIndex, 31).SetValue(lowLimit != "" ? lowLimit : "---");
-                        worksheet.Cell(insertionIndex, 32).SetValue(upLimit != "" ? upLimit : "---");
-                        worksheet.Cell(insertionIndex, 33).SetValue(test.Cpk);
+                        worksheet.Cell(insertionIndex, 32).SetValue((Math.Round((Convert.ToDouble(test.AvgResult) - 3 * Convert.ToDouble(test.StdDev)) * 1000) / 1000).ToString());
+                        worksheet.Cell(insertionIndex, 33).SetValue((Math.Round((Convert.ToDouble(test.AvgResult) + 3 * Convert.ToDouble(test.StdDev)) * 1000) / 1000).ToString());
+                        worksheet.Cell(insertionIndex, 34).SetValue(upLimit != "" ? upLimit : "---");
+                        worksheet.Cell(insertionIndex, 35).SetValue(test.Cpk);
+
+                        if (oddgroup) worksheet.Row(insertionIndex).Style.Fill.BackgroundColor = XLColor.LightCyan;
+                        else worksheet.Row(insertionIndex).Style.Fill.BackgroundColor = XLColor.WhiteSmoke;
 
                         insertionIndex++;
                     }
-                    worksheet.Cell(insertionIndex++, 1).InsertData(new string[] { });
+                    
+                    oddgroup = !oddgroup;
+                    //worksheet.Cell(insertionIndex++, 1).InsertData(new string[] { });
                 }
 
                 var style = document.Style;
