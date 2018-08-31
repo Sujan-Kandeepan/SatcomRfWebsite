@@ -188,6 +188,10 @@ namespace SatcomRfWebsite.Controllers
                 {
                     cmd.CommandText = "SELECT TestName,dbo.tblKLYTestResults.StartTime,Result,Units,Channel,LowLimit,UpLimit,P1,P2,TestType,Audit,Itar,LongModelName,TubeSN,TubeName,SsaSN,LinSN,LipaSN,BucSN,BipaSN,BlipaSN FROM dbo.tblKLYTestResults JOIN dbo.tblATEOutput ON dbo.tblKLYTestResults.ModelSN = dbo.tblATEOutput.ModelSN WHERE dbo.tblKLYTestResults.ModelSn = @sn AND NOT Result = 'PASS' AND NOT Result = 'FAIL';";
                 }
+                else if (productType.ToUpper().Contains("AIRBORNE") || productType.ToUpper().Contains("SSPA"))
+                {
+                    cmd.CommandText = "SELECT TestName,dbo.tblSSPATestResults.StartTime,Result,Units,Channel,LowLimit,UpLimit,P1,P2,TestType,Audit,Itar,LongModelName,TubeSN,TubeName,SsaSN,LinSN,LipaSN,BucSN,BipaSN,BlipaSN FROM dbo.tblSSPATestResults JOIN dbo.tblATEOutput ON dbo.tblSSPATestResults.ModelSN = dbo.tblATEOutput.ModelSN WHERE dbo.tblSSPATestResults.ModelSn = @sn AND NOT Result = 'PASS' AND NOT Result = 'FAIL';";
+                }
                 else
                 {
                     cmd.CommandText = "SELECT TestName,dbo.tblTWTTestResults.StartTime,Result,Units,Channel,LowLimit,UpLimit,P1,P2,TestType,Audit,Itar,LongModelName,TubeSN,TubeName,SsaSN,LinSN,LipaSN,BucSN,BipaSN,BlipaSN FROM dbo.tblTWTTestResults JOIN dbo.tblATEOutput ON dbo.tblTWTTestResults.ModelSN = dbo.tblATEOutput.ModelSN WHERE dbo.tblTWTTestResults.ModelSn = @sn AND NOT Result = 'PASS' AND NOT Result = 'FAIL';";

@@ -304,7 +304,7 @@ function fillModal(testName, channel, frequency, power, allResultsString, unit, 
         html += "<input type=\"checkbox\" value=\"\" class=\"update-serial\" id=\"" + allResults[i][0] + "\" checked></input>&nbsp;";
         html += "<strong>" + "<a href = \"" + document.getElementById("absolute-base-url").innerHTML + "ateData/AteOutputDetail/?serNum=" + allResults[i][0] + "\">" + allResults[i][0] + "</a>" + "</strong>&ensp;" + allResults[i][3] + unit;
         if (unitConv != "N/A") {
-            html += ", " + allResults[i][4] + unitConv;
+            html += ", " + (allResults[i][4] == "---" ? "0" : allResults[i][4]) + unitConv;
         }
         html += "</br><div style=\"margin-top: -5px; color: rgb(128, 128, 128)\">";
         html += "TestType: " + (allResults[i][1] != "" ? allResults[i][1] : "None");

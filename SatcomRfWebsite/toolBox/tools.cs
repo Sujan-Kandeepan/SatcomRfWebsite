@@ -169,6 +169,9 @@ namespace SatcomRfWebsite.Models
 
                 switch (prodType)
                 {
+                    case "AIRBORNE":
+                        isSSPA = true;
+                        break;
                     case "GENIV":
                         isKLY = true;
                         break;
